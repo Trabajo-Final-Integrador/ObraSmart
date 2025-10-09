@@ -1,10 +1,10 @@
-package com.ObraSmart.GestionTecnicos;
+package com.ObraSmart.GestionDeLogin;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class GestionTecnicosApplicationTests {
+class GestionDeLoginApplicationTests {
 
 	@Test
 	void contextLoads() {
