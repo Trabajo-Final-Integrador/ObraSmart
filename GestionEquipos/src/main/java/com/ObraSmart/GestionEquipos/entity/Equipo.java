@@ -24,7 +24,8 @@ public class Equipo {
     @JoinColumn(name = "id_marca", nullable = false)
     private Marca marca;
 
-    @Column(name = "modelo", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "id_modelo", nullable = false)
     private Modelo modelo;
 
     @Column(name = "numero_serie", nullable = false, unique = true)
@@ -36,8 +37,9 @@ public class Equipo {
     @Column(name = "numero_motor", nullable = false)
     private Double potenciaHp;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "combustible", nullable = false)
-    private String combustible;
+    private Combustible combustible;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "estado_operativo", nullable = false)
