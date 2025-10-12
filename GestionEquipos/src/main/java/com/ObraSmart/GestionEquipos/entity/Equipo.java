@@ -6,6 +6,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "equipos")
 @Data
 public class Equipo {
     @Id
@@ -34,7 +35,7 @@ public class Equipo {
     @Column(name = "anio_fabricacion", nullable = false)
     private Integer anioFabricacion;
 
-    @Column(name = "numero_motor", nullable = false)
+    @Column(name = "potencia_hp", nullable = false)
     private Double potenciaHp;
 
     @Enumerated(EnumType.STRING)
@@ -42,7 +43,7 @@ public class Equipo {
     private Combustible combustible;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "estado_operativo", nullable = false)
+    @Column(name = "estado_operativo", nullable = false)
     private Estado_Operativo estadoOperativo;
 
     @Column(name = "kilometraje_horas_uso", nullable = false)
