@@ -14,6 +14,17 @@ public class UserResponseDto {
     private UserStatus status;
 
     public UserResponseDto() {}
+    // Constructor con todos los parámetros
+    public UserResponseDto(Long id, String username, String firstname, String lastName, String email, Role role, UserStatus status) {
+        this.id = id;
+        this.username = username;
+        this.firstname = firstname;
+        this.lastName = lastName;
+        this.email = email;
+        this.role = role;
+        this.status = status;
+    }
+
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -35,4 +46,7 @@ public class UserResponseDto {
 
     public UserStatus getStatus() { return status; }
     public void setStatus(UserStatus status) { this.status = status; }
+
+
+
 }
