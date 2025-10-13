@@ -1,4 +1,4 @@
-package com.ObraSmart.User;
+package com.ObraSmart.Entity;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,6 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -26,42 +27,69 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
+@Table(
+        name = "users",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "email"})}
+)
 public class User implements UserDetails {
+
     @Id
-    @GeneratedValue
-    Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     @Basic
     @Column(nullable = false)
-    String username;
+    private String username;
+
     @Column(nullable = false)
-    String lastname;
-    String firstname;
-    String email;
-    String password;
-    @Enumerated(EnumType.STRING) 
-    Role role;
+    private String lastname;
+
+    private String firstname;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
     @Enumerated(EnumType.STRING)
-    Status status;
+    private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-      return List.of(new SimpleGrantedAuthority((role.name())));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
-       return true;
+        return true;
     }
+
     @Override
     public boolean isAccountNonLocked() {
-       return true;
+        return true;
     }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
     @Override
     public boolean isEnabled() {
-        return true;
+        return status == Status.ACTIVO;
     }
 }

@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.irojas</groupId>
-	<artifactId>demo-jwt</artifactId>
+	<artifactId>GestionUsuario</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>demo-jwt</name>
 	<description>Demo project for Spring Boot</description>

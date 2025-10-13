@@ -1,4 +1,4 @@
-package com.ObraSmart.User;
+package com.ObraSmart.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +13,8 @@ public class UserDTO {
     int id;
     String username;
     String firstname;
+    String email;//agregue este
     String lastname;
-    String Role;
-    String Status;
+    String role;
+    String status;
 }
