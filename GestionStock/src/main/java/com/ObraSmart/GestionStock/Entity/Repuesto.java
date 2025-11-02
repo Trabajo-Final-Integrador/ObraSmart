@@ -3,16 +3,18 @@ package com.ObraSmart.GestionStock.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-/*
- * Clase que representa la tabla "repuesto" en la base de datos.
- * Cada objeto de esta clase será un registro.
- * Se usa en el repositorio y se envía al controlador como datos.
- * @Builder.Default - Para que activo sea true por defecto
- * Campo activo - Para bajas lógicas (no eliminación física)
- * Métodos de conveniencia - desactivar(), reactivar(), estaActivo()
- * @Table(name = "repuestos") - Nombre explícito de tabla
+/**
+ * Entidad JPA que representa un repuesto (pieza / insumo).
+ *
+ * Responsabilidad:
+ * - Mapea la tabla de repuestos en la BDD.
+ * - Contiene el estado de stock (cantidad) y el control de baja lógica (activo).
+ * - Relaciona el repuesto con su proveedor (ManyToOne).
+ *
+ * Notas:
+ * - Se mantiene campo 'activo' para implementer baja lógica.
+ * - stockMinimo guarda el umbral mínimo para alertas/compras.
  */
-
 @Entity
 @Table(name = "repuestos")
 @Data
@@ -20,51 +22,29 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class Repuesto {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nombre;
-    private String categoria; // Ej: "Aceite", "Refrigerante", "Filtro"
+
+    private String categoria;
+
+    // cantidad actual en stock
     private int cantidad;
-    private String unidad; // Ej: "litros", "unidades"
 
-    // 🔹 NUEVO CAMPO PARA BAJAS LÓGICAS
-    @Builder.Default
-    private Boolean activo = true;
+    private String unidad;
 
-    // 🔹 GETTERS Y SETTERS MANUALES
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    //mínimo para reposición
+    @Column(name = "stock_minimo")
+    private Integer stockMinimo;
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    // baja lógica
+    private boolean activo;
 
-    public String getCategoria() { return categoria; }
-    public void setCategoria(String categoria) { this.categoria = categoria; }
-
-    public int getCantidad() { return cantidad; }
-    public void setCantidad(int cantidad) { this.cantidad = cantidad; }
-
-    public String getUnidad() { return unidad; }
-    public void setUnidad(String unidad) { this.unidad = unidad; }
-
-    // 🔹 NUEVOS GETTERS Y SETTERS PARA ACTIVO
-    public Boolean getActivo() { return activo; }
-    public void setActivo(Boolean activo) { this.activo = activo; }
-
-    // 🔹 MÉTODO CONVENIENCIA PARA BAJA LÓGICA
-    public void desactivar() {
-        this.activo = false;
-    }
-
-    // 🔹 MÉTODO CONVENIENCIA PARA REACTIVAR
-    public void reactivar() {
-        this.activo = true;
-    }
-
-    // 🔹 MÉTODO PARA VERIFICAR SI ESTÁ ACTIVO
-    public boolean estaActivo() {
-        return Boolean.TRUE.equals(activo);
-    }
+    // relación con proveedor: un repuesto puede tener un proveedor (opcional)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "proveedor_id")
+    private Proveedor proveedor;
 }
