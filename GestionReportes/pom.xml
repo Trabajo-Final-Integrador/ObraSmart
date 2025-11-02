@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ObraSmart</groupId>
-	<artifactId>GestionReparaciones</artifactId>
+	<artifactId>GestionReportes</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>GestionReparaciones</name>
+	<name>GestionReportes</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
