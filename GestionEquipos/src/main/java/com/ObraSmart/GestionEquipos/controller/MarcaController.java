@@ -12,11 +12,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/marca")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class MarcaController {
 
     private final MarcaService marcaService;
+    public MarcaController(MarcaService marcaService) {
+        this.marcaService = marcaService;
+    }
 
     @GetMapping
     public ResponseEntity<List<MarcaDTO>> getAll() {
