@@ -84,5 +84,64 @@ public class ReparacionService {
         resp.setFechaFin(r.getFechaFin());
         return resp;
     }
+    public ReparacionResponseDto obtenerPorId(Long id) {
+        Reparacion r = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reparación no encontrada con id " + id));
+        ReparacionResponseDto dto = new ReparacionResponseDto();
+        dto.setId(r.getId());
+        dto.setEquipoId(r.getEquipoId());
+        dto.setDescripcion(r.getDescripcion());
+        dto.setEstado(r.getEstado() != null ? r.getEstado().name() : null);
+        dto.setLat(r.getLat());
+        dto.setLon(r.getLon());
+        dto.setDireccion(r.getDireccion());
+        dto.setFechaCreacion(r.getFechaCreacion());
+        dto.setFechaInicio(r.getFechaInicio());
+        dto.setFechaFin(r.getFechaFin());
+        return dto;
+    }
+    public ReparacionResponseDto actualizarReparacion(Long id, ReparacionDto dto) {
+        // Buscar la reparación
+        Reparacion r = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Reparacion no encontrada: " + id));
+
+        // Validar equipo si viene
+        if (dto.getEquipoId() != null) {
+            EquipoClient.EquipoDto equipo = equipoClient.getEquipoById(dto.getEquipoId());
+            if (equipo == null) {
+                throw new ResourceNotFoundException("Equipo no encontrado: " + dto.getEquipoId());
+            }
+            r.setEquipoId(dto.getEquipoId());
+        }
+
+        // Actualizar campos opcionales
+        if (dto.getDescripcion() != null) r.setDescripcion(dto.getDescripcion());
+        if (dto.getDireccion() != null) r.setDireccion(dto.getDireccion());
+        if (dto.getLat() != null) r.setLat(dto.getLat());
+        if (dto.getLon() != null) r.setLon(dto.getLon());
+        if (dto.getEstado() != null) {
+            try {
+                r.setEstado(EstadoReparacion.valueOf(dto.getEstado()));
+            } catch (IllegalArgumentException e) {
+                throw new RuntimeException("Estado inválido: " + dto.getEstado());
+            }
+        }
+        if (dto.getFechaInicio() != null) r.setFechaInicio(dto.getFechaInicio());
+        if (dto.getFechaFin() != null) r.setFechaFin(dto.getFechaFin());
+
+        // Geocoding si solo viene dirección
+        if (dto.getDireccion() != null && (dto.getLat() == null || dto.getLon() == null)) {
+            double[] coords = geocodingService.geocodeAddress(dto.getDireccion());
+            if (coords != null) {
+                r.setLat(coords[0]);
+                r.setLon(coords[1]);
+            }
+        }
+
+        Reparacion saved = repo.save(r);
+        return mapToResponse(saved);
+    }
+
+
 }
 

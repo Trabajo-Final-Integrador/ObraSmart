@@ -23,8 +23,9 @@ public class ReparacionController {
     @PostMapping
     public ResponseEntity<ReparacionResponseDto> crear(@Valid @RequestBody ReparacionDto dto) {
         ReparacionResponseDto created = service.crearReparacion(dto);
-        return ResponseEntity.ok(created);
+        return ResponseEntity.status(201).body(created);
     }
+
 
     // Listar todas
     @GetMapping
@@ -39,4 +40,13 @@ public class ReparacionController {
     }
 
     // Podés agregar endpoints: cambiar estado, filtrar por equipo, por estado, etc.
+    @PutMapping("/{id}")
+    public ResponseEntity<ReparacionResponseDto> actualizar(
+            @PathVariable Long id,
+            @Valid @RequestBody ReparacionDto dto) {
+        ReparacionResponseDto updated = service.actualizarReparacion(id, dto);
+        return ResponseEntity.ok(updated);
+    }
+
+
 }
