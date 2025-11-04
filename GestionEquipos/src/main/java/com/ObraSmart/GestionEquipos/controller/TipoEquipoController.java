@@ -13,10 +13,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tipo-equipo")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class TipoEquipoController {
     private final TipoEquipoService tipoEquipoService;
+    public TipoEquipoController(TipoEquipoService tipoEquipoService) {
+        this.tipoEquipoService = tipoEquipoService;
+    }
 
     @GetMapping
     public ResponseEntity<List<TipoEquipoDTO>> getAll() {

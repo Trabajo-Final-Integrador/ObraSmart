@@ -12,11 +12,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/equipos")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class EquipoController {
 
     private final EquipoService equipoService;
-
+    // Spring inyectará automáticamente
+    public EquipoController(EquipoService equipoService) {
+        this.equipoService = equipoService;
+    }
     @GetMapping
     public ResponseEntity<List<EquipoDTO>> getAllEquipos() {
         List<EquipoDTO> equipos = equipoService.getAll();

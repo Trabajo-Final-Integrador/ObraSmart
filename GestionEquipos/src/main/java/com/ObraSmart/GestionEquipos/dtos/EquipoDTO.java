@@ -16,7 +16,6 @@ import java.time.LocalDate;
 @Builder
 public class EquipoDTO {
 
-
     private Long id; // opcional al crear, útil para update o response
 
     @NotBlank(message = "El nombre del equipo es obligatorio")
@@ -43,7 +42,7 @@ public class EquipoDTO {
     @Positive(message = "La potencia debe ser un número positivo")
     private Double potenciaHp;
 
-    @NotBlank(message = "El tipo de combustible es obligatorio")
+    @NotNull(message = "El tipo de combustible es obligatorio")
     private Combustible combustible;
 
     @NotNull(message = "El estado operativo es obligatorio")

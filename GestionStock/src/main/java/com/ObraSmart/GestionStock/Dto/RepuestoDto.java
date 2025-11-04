@@ -1,11 +1,10 @@
 package com.ObraSmart.GestionStock.Dto;
 
-
 import lombok.*;
 
 /**
- * DTO: Objeto que se usa para transferir datos entre cliente y servidor.
- * Contiene solo los campos que queremos exponer públicamente.
+ * DTO para transferir datos de Repuesto entre cliente y servidor.
+ * Mantiene solo los campos que queremos exponer (no las relaciones completas).
  */
 @Data
 @NoArgsConstructor
@@ -14,13 +13,16 @@ import lombok.*;
 public class RepuestoDto {
 
     private Long id;
-
     private String nombre;
-    private String categoria; // Ej: "Aceite", "Refrigerante", "Filtro"
+    private String categoria;
     private int cantidad;
-    private String unidad; // Ej: "litros", "unidades"
+    private String unidad;
 
-    // 🔹 GETTERS Y SETTERS MANUALES
+
+    private Integer stockMinimo;
+    private Long proveedorId;
+
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -35,4 +37,10 @@ public class RepuestoDto {
 
     public String getUnidad() { return unidad; }
     public void setUnidad(String unidad) { this.unidad = unidad; }
+
+    public int getStockMinimo() { return stockMinimo; }
+    public void setStockMinimo(int stockMinimo) { this.stockMinimo = stockMinimo; }
+
+    public Long getProveedorId() { return proveedorId; }
+    public void setProveedorId(Long proveedorId) { this.proveedorId = proveedorId; }
 }
