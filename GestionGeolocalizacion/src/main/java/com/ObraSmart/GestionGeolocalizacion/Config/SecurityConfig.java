@@ -2,23 +2,25 @@ package com.ObraSmart.GestionGeolocalizacion.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
+                .authorizeHttpRequests(reg -> reg
+                        .requestMatchers(
+                                "/api/geolocalizacion/**",
+                                "/ubicaciones",
+                                "/actuator/**"
+                        ).permitAll()
+                        .anyRequest().authenticated()
                 )
-                .headers(headers -> headers
-                        .frameOptions(frame -> frame.sameOrigin())
-                );
-
+                .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 }

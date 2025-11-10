@@ -5,8 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Provee un RestTemplate simple para consumir otros microservicios o APIs externas.
- * (Se utiliza en los servicios de cliente y geocoding).
+ * Configuración global de RestTemplate para inyectar en servicios que consumen otros microservicios.
  */
 @Configuration
 public class RestTemplateConfig {
@@ -15,5 +14,4 @@ public class RestTemplateConfig {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-
 }

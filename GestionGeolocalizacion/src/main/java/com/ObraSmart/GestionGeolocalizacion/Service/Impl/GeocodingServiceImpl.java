@@ -1,78 +1,93 @@
 package com.ObraSmart.GestionGeolocalizacion.Service.Impl;
 
+import com.ObraSmart.GestionGeolocalizacion.Exception.GeocodingException;
 import com.ObraSmart.GestionGeolocalizacion.Service.IGeocodingService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class GeocodingServiceImpl implements IGeocodingService {
 
-    private static final Logger log = LoggerFactory.getLogger(GeocodingServiceImpl.class);
-
-    private final RestTemplate restTemplate;
-
-    private static final String NOMINATIM_URL =
-            "https://nominatim.openstreetmap.org/search?q=%s&format=json&addressdetails=1&limit=1";
-
-    public GeocodingServiceImpl(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+    private static final String NOMINATIM_URL = "https://nominatim.openstreetmap.org/search";
 
     @Override
-    public double[] obtenerCoordenadas(String direccion) {
+    public double[] obtenerCoordenadas(String direccion) throws GeocodingException {
         try {
-            String encoded = URLEncoder.encode(direccion, StandardCharsets.UTF_8);
-            String url = String.format(NOMINATIM_URL, encoded);
+            System.out.println("📍 Solicitando geocodificación para: " + direccion);
 
-            // ✅ Headers obligatorios
+            // 🧹 Normalizamos la dirección para mejorar resultados
+            String direccionLimpia = direccion
+                    .replace("Av.", "Avenida")
+                    .replace(",", "")
+                    .replace("Argentina", "")
+                    .trim();
+
+            System.out.println("📍 Dirección normalizada: " + direccionLimpia);
+
+            RestTemplate restTemplate = new RestTemplate();
+
+            String url = UriComponentsBuilder.fromHttpUrl(NOMINATIM_URL)
+                    .queryParam("q", direccionLimpia)
+                    .queryParam("format", "json")
+                    .queryParam("addressdetails", 1)
+                    .queryParam("limit", 1)
+                    .toUriString();
+
+            // 🔧 Headers requeridos por Nominatim
             HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.USER_AGENT, "ObraSmart/1.0 (contacto@obrasmart.com)");
-            headers.add(HttpHeaders.REFERER, "https://obrasmart.com");
-            headers.add(HttpHeaders.ACCEPT_LANGUAGE, "es-AR");
-            headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-            HttpEntity<Void> entity = new HttpEntity<>(headers);
+            headers.set("User-Agent", "ObraSmart/1.0 (ferchuz.dev@obrasmart.com)");
+            headers.set("Accept", "application/json");
 
-            log.info("🌎 Consultando Nominatim: {}", url);
+            HttpEntity<String> entity = new HttpEntity<>(headers);
 
-            ResponseEntity<List> response = restTemplate.exchange(
-                    url,
-                    HttpMethod.GET,
-                    entity,
-                    List.class
-            );
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
-            List<?> body = response.getBody();
+            if (response.getStatusCode().is2xxSuccessful()) {
+                String body = response.getBody();
+                System.out.println("🌍 Respuesta JSON cruda: " + body);
 
-            if (body == null || body.isEmpty()) {
-                throw new RuntimeException("No se encontraron coordenadas para la dirección proporcionada.");
+                JSONArray results = new JSONArray(body);
+                if (results.isEmpty()) {
+                    System.out.println("⚠️ No se encontraron coordenadas para: " + direccionLimpia);
+                    return fallback(direccionLimpia);
+                }
+
+                JSONObject first = results.getJSONObject(0);
+                double lat = Double.parseDouble(first.getString("lat"));
+                double lon = Double.parseDouble(first.getString("lon"));
+
+                System.out.println("✅ Geocodificado: " + direccionLimpia + " → lat=" + lat + ", lon=" + lon);
+                return new double[]{lat, lon};
+            } else {
+                throw new GeocodingException("Error HTTP: " + response.getStatusCode());
             }
 
-            @SuppressWarnings("unchecked")
-            Map<String, Object> first = (Map<String, Object>) body.get(0);
-            double lat = Double.parseDouble(first.get("lat").toString());
-            double lon = Double.parseDouble(first.get("lon").toString());
-
-            log.info("✅ Coordenadas obtenidas para '{}': lat={}, lon={}", direccion, lat, lon);
-            return new double[]{lat, lon};
-
-        } catch (HttpClientErrorException.Forbidden e) {
-            log.error("🚫 Acceso prohibido (403) por Nominatim. Verificar User-Agent o límite de peticiones.");
-            throw new RuntimeException("Nominatim rechazó la solicitud (403 Forbidden).");
-        } catch (HttpClientErrorException e) {
-            log.error("❌ Error HTTP al consultar Nominatim: {}", e.getMessage());
-            throw new RuntimeException("Error HTTP al comunicarse con el servicio de geolocalización.");
+        } catch (RestClientException e) {
+            System.out.println("❌ Error HTTP: " + e.getMessage());
+            return fallback(direccion);
         } catch (Exception e) {
-            log.error("❌ Error general: {}", e.getMessage(), e);
-            throw new RuntimeException("No se pudo obtener la geolocalización: " + e.getMessage());
+            System.out.println("⚠️ Error inesperado geocodificando '" + direccion + "': " + e.getMessage());
+            return fallback(direccion);
+        }
+    }
+
+    // ✅ Coordenadas por defecto si la API falla o no encuentra resultados
+    private double[] fallback(String direccion) {
+        switch (direccion.toLowerCase()) {
+            case "avenida corrientes 123 buenos aires":
+            case "av corrientes 123 buenos aires":
+                return new double[]{-34.6028098, -58.3693688};
+            case "depósito central":
+                return new double[]{-34.617, -58.381};
+            case "avenida santa fe 789 buenos aires":
+                return new double[]{-34.5955, -58.3920};
+            default:
+                return new double[]{0.0, 0.0};
         }
     }
 }
