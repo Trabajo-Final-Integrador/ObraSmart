@@ -9,5 +9,4 @@ public class GestionGeolocalizacionApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GestionGeolocalizacionApplication.class, args);
 	}
-
 }
