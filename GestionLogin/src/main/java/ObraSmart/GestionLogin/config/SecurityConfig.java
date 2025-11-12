@@ -3,6 +3,7 @@ package ObraSmart.GestionLogin.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -32,11 +33,22 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login", "/auth/forgot", "/auth/reset").permitAll()
+                        .requestMatchers("/users/auth/id").permitAll()
                         .requestMatchers("/auth/**").authenticated() // 🔹 el resto del /auth solo requiere login
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form.disable())
-                .httpBasic(basic -> basic.disable());
+                .logout(logout -> logout.logoutUrl("/auth/logout").permitAll())
+
+                .httpBasic(basic -> basic.disable())
+        // ✅ No queremos redirecciones, solo respuestas JSON
+            .exceptionHandling(ex -> ex
+                .authenticationEntryPoint((req, res, e) -> {
+                    res.setStatus(401);
+                    res.setContentType("application/json");
+                    res.getWriter().write("{\"error\":\"Unauthorized\"}");
+                })
+        );
         return http.build();
     }
 

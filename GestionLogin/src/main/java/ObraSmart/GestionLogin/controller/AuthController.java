@@ -4,11 +4,17 @@ import ObraSmart.GestionLogin.dto.ForgotPasswordRequest;
 import ObraSmart.GestionLogin.dto.LoginRequestDto;
 import ObraSmart.GestionLogin.dto.LoginResponse;
 import ObraSmart.GestionLogin.dto.ResetPasswordRequest;
+import ObraSmart.GestionLogin.entity.User;
 import ObraSmart.GestionLogin.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -44,4 +50,6 @@ public class AuthController {
         System.out.println("🔑 Authorities: " + auth.getAuthorities());
         return auth.getPrincipal();
     }
+
+
 }

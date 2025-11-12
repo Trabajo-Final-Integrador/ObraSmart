@@ -42,8 +42,11 @@ public class AuthServiceImpl implements AuthService {
         // Establecer autenticación en el contexto
         SecurityContextHolder.getContext().setAuthentication(auth);
 
+
         // ✅ Guardar el contexto en la sesión manualmente
         var session = http.getSession(true);
+
+        var securityContext = SecurityContextHolder.getContext();
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
                 SecurityContextHolder.getContext());
 
