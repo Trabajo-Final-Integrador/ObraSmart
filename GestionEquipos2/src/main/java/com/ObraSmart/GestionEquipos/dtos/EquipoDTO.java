@@ -77,4 +77,11 @@ public class EquipoDTO {
 
     @NotNull(message = "El estado activo/inactivo es obligatorio")
     private Boolean activo;
+
+    @NotNull(message = "La latitud es obligatoria")
+    private Double latitud;
+
+    @NotNull(message = "La longitud es obligatoria")
+    private Double longitud;
+
 }

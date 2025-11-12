@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/tipo-equipo")
 //@RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+
 public class TipoEquipoController {
     private final TipoEquipoService tipoEquipoService;
     public TipoEquipoController(TipoEquipoService tipoEquipoService) {

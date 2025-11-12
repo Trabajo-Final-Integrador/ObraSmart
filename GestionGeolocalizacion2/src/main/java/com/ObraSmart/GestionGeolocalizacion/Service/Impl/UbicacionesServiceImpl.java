@@ -7,6 +7,7 @@ import com.ObraSmart.GestionGeolocalizacion.Exception.GeocodingException;
 import com.ObraSmart.GestionGeolocalizacion.Service.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,7 +29,8 @@ public class UbicacionesServiceImpl implements IUbicacionesService {
 
     @Override
     public List<EquipoUbicacionResponse> listarParaMapa() {
-        List<EquipoUbicacionDTO> equipos = equiposClient.obtenerTodos();
+        try {
+       List<EquipoUbicacionDTO> equipos = equiposClient.obtenerTodos();
         List<ReparacionLiteDTO> reparaciones = reparacionesClient.obtenerTodas();
 
         Set<Long> equiposEnReparacion = reparaciones.stream()
@@ -37,14 +39,14 @@ public class UbicacionesServiceImpl implements IUbicacionesService {
                 .collect(Collectors.toSet());
 
         // 🧪 BLOQUE DE PRUEBA MANUAL
-        System.out.println("📍 Probando dirección manual: Av. Corrientes 123, Buenos Aires");
+        /*System.out.println("📍 Probando dirección manual: Av. Corrientes 123, Buenos Aires");
         try {
             double[] testCoords = geocoding.obtenerCoordenadas("Av. Corrientes 123, Buenos Aires, Argentina");
             System.out.println("✅ Resultado test => lat=" + testCoords[0] + ", lon=" + testCoords[1]);
         } catch (Exception e) {
             System.out.println("❌ Error al obtener coordenadas de prueba:");
             e.printStackTrace();
-        }
+        }*/
         // 🧪 FIN BLOQUE DE PRUEBA
 
         return equipos.stream().map(e -> {
@@ -67,5 +69,10 @@ public class UbicacionesServiceImpl implements IUbicacionesService {
                     estadoFinal
             );
         }).toList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error interno en listarParaMapa: " + e.getMessage());
+        }
+
     }
 }

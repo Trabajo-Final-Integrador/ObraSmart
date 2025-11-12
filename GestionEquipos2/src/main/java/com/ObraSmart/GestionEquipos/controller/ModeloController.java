@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/modelo")
 //@RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+
 public class ModeloController {
     private final ModeloService modeloService;
     public ModeloController(ModeloService modeloService) {

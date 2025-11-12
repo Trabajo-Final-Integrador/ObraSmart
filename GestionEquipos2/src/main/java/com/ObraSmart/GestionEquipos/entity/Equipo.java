@@ -73,5 +73,12 @@ public class Equipo {
     @Column(name = "activo", nullable = false)
     private Boolean activo;
 
+    @Column(name = "latitud", nullable = true)
+    private Double latitud;
+
+    @Column(name = "longitud", nullable = true)
+    private Double longitud;
+
+
 
 }

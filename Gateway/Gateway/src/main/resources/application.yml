@@ -18,18 +18,30 @@ spring:
               - StripPrefix=0
 
 
+
+
+          - id: equipos-service
+            uri: http://localhost:8087   # ⚠️ Cambiá este puerto al que uses en GestionEquipos
+            predicates:
+            - Path=/equipos/**, /marca/**, /modelo/**, /tipo-equipo/**      # Lo que recibe el gateway
+            filters:
+            - StripPrefix=0
+
+          - id: gestion-geolocalizacion
+            uri: http://localhost:8089
+            predicates:
+            - Path=/api/geolocalizacion/**
+            filters:
+            - StripPrefix=0
+
           - id: stock-service
             uri: http://localhost:8083
             predicates:
-              - Path=/api/**
+              - Path=/api/**, /api/proveedores/**, /api/repuestos/**
+            filters:
+              - StripPrefix=0
 
 
-      default-filters:
-        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
-        - PreserveHostHeader
-        - AddResponseHeader=Access-Control-Allow-Credentials,true
-        - AddResponseHeader=Access-Control-Allow-Origin,http://localhost:4200
-        - AddRequestHeader=Cookie, #{request.headers.Cookie}
 
       globalcors:
         add-to-simple-url-handler-mapping: true
