@@ -1,0 +1,35 @@
+<div class="container mt-4">
+  <h2 class="text-center text-uppercase mb-3">Categorías de Repuestos</h2>
+  <div class="d-flex justify-content-between mb-3">
+    <button class="btn btn-orange" (click)="crearNuevo()">
+      <i class="bi bi-plus-circle"></i> Nueva Categoría
+    </button>
+    <button class="btn btn-secondary" (click)="refrescar()">
+      <i class="bi bi-arrow-clockwise"></i> Actualizar
+    </button>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <table *ngIf="categorias.length" class="table table-hover text-center shadow-sm">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of categorias">
+        <td>{{ c.id }}</td>
+        <td>{{ c.nombre }}</td>
+        <td>{{ c.descripcion }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!categorias.length" class="alert alert-warning text-center">
+    No hay categorías registradas.
+  </div>
+</div>
+

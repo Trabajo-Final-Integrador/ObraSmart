@@ -1,0 +1,149 @@
+<div class="modal fade show d-block" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Nuevo Equipo</h5>
+        <button type="button" class="btn-close btn-close-white" (click)="cerrar.emit()"></button>
+      </div>
+
+      <form (ngSubmit)="guardar()" #form="ngForm">
+        <div class="modal-body">
+          <div class="row g-3">
+            
+            <!-- Nombre -->
+            <div class="col-md-6">
+              <label class="form-label">Nombre</label>
+              <input type="text" class="form-control" [(ngModel)]="equipo.nombre" name="nombre" required>
+            </div>
+
+            <!-- Número de Serie -->
+            <div class="col-md-6">
+              <label class="form-label">Número de Serie</label>
+              <input type="text" class="form-control" [(ngModel)]="equipo.numeroSerie" name="numeroSerie" required>
+            </div>
+
+            <!-- Tipo de Equipo -->
+            <div class="col-md-6">
+              <label class="form-label">Tipo de Equipo</label>
+              <select class="form-select" [(ngModel)]="equipo.idTipoEquipo" name="idTipoEquipo" required>
+                <option [ngValue]="null">Seleccione...</option>
+                <option *ngFor="let t of tipos" [value]="t.id">{{ t.nombre }}</option>
+              </select>
+            </div>
+
+            <!-- Marca -->
+            <div class="col-md-6">
+              <label class="form-label">Marca</label>
+              <select class="form-select" [(ngModel)]="equipo.idMarca" name="idMarca" required>
+                <option [ngValue]="null">Seleccione...</option>
+                <option *ngFor="let m of marcas" [value]="m.id">{{ m.nombre }}</option>
+              </select>
+            </div>
+
+            <!-- Modelo -->
+            <div class="col-md-6">
+              <label class="form-label">Modelo</label>
+              <select class="form-select" [(ngModel)]="equipo.idModelo" name="idModelo" required>
+                <option [ngValue]="null">Seleccione...</option>
+                <option *ngFor="let mod of modelos" [value]="mod.id">{{ mod.nombre }}</option>
+              </select>
+            </div>
+
+            <!-- Año de Fabricación -->
+            <div class="col-md-6">
+              <label class="form-label">Año de Fabricación</label>
+              <input type="number" class="form-control" [(ngModel)]="equipo.anioFabricacion" name="anioFabricacion" min="2000" max="2025" required>
+            </div>
+
+            <!-- Potencia -->
+            <div class="col-md-6">
+              <label class="form-label">Potencia (HP)</label>
+              <input type="number" class="form-control" [(ngModel)]="equipo.potenciaHp" name="potenciaHp" required>
+            </div>
+
+            <!-- Combustible -->
+            <div class="col-md-6">
+              <label class="form-label">Combustible</label>
+              <select class="form-select" [(ngModel)]="equipo.combustible" name="combustible" required>
+                <option [ngValue]="null">Seleccione...</option>
+                <option *ngFor="let c of combustibles" [value]="c">{{ c }}</option>
+              </select>
+            </div>
+
+            <!-- Estado Operativo -->
+            <div class="col-md-6">
+              <label class="form-label">Estado Operativo</label>
+              <select class="form-select" [(ngModel)]="equipo.estadoOperativo" name="estadoOperativo" required>
+                <option [ngValue]="null">Seleccione...</option>
+                <option *ngFor="let e of estados" [value]="e">{{ e }}</option>
+              </select>
+            </div>
+
+            <!-- Kilometraje / Horas de Uso -->
+            <div class="col-md-6">
+              <label class="form-label">Horas o Kilometraje</label>
+              <input type="number" class="form-control" [(ngModel)]="equipo.kilometrajeHorasUso" name="kilometrajeHorasUso" min="0" required>
+            </div>
+
+            <!-- Fechas -->
+            <div class="col-md-6">
+              <label class="form-label">Último Mantenimiento</label>
+              <input type="date" class="form-control" [(ngModel)]="equipo.fechaUltimoMantenimiento" name="fechaUltimoMantenimiento" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Próximo Mantenimiento</label>
+              <input type="date" class="form-control" [(ngModel)]="equipo.proximoMantenimiento" name="proximoMantenimiento" required>
+            </div>
+
+            <!-- Responsable -->
+            <div class="col-md-6">
+              <label class="form-label">Responsable de Mantenimiento</label>
+              <input type="text" class="form-control" [(ngModel)]="equipo.responsableMantenimiento" name="responsableMantenimiento" required>
+            </div>
+
+            <!-- Patente -->
+            <div class="col-md-6">
+              <label class="form-label">Número de Patente</label>
+              <input type="text" class="form-control" [(ngModel)]="equipo.numeroPatente" name="numeroPatente">
+            </div>
+
+            <!-- Seguro -->
+            <div class="col-md-6">
+              <label class="form-label">Seguro Vigente</label>
+              <select class="form-select" [(ngModel)]="equipo.seguroVigente" name="seguroVigente" required>
+                <option [ngValue]="true">Sí</option>
+                <option [ngValue]="false">No</option>
+              </select>
+            </div>
+
+            <div class="col-md-6" *ngIf="equipo.seguroVigente">
+              <label class="form-label">Fecha Vencimiento Seguro</label>
+              <input type="date" class="form-control" [(ngModel)]="equipo.fechaVencimientoSeguro" name="fechaVencimientoSeguro">
+            </div>
+
+            <!-- Ubicación -->
+            <div class="col-md-6">
+              <label class="form-label">Ubicación Actual</label>
+              <input type="text" class="form-control" [(ngModel)]="equipo.ubicacionActual" name="ubicacionActual" required>
+            </div>
+
+            <!-- Activo -->
+            <div class="col-md-6">
+              <label class="form-label">Activo</label>
+              <select class="form-select" [(ngModel)]="equipo.activo" name="activo" required>
+                <option [ngValue]="true">Activo</option>
+                <option [ngValue]="false">Inactivo</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cerrar.emit()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

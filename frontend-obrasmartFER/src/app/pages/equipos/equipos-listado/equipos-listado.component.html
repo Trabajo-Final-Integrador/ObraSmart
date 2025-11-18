@@ -1,0 +1,86 @@
+<div class="container mt-4">
+  <h2 class="fw-bold text-primary mb-4">ObraSmart – Gestión de Equipos</h2>
+
+  <!-- Tabs -->
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item" *ngFor="let tab of ['equipos', 'marcas', 'modelos', 'tipos']">
+      <button
+        class="nav-link"
+        [class.active]="activeTab === tab"
+        (click)="cambiarTab(tab)">
+        {{ tab | titlecase }}
+      </button>
+    </li>
+  </ul>
+
+  <!-- Equipos -->
+  <div *ngIf="activeTab === 'equipos'">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="fw-semibold">Equipos registrados</h5>
+      <button class="btn btn-primary" (click)="abrirModal()">
+        <i class="fa fa-plus me-2"></i>Nuevo Equipo
+      </button>
+    </div>
+
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary"></div>
+    </div>
+
+    <div class="row" *ngIf="!loading">
+      <div class="col-md-4 mb-4" *ngFor="let eq of equipos">
+        <div class="card shadow-sm h-100 border-0">
+          <div class="card-body">
+            <h5 class="fw-bold">{{ eq.nombre }}</h5>
+            <p class="text-muted small mb-1">Serie: {{ eq.numeroSerie }}</p>
+            <p class="small mb-1"><i class="fa fa-wrench me-1 text-secondary"></i>{{ eq.potenciaHp }} HP</p>
+            <p class="small"><i class="fa fa-map-marker-alt me-1 text-secondary"></i>{{ eq.ubicacionActual }}</p>
+          </div>
+          <div class="card-footer bg-light d-flex justify-content-end gap-2">
+            <button class="btn btn-outline-success btn-sm" (click)="verDetalle(eq)">
+              <i class="fa fa-eye"></i>
+            </button>
+            <button class="btn btn-outline-secondary btn-sm">
+              <i class="fa fa-edit"></i>
+            </button>
+            <button class="btn btn-outline-danger btn-sm">
+              <i class="fa fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && equipos.length === 0" class="alert alert-secondary">
+      No se encontraron equipos.
+    </div>
+  </div>
+
+  <!-- Otras pestañas -->
+  <div *ngIf="activeTab === 'marcas'">
+  <app-simple-tab
+    title="Marcas"
+    [items]="marcas"
+     [addLink]="'/equipos/marcas/crear'">
+  </app-simple-tab>
+
+  
+<!-- 🟦 Modal para agregar marca -->
+<app-crear-marca *ngIf="showModalMarca" (cerrar)="cerrarModalMarca()"></app-crear-marca>
+
+</div>
+  <div *ngIf="activeTab === 'modelos'">
+    <app-simple-tab title="Modelos" [items]="modelos"></app-simple-tab>
+  </div>
+
+  <div *ngIf="activeTab === 'tipos'">
+    <app-simple-tab title="Tipos de Equipo" [items]="tipos"></app-simple-tab>
+  </div>
+
+  <!-- Modales -->
+  <app-equipo-modal *ngIf="showModal" (cerrar)="cerrarModal()"></app-equipo-modal>
+  <app-equipo-detalle
+  *ngIf="showDetalle && selectedEquipo"
+  [equipo]="selectedEquipo"
+  (cerrar)="cerrarDetalle()">
+</app-equipo-detalle>
+</div>

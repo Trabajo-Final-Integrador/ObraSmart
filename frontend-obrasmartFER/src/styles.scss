@@ -1,0 +1,19 @@
+/* 🔹 Forzar ruta de íconos Leaflet */
+.leaflet-container .leaflet-marker-icon,
+.leaflet-container .leaflet-marker-shadow {
+  background-size: contain;
+}
+
+.leaflet-marker-icon {
+  background-image: url('assets/leaflet/marker-icon.png') !important;
+}
+
+.leaflet-marker-shadow {
+  background-image: url('assets/leaflet/marker-shadow.png') !important;
+}
+
+#map {
+  height: calc(100vh - 60px);
+  width: 100%;
+  z-index: 1;
+}

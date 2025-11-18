@@ -1,0 +1,26 @@
+<div class="container mt-4">
+  <h3 class="mb-3">📋 Listado de Modelos</h3>
+
+  <div *ngIf="loading" class="text-center">
+    <p>Cargando modelos...</p>
+  </div>
+
+  <table *ngIf="!loading" class="table table-striped table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Marca</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let m of modelos">
+        <td>{{ m.id }}</td>
+        <td>{{ m.nombre }}</td>
+        <td>{{ m.marca }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button routerLink="/equipos/modelos/crear-modelo" class="btn btn-primary mt-3">➕ Nuevo Modelo</button>
+</div>

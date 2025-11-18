@@ -1,0 +1,6 @@
+<div class="form-container">
+  <h3>Registrar nueva Marca</h3>
+  <input class="form-control" [(ngModel)]="marca.nombre" placeholder="Nombre de la marca" />
+  <button class="btn btn-success mt-3" (click)="guardar()">Guardar</button>
+  <p class="text-danger mt-2">{{ mensaje }}</p>
+</div>

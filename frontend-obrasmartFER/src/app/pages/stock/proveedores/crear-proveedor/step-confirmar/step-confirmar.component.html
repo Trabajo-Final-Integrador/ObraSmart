@@ -1,0 +1,83 @@
+<!-- <h3>Confirmar Datos</h3>
+
+<div class="resumen">
+  <p><strong>Razón Social:</strong> {{ data.razonSocial }}</p>
+  <p><strong>CUIT:</strong> {{ data.cuit }}</p>
+  <p><strong>Email:</strong> {{ data.email }}</p>
+  <p><strong>Teléfono:</strong> {{ data.telefono }}</p>
+  <p><strong>Dirección:</strong> {{ data.direccion }}</p>
+  <p><strong>Provincia:</strong> {{ data.provincia }}</p>
+  <p><strong>Banco:</strong> {{ data.banco }}</p>
+</div>
+
+<div class="botones">
+  <button class="btn-anterior" (click)="prev.emit()">← Anterior</button>
+  <button class="btn-guardar" (click)="guardar.emit()">
+    <i class="bi bi-save"></i> Guardar Proveedor
+  </button>
+</div> -->
+
+<div *ngIf="tabActiva === 'confirmar'" class="grid grid-cols-2 gap-4">
+  <div class="col-span-2">
+    <h3 class="text-lg font-bold mb-2">Resumen del Proveedor</h3>
+    <p class="text-gray-600 mb-4">Verificá que toda la información sea correcta antes de guardar.</p>
+  </div>
+
+  <!-- 🧱 Datos Generales -->
+  <div class="col-span-2">
+    <h4 class="section-title">Datos Generales</h4>
+    <p><strong>Razón Social:</strong> {{ nuevoProveedor.razonSocial }}</p>
+    <p><strong>Nombre Comercial:</strong> {{ nuevoProveedor.nombreComercial }}</p>
+    <p><strong>CUIT:</strong> {{ nuevoProveedor.cuit }}</p>
+    <p><strong>Condición IVA:</strong> {{ nuevoProveedor.condicionIVA }}</p>
+    <p><strong>Estado:</strong> {{ nuevoProveedor.estado }}</p>
+  </div>
+
+  <!-- ☎️ Contacto -->
+  <div class="col-span-2">
+    <h4 class="section-title">Contacto</h4>
+    <p><strong>Teléfono:</strong> {{ nuevoProveedor.telefono }}</p>
+    <p><strong>Email:</strong> {{ nuevoProveedor.email }}</p>
+    <p><strong>Dirección:</strong> {{ nuevoProveedor.direccion }}, {{ nuevoProveedor.ciudad }} ({{ nuevoProveedor.provincia }})</p>
+    <p *ngIf="nuevoProveedor.codigoPostal"><strong>Código Postal:</strong> {{ nuevoProveedor.codigoPostal }}</p>
+  </div>
+
+  <!-- 🧩 Comercial -->
+  <div class="col-span-2">
+    <h4 class="section-title">Datos Comerciales</h4>
+    <p><strong>Especialidad:</strong> {{ nuevoProveedor.especialidad }}</p>
+    <p><strong>Marcas:</strong> {{ nuevoProveedor.marcas?.join(', ') }}</p>
+    <p><strong>Tiempo de Entrega:</strong> {{ nuevoProveedor.tiempoEntrega }} días</p>
+    <p><strong>Pedido Mínimo:</strong> ${{ nuevoProveedor.pedidoMinimo }}</p>
+    <p><strong>Descuento por Volumen:</strong> {{ nuevoProveedor.descuentoVolumen }}%</p>
+    <p><strong>Condiciones de Pago:</strong> {{ nuevoProveedor.condicionesPago }}</p>
+    <p *ngIf="nuevoProveedor.haceEnvios"><strong>Zona de Cobertura:</strong> {{ nuevoProveedor.zonaCobertura }}</p>
+  </div>
+
+  <!-- 💳 Bancarios -->
+  <div class="col-span-2">
+    <h4 class="section-title">Datos Bancarios</h4>
+    <p><strong>Banco:</strong> {{ nuevoProveedor.banco }}</p>
+    <p><strong>Tipo de Cuenta:</strong> {{ nuevoProveedor.tipoCuenta }}</p>
+    <p><strong>CBU / Alias:</strong> {{ nuevoProveedor.cbu }}</p>
+  </div>
+
+  <!-- 📘 Catálogo -->
+  <div class="col-span-2">
+    <h4 class="section-title">Catálogo</h4>
+    <p><strong>Tiene catálogo digital:</strong> {{ nuevoProveedor.tieneCatalogo ? 'Sí' : 'No' }}</p>
+    <p *ngIf="nuevoProveedor.tieneCatalogo">
+      <strong>URL del Catálogo:</strong> {{ nuevoProveedor.urlCatalogo }}
+    </p>
+    <p *ngIf="nuevoProveedor.codigoCliente">
+      <strong>Código de Cliente:</strong> {{ nuevoProveedor.codigoCliente }}
+    </p>
+  </div>
+
+  <!-- 🟢 Botones de acción -->
+  <div class="col-span-2 text-end mt-4">
+    <button class="btn-anterior" (click)="volver()">← Anterior</button>
+    <button class="btn-guardar" (click)="guardar()">Guardar Proveedor ✅</button>
+  </div>
+</div>
+

@@ -1,0 +1,15 @@
+<div class="contenedor">
+  <h3>Nuevo Tipo de Equipo</h3>
+
+  <div class="form-group mt-3">
+    <label>Nombre:</label>
+    <input class="form-control" [(ngModel)]="tipo.nombre" placeholder="Ej: Excavadora, Grúa, etc." />
+  </div>
+
+  <div class="botones mt-3">
+    <button class="btn btn-success" (click)="guardar()">Guardar</button>
+    <button class="btn btn-secondary" routerLink="/equipos/tipo-equipo">Cancelar</button>
+  </div>
+
+  <p class="text-danger mt-2">{{ mensaje }}</p>
+</div>

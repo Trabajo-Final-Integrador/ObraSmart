@@ -1,0 +1,382 @@
+
+<div class="proveedor-container">
+    
+   <div class="header">
+    <h2>{{ vista === "nuevo" ? "Nuevo Proveedor" : "Editar Proveedor" }}</h2>
+    <button class="close-btn">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button
+      *ngFor="let tab of tabs"
+      (click)="setTabActiva(tab.id)"
+      [ngClass]="{ active: tabActiva === tab.id }"
+      class="tab-btn"
+    >
+      <i [class]="tab.icon"></i> {{ tab.label }}
+    </button>
+  </div>
+
+  <!-- Formulario -->
+  <div class="tab-content">
+    <!-- GENERAL -->
+    <div *ngIf="tabActiva === 'general'" class="grid grid-cols-2 gap-4">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label>Razón Social <span class="required">*</span></label>
+          <input
+            type="text"
+            [(ngModel)]="nuevoProveedor.razonSocial"
+            class="form-input"
+            required
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label>Nombre Comercial</label>
+          <input
+            type="text"
+            [(ngModel)]="nuevoProveedor.nombreComercial"
+            class="form-input"
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label class="label2">CUIT <span class="required">*</span></label>
+          <input
+            type="text"
+            [(ngModel)]="nuevoProveedor.cuit"
+            placeholder="XX-XXXXXXXX-X"
+            class="form-input"
+            required
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label>Condición IVA <span class="required">*</span></label>
+          <select
+            [(ngModel)]="nuevoProveedor.condicionIVA"
+            class="form-input"
+            required
+          >
+            <option value="">Seleccionar...</option>
+            <option value="Responsable Inscripto">Responsable Inscripto</option>
+            <option value="Monotributista">Monotributista</option>
+            <option value="Exento">Exento</option>
+          </select>
+        </div>
+
+        <div class="col-span-2">
+          <label>Estado</label>
+          <div class="estado">
+            <label>
+              <input
+                type="radio"
+                value="Activo"
+                [(ngModel)]="nuevoProveedor.estado"
+              />
+              <span>Activo</span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="Inactivo"
+                [(ngModel)]="nuevoProveedor.estado"
+              />
+              <span>Inactivo</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-2 text-end mt-4">
+    
+    <!-- <button class="btn-siguiente" (click)="continuar()">Siguiente →</button> -->
+  </div>
+    </div>
+    <!-- CONTACTO -->
+<app-step-contacto
+  *ngIf="tabActiva === 'contacto'"
+  [tabActiva]="tabActiva"
+  [nuevoProveedor]="nuevoProveedor"
+  (next)="irAlSiguiente('bancarios')"
+  (prev)="irAlAnterior('general')">
+</app-step-contacto>
+<!-- BANCARIOS -->
+<app-step-bancarios
+  *ngIf="tabActiva === 'bancario'"
+  [tabActiva]="tabActiva"
+  [nuevoProveedor]="nuevoProveedor"
+  (next)="irAlSiguiente('confirmar')"
+  (prev)="irAlAnterior('contacto')">
+</app-step-bancarios>
+<app-step-catalogo
+  *ngIf="tabActiva === 'catalogo'"
+  [tabActiva]="tabActiva"
+  [nuevoProveedor]="nuevoProveedor"
+  (next)="irAlSiguiente('confirmar')"
+  (prev)="irAlAnterior('bancario')">
+</app-step-catalogo>
+<app-step-comercio
+  *ngIf="tabActiva === 'comercial'"
+  [tabActiva]="tabActiva"
+  [nuevoProveedor]="nuevoProveedor"
+  (next)="irAlSiguiente('bancario')"
+  (prev)="irAlAnterior('general')">
+</app-step-comercio>
+
+
+<!-- CONFIRMAR -->
+<app-step-confirmar
+  *ngIf="tabActiva === 'confirmar'"
+  [tabActiva]="tabActiva"
+  [nuevoProveedor]="nuevoProveedor"
+  (prev)="irAlAnterior('bancarios')">
+</app-step-confirmar>
+
+    <!-- CONTACTO -->
+    <!--<div *ngIf="tabActiva === 'contacto'" class="grid grid-cols-2 gap-4">
+      <div class="row g-3">
+      <div class="col-md-6">
+        <label>Teléfono Principal <span class="required">*</span></label>
+        <input
+          type="tel"
+          [(ngModel)]="nuevoProveedor.telefono"
+          class="form-input"
+          required
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label>Email <span class="required">*</span></label>
+        <input
+          type="email"
+          [(ngModel)]="nuevoProveedor.email"
+          class="form-input"
+          required
+        />
+      </div>
+
+      <div class="col-span-2">
+        <label>Horario de Atención</label>
+        <input
+          type="text"
+          [(ngModel)]="nuevoProveedor.horarioAtencion"
+          placeholder="Ej: Lunes a Viernes 8:00 a 18:00"
+          class="form-input"
+        />
+      </div>
+
+      <div class="col-span-2">
+        <label>Dirección <span class="required">*</span></label>
+        <input
+          type="text"
+          [(ngModel)]="nuevoProveedor.direccion"
+          class="form-input"
+          required
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label>Ciudad <span class="required">*</span></label>
+        <input
+          type="text"
+          [(ngModel)]="nuevoProveedor.ciudad"
+          class="form-input"
+          required
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label>Provincia <span class="required">*</span></label>
+        <select
+          [(ngModel)]="nuevoProveedor.provincia"
+          class="form-input"
+          required
+        >
+          <option value="">Seleccionar...</option>
+          <option *ngFor="let prov of provinciasArgentinas" [value]="prov">
+            {{ prov }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label>Código Postal</label>
+        <input
+          type="text"
+          [(ngModel)]="nuevoProveedor.codigoPostal"
+          class="form-input"
+        />
+      </div>
+    </div>
+    </div>-->
+
+    <!-- 🟧 COMERCIAL -->
+<!--<div *ngIf="tabActiva === 'comercial'" class="grid grid-2">
+  <div class="row g-3" >
+  <div class="form-group col-md-6">
+    <label>Especialidad</label>
+    <input
+      type="text"
+      [(ngModel)]="nuevoProveedor.especialidad"
+      placeholder="Ej: Repuestos hidráulicos"
+      class="form-input"
+    />
+  </div>
+
+  <div class="form-group col-md-6">
+    <label>Tiempo de Entrega (días)</label>
+    <input
+      type="number"
+      [(ngModel)]="nuevoProveedor.tiempoEntrega"
+      class="form-input"
+    />
+  </div>
+
+  <div class="form-group ">
+    <label>Marcas que distribuye</label>
+    <div class="flex gap">
+      <input [(ngModel)]="marcaInput" placeholder="Agregar marca..." class="form-input" />
+      <button type="button" (click)="agregarMarca()">➕</button>
+    </div>
+    <div class="marcas">
+      <span *ngFor="let marca of marcas; let i = index">
+        {{ marca }}
+        <button type="button" (click)="eliminarMarca(i)">✖</button>
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group col-md-6">
+    <label>Pedido Mínimo ($)</label>
+    <input
+      type="number"
+      [(ngModel)]="nuevoProveedor.pedidoMinimo"
+      class="form-input"
+    />
+  </div>
+
+  <div class="form-group col-md-6">
+    <label>Descuento por Volumen (%)</label>
+    <input
+      type="number"
+      [(ngModel)]="nuevoProveedor.descuentoVolumen"
+      class="form-input"
+    />
+  </div>
+
+  <div class="form-group">
+    <label>Condiciones de Pago</label>
+    <select [(ngModel)]="nuevoProveedor.condicionesPago" class="form-input">
+      <option value="">Seleccionar...</option>
+      <option value="Contado">Contado</option>
+      <option value="30 días">30 días</option>
+      <option value="60 días">60 días</option>
+      <option value="90 días">90 días</option>
+    </select>
+  </div>
+
+  <div class="check-group">
+  <div className="grid grid-cols-2 gap-4">
+    <label><input type="checkbox" [(ngModel)]="nuevoProveedor.tieneStock" /> Tiene stock propio</label>
+    <label><input type="checkbox" [(ngModel)]="nuevoProveedor.atieneUrgencias" /> Atiende urgencias</label>
+    <label><input type="checkbox" [(ngModel)]="nuevoProveedor.haceEnvios" /> Hace envíos</label>
+    <label><input type="checkbox" [(ngModel)]="nuevoProveedor.aceptaDevoluciones" /> Acepta devoluciones</label>
+  </div>
+  </div>
+
+  <div *ngIf="nuevoProveedor.haceEnvios" class="form-group col-2">
+    <label>Zona de Cobertura</label>
+    <input
+      type="text"
+      [(ngModel)]="nuevoProveedor.zonaCobertura"
+      placeholder="Ej: Córdoba Capital y alrededores"
+      class="form-input"
+    />
+  </div>
+</div>
+</div>-->
+
+
+    <!-- 🟦 CATÁLOGO -->
+    <!--<div *ngIf="tabActiva === 'catalogo'" class="grid grid-1">
+      <label
+        ><input
+          type="checkbox"
+          [(ngModel)]="nuevoProveedor.tieneCatalogo"
+          name="tieneCatalogo"
+        />
+        Tiene catálogo digital</label
+      >
+
+      <div *ngIf="nuevoProveedor.tieneCatalogo">
+        <div class="form-group">
+          <label>URL del Catálogo</label>
+          <input
+            type="url"
+            [(ngModel)]="nuevoProveedor.urlCatalogo"
+            name="urlCatalogo"
+            placeholder="https://..."
+            class="form-input"
+          />
+        </div>
+        <div class="form-group">
+          <label>Código de Cliente</label>
+          <input
+            type="text"
+            [(ngModel)]="nuevoProveedor.codigoCliente"
+            name="codigoCliente"
+            placeholder="Tu código como cliente"
+            class="form-input"
+          />
+        </div>
+      </div>
+    </div>-->
+
+    <!-- 🟩 BANCARIO -->
+    <!--<div *ngIf="tabActiva === 'bancario'" class="row g-3">
+      <div class="col-md-6">
+        <label>Banco</label>
+        <input [(ngModel)]="nuevoProveedor.banco" class="form-input" />
+      </div>
+
+      <div class="col-md-6">
+        <label>Tipo de Cuenta</label>
+        <select [(ngModel)]="nuevoProveedor.tipoCuenta" class="form-input">
+          <option value="">Seleccionar...</option>
+          <option value="Caja de Ahorro">Caja de Ahorro</option>
+          <option value="Cuenta Corriente">Cuenta Corriente</option>
+        </select>
+      </div>
+
+      <div class="col-md-12">
+        <label>CBU / CVU / Alias</label>
+        <input
+          [(ngModel)]="nuevoProveedor.cbu"
+          placeholder="0000000000000000000000"
+          class="form-input"
+        />
+      </div>
+    </div>-->
+
+    <!-- 🟨 OBSERVACIONES -->
+    <!--<div *ngIf="tabActiva === 'observaciones'" class="col-12">
+      <label>Notas y Observaciones</label>
+      <textarea
+        [(ngModel)]="nuevoProveedor.observaciones"
+        rows="6"
+        placeholder="Información adicional..."
+        class="form-input"
+      ></textarea>
+    </div>
+  </div>-->
+
+  <!-- Footer -->
+  <!--<div class="footer">
+    <button class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+    <button class="btn-guardar" (click)="guardarProveedor()"><i class="bi bi-save"></i> Guardar</button>
+  </div> 
+</div> -->
