@@ -1,0 +1,48 @@
+package com.ObraSmart.Gateway.config;
+
+
+
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.function.HandlerFilterFunction;
+import org.springframework.web.servlet.function.ServerRequest;
+import org.springframework.web.servlet.function.ServerResponse;
+
+import java.io.IOException;
+
+@Component
+public class CookieRelayFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+            throws IOException, ServletException {
+
+        HttpServletRequest httpReq = (HttpServletRequest) req;
+
+        String cookies = httpReq.getHeader("Cookie");
+        System.out.println("🔄 Gateway recibió cookie: " + cookies);
+
+        chain.doFilter(req, res);
+    }
+
+    /*@Bean
+    public HandlerFilterFunction<ServerResponse, ServerResponse> cookieRelay() {
+        return (request, next) -> {
+            String cookie = request.headers().firstHeader("Cookie");
+
+            if (cookie != null) {
+                ServerRequest mutated = ServerRequest
+                        .from(request)
+                        .header("Cookie", cookie)
+                        .build();
+
+                return next.handle(mutated);
+            }
+
+            return next.handle(request);
+        };
+    }*/
+
+}

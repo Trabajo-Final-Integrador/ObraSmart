@@ -13,9 +13,7 @@ public class IaServiceImpl implements IaService {
 
     private final RestTemplate restTemplate;
 
-    // =====================
-    // IA OLLAMA (Local)
-    // =====================
+    // ----------- OLLAMA (LOCAL) -----------
     @Value("${ia.ollama.enabled:true}")
     private boolean ollamaEnabled;
 
@@ -26,10 +24,7 @@ public class IaServiceImpl implements IaService {
     private String ollamaModel;
 
 
-
-    // =====================
-    // IA DEEPSEEK (Nube)
-    // =====================
+    // ----------- DEEPSEEK (NUBE) -----------
     @Value("${ia.deepseek.enabled:false}")
     private boolean deepseekEnabled;
 
@@ -43,43 +38,44 @@ public class IaServiceImpl implements IaService {
     private String deepseekApiKey;
 
 
-
     public IaServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
 
-
     @Override
     public String consultarIA(String mensaje) {
 
-        // ============================================
-        // PRIORIDAD 1: OLLAMA LOCAL
-        // ============================================
+        // ===============================
+        // 1) IA LOCAL: OLLAMA
+        // ===============================
         if (ollamaEnabled) {
             try {
-                Map<String, Object> request = Map.of(
+                Map<String, Object> body = Map.of(
                         "model", ollamaModel,
-                        "prompt", mensaje
+                        "prompt", mensaje,
+                        "stream", false
                 );
 
                 Map response = restTemplate.postForObject(
                         ollamaUrl,
-                        request,
+                        body,
                         Map.class
                 );
 
-                if (response != null && response.get("response") != null)
+                if (response != null && response.get("response") != null) {
                     return response.get("response").toString();
+                }
 
-            } catch (Exception ignored) {}
+            } catch (Exception e) {
+                System.out.println("⚠ Error Ollama: " + e.getMessage());
+            }
         }
 
 
-
-        // ============================================
-        // PRIORIDAD 2: DEEPSEEK (OPENROUTER)
-        // ============================================
+        // ===============================
+        // 2) FALLBACK: DEEPSEEK (NUBE)
+        // ===============================
         if (deepseekEnabled && deepseekApiKey != null && !deepseekApiKey.isBlank()) {
             try {
                 HttpHeaders headers = new HttpHeaders();
@@ -103,17 +99,21 @@ public class IaServiceImpl implements IaService {
                 );
 
                 if (response.getBody() != null) {
-                    Map choices = (Map) ((java.util.List) response.getBody().get("choices")).get(0);
-                    Map message = (Map) choices.get("message");
+                    var choices = (java.util.List) response.getBody().get("choices");
+                    var message = (Map) ((Map) choices.get(0)).get("message");
                     return message.get("content").toString();
                 }
 
-            } catch (Exception ignored) {}
+            } catch (Exception e) {
+                System.out.println("⚠ Error DeepSeek: " + e.getMessage());
+            }
         }
 
 
-
-        return null; // la IA falló → vuelve al bot interno
+        // ===============================
+        // IA FALLÓ → VOLVER AL BOT
+        // ===============================
+        return null;
     }
 
 }
