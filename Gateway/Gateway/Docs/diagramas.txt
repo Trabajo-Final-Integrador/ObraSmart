@@ -1,0 +1,2 @@
+# Diagramas (texto)
+Microservicios y flujo general para importar en Draw.io

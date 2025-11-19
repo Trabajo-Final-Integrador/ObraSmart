@@ -1,0 +1,1 @@
+Listado de entidades del micro.

@@ -1,0 +1,1 @@
+Decisión: JWT deshabilitado temporalmente.

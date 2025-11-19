@@ -1,0 +1,1 @@
+Endpoints REST: GET/POST/PUT/DELETE /api/reparaciones + posibles PATCH de estado/ubicacion.
