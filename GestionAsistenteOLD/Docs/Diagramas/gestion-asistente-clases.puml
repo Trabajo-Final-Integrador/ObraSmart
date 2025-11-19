@@ -1,0 +1,76 @@
+@startuml
+title Diagrama de clases - Microservicio Gestión Asistente
+
+package "controller" {
+  class AsistenteController {
+    +chat(request: ChatRequestDto): ChatResponseDto
+    +health(): String
+  }
+}
+
+package "service" {
+  interface AsistenteService {
+    +chat(request: ChatRequestDto): ChatResponseDto
+  }
+
+  class AsistenteServiceImpl {
+    -llmClient: LlmClient
+    +chat(request: ChatRequestDto): ChatResponseDto
+  }
+}
+
+package "client" {
+  interface LlmClient {
+    +completar(mensaje: String, contexto: String): String
+  }
+
+  class OpenAiClient {
+    -apiKey: String
+    -model: String
+    +completar(mensaje: String, contexto: String): String
+  }
+
+  class OllamaClient {
+    -baseUrl: String
+    -model: String
+    +completar(mensaje: String, contexto: String): String
+  }
+}
+
+package "dto" {
+  class ChatRequestDto {
+    -mensaje: String
+    -contexto: String
+  }
+
+  class ChatResponseDto {
+    -respuesta: String
+    -modeloUsado: String
+  }
+}
+
+package "config" {
+  class LlmConfig {
+    -provider: String
+    -openAiApiKey: String
+    -openAiModel: String
+    -ollamaBaseUrl: String
+    -ollamaModel: String
+  }
+}
+
+AsistenteController --> AsistenteService : usa
+AsistenteServiceImpl ..|> AsistenteService
+AsistenteServiceImpl --> LlmClient : delega
+LlmClient <|-- OpenAiClient
+LlmClient <|-- OllamaClient
+
+AsistenteController --> ChatRequestDto : recibe
+AsistenteController --> ChatResponseDto : devuelve
+AsistenteServiceImpl --> ChatResponseDto
+AsistenteServiceImpl --> ChatRequestDto
+
+LlmConfig --> OpenAiClient : configura
+LlmConfig --> OllamaClient : configura
+
+@enduml

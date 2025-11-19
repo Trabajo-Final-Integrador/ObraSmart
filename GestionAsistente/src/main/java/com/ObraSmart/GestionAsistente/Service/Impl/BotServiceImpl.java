@@ -13,31 +13,33 @@ public class BotServiceImpl implements BotService {
 
     public BotServiceImpl() {
 
-        // Guía / Manual interactivo
-        intents.put("ayuda", "Soy el asistente de ObraSmart. Puedo ayudarte con equipos, reparaciones, mapa, stock y navegación general.");
-        intents.put("tutorial", "Guía rápida: 1) Registrar equipos. 2) Crear reparaciones. 3) Ver mapa. 4) Consultar stock. 5) Generar reportes.");
-        intents.put("manual", "Puedes pedirme: 'crear reparación', 'ver equipos', 'ver mapa', 'stock', 'reportes'.");
-
-        // Funciones comunes
         intents.put("crear reparacion", "Para crear una reparación: Menú → Reparaciones → Crear.");
-        intents.put("equipo", "Para registrar un equipo: Menú → Equipos → Crear.");
-        intents.put("mapa", "Para ver el mapa: Menú → Geolocalización → Mapa.");
-        intents.put("stock", "En Stock puedes ver insumos, proveedores y reposición mínima.");
-        intents.put("reportes", "En Reportes puedes obtener informes de ventas, equipos, insumos y clientes.");
+        intents.put("reparacion", "Para crear una reparación: Menú → Reparaciones → Crear.");
+        intents.put("equipo", "En Equipos podés registrar, consultar y cambiar estados.");
+        intents.put("equipos", "Para ver los equipos: Menú → Equipos → Lista.");
+        intents.put("estado", "Los equipos pueden estar Disponible, No disponible o En reparación.");
+        intents.put("mantenimiento", "ObraSmart maneja mantenimiento correctivo y preventivo.");
+        intents.put("mapa", "En Geolocalización podés ver equipos y reparaciones en el mapa.");
+        intents.put("stock", "En Stock podés consultar insumos, proveedores y mínimos.");
+        intents.put("reportes", "En Reportes podés obtener informes de uso, actividades y stock.");
+
+        intents.put("ayuda", "Puedo ayudarte con reparaciones, equipos, estados, stock, reportes y mapa.");
+        intents.put("manual", "Consultas disponibles: crear reparación, equipos, estados, mantenimiento, mapa, stock, reportes.");
+        intents.put("tutorial", "Guía rápida: Registrar equipos → Crear reparaciones → Ver mapa → Stock → Reportes.");
     }
 
     @Override
     public String responder(String mensaje) {
         if (mensaje == null) return null;
 
-        String lower = mensaje.toLowerCase();
+        String lower = mensaje.toLowerCase().trim();
 
-        for (String clave : intents.keySet()) {
-            if (lower.contains(clave)) {
-                return intents.get(clave);
-            }
-        }
+        if (lower.split(" ").length > 2)
+            return null;
 
-        return null;
+        String r = intents.get(lower);
+        if (r == null) return null;
+
+        return "🤖 Bot respondiendo:\n" + r;
     }
 }
