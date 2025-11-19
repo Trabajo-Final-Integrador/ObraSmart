@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import obrasmart.gestionstock.dto.OrdenCompraDto;
+import obrasmart.gestionstock.dto.OrdenCompraListadoDTO;
 import obrasmart.gestionstock.security.UserSession;
 import obrasmart.gestionstock.service.OrdenCompraService;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +30,8 @@ public class OrdenCompraController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrdenCompraDto>> listar(HttpServletRequest req){
-        if (!isAdmin(req)) return ResponseEntity.status(403).build();
+    public ResponseEntity<List<OrdenCompraListadoDTO>> listar() {
         return ResponseEntity.ok(service.listar());
     }
+
 }

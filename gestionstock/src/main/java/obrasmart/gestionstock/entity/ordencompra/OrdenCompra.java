@@ -22,7 +22,7 @@ public class OrdenCompra {
     @ManyToOne(optional=false) private Proveedor proveedor;
 
     @Enumerated(EnumType.STRING) @Column(nullable=false)
-    private EstadoOrdenCompra estado = EstadoOrdenCompra.BORRADOR;
+    private EstadoOrdenCompra estado;
 
     @Column(nullable=false) private Instant fecha = Instant.now();
 

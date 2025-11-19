@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController @RequestMapping("/repuestos") @RequiredArgsConstructor
+@RestController
+@RequestMapping("/repuestos")
+@RequiredArgsConstructor
 public class RepuestoController {
 
     private final RepuestoService service;

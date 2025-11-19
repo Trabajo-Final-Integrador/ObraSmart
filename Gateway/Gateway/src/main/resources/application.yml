@@ -49,7 +49,7 @@ spring:
             uri: http://localhost:8083
             predicates:
 
-              - Path=/proveedores/**, /repuestos/**
+              - Path=/proveedores/**, /repuestos/**, /ordenes/**, /categorias/**
             filters:
               - StripPrefix=0
 

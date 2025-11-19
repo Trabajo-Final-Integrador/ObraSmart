@@ -4,6 +4,7 @@ package obrasmart.gestionstock.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import obrasmart.gestionstock.dto.OrdenCompraDto;
+import obrasmart.gestionstock.dto.OrdenCompraListadoDTO;
 import obrasmart.gestionstock.entity.ordencompra.OrdenCompra;
 import obrasmart.gestionstock.entity.ordencompra.OrdenCompraItem;
 import obrasmart.gestionstock.repository.OrdenCompraRepository;
@@ -57,7 +58,31 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
     }
 
     @Override
-    public List<OrdenCompraDto> listar() {
-        return repo.findAll().stream().map(this::map).toList();
+    public List<OrdenCompraListadoDTO> listar() {
+        return repo.findAll()
+                .stream()
+                .map(this::mapListado)
+                .toList();
     }
+
+    private OrdenCompraListadoDTO mapListado(OrdenCompra oc) {
+
+        double total = oc.getItems()
+                .stream()
+                .mapToDouble(i -> i.getCantidad() * i.getPrecioUnitario())
+                .sum();
+
+        return OrdenCompraListadoDTO.builder()
+                .id(oc.getId())
+                .idProveedor(oc.getProveedor().getId())
+                .proveedorNombre(oc.getProveedor().getRazonSocial())
+                .estado(oc.getEstado().name())
+                .totalItems(oc.getItems().size())
+                .total(total)
+                .fecha(oc.getFecha())
+                .build();
+    }
+
+
+
 }
