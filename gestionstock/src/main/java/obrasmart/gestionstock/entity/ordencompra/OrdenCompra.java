@@ -21,8 +21,9 @@ public class OrdenCompra {
 
     @ManyToOne(optional=false) private Proveedor proveedor;
 
-    @Enumerated(EnumType.STRING) @Column(nullable=false)
-    private EstadoOrdenCompra estado;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false)
+    private EstadoOrdenCompra estado = EstadoOrdenCompra.PENDIENTE;
 
     @Column(nullable=false) private Instant fecha = Instant.now();
 

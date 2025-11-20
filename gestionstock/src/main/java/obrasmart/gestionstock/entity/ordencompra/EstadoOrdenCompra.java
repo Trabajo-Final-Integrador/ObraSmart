@@ -1,3 +1,4 @@
 package obrasmart.gestionstock.entity.ordencompra;
 
-public enum EstadoOrdenCompra { BORRADOR, EMITIDA, RECIBIDA, CANCELADA }
+public enum EstadoOrdenCompra {
+    PENDIENTE,APROBADA, EMITIDA, RECIBIDA, CANCELADA }

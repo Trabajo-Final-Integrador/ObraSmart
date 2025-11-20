@@ -4,6 +4,7 @@ package obrasmart.gestionstock.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import obrasmart.gestionstock.dto.MovimientoStockDto;
+import obrasmart.gestionstock.dto.MovimientoStockResponseDto;
 import obrasmart.gestionstock.entity.movimiento.MovimientoStock;
 import obrasmart.gestionstock.entity.repuestos.Repuesto;
 import obrasmart.gestionstock.entity.movimiento.TipoMovimiento;
@@ -12,6 +13,7 @@ import obrasmart.gestionstock.repository.RepuestoRepository;
 import obrasmart.gestionstock.service.MovimientoService;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service @RequiredArgsConstructor
@@ -20,42 +22,68 @@ public class MovimientoServiceImpl implements MovimientoService {
     private final MovimientoStockRepository repo;
     private final RepuestoRepository repuestoRepo;
 
-    private MovimientoStockDto map(MovimientoStock m){
-        return MovimientoStockDto.builder()
+
+    // ---------------------------
+    //       MAPPER RESPONSE
+    // ---------------------------
+    private MovimientoStockResponseDto mapToResponse(MovimientoStock m) {
+        return MovimientoStockResponseDto.builder()
                 .id(m.getId())
                 .idRepuesto(m.getRepuesto().getId())
+                .repuestoNombre(m.getRepuesto().getNombre())
+                .repuestoCodigo(m.getRepuesto().getCodigo())
                 .tipo(m.getTipo())
                 .cantidad(m.getCantidad())
                 .observacion(m.getObservacion())
+                .fecha(m.getFecha())
                 .build();
     }
 
+    // ---------------------------
+    //       REGISTRAR
+    // ---------------------------
     @Override
-    public MovimientoStockDto registrar(MovimientoStockDto dto) {
-        Repuesto r = repuestoRepo.findById(dto.getIdRepuesto()).orElseThrow();
+    public MovimientoStockResponseDto registrar(MovimientoStockDto dto) {
 
-        int nuevo = r.getStock();
-        if (dto.getTipo() == TipoMovimiento.ENTRADA) nuevo += dto.getCantidad();
-        else if (dto.getTipo() == TipoMovimiento.SALIDA) nuevo -= dto.getCantidad();
-        else /* AJUSTE */ nuevo = dto.getCantidad();
+        Repuesto rep = repuestoRepo.findById(dto.getIdRepuesto())
+                .orElseThrow(() -> new IllegalArgumentException("Repuesto no encontrado"));
 
-        if (nuevo < 0) throw new IllegalArgumentException("Stock insuficiente");
+        int nuevoStock = rep.getStock();
 
-        r.setStock(nuevo);
-        repuestoRepo.save(r);
+        switch (dto.getTipo()) {
+            case ENTRADA -> nuevoStock += dto.getCantidad();
+            case SALIDA -> {
+                nuevoStock -= dto.getCantidad();
+                if (nuevoStock < 0)
+                    throw new IllegalArgumentException("Stock insuficiente");
+            }
+            case AJUSTE -> nuevoStock = dto.getCantidad();
+        }
 
-        var m = MovimientoStock.builder()
-                .repuesto(r)
+        rep.setStock(nuevoStock);
+        repuestoRepo.save(rep);
+
+        MovimientoStock mov = MovimientoStock.builder()
+                .repuesto(rep)
                 .tipo(dto.getTipo())
                 .cantidad(dto.getCantidad())
                 .observacion(dto.getObservacion())
+                .fecha(Instant.now())
                 .build();
 
-        return map(repo.save(m));
+        MovimientoStock saved = repo.save(mov);
+
+        return mapToResponse(saved);
     }
 
+    // ---------------------------
+    //          LISTAR
+    // ---------------------------
     @Override
-    public List<MovimientoStockDto> listar() {
-        return repo.findAll().stream().map(this::map).toList();
+    public List<MovimientoStockResponseDto> listar() {
+        return repo.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 }

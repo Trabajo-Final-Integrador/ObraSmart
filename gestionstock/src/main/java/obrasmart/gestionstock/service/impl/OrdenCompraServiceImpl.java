@@ -5,6 +5,7 @@ package obrasmart.gestionstock.service.impl;
 import lombok.RequiredArgsConstructor;
 import obrasmart.gestionstock.dto.OrdenCompraDto;
 import obrasmart.gestionstock.dto.OrdenCompraListadoDTO;
+import obrasmart.gestionstock.entity.ordencompra.EstadoOrdenCompra;
 import obrasmart.gestionstock.entity.ordencompra.OrdenCompra;
 import obrasmart.gestionstock.entity.ordencompra.OrdenCompraItem;
 import obrasmart.gestionstock.repository.OrdenCompraRepository;
@@ -24,14 +25,25 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
 
     private OrdenCompraDto map(OrdenCompra oc){
         var items = oc.getItems().stream().map(i ->
-                new OrdenCompraDto.Item(i.getRepuesto().getId(), i.getCantidad(), i.getPrecioUnitario())
+                new OrdenCompraDto.Item(i.getRepuesto()
+                        .getId(),
+                        i.getRepuesto().getNombre(),
+                        i.getCantidad(),
+                        i.getPrecioUnitario())
         ).toList();
+
+        double total = items.stream()
+                .mapToDouble(it -> it.getCantidad() * it.getPrecioUnitario())
+                .sum();
 
         return OrdenCompraDto.builder()
                 .id(oc.getId())
                 .idProveedor(oc.getProveedor().getId())
+                .proveedorNombre(oc.getProveedor().getRazonSocial())
                 .estado(oc.getEstado())
                 .items(items)
+                .totalItems(items.size())
+                .total(total)
                 .build();
     }
 
@@ -81,6 +93,38 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
                 .total(total)
                 .fecha(oc.getFecha())
                 .build();
+    }
+    @Override
+    public OrdenCompraDto aprobar(Long id) {
+        var oc = repo.findById(id).orElseThrow();
+
+        if(oc.getEstado() != EstadoOrdenCompra.PENDIENTE){
+            throw new RuntimeException("Solo se pueden aprobar órdenes PENDIENTE");
+        }
+
+        oc.setEstado(EstadoOrdenCompra.APROBADA);
+
+        return map(repo.save(oc));
+    }
+
+
+    @Override
+    public OrdenCompraDto recibir(Long id) {
+        var oc = repo.findById(id).orElseThrow();
+        oc.setEstado(EstadoOrdenCompra.RECIBIDA);
+        return map(repo.save(oc));
+    }
+
+    @Override
+    public OrdenCompraDto cancelar(Long id) {
+        var oc = repo.findById(id).orElseThrow();
+        oc.setEstado(EstadoOrdenCompra.CANCELADA);
+        return map(repo.save(oc));
+    }
+
+    @Override
+    public OrdenCompraDto obtener(Long id) {
+        return map(repo.findById(id).orElseThrow());
     }
 
 

@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import obrasmart.gestionstock.dto.MovimientoStockDto;
+import obrasmart.gestionstock.dto.MovimientoStockResponseDto;
 import obrasmart.gestionstock.security.UserSession;
 import obrasmart.gestionstock.service.MovimientoService;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +25,12 @@ public class MovimientoController {
     }
 
     @PostMapping
-    public ResponseEntity<MovimientoStockDto> registrar(@Valid @RequestBody MovimientoStockDto dto, HttpServletRequest req){
-        if (!isAdminOrTecnico(req)) return ResponseEntity.status(403).build();
-        return ResponseEntity.ok(service.registrar(dto));
+    public ResponseEntity<MovimientoStockResponseDto> registrar(@Valid @RequestBody MovimientoStockDto dto) {
+        return ResponseEntity.status(201).body(service.registrar(dto));
     }
 
     @GetMapping
-    public ResponseEntity<List<MovimientoStockDto>> listar(HttpServletRequest req){
-        if (!isAdminOrTecnico(req)) return ResponseEntity.status(403).build();
+    public ResponseEntity<List<MovimientoStockResponseDto>> listar() {
         return ResponseEntity.ok(service.listar());
     }
 }

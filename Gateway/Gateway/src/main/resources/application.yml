@@ -29,6 +29,14 @@ spring:
               - StripPrefix=0
 
 
+          - id: reparaciones-service
+            uri: http://localhost:8086
+            predicates:
+              - Path=/reparaciones/**
+            filters:
+              - StripPrefix=0
+
+
 
 
           - id: equipos-service
@@ -49,7 +57,7 @@ spring:
             uri: http://localhost:8083
             predicates:
 
-              - Path=/proveedores/**, /repuestos/**, /ordenes/**, /categorias/**
+              - Path=/proveedores/**, /repuestos/**, /ordenes/**, /categorias/**, /movimientos/**
             filters:
               - StripPrefix=0
 

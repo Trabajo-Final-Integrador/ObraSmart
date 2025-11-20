@@ -12,4 +12,11 @@ public interface OrdenCompraService {
     List<OrdenCompraListadoDTO> listar();
 
 
+    OrdenCompraDto aprobar(Long id);
+
+    OrdenCompraDto recibir(Long id);
+
+    OrdenCompraDto cancelar(Long id);
+
+    OrdenCompraDto obtener(Long id);
 }

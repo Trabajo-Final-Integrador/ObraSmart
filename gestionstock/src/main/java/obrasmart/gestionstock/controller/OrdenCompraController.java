@@ -34,4 +34,25 @@ public class OrdenCompraController {
         return ResponseEntity.ok(service.listar());
     }
 
+    @PostMapping("/{id}/aprobar")
+    public ResponseEntity<OrdenCompraDto> aprobar(@PathVariable Long id) {
+        return ResponseEntity.ok(service.aprobar(id));
+    }
+
+    @PostMapping("/{id}/recibir")
+    public ResponseEntity<OrdenCompraDto> recibir(@PathVariable Long id) {
+        return ResponseEntity.ok(service.recibir(id));
+    }
+
+    @PostMapping("/{id}/cancelar")
+    public ResponseEntity<OrdenCompraDto> cancelar(@PathVariable Long id) {
+        return ResponseEntity.ok(service.cancelar(id));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<OrdenCompraDto> obtener(@PathVariable Long id) {
+        return ResponseEntity.ok(service.obtener(id));
+    }
+
+
 }

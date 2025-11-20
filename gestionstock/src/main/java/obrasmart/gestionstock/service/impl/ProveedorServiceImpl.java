@@ -30,24 +30,7 @@ public class ProveedorServiceImpl implements ProveedorService {
     @Override
     public ProveedorDto crear(ProveedorCreateDTO dto) {
 
-
-/*
-        if (repo.existsByCuit(dto.getCuit())) {
-            throw new IllegalArgumentException("Ya existe un proveedor con el CUIT: " + dto.getCuit());
-        }
-
-        Proveedor proveedor = mapper.toEntity(dto);
-        try {
-            Proveedor savedProveedor = repo.save(proveedor);
-            return mapper.toDTO(savedProveedor);
-        } catch (Exception e) {
-            log.error("💥 Error al guardar proveedor con datos: {}", proveedor, e);
-            throw e;
-        }*/
-        //Proveedor savedProveedor = repo.save(proveedor);
-
-
-        //return mapper.toDTO(savedProveedor);
+        
         log.info("📦 Intentando guardar proveedor: {}", dto);
         try {
             if (repo.existsByCuit(dto.getCuit())) {

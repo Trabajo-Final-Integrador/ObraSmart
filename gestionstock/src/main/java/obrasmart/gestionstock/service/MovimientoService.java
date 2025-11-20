@@ -2,10 +2,11 @@ package obrasmart.gestionstock.service;
 
 
 import obrasmart.gestionstock.dto.MovimientoStockDto;
+import obrasmart.gestionstock.dto.MovimientoStockResponseDto;
 
 import java.util.List;
 
 public interface MovimientoService {
-    MovimientoStockDto registrar(MovimientoStockDto dto);
-    List<MovimientoStockDto> listar();
+    MovimientoStockResponseDto registrar(MovimientoStockDto dto);
+    List<MovimientoStockResponseDto> listar();
 }
