@@ -73,15 +73,6 @@ public class AsistenteServiceImpl implements AsistenteService {
     }
 
     private String formatear(String origen, String cuerpo) {
-        return """
-                %s
-                %s
-
-                ————————————————
-                Asistente de ObraSmart
-                Desarrollado por:
-                • Fernando Gabriel Ferreyra
-                • Leticia Silcana Castro Altamirano
-                """.formatted(origen, cuerpo.trim());
+        return ("%s\n%s").formatted(origen, cuerpo.trim());
     }
 }
