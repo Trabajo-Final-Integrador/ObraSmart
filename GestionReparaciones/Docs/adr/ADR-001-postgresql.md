@@ -1,0 +1,1 @@
+ADR-001: Se usa PostgreSQL como motor de base de datos para GestionReparaciones.
