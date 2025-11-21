@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/equipos")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+
 public class EquipoController {
 
     private final EquipoService equipoService;

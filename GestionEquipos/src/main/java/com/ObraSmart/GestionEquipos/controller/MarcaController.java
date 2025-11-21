@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/marca")
 //@RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+
 public class MarcaController {
 
     private final MarcaService marcaService;

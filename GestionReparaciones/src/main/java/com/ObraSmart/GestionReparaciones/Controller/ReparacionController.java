@@ -15,9 +15,9 @@ import java.util.List;
  * Controlador REST para gestionar reparaciones de equipos de obra.
  */
 @RestController
-@RequestMapping("/api/reparaciones")
+@RequestMapping("/reparaciones")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+
 public class ReparacionController {
 
     private final ReparacionService reparacionService;

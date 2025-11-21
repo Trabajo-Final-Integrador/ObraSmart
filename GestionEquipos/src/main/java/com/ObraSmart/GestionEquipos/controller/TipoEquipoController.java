@@ -13,9 +13,9 @@ import java.util.List;
  * Incluye CRUD básico y normalización automática del prefijo.
  */
 @RestController
-@RequestMapping("/api/tipos-equipo")
+@RequestMapping("/tipo-equipo")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+
 public class TipoEquipoController {
 
     private final TipoEquipoService tipoEquipoService;
