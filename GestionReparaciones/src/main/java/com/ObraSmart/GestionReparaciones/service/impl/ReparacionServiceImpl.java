@@ -1,12 +1,13 @@
 package com.ObraSmart.GestionReparaciones.service.impl;
 
-
 import com.ObraSmart.GestionReparaciones.client.EquipoClient;
 import com.ObraSmart.GestionReparaciones.dto.EquipoDTO;
 import com.ObraSmart.GestionReparaciones.dto.ReparacionEstadoHistorialDto;
 import com.ObraSmart.GestionReparaciones.dto.ReparacionRequestDto;
 import com.ObraSmart.GestionReparaciones.dto.ReparacionResponseDto;
-import com.ObraSmart.GestionReparaciones.entity.*;
+import com.ObraSmart.GestionReparaciones.entity.EstadoReparacion;
+import com.ObraSmart.GestionReparaciones.entity.Reparacion;
+import com.ObraSmart.GestionReparaciones.entity.ReparacionEstadoHistorial;
 import com.ObraSmart.GestionReparaciones.exception.ResourceNotFoundException;
 import com.ObraSmart.GestionReparaciones.repository.ReparacionEstadoHistorialRepository;
 import com.ObraSmart.GestionReparaciones.repository.ReparacionRepository;
@@ -51,32 +52,30 @@ public class ReparacionServiceImpl implements ReparacionService {
         reparacion.setResponsableId(request.getResponsableId());
         reparacion.setResponsableNombreCompleto(request.getResponsableNombreCompleto());
 
-        // geolocalización
+        // geolocalizacion
         reparacion.setDireccion(request.getDireccion());
         if (request.getLat() != null && request.getLon() != null) {
             reparacion.setLat(request.getLat());
             reparacion.setLon(request.getLon());
         } else if (request.getDireccion() != null && !request.getDireccion().isBlank()) {
-            double[] coord = geocodingService.geocodeAddress(request.getDireccion()); // ← CORREGIDO
+            double[] coord = geocodingService.geocodeAddress(request.getDireccion());
             if (coord != null) {
                 reparacion.setLat(coord[0]);
                 reparacion.setLon(coord[1]);
             }
         }
 
-
         reparacion.setFechaCreacion(LocalDateTime.now());
         reparacion.setFechaUltimaActualizacion(LocalDateTime.now());
         reparacion.setUsuarioUltimaActualizacionId(usuarioAccionId);
-
 
         Reparacion guardada = reparacionRepository.save(reparacion);
 
         // 2) Registrar historial de estado
         guardarHistorialEstado(null, estadoInicial, guardada, usuarioAccionId,
-                "Reparación creada");
+                "Reparacion creada");
 
-        // 3) Actualizar estado del equipo (simple: si la reparación se crea → EN_MANTENIMIENTO)
+        // 3) Actualizar estado del equipo (simple: si la reparacion se crea -> EN_MANTENIMIENTO)
         if (estadoInicial == EstadoReparacion.CREADA || estadoInicial == EstadoReparacion.EN_PROCESO) {
             equipoClient.actualizarEstadoEquipo(guardada.getEquipoId(), "EN_MANTENIMIENTO");
         }
@@ -90,9 +89,13 @@ public class ReparacionServiceImpl implements ReparacionService {
     public ReparacionResponseDto actualizarReparacion(Long id, ReparacionRequestDto request, Long usuarioAccionId) {
 
         Reparacion reparacion = reparacionRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Reparación no encontrada con id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Reparacion no encontrada con id " + id));
 
-        // Validar que el equipo existe si se está cambiando
+        EstadoReparacion estadoAnterior = reparacion.getEstadoReparacion();
+        EstadoReparacion nuevoEstado = request.getEstadoReparacion();
+        boolean cambioEstado = nuevoEstado != null && !nuevoEstado.equals(estadoAnterior);
+
+        // Validar que el equipo existe si se esta cambiando
         if (!reparacion.getEquipoId().equals(request.getEquipoId())) {
             equipoClient.validarEquipoExiste(request.getEquipoId());
             reparacion.setEquipoId(request.getEquipoId());
@@ -105,7 +108,7 @@ public class ReparacionServiceImpl implements ReparacionService {
         reparacion.setResponsableNombreCompleto(request.getResponsableNombreCompleto());
         reparacion.setDireccion(request.getDireccion());
 
-        // Actualizar geolocalización si es necesario
+        // Actualizar geolocalizacion si es necesario
         if (request.getLat() != null && request.getLon() != null) {
             reparacion.setLat(request.getLat());
             reparacion.setLon(request.getLon());
@@ -117,10 +120,35 @@ public class ReparacionServiceImpl implements ReparacionService {
             }
         }
 
+        if (cambioEstado) {
+            reparacion.setEstadoReparacion(nuevoEstado);
+
+            if (estadoAnterior == EstadoReparacion.CREADA
+                    && nuevoEstado == EstadoReparacion.EN_PROCESO
+                    && reparacion.getFechaInicio() == null) {
+                reparacion.setFechaInicio(LocalDateTime.now());
+            }
+
+            if (nuevoEstado == EstadoReparacion.FINALIZADA || nuevoEstado == EstadoReparacion.CANCELADA) {
+                reparacion.setFechaFin(LocalDateTime.now());
+            }
+        }
+
         reparacion.setFechaUltimaActualizacion(LocalDateTime.now());
         reparacion.setUsuarioUltimaActualizacionId(usuarioAccionId);
 
         Reparacion actualizada = reparacionRepository.save(reparacion);
+
+        if (cambioEstado) {
+            guardarHistorialEstado(estadoAnterior, nuevoEstado, actualizada, usuarioAccionId,
+                    "Estado actualizado desde edicion");
+
+            if (nuevoEstado == EstadoReparacion.FINALIZADA || nuevoEstado == EstadoReparacion.CANCELADA) {
+                equipoClient.actualizarEstadoEquipo(actualizada.getEquipoId(), "DISPONIBLE");
+            } else if (nuevoEstado == EstadoReparacion.CREADA || nuevoEstado == EstadoReparacion.EN_PROCESO) {
+                equipoClient.actualizarEstadoEquipo(actualizada.getEquipoId(), "EN_MANTENIMIENTO");
+            }
+        }
 
         return mapToResponseDto(actualizada);
     }
@@ -130,7 +158,7 @@ public class ReparacionServiceImpl implements ReparacionService {
     @Transactional(readOnly = true)
     public ReparacionResponseDto obtenerPorId(Long id) {
         Reparacion rep = reparacionRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Reparación no encontrada con id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Reparacion no encontrada con id " + id));
 
         return mapToResponseDto(rep);
     }
@@ -162,7 +190,7 @@ public class ReparacionServiceImpl implements ReparacionService {
                                                String comentario) {
 
         Reparacion rep = reparacionRepository.findById(reparacionId)
-                .orElseThrow(() -> new ResourceNotFoundException("Reparación no encontrada con id " + reparacionId));
+                .orElseThrow(() -> new ResourceNotFoundException("Reparacion no encontrada con id " + reparacionId));
 
         EstadoReparacion estadoAnterior = rep.getEstadoReparacion();
         rep.setEstadoReparacion(nuevoEstado);
@@ -230,9 +258,7 @@ public class ReparacionServiceImpl implements ReparacionService {
         dto.setFechaUltimaActualizacion(rep.getFechaUltimaActualizacion());
         dto.setUsuarioUltimaActualizacionId(rep.getUsuarioUltimaActualizacionId());
 
-        // ==============================
-        //  🔥 OBTENER DATOS DEL EQUIPO
-        // ==============================
+        // Datos del equipo
         try {
             EquipoDTO equipo = equipoClient.obtenerEquipo(rep.getEquipoId());
 
@@ -244,9 +270,7 @@ public class ReparacionServiceImpl implements ReparacionService {
             dto.setEquipoCodigoInterno("-");
         }
 
-        // ==============================
-        //  HISTORIAL DE ESTADOS
-        // ==============================
+        // Historial de estados
         var historial = historialRepository
                 .findByReparacion_IdOrderByFechaCambioAsc(rep.getId())
                 .stream()
