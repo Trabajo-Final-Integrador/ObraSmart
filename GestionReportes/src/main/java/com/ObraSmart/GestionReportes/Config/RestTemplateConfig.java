@@ -1,4 +1,4 @@
-package com.ObraSmart.GestionReportes.Config;
+package com.ObraSmart.GestionReportes.config;
 
 
 import org.springframework.boot.web.client.RestTemplateBuilder;

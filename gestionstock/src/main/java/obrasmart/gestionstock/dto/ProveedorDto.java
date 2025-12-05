@@ -33,9 +33,9 @@ public class ProveedorDto {
 
     // Contacto
     private String telefono;
-    private String telefonoAlternativo;
+
     private String email;
-    private String personaContacto;
+
     private String horarioAtencion;
 
     // Dirección

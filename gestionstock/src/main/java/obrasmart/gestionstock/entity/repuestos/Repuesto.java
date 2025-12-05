@@ -29,4 +29,7 @@ public class Repuesto {
 
     @Column(nullable=false)
     private Integer stockMinimo = 0;
+
+    @Column(nullable=false)
+    private String unidadMedida;
 }

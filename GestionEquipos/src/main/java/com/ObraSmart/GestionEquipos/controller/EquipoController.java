@@ -1,6 +1,7 @@
 package com.ObraSmart.GestionEquipos.controller;
 
 import com.ObraSmart.GestionEquipos.dtos.EquipoDTO;
+import com.ObraSmart.GestionEquipos.exception.NotFoundException;
 import com.ObraSmart.GestionEquipos.service.EquipoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -62,4 +63,16 @@ public class EquipoController {
         equipoService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/estado")
+    public ResponseEntity<Void> actualizarEstado(
+            @PathVariable Long id,
+            @RequestParam String estado) {
+
+        equipoService.actualizarEstado(id, estado);
+        return ResponseEntity.ok().build();
+    }
+
+
+
 }

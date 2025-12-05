@@ -26,6 +26,7 @@ public class RepuestoServiceImpl implements RepuestoService {
                 .idCategoria(r.getCategoria().getId())
                 .stock(r.getStock())
                 .stockMinimo(r.getStockMinimo())
+                .unidadMedida(r.getUnidadMedida())
                 .build();
     }
     private void fill(Repuesto r, RepuestoDto d){
@@ -35,6 +36,7 @@ public class RepuestoServiceImpl implements RepuestoService {
         r.setCategoria(c);
         r.setStock(d.getStock());
         r.setStockMinimo(d.getStockMinimo());
+        r.setUnidadMedida(d.getUnidadMedida());
     }
 
     @Override

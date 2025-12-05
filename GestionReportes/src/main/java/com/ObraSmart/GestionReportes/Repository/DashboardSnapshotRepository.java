@@ -1,8 +1,8 @@
-package com.ObraSmart.GestionReportes.Repository;
+package com.ObraSmart.GestionReportes.repository;
 
 
 
-import com.ObraSmart.GestionReportes.Entity.DashboardSnapshot;
+import com.ObraSmart.GestionReportes.entity.DashboardSnapshot;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

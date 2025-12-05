@@ -1,0 +1,249 @@
+<!-- <div class="reportes-container">
+  
+  <div class="header">
+    <h1>Vista General</h1>
+    <p>Última actualización: {{ data?.fechaGeneracion | date:'shortTime' }}</p>
+
+    <button (click)="handleRefresh()" [disabled]="isLoading">
+      🔄 Actualizar
+    </button>
+  </div>
+
+  
+  <div class="banner"
+       [ngClass]="{
+         'alto': data?.estadoGeneral?.nivelRiesgo === 'ALTO',
+         'medio': data?.estadoGeneral?.nivelRiesgo === 'MEDIO',
+         'bajo': data?.estadoGeneral?.nivelRiesgo === 'BAJO'
+       }">
+
+    <h3>Nivel de Riesgo: {{ data?.estadoGeneral?.nivelRiesgo }}</h3>
+    <p>{{ data?.estadoGeneral?.mensaje }}</p>
+  </div>
+
+  
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <h4>Total Equipos</h4>
+      <h2>{{ data?.equipos?.totalEquipos }}</h2>
+      <p>{{ data?.estadoGeneral?.equiposCriticos }} críticos</p>
+    </div>
+
+    <div class="kpi-card">
+      <h4>Reparaciones Activas</h4>
+      <h2>{{ data?.reparaciones?.reparacionesPorEstado?.EN_PROCESO }}</h2>
+      <p>+{{ data?.reparaciones?.reparacionesPorEstado?.PENDIENTE }} pendientes</p>
+    </div>
+
+    <div class="kpi-card">
+      <h4>Stock Crítico</h4>
+      <h2>{{ data?.stock?.repuestosBajoMinimo }}</h2>
+      <p>Ítems por debajo del mínimo</p>
+    </div>
+
+    <div class="kpi-card">
+      <h4>Tiempo Promedio</h4>
+      <h2>{{ data?.reparaciones?.tiempoPromedioHoras }}h</h2>
+      <p>-2.5h vs mes anterior</p>
+    </div>
+  </div>
+
+  <h3>Equipos críticos</h3>
+  <div class="listado">
+    <div *ngFor="let e of data?.equipos?.equiposCriticos" class="item">
+      <strong>{{ e.nombreEquipo }}</strong>
+      <span>{{ e.cantidadReparaciones }} fallas</span>
+    </div>
+  </div>
+
+  <h3>Stock crítico</h3>
+  <div class="listado">
+    <div *ngFor="let s of data?.stock?.repuestosCriticos" class="item">
+      <strong>{{ s.nombre }}</strong>
+      <span>{{ s.stockActual }} / {{ s.stockMinimo }}</span>
+    </div>
+  </div>
+
+</div> -->
+
+<div *ngIf="isLoading" style="padding: 40px; text-align: center; color: #666;">
+  <i class="bi bi-arrow-repeat" style="font-size: 2rem; animation: spin 1s linear infinite;"></i>
+  <p>Cargando reportes...</p>
+</div>
+
+<div class="dashboard" *ngIf="!isLoading">
+
+  <!-- HEADER SUPERIOR -->
+  <div class="top-header">
+    <div>
+      <h1 class="title">Centro de Reportes</h1>
+      <p class="subtitle">
+        Estado en tiempo real de la flota y operaciones.
+        Última actualización:
+        <strong>{{ data?.fechaGeneracion | date:'shortTime' }}</strong>
+      </p>
+    </div>
+
+    <div class="actions">
+      <button class="btn-home" routerLink="/principal" title="Volver al inicio">
+        <i class="bi bi-house-door"></i>
+      </button>
+
+      <button class="btn-refresh" (click)="handleRefresh()" [disabled]="isLoading">
+        <i class="bi bi-arrow-repeat"></i>
+      </button>
+
+      <button class="btn-export">
+        <i class="bi bi-download"></i>
+        Exportar
+      </button>
+    </div>
+  </div>
+
+  <!-- BANNER ESTADO GENERAL -->
+  <div class="banner"
+       [class.alto]="data?.estadoGeneral?.nivelRiesgo === 'ALTO'"
+       [class.medio]="data?.estadoGeneral?.nivelRiesgo === 'MEDIO'"
+       [class.bajo]="data?.estadoGeneral?.nivelRiesgo === 'BAJO'">
+
+    <div class="banner-icon">
+      <i class="bi bi-exclamation-triangle"></i>
+    </div>
+
+    <div class="banner-info">
+      <h3>
+        Nivel de Riesgo:
+        {{ data?.estadoGeneral?.nivelRiesgo }}
+      </h3>
+      <p>{{ data?.estadoGeneral?.mensaje }}</p>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="kpi-wrapper">
+    
+    <!-- Total Equipos -->
+    <div class="kpi-card">
+      <div class="kpi-icon"><i class="bi bi-truck"></i></div>
+      <h4>Total Equipos</h4>
+      <div class="kpi-value">{{ data?.equipos?.totalEquipos }}</div>
+      <p>
+        <span class="critical">{{ data?.estadoGeneral?.equiposCriticos }} críticos</span>
+        requieren atención
+      </p>
+    </div>
+
+    <!-- Reparaciones activas -->
+    <div class="kpi-card">
+      <div class="kpi-icon"><i class="bi bi-tools"></i></div>
+      <h4>Reparaciones Activas</h4>
+      <div class="kpi-value">
+        {{ data?.estadoGeneral?.reparacionesAbiertas || 0 }}
+      </div>
+      <p>
+        + {{ data?.reparaciones?.reparacionesPorEstado?.['PENDIENTE'] || 0 }}
+        pendientes de inicio
+      </p>
+    </div>
+
+    <!-- Stock crítico -->
+    <div class="kpi-card">
+      <div class="kpi-icon"><i class="bi bi-box-seam"></i></div>
+      <h4>Alertas de Stock</h4>
+      <div class="kpi-value">{{ data?.stock?.repuestosBajoMinimo }}</div>
+      <p>Ítems por debajo del mínimo</p>
+    </div>
+
+    <!-- Tiempo medio reparación -->
+    <div class="kpi-card">
+      <div class="kpi-icon"><i class="bi bi-clock"></i></div>
+      <h4>Tiempo Medio Reparación</h4>
+      <div class="kpi-value">{{ data?.reparaciones?.tiempoPromedioHoras }}h</div>
+      <p class="success">-2.5h vs mes anterior</p>
+    </div>
+  </div>
+
+  <!-- GRÁFICOS Y LISTAS -->
+  <div class="charts-grid">
+
+      <!-- Gráfico tendencia de reparaciones -->
+      <div class="chart-card">
+        <h4>Tendencia de Reparaciones</h4>
+        <p class="chart-desc">Solicitudes de servicio en los últimos 6 meses</p>
+
+        <canvas baseChart
+                [data]="reparacionesChartData"
+                [options]="reparacionesChartOptions"
+                [type]="'line'">
+        </canvas>
+      </div>
+
+      <!-- Donut distribución flota -->
+      <div class="chart-card">
+        <h4>Distribución de Flota</h4>
+        <p class="chart-desc">Equipos por tipo de maquinaria</p>
+
+        <canvas baseChart
+                [data]="donutData"
+                [options]="donutOptions"
+                [type]="'doughnut'">
+        </canvas>
+
+        <!-- LEYENDA -->
+        <div class="legend">
+          <div *ngFor="let item of donutLegend">
+            <span class="dot" [style.background]="item.color"></span>
+            {{ item.label }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LISTAS -->
+    <div class="lists-grid">
+
+      <!-- Equipos críticos -->
+      <div class="list-card">
+        <h4>Equipos Críticos</h4>
+        <p class="chart-desc">Unidades con mayor incidencia de fallas recientes</p>
+
+        <div *ngFor="let e of data?.equipos?.equiposCriticos" class="list-item">
+          <div class="list-left">
+            <div class="list-icon danger"><i class="bi bi-exclamation-circle"></i></div>
+            <div>
+              <div class="item-title">{{ e.nombreEquipo }}</div>
+              <div class="item-sub">ID: {{ e.equipoId }}</div>
+            </div>
+          </div>
+
+          <div class="list-right">
+            <div class="item-value">{{ e.cantidadReparaciones }} fallas</div>
+            <div class="item-sub">Último mes</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stock crítico -->
+      <div class="list-card">
+        <h4>Stock Crítico</h4>
+        <p class="chart-desc">Repuestos por debajo del mínimo</p>
+
+        <div *ngFor="let s of data?.stock?.repuestosCriticos" class="list-item">
+          <div class="list-left">
+            <div class="list-icon warning"><i class="bi bi-box"></i></div>
+            <div>
+              <div class="item-title">{{ s.nombre }}</div>
+              <div class="item-sub">
+                {{ s.categoria }} • <span class="warning-text">{{ s.stockActual }}/{{ s.stockMinimo }} min</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-small">Pedir</button>
+        </div>
+
+      </div>
+    </div>
+
+</div>
+

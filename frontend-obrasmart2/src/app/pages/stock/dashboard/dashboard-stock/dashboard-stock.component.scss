@@ -1,0 +1,85 @@
+.bg-dark {
+  background: #7e7d7d;
+}
+.text-light {
+  color: #eee;
+}
+
+.titulo {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.subtitulo {
+  color: #aaa;
+  margin-bottom: 25px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.card {
+  background: #1a1a1a;
+  border: none;
+  color: #fff;
+}
+
+.card-title {
+  color: #bbb;
+}
+
+.value {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.panel {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.alerta-item {
+  background: #2b0000;
+  padding: 12px;
+  border-left: 4px solid red;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 10px;
+}
+/* Tema Claro */
+.light-theme {
+  --bg: #ffffff;
+  --card-bg: #f7f7f7;
+  --text: #1a1a1a;
+  --text-muted: #666;
+  --border: #e0e0e0;
+}
+
+/* Tema Oscuro */
+.dark-theme {
+  --bg: #0f0f0f;
+  --card-bg: #1a1a1a;
+  --text: #ffffff;
+  --text-muted: #aaaaaa;
+  --border: #333333;
+}
+
+/* Aplicar variables globales */
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.card {
+  background: var(--card-bg);
+  border-color: var(--border);
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}

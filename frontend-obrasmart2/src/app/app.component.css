@@ -1,0 +1,15 @@
+/* 🔥 Fuerza absoluta del Toast */
+.swal2-container {
+  z-index: 999999999 !important;
+  pointer-events: none !important;
+}
+
+.swal2-popup {
+  pointer-events: auto !important;
+}
+
+/* 📍 Padding para que NO quede detrás del modal */
+.swal2-top-end {
+  top: 1.5rem !important;
+  right: 1.5rem !important;
+}

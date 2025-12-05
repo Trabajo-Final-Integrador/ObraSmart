@@ -1,0 +1,313 @@
+<div class="layout-container">
+  <!-- 🔹 NAVBAR SUPERIOR -->
+  <header class="top-navbar">
+    <button class="menu-btn" (click)="toggleSidebar()" title="Menú principal">
+      <i class="bi bi-list"></i>
+    </button>
+    <h1 class="navbar-title">Órdenes de Compra</h1>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" title="Regresar al inicio">
+        <i class="bi bi-house-door"></i>
+      </button>
+      <app-helper tooltip="Gestiona las órdenes de compra a proveedores."></app-helper>
+    </div>
+  </header>
+
+  <!-- 🔹 SIDEBAR LATERAL (MENÚ PRINCIPAL COMPLETO) -->
+  <aside class="sidebar" [class.open]="menuAbierto">
+    <ul class="nav flex-column">
+      <!-- Usuarios -->
+      <li class="nav-item">
+        <a
+          class="nav-link d-flex justify-content-between align-items-center"
+          href="#"
+          (click)="toggleUsuarios($event)"
+          ><i class="bi bi-people me-2"></i>
+          Usuarios
+          <i
+            class="bi bi-chevron-right toggle-icon"
+            [class.open]="submenuUsuariosOpen"
+          ></i>
+        </a>
+
+        <ul *ngIf="submenuUsuariosOpen" class="submenu">
+          <li>
+            <a class="dropdown-item" routerLink="/alta-usuario"
+              >Registrar Usuario</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="/listado-usuario"
+              >Listado de Usuarios</a
+            >
+          </li>
+        </ul>
+      </li>
+
+      <!-- Reparaciones -->
+      <li class="nav-item">
+        <a
+          class="nav-link d-flex justify-content-between align-items-center"
+          href="#"
+          (click)="toggleReparacion($event)"
+        >
+          <span class="d-flex align-items-center">
+          <i class="bi bi-tools me-2"></i> Reparaciones
+          </span>
+          <i
+            class="bi bi-chevron-right toggle-icon"
+            [class.open]="submenuReparacionOpen"
+          ></i>
+        </a>
+
+        <ul *ngIf="submenuReparacionOpen" class="submenu">
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="/reparaciones/dashboard"
+              routerLinkActive="active"
+              > <i class="bi bi-columns-gap me-2"></i>
+                Panel</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/reparaciones/listado"
+              ><i class="bi bi-tools me-2"></i>Reparaciones</a
+            >
+          </li>
+        </ul>
+      </li>
+
+      <!-- Equipos -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/equipos" routerLinkActive="active"
+          ><i class="bi bi-truck-flatbed"></i> Equipos</a
+        >
+      </li>
+
+      <!-- Stock -->
+      <li class="nav-item">
+        <a
+          class="nav-link d-flex justify-content-between align-items-center"
+          href="#"
+          (click)="toggleStock($event)"
+        >
+          <span class="d-flex align-items-center">
+            <i class="bi bi-box-seam me-2"></i> Stock
+          </span>
+          <i
+            class="bi bi-chevron-right toggle-icon"
+            [class.open]="submenuStockOpen"
+          ></i>
+        </a>
+
+        <ul *ngIf="submenuStockOpen" class="submenu">
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="/stock/dashboard"
+              routerLinkActive="active"
+              ><i class="bi bi-columns-gap"></i> Panel</a
+            >
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="/stock/repuestos"
+              routerLinkActive="active"
+              ><i class="bi bi-box"></i> Repuestos</a
+            >
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="/stock/proveedores"
+              routerLinkActive="active"
+              ><i class="bi bi-truck"></i> Proveedores</a
+            >
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="/stock/movimientos"
+              routerLinkActive="active"
+              ><i class="bi bi-graph-up-arrow"></i> Movimientos</a
+            >
+          </li>
+          <li>
+            <a
+              class="dropdown-item active"
+              routerLink="/stock/ordenes"
+              ><i class="bi bi-cart2"></i> Órdenes</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/reportes"
+          ><i class="bi bi-file-bar-graph me-2"></i> Reportes</a
+        >
+      </li>
+    </ul>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="content">
+      <!-- TOOLBAR -->
+      <div class="toolbar">
+        <div class="toolbar-info">
+          <i class="bi bi-cart2 me-2"></i>
+          <span>Gestiona las órdenes de compra a proveedores</span>
+        </div>
+
+        <div class="toolbar-actions">
+          <button class="btn-nuevo" (click)="nuevaOrden()">
+            <i class="bi bi-plus-lg"></i>
+            Nueva Orden
+          </button>
+        </div>
+      </div>
+
+      <!-- TABLA -->
+      <div class="table-wrapper">
+        <div *ngIf="loading" class="loading-container">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p>Cargando órdenes...</p>
+        </div>
+
+        <div *ngIf="!loading" class="table-scroll">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th><i class="bi bi-hash me-2"></i>N° Orden</th>
+                <th><i class="bi bi-building me-2"></i>Proveedor</th>
+                <th><i class="bi bi-calendar-event me-2"></i>Fecha</th>
+                <th class="text-center"><i class="bi bi-box-seam me-2"></i>Items</th>
+                <th class="text-end"><i class="bi bi-currency-dollar me-2"></i>Total</th>
+                <th class="text-center"><i class="bi bi-toggles me-2"></i>Estado</th>
+                <th class="text-center"><i class="bi bi-gear me-2"></i>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let orden of ordenesPaginadas">
+                <td>
+                  <div class="orden-numero">
+                    <i class="bi bi-receipt"></i>
+                    <strong>#{{ orden.id | number : "5.0-0" }}</strong>
+                  </div>
+                </td>
+                <td>{{ orden.proveedorNombre }}</td>
+                <td>{{ formatFecha(orden.fecha) }}</td>
+                <td class="text-center">{{ orden.totalItems }}</td>
+                <td class="text-end total-cell">${{ formatMoneda(orden.total) }}</td>
+                <td class="text-center">
+                  <span
+                    class="badge"
+                    [ngClass]="{
+                      'badge-pendiente': orden.estado === 'PENDIENTE',
+                      'badge-aprobada': orden.estado === 'APROBADA',
+                      'badge-recibida': orden.estado === 'RECIBIDA',
+                      'badge-cancelada': orden.estado === 'CANCELADA'
+                    }"
+                  >
+                    <i
+                      class="bi"
+                      [ngClass]="{
+                        'bi-clock-fill': orden.estado === 'PENDIENTE',
+                        'bi-check-circle-fill': orden.estado === 'APROBADA',
+                        'bi-box-arrow-in-down-fill': orden.estado === 'RECIBIDA',
+                        'bi-x-circle-fill': orden.estado === 'CANCELADA'
+                      }"
+                    ></i>
+                    {{ orden.estado }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <div class="action-buttons">
+                    <button
+                      class="btn-action btn-view"
+                      (click)="verDetalle(orden.id)"
+                      title="Ver detalle"
+                    >
+                      <i class="bi bi-eye"></i>
+                    </button>
+
+                    <button
+                      *ngIf="orden.estado === 'PENDIENTE'"
+                      class="btn-action btn-approve"
+                      (click)="aprobar(orden.id)"
+                      title="Aprobar"
+                    >
+                      <i class="bi bi-check2-circle"></i>
+                    </button>
+
+                    <button
+                      *ngIf="orden.estado === 'APROBADA'"
+                      class="btn-action btn-receive"
+                      (click)="recibir(orden.id)"
+                      title="Recibir"
+                    >
+                      <i class="bi bi-box-arrow-in-down"></i>
+                    </button>
+
+                    <button
+                      *ngIf="orden.estado === 'PENDIENTE' || orden.estado === 'APROBADA'"
+                      class="btn-action btn-cancel"
+                      (click)="cancelar(orden.id)"
+                      title="Cancelar"
+                    >
+                      <i class="bi bi-x-circle"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr *ngIf="ordenes.length === 0">
+                <td colspan="7" class="no-data">
+                  <i class="bi bi-exclamation-circle"></i>
+                  <p>No se encontraron órdenes registradas</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 🔸 Paginación -->
+      <div class="pagination-container" *ngIf="ordenes.length > 0">
+        <button (click)="primeraPagina()" [disabled]="paginaActual === 1">
+          &laquo;
+        </button>
+        <button (click)="paginaAnterior()" [disabled]="paginaActual === 1">
+          &lsaquo;
+        </button>
+
+        <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+
+        <button
+          (click)="paginaSiguiente()"
+          [disabled]="paginaActual === totalPaginas"
+        >
+          &rsaquo;
+        </button>
+        <button
+          (click)="ultimaPagina()"
+          [disabled]="paginaActual === totalPaginas"
+        >
+          &raquo;
+        </button>
+
+        <select [(ngModel)]="ordenesPorPagina" (change)="paginaActual = 1">
+          <option *ngFor="let n of [5, 10, 20, 50]" [value]="n">{{ n }}</option>
+        </select>
+      </div>
+    </main>
+
+  <!-- 🔹 FOOTER -->
+  <footer class="footer">
+    <span>Términos</span> | <span>Privacidad</span> | <span>Soporte</span>
+    <span class="version">v1.0.0</span>
+  </footer>
+</div>

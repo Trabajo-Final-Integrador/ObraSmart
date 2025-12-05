@@ -1,4 +1,4 @@
-package com.ObraSmart.GestionReportes.Entity;
+package com.ObraSmart.GestionReportes.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

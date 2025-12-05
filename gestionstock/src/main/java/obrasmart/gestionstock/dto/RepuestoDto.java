@@ -18,4 +18,6 @@ public class RepuestoDto {
 
     @NotNull private Integer stock;
     @NotNull private Integer stockMinimo;
+
+    @NotBlank private String unidadMedida;
 }

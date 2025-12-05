@@ -11,4 +11,8 @@ public interface EquipoService {
     EquipoDTO create(EquipoDTO dto);
     EquipoDTO update(Long id, EquipoDTO dto);
     void delete(Long id);
+
+
+    void actualizarEstado(Long id, String nuevoEstado);
+
 }

@@ -1,1 +1,0 @@
-Arquitectura de GestionReparaciones: capas, integraciones y configuración.

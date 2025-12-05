@@ -48,21 +48,46 @@ public class ProveedorServiceImpl implements ProveedorService {
 
     @Override
     public ProveedorDto actualizar(Long id, ProveedorUpdateDTO dto) {
+        log.info("🔄 Actualizando proveedor ID {}", id);
+
         Proveedor proveedor = repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Proveedor no encontrado con ID: " + id));
 
-        // Validar CUIT si se está actualizando
+        // Validar CUIT si cambia
         if (dto.getCuit() != null && !dto.getCuit().equals(proveedor.getCuit())) {
             if (repo.existsByCuit(dto.getCuit())) {
                 throw new IllegalArgumentException("Ya existe un proveedor con el CUIT: " + dto.getCuit());
             }
         }
 
-        mapper.updateEntityFromDTO(dto, proveedor);
-        Proveedor updatedProveedor = repo.save(proveedor);
+        // ✔ Evitar que se pisen campos NOT NULL con null o vacío
+        validarNoBorrarCamposObligatorios(dto, proveedor);
 
+        mapper.updateEntityFromDTO(dto, proveedor);
+
+        Proveedor updatedProveedor = repo.save(proveedor);
+        log.info("✅ Proveedor actualizado correctamente: {}", updatedProveedor.getId());
 
         return mapper.toDTO(updatedProveedor);
+    }
+
+    private void validarNoBorrarCamposObligatorios(ProveedorUpdateDTO dto, Proveedor proveedor) {
+
+        if (dto.getTelefono() != null && dto.getTelefono().isBlank()) {
+            throw new IllegalArgumentException("El teléfono no puede quedar vacío.");
+        }
+        if (dto.getDireccion() != null && dto.getDireccion().isBlank()) {
+            throw new IllegalArgumentException("La dirección no puede quedar vacía.");
+        }
+        if (dto.getCiudad() != null && dto.getCiudad().isBlank()) {
+            throw new IllegalArgumentException("La ciudad no puede quedar vacía.");
+        }
+        if (dto.getProvincia() != null && dto.getProvincia().isBlank()) {
+            throw new IllegalArgumentException("La provincia no puede quedar vacía.");
+        }
+        if (dto.getCondicionIVA() == null && proveedor.getCondicionIVA() == null) {
+            throw new IllegalArgumentException("La condición IVA es obligatoria.");
+        }
     }
 
     @Override

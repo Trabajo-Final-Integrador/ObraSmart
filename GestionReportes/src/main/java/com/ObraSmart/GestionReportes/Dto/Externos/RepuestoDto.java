@@ -1,4 +1,4 @@
-package com.ObraSmart.GestionReportes.Dto.Externos;
+package com.ObraSmart.GestionReportes.dto.externos;
 
 public record RepuestoDto(
         Long id,

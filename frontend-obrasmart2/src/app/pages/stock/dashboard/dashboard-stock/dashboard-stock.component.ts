@@ -1,0 +1,86 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { RepuestoService } from 'src/app/service/repuesto.service';
+import { MovimientosService } from 'src/app/service/movimiento-stock.service';
+import { OrdenCompraService } from 'src/app/service/orden-compra.service';
+import { ThemeService } from 'src/app/service/theme.service';
+
+@Component({
+  selector: 'app-dashboard-stock',
+  templateUrl: './dashboard-stock.component.html',
+  styleUrls: ['./dashboard-stock.component.scss']
+})
+export class DashboardStockComponent implements OnInit {
+
+  theme: 'light' | 'dark' = 'light';
+
+  totalRepuestos = 0;
+  stockBajo = 0;
+  movimientosHoy = 0;
+  ordenesPendientes = 0;
+
+  alertasStock: any[] = [];
+
+  loading = true;
+
+  constructor(
+    private repSrv: RepuestoService,
+    private movSrv: MovimientosService,
+    private ordSrv: OrdenCompraService,
+    private router: Router,
+    private themeService: ThemeService
+  ) {}
+
+  ngOnInit(): void {
+    this.cargarDashboard();
+  }
+
+  cargarDashboard() {
+    this.loading = true;
+
+    // Total repuestos
+    this.repSrv.listar().subscribe(data => {
+      this.totalRepuestos = data.length;
+      this.stockBajo = data.filter(r => r.stock <= r.stockMinimo).length;
+    });
+
+    // Movimientos hoy
+    this.movSrv.listar().subscribe(mov => {
+      const hoy = new Date().toISOString().split('T')[0];
+      this.movimientosHoy = mov.filter(x => x.fecha.startsWith(hoy)).length;
+    });
+
+    // Órdenes pendientes
+    this.ordSrv.listar().subscribe(ords => {
+      this.ordenesPendientes = ords.filter(x => x.estado === 'PENDIENTE').length;
+    });
+
+    // Alertas de stock
+    this.repSrv.listar().subscribe(reps => {
+      this.alertasStock = reps
+        .filter(r => r.stock <= r.stockMinimo)
+        .map(r => ({
+          nombre: `${r.nombre} #${r.codigo}`,
+          stock: r.stock,
+          minimo: r.stockMinimo
+        }));
+
+      this.loading = false;
+    });
+  }
+
+  ir(path: string) {
+    this.router.navigate([path]);
+  }
+
+   toggleTheme() {
+    this.themeService.toggleTheme();
+    this.theme = this.themeService.getTheme();
+  }
+
+  cambiarTema() {
+    this.themeService.toggleTheme();
+    this.theme = this.themeService.getTheme();
+  }
+
+}

@@ -1,0 +1,106 @@
+<div *ngIf="tabActiva === 'contacto'">
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">
+        <i class="bi bi-telephone me-2"></i>Teléfono Principal <span class="text-danger">*</span>
+      </label>
+      <input
+        type="tel"
+        [(ngModel)]="nuevoProveedor.telefono"
+        class="form-control"
+        placeholder="Ej: +54 9 351 123-4567"
+        required
+      />
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">
+        <i class="bi bi-envelope me-2"></i>Email <span class="text-danger">*</span>
+      </label>
+      <input
+        type="email"
+        [(ngModel)]="nuevoProveedor.email"
+        class="form-control"
+        placeholder="Ej: contacto@proveedor.com"
+        required
+      />
+    </div>
+
+    <div class="col-12">
+      <label class="form-label">
+        <i class="bi bi-clock me-2"></i>Horario de Atención
+      </label>
+      <input
+        type="text"
+        [(ngModel)]="nuevoProveedor.horarioAtencion"
+        placeholder="Ej: Lunes a Viernes 8:00 a 18:00"
+        class="form-control"
+      />
+    </div>
+
+    <div class="col-12">
+      <label class="form-label">
+        <i class="bi bi-geo-alt me-2"></i>Dirección <span class="text-danger">*</span>
+      </label>
+      <input
+        type="text"
+        [(ngModel)]="nuevoProveedor.direccion"
+        class="form-control"
+        placeholder="Ej: Av. Colón 1234"
+        required
+      />
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">
+        <i class="bi bi-building me-2"></i>Ciudad <span class="text-danger">*</span>
+      </label>
+      <input
+        type="text"
+        [(ngModel)]="nuevoProveedor.ciudad"
+        class="form-control"
+        placeholder="Ej: Córdoba"
+        required
+      />
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">
+        <i class="bi bi-map me-2"></i>Provincia <span class="text-danger">*</span>
+      </label>
+      <select
+        [(ngModel)]="nuevoProveedor.provincia"
+        class="form-select"
+        required
+      >
+        <option value="">Seleccionar...</option>
+        <option *ngFor="let prov of provinciasArgentinas" [value]="prov">
+          {{ prov }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">
+        <i class="bi bi-mailbox me-2"></i>Código Postal
+      </label>
+      <input
+        type="text"
+        [(ngModel)]="nuevoProveedor.codigoPostal"
+        class="form-control"
+        placeholder="Ej: 5000"
+      />
+    </div>
+  </div>
+
+  <div class="form-footer-actions">
+    <button class="btn-anterior" (click)="volver()">
+      <i class="bi bi-arrow-left me-2"></i>
+      Anterior
+    </button>
+    <button class="btn-siguiente" (click)="continuar()">
+      Siguiente
+      <i class="bi bi-arrow-right ms-2"></i>
+    </button>
+  </div>
+</div>

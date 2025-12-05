@@ -1,0 +1,320 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f4f6f8;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* 🔹 Navbar */
+.top-navbar {
+  display: flex;
+  align-items: center;
+  background-color: #656666;
+  color: white;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  .menu-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.6rem;
+    margin-right: 15px;
+    cursor: pointer;
+  }
+
+  .navbar-title {
+    flex: 1;
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+
+  .navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .btn-regresar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      i {
+        font-size: 1.1rem;
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateX(-3px);
+      }
+
+      &:active {
+        transform: translateX(-3px) scale(0.98);
+      }
+    }
+  }
+
+  app-helper {
+    color: white;
+  }
+}
+
+/* 🔹 Toolbar */
+.toolbar {
+  display: flex;
+  justify-content: flex-start; /* 👈 alinea a la izquierda */
+  margin: 10px 8px; 
+
+  .search-container {
+    display: flex;
+    align-items: center;
+    
+    background: white;
+    border-radius: 5px;
+    padding: 8px 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    width: 30%;
+
+    input {
+      border: none;
+      outline: none;
+      flex: 1;
+      margin-left: 10px;
+    }
+
+    .filter-btn {
+      background: none;
+      border: none;
+      color: #555;
+      cursor: pointer;
+    }
+  }
+}
+
+/* 🔹 Tabla */
+.table-container {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  margin: 0 auto;
+  margin-top: 5px;
+  width: 98%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background: #f8f9fa;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .acciones {
+    display: flex;
+    justify-content: center;  /* centra horizontalmente */
+    align-items: center;      /* centra verticalmente */
+    gap: 8px;                 /* separa los iconos */
+    }
+
+    .badge-success { color: rgb(48, 63, 48); font-weight: 600; }
+    .badge-danger { color: rgb(90, 43, 43); font-weight: 600; }
+
+    .btn-icon {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      margin: 0 5px;
+      padding: 6px;
+      border-radius: 4px;
+      transition: 0.2s ease;
+
+      &.edit { color: #273f5c; }
+      &.delete { color: #331916; }
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+
+  .empty-message {
+    text-align: center;
+    color: #888;
+    margin-top: 15px;
+  }
+
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    gap: 6px;
+    padding-right: 2%;
+
+    button {
+      border: none;
+      background: #00796b;
+      color: #555;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      padding: 4px 6px;
+      cursor: pointer;
+       transition: 0.2s;
+
+      &:disabled {
+        background: #f1f1f1;
+        cursor: not-allowed;
+      }
+    }
+
+    span {
+      color: #333;
+      font-weight: 500;
+    }
+  }
+}
+
+/* 🔹 Footer */
+.footer {
+  margin-top: auto;
+  background: #656666;
+  color: white;
+  text-align: right;
+  padding: 8px 0;
+  font-size: 0.9rem;
+  border-top: 2px solid;
+
+  span {
+    margin: 0 5px;
+    cursor: pointer;
+  }
+
+  .version {
+    float: right;
+    margin-right: 15px;
+    opacity: 0.8;
+  }
+}
+
+/* 🔹 SIDEBAR LATERAL */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: -280px;
+  width: 280px;
+  height: calc(100vh - 60px);
+  background-color: #3b3b3b;
+  color: white;
+  transition: left 0.3s ease;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+
+  &.open {
+    left: 0;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    transition: background 0.3s;
+  }
+
+  .nav-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      padding-left: 25px;
+    }
+
+    i {
+      font-size: 1.2rem;
+    }
+  }
+
+  .toggle-icon {
+    transition: transform 0.3s ease;
+    font-size: 0.9rem;
+
+    &.open {
+      transform: rotate(90deg);
+    }
+  }
+
+  .submenu {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    li {
+      border-bottom: none;
+    }
+
+    .dropdown-item,
+    .nav-link {
+      padding: 12px 20px 12px 50px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.95rem;
+      display: block;
+      text-decoration: none;
+      transition: all 0.3s;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.15);
+        padding-left: 55px;
+      }
+
+      &.active {
+        background: rgba(255, 255, 255, 0.2);
+        border-left: 4px solid #00796b;
+      }
+
+      i {
+        margin-right: 8px;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+/* 🔹 MODAL - VERSIÓN FUNCIONAL */
+/* 🔥 FIX FINAL: Prioridad absoluta al modal */
+

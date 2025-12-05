@@ -1,0 +1,337 @@
+// ========================================
+// <� LAYOUT CONTAINER
+// ========================================
+.layout-container {
+  display: grid;
+  grid-template-rows: 60px 1fr 50px;
+  grid-template-columns: 1fr;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+// ========================================
+// =9 NAVBAR SUPERIOR
+// ========================================
+.top-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  background: linear-gradient(135deg, #00796b 0%, #00695c 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+
+  .menu-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .navbar-title {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    flex: 1;
+    text-align: center;
+  }
+
+  .navbar-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+    .btn-regresar {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.2rem;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
+      }
+    }
+  }
+}
+
+// ========================================
+// =9 CONTENIDO PRINCIPAL
+// ========================================
+.content {
+  grid-row: 2;
+  overflow: hidden;
+  padding: 1rem;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// ========================================
+// =9 FORM CONTAINER
+// ========================================
+.form-container {
+  max-width: 800px;
+  width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+
+// ========================================
+// =9 FORM HEADER
+// ========================================
+.form-header {
+  background: linear-gradient(135deg, #00796b 0%, #00695c 100%);
+  padding: 1rem 1.5rem;
+  color: white;
+  flex-shrink: 0;
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    i {
+      font-size: 2rem;
+      opacity: 0.9;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0.25rem 0 0 0;
+      font-size: 0.85rem;
+      opacity: 0.95;
+    }
+  }
+}
+
+// ========================================
+// =9 FORM BODY
+// ========================================
+.form-body {
+  padding: 1.5rem;
+  flex: 1;
+  overflow-y: auto;
+
+  .form-label {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0.4rem;
+
+    i {
+      color: #00796b;
+      font-size: 1.1rem;
+    }
+
+    .text-danger {
+      color: #dc3545;
+      margin-left: 0.25rem;
+    }
+
+    small {
+      margin-left: 0.5rem;
+      font-weight: 400;
+    }
+  }
+
+  .form-control,
+  .form-select {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+
+    &:focus {
+      border-color: #00796b;
+      box-shadow: 0 0 0 0.2rem rgba(0, 121, 107, 0.15);
+      outline: none;
+    }
+
+    &::placeholder {
+      color: #aaa;
+    }
+  }
+
+  textarea.form-control {
+    resize: vertical;
+    min-height: 80px;
+    max-height: 120px;
+  }
+}
+
+// ========================================
+// =9 FORM FOOTER
+// ========================================
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  flex-shrink: 0;
+
+  .btn-cancelar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: white;
+    color: #6c757d;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #f8f9fa;
+      border-color: #adb5bd;
+      transform: translateY(-2px);
+    }
+
+    i {
+      font-size: 1rem;
+    }
+  }
+
+  .btn-guardar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #00796b 0%, #00695c 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 121, 107, 0.3);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 121, 107, 0.4);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    i {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+// ========================================
+// =9 FOOTER
+// ========================================
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #00796b 0%, #00695c 100%);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+
+  span {
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+      color: white;
+    }
+
+    &.version {
+      margin-left: auto;
+      font-weight: 500;
+    }
+  }
+}
+
+// ========================================
+// =� RESPONSIVE
+// ========================================
+@media (max-width: 768px) {
+  .navbar-title {
+    font-size: 1.2rem;
+  }
+
+  .form-container {
+    padding: 0;
+  }
+
+  .form-card {
+    border-radius: 0;
+  }
+
+  .form-header {
+    padding: 1.5rem;
+
+    .header-content {
+      i {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.4rem;
+      }
+
+      p {
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  .form-body {
+    padding: 1.5rem;
+  }
+
+  .form-footer {
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .btn-cancelar,
+    .btn-guardar {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}

@@ -1,0 +1,120 @@
+<div class="bg-dark text-light d-flex flex-column" style="height: 100vh; overflow: hidden">
+
+  <div class="container py-4">
+
+    <!-- Títulos -->
+    <h2 class="titulo">Panel de Control</h2>
+    <p class="subtitulo">Gestión de inventario y stock de repuestos</p>
+
+    <!-- === CARDS SUPERIORES === -->
+    <div class="cards">
+
+      <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between">
+          <span class="card-title">Total Repuestos</span>
+          <i class="bi bi-box"></i>
+        </div>
+        <div class="card-body">
+          <div class="value">{{ totalRepuestos }}</div>
+          <p class="small text-muted">Inventario total</p>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between">
+          <span class="card-title">Stock Bajo</span>
+          <i class="bi bi-exclamation-triangle text-danger"></i>
+        </div>
+        <div class="card-body">
+          <div class="value text-danger">{{ stockBajo }}</div>
+          <p class="small text-muted">Requieren reposición</p>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between">
+          <span class="card-title">Movimientos Hoy</span>
+          <i class="bi bi-activity"></i>
+        </div>
+        <div class="card-body">
+          <div class="value">{{ movimientosHoy }}</div>
+          <p class="small text-muted">Entradas y salidas</p>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between">
+          <span class="card-title">Órdenes Pendientes</span>
+          <i class="bi bi-cart"></i>
+        </div>
+        <div class="card-body">
+          <div class="value">{{ ordenesPendientes }}</div>
+          <p class="small text-muted">En proceso</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- === 2 COLUMNAS ABAJO === -->
+    <div class="row mt-4 g-4">
+
+      <!-- ACCESO RÁPIDO -->
+      <div class="col-lg-6">
+        <div class="panel">
+          <h4>Acceso Rápido</h4>
+
+          <button class="btn btn-outline-light w-100 mb-2 text-start"
+                  (click)="ir('/stock/repuestos')">
+            <i class="bi bi-box-seam me-2"></i> Gestionar Repuestos
+          </button>
+
+          <button class="btn btn-outline-light w-100 mb-2 text-start"
+                  (click)="ir('/stock/movimientos')">
+            <i class="bi bi-arrow-left-right me-2"></i> Ver Movimientos
+          </button>
+
+          <button class="btn btn-outline-light w-100 mb-2 text-start"
+                  (click)="ir('/stock/ordenes')">
+            <i class="bi bi-cart-check me-2"></i> Órdenes de Compra
+          </button>
+
+          <button class="btn btn-outline-light w-100 mb-2 text-start"
+                  (click)="ir('/stock/proveedores')">
+            <i class="bi bi-people me-2"></i> Gestionar Proveedores
+          </button>
+
+        </div>
+      </div>
+
+      <!-- ALERTAS DE STOCK -->
+      <div class="col-lg-6">
+        <div class="panel">
+          <h4>Alertas de Stock</h4>
+
+          <div *ngIf="alertasStock.length === 0" class="alert alert-success">
+            No hay alertas 🚀
+          </div>
+
+          <div *ngFor="let a of alertasStock" class="alerta-item">
+            <i class="bi bi-exclamation-octagon text-danger me-2"></i>
+            <div>
+              <strong>{{ a.nombre }}</strong>
+              <p>Stock: {{ a.stock }} (Mín: {{ a.minimo }})</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+ <div class="d-flex justify-content-end mb-3">
+  <button class="btn btn-outline-secondary" (click)="cambiarTema()">
+    <i class="bi" [ngClass]="theme === 'light' ? 'bi-moon-fill' : 'bi-sun-fill'"></i>
+    {{ theme === 'light' ? 'Modo Oscuro' : 'Modo Claro' }}
+  </button>
+</div>
+
+
+</div>
+

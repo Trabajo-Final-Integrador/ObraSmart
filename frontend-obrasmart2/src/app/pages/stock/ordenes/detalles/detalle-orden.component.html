@@ -1,0 +1,34 @@
+<div class="card mt-4" *ngIf="orden as o">
+  <div class="card-header fw-bold">
+    Detalle de Orden #{{ o.id }}
+  </div>
+
+  <div class="card-body">
+    <p><strong>Proveedor:</strong> {{ o.proveedorNombre }}</p>
+    <p><strong>Estado:</strong> {{ o.estado }}</p>
+    <p><strong>Fecha:</strong> {{ o.fecha | date:'dd/MM/yyyy' }}</p>
+
+    <h5 class="mt-4">Items</h5>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Repuesto</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of o.items">
+          <td>{{ item?.repuestoNombre }}</td>
+          <td>{{ item?.cantidad }}</td>
+          <td>${{ item?.precioUnitario | number:'1.2-2' }}</td>
+          <td>${{ (item?.cantidad || 0) * (item?.precioUnitario || 0) | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

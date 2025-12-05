@@ -1,0 +1,243 @@
+<div class="layout-container">
+  <!-- 🔹 NAVBAR SUPERIOR -->
+  <header class="top-navbar">
+    <button class="menu-btn" (click)="toggleSidebar()" title="Menú principal">
+      <i class="bi bi-list"></i>
+    </button>
+    <h1 class="navbar-title">Gestión de Reparaciones</h1>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" title="Regresar al inicio">
+        <i class="bi bi-house-door"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- 🔹 SIDEBAR LATERAL -->
+  <aside class="sidebar" [class.open]="menuAbierto">
+    <ul class="nav flex-column">
+      <!-- Usuarios -->
+      <li class="nav-item">
+        <a class="nav-link d-flex justify-content-between align-items-center" href="#" (click)="toggleUsuarios($event)">
+          <span><i class="bi bi-people me-2"></i>Usuarios</span>
+          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuUsuariosOpen"></i>
+        </a>
+        <ul *ngIf="submenuUsuariosOpen" class="submenu">
+          <li>
+            <a class="dropdown-item" routerLink="/alta-usuario">
+              Registrar Usuario
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="/listado-usuario">
+              Listado de Usuarios
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Reparaciones -->
+      <li class="nav-item">
+        <a class="nav-link d-flex justify-content-between align-items-center" href="#" (click)="toggleReparacion($event)">
+          <span><i class="bi bi-tools me-2"></i>Reparaciones</span>
+          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuReparacionOpen"></i>
+        </a>
+        <ul *ngIf="submenuReparacionOpen" class="submenu">
+          <li>
+            <a class="dropdown-item" routerLink="/reparaciones/dashboard">
+              <i class="bi bi-columns-gap me-2"></i> Panel
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item active" routerLink="/reparaciones">
+              <i class="bi bi-tools me-2"></i> Reparaciones
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Equipos -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/equipos" routerLinkActive="active">
+          <i class="bi bi-cone-striped me-2"></i> Equipos
+        </a>
+      </li>
+
+      <!-- Stock -->
+      <li class="nav-item">
+        <a class="nav-link d-flex justify-content-between align-items-center" href="#" (click)="toggleStock($event)">
+          <span><i class="bi bi-box-seam me-2"></i>Stock</span>
+          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuStockOpen"></i>
+        </a>
+        <ul *ngIf="submenuStockOpen" class="submenu">
+          <li>
+            <a class="dropdown-item" routerLink="/stock/dashboard">
+              <i class="bi bi-columns-gap"></i> Panel
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="/stock/repuestos">
+              <i class="bi bi-box"></i> Repuestos
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="/stock/proveedores">
+              <i class="bi bi-truck"></i> Proveedores
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="/stock/movimientos">
+              <i class="bi bi-graph-up-arrow"></i> Movimientos
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="/stock/ordenes">
+              <i class="bi bi-cart2"></i> Órdenes
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Reportes -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/reportes">
+          <i class="bi bi-file-bar-graph me-2"></i> Reportes
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- 🔹 CONTENIDO PRINCIPAL -->
+  <main class="content">
+    <!-- 🔸 Barra de herramientas -->
+    <div class="toolbar">
+      <div class="search-container">
+        <i class="bi bi-search"></i>
+        <input
+          type="text"
+          [(ngModel)]="terminoBusqueda"
+          (input)="filtrar()"
+          placeholder="Buscar por equipo, código o responsable..."
+        />
+        <button class="filter-btn" title="Filtrar" (click)="abrirFiltros()">
+          <i class="bi bi-funnel"></i>
+        </button>
+      </div>
+      <button class="btn-nuevo" (click)="nuevaReparacion()">
+        <i class="bi bi-plus-lg"></i>
+        <span>Nueva Reparación</span>
+      </button>
+    </div>
+
+    <!-- 🔸 Tabla -->
+    <div class="table-container">
+      <div *ngIf="loading" class="empty-message">
+        <i class="bi bi-hourglass-split"></i>
+        <p>Cargando reparaciones...</p>
+      </div>
+
+      <table *ngIf="!loading" class="styled-table">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Equipo</th>
+            <th>Descripción</th>
+            <th>Responsable</th>
+            <th class="text-center">Estado</th>
+            <th>Fecha Inicio</th>
+            <th class="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of reparacionesPaginadas">
+            <td class="font-monospace">#{{ r.equipoCodigoInterno }}</td>
+            <td>
+              <div class="equipo-info">
+                <strong>{{ r.equipoNombre }}</strong>
+                <small>{{ r.tipoMantenimiento }}</small>
+              </div>
+            </td>
+            <td>
+              <span class="descripcion-text" [title]="r.descripcion">
+                {{ r.descripcion || '(sin descripción)' }}
+              </span>
+            </td>
+            <td>
+              <div class="responsable-info">
+                <i class="bi bi-person-circle"></i>
+                <span>{{ r.responsableNombreCompleto }}</span>
+              </div>
+            </td>
+            <td class="text-center">
+              <span class="badge"
+                [ngClass]="{
+                  'badge-warning': r.estadoReparacion === 'CREADA',
+                  'badge-info': r.estadoReparacion === 'EN_PROCESO',
+                  'badge-success': r.estadoReparacion === 'FINALIZADA',
+                  'badge-danger': r.estadoReparacion === 'CANCELADA'
+                }">
+                {{ r.estadoReparacion }}
+              </span>
+            </td>
+            <td>{{ r.fechaInicio ? (r.fechaInicio | date:'dd/MM/yyyy') : '-' }}</td>
+            <td class="acciones">
+              <button class="btn-icon edit" title="Editar"
+                      (click)="editarReparacion(r.id)"
+                      [disabled]="r.estadoReparacion === 'FINALIZADA' || r.estadoReparacion === 'CANCELADA'">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn-icon delete" title="Cancelar"
+                      (click)="cancelarReparacion(r.id)"
+                      [disabled]="r.estadoReparacion === 'FINALIZADA' || r.estadoReparacion === 'CANCELADA'">
+                <i class="bi bi-x-circle"></i>
+              </button>
+              <button class="btn-icon view" title="Ver detalle"
+                      (click)="verDetalle(r.id)">
+                <i class="bi bi-eye"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="reparacionesFiltradas.length === 0 && !loading" class="empty-message">
+        <i class="bi bi-exclamation-circle"></i>
+        <p>No hay reparaciones registradas.</p>
+      </div>
+
+      <!-- 🔸 Paginación -->
+      <div class="pagination-container" *ngIf="reparacionesFiltradas.length > 0">
+        <button (click)="primeraPagina()" [disabled]="paginaActual === 1">
+          &laquo;
+        </button>
+        <button (click)="paginaAnterior()" [disabled]="paginaActual === 1">
+          &lsaquo;
+        </button>
+
+        <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+
+        <button
+          (click)="paginaSiguiente()"
+          [disabled]="paginaActual === totalPaginas"
+        >
+          &rsaquo;
+        </button>
+        <button
+          (click)="ultimaPagina()"
+          [disabled]="paginaActual === totalPaginas"
+        >
+          &raquo;
+        </button>
+
+        <select [(ngModel)]="reparacionesPorPagina" (change)="paginaActual = 1">
+          <option *ngFor="let n of [5, 10, 20, 50]" [value]="n">{{ n }}</option>
+        </select>
+      </div>
+    </div>
+  </main>
+
+  <!-- 🔹 FOOTER -->
+  <footer class="footer">
+    <span>Términos</span> | <span>Privacidad</span> | <span>Soporte</span>
+    <span class="version">v1.0.0</span>
+  </footer>
+</div>

@@ -1,0 +1,210 @@
+<!-- <div class="page-container">
+
+  HEADER
+  <div class="header">
+    <button class="btn-back" (click)="volver()">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+
+    <div>
+      <h1 class="title">Nueva Orden de Compra</h1>
+      <p class="subtitle">Complete los datos para crear una nueva orden de compra</p>
+    </div>
+  </div>
+
+  CONTENIDO
+  <div class="content">
+
+    ==== INFORMACIÓN DEL PROVEEDOR ====
+    <div class="card-section">
+      <h5 class="section-title">Información del Proveedor</h5>
+
+      <div class="form-group mt-3">
+        <label class="form-label">Proveedor *</label>
+        <select class="form-control modern-input" [(ngModel)]="nuevaOrden.proveedorId">
+          <option value="">Seleccionar proveedor</option>
+          <option *ngFor="let p of proveedores" [value]="p.id">{{ p.nombre }}</option>
+        </select>
+      </div>
+    </div>
+
+    ==== REPUESTOS ====
+    <div class="card-section mt-4">
+
+      <h5 class="section-title">Agregar Repuestos</h5>
+
+      <div class="item-grid">
+        <div>
+          <label class="form-label">Repuesto</label>
+          <select class="form-control modern-input" [(ngModel)]="itemTemp.idRepuesto">
+            <option value="">Seleccionar</option>
+            <option *ngFor="let r of repuestos" [value]="r.id">{{ r.nombre }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="form-label">Cantidad</label>
+          <input type="number" class="form-control modern-input" min="1" [(ngModel)]="itemTemp.cantidad" />
+        </div>
+
+        <div>
+          <label class="form-label">Precio Unitario ($)</label>
+          <input type="number" class="form-control modern-input" min="0" step="0.01" [(ngModel)]="itemTemp.precioUnitario" />
+        </div>
+
+        <div class="add-btn-container">
+          <button class="btn btn-dark add-btn" (click)="agregarItemTemp()">
+            <i class="bi bi-plus-lg"></i> Agregar
+          </button>
+        </div>
+      </div>
+
+      TABLA DE ITEMS
+      <table class="table modern-table mt-4" *ngIf="nuevaOrden.items.length > 0">
+        <thead>
+          <tr>
+            <th>Repuesto</th>
+            <th>Cantidad</th>
+            <th>Precio Unit.</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of nuevaOrden.items; let i = index">
+            <td>{{ item.repuestoNombre }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>${{ item.precioUnitario | number:'1.2-2' }}</td>
+            <td>${{ item.cantidad * item.precioUnitario | number:'1.2-2' }}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-danger" (click)="eliminarItem(i)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="total-section">
+        <h4>Total: ${{ totalGeneral | number:'1.2-2' }}</h4>
+      </div>
+    </div>
+
+    ==== BOTÓN GUARDAR ====
+    <div class="save-container">
+      <button class="btn btn-success btn-lg px-5" [disabled]="isSubmitting" (click)="guardar()">
+        <span *ngIf="!isSubmitting"><i class="bi bi-check-lg"></i> Guardar Orden</span>
+        <span *ngIf="isSubmitting">Guardando...</span>
+      </button>
+    </div>
+
+  </div>
+</div> -->
+<div class="new-order-page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <button class="back-btn" (click)="volver()">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+
+    <div class="header-text">
+      <h1>Nueva Orden de Compra</h1>
+      <p>Complete los datos para crear una nueva orden de compra</p>
+    </div>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="content">
+
+    <!-- INFORMACIÓN DEL PROVEEDOR -->
+    <div class="card">
+      <h3>Información del Proveedor</h3>
+
+      <label class="label">Proveedor *</label>
+      <select class="input" [(ngModel)]="nuevaOrden.idProveedor">
+        <option value="">Seleccionar proveedor</option>
+        <option *ngFor="let p of proveedores" [value]="p.id">{{ p.razonSocial }}</option>
+      </select>
+    </div>
+
+    <!-- AGREGAR REPUESTOS -->
+    <div class="card">
+
+      <h3>Agregar Repuestos</h3>
+
+      <div class="repuestos-grid">
+
+        <div>
+          <label class="label">Repuesto</label>
+          <select class="input" [(ngModel)]="itemTemp.idRepuesto">
+            <option value="">Seleccionar</option>
+            <option *ngFor="let r of repuestos" [value]="r.id">{{ r.nombre }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="label">Cantidad</label>
+          <input type="number" class="input" min="1" [(ngModel)]="itemTemp.cantidad" />
+        </div>
+
+        <div>
+          <label class="label">Precio Unitario ($)</label>
+          <input type="number" class="input" min="0" step="0.01" [(ngModel)]="itemTemp.precioUnitario" />
+        </div>
+
+        <div class="add-container">
+          <button class="btn-add" (click)="agregarItemTemp()">
+            <i class="bi bi-plus-lg"></i> Agregar
+          </button>
+        </div>
+      </div>
+
+      <!-- TABLA -->
+      <table class="items-table" *ngIf="nuevaOrden.items.length > 0">
+        <thead>
+          <tr>
+            <th>Repuesto</th>
+            <th>Cantidad</th>
+            <th>Precio Unit.</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of nuevaOrden.items; let i = index">
+            <td>{{ obtenerNombreRepuesto(item.idRepuesto) }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>${{ item.precioUnitario | number:'1.2-2' }}</td>
+            <td>${{ item.cantidad * item.precioUnitario | number:'1.2-2' }}</td>
+            <td>
+              <button class="btn-delete" (click)="eliminarItem(i)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="total">
+        Total: ${{ totalGeneral | number:'1.2-2' }}
+      </div>
+    </div>
+
+    <!-- BOTÓN GUARDAR -->
+    <div class="save-container">
+
+      <button class="btn-cancelar" [disabled]="isSubmitting" (click)="volver()">
+        <span *ngIf="!isSubmitting"><i class="bi bi-x-lg"></i> Cancelar</span>
+      </button>
+      
+      <button class="btn-save" [disabled]="isSubmitting" (click)="guardar()">
+        <span *ngIf="!isSubmitting"><i class="bi bi-check-lg"></i> Crear orden de compra</span>
+        <span *ngIf="isSubmitting">Guardando...</span>
+      </button>
+      
+    </div>
+
+  </div>
+</div>

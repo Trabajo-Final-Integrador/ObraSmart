@@ -32,9 +32,6 @@ public class ProveedorUpdateDTO {
     @Size(max = 20)
     private String telefono;
 
-    @Size(max = 20)
-    private String telefonoAlternativo;
-
     @Email
     @Size(max = 100)
     private String email;
@@ -79,8 +76,8 @@ public class ProveedorUpdateDTO {
     private BigDecimal descuentoVolumen;
 
     private Boolean tieneStock;
-    private Boolean atieneUrgencias;
     private Boolean haceEnvios;
+
 
     @Size(max = 200)
     private String zonaCobertura;

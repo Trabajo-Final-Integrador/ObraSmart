@@ -1,10 +1,7 @@
 package com.ObraSmart.GestionEquipos.service.impl;
 
 import com.ObraSmart.GestionEquipos.dtos.EquipoDTO;
-import com.ObraSmart.GestionEquipos.entity.Equipo;
-import com.ObraSmart.GestionEquipos.entity.Marca;
-import com.ObraSmart.GestionEquipos.entity.Modelo;
-import com.ObraSmart.GestionEquipos.entity.TipoEquipo;
+import com.ObraSmart.GestionEquipos.entity.*;
 import com.ObraSmart.GestionEquipos.exception.BusinessException;
 import com.ObraSmart.GestionEquipos.exception.NotFoundException;
 import com.ObraSmart.GestionEquipos.mapers.EquipoMapers;
@@ -13,6 +10,7 @@ import com.ObraSmart.GestionEquipos.repository.MarcaRepository;
 import com.ObraSmart.GestionEquipos.repository.ModeloRepository;
 import com.ObraSmart.GestionEquipos.repository.TipoEquipoRepository;
 import com.ObraSmart.GestionEquipos.service.EquipoService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -166,4 +164,23 @@ public class EquipoServiceImpl implements EquipoService {
                 })
                 .orElse(prefijo + "0001");
     }
+
+    @Override
+    public void actualizarEstado(Long id, String nuevoEstado) {
+
+        Equipo equipo = equipoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Equipo no encontrado con id: " + id));
+
+        try {
+            Estado_Operativo estado = Estado_Operativo.valueOf(nuevoEstado);
+            equipo.setEstadoOperativo(estado);
+            equipoRepository.save(equipo);
+
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Estado operativo inválido: " + nuevoEstado);
+        }
+    }
+
+
+
 }

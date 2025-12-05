@@ -1,1 +1,0 @@
-Guía para el diagrama de clases de GestionReparaciones.

@@ -1,0 +1,125 @@
+<div class="dashboard-container">
+
+  <!-- Header con título y botón de inicio -->
+  <div class="dashboard-header">
+    <h2 class="title">Centro de Reparaciones</h2>
+    <button class="btn-home" routerLink="/principal" title="Volver al inicio">
+      <i class="bi bi-house-door"></i>
+    </button>
+  </div>
+
+  <!-- === GRID DE ESTADÍSTICAS === -->
+  <div class="stats-grid">
+
+    <!-- Total Reparaciones -->
+    <div class="stat-card">
+      <div class="stat-header">
+        <span>Total Reparaciones</span>
+        <i class="bi bi-activity"></i>
+      </div>
+      <div class="stat-value">{{ total }}</div>
+      <div class="stat-subtext">+2 desde la semana pasada</div>
+    </div>
+
+    <!-- En Proceso -->
+    <div class="stat-card">
+      <div class="stat-header">
+        <span>En Mantenimiento</span>
+        <i class="bi bi-tools text-warning"></i>
+      </div>
+      <div class="stat-value">{{ enProceso }}</div>
+      <div class="stat-subtext">Requieren atención activa</div>
+    </div>
+
+    <!-- Pendientes / Fuera de Servicio -->
+    <div class="stat-card">
+      <div class="stat-header">
+        <span>Fuera de Servicio</span>
+        <i class="bi bi-exclamation-triangle text-danger"></i>
+      </div>
+      <div class="stat-value">{{ pendientes }}</div>
+      <div class="stat-subtext">Equipos críticos detenidos</div>
+    </div>
+
+    <!-- Finalizadas -->
+    <div class="stat-card">
+      <div class="stat-header">
+        <span>Finalizadas (Mes)</span>
+        <i class="bi bi-check-circle text-success"></i>
+      </div>
+      <div class="stat-value">{{ finalizadas }}</div>
+      <div class="stat-subtext">+12% eficiencia operativa</div>
+    </div>
+
+  </div>
+
+  <!-- === CUERPO PRINCIPAL (2 columnas) === -->
+  <div class="main-grid">
+
+    <!-- === Reparaciones Recientes === -->
+    <div class="panel">
+      <div class="panel-header">
+        <h4>Reparaciones Recientes</h4>
+        <button class="btn btn-sm btn-outline-primary" (click)="verTodas()">Ver todas</button>
+      </div>
+
+      <!-- LISTA DE REPARACIONES RECIENTES -->
+      <div *ngIf="recientes.length === 0" class="empty-state">
+        <i class="bi bi-inbox" style="font-size: 48px; color: #ccc;"></i>
+        <p>No hay reparaciones registradas</p>
+      </div>
+
+      <div *ngFor="let r of recientes" class="repair-item">
+
+        <div class="item-left">
+          <strong>{{ r.equipoNombre || 'Equipo #' + r.equipoId }}</strong>
+          <p>{{ getDescripcionCorta(r.descripcion) }}</p>
+        </div>
+
+        <span
+          class="chip"
+          [ngClass]="{
+            'chip-warning': r.estadoReparacion === 'EN_PROCESO' || r.estadoReparacion === 'CREADA',
+            'chip-success': r.estadoReparacion === 'FINALIZADA',
+            'chip-danger': r.estadoReparacion === 'CANCELADA'
+          }"
+        >
+          {{ r.estadoReparacion }}
+        </span>
+
+      </div>
+    </div>
+
+    <!-- === Estado de la Flota === -->
+    <div class="panel">
+      <h4>Estado de la Flota</h4>
+
+      <div class="fleet-item">
+        <span class="fleet-label">
+          <i class="bi bi-check-circle-fill text-success me-2"></i>
+          Operativa
+        </span>
+        <span class="fleet-number">{{ flotaOperativa }}</span>
+      </div>
+
+      <div class="fleet-item">
+        <span class="fleet-label">
+          <i class="bi bi-clock-history text-warning me-2"></i>
+          En Revisión
+        </span>
+        <span class="fleet-number">{{ flotaEnRevision }}</span>
+      </div>
+
+      <div class="fleet-item">
+        <span class="fleet-label">
+          <i class="bi bi-exclamation-octagon-fill text-danger me-2"></i>
+          Críticos
+        </span>
+        <span class="fleet-number">{{ flotaCriticos }}</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

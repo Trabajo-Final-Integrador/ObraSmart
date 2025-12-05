@@ -1,5 +1,7 @@
 package com.ObraSmart.GestionGeolocalizacion.Dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * DTO para representar un equipo recibido desde el microservicio GestionEquipos.
  */
@@ -7,8 +9,11 @@ public class EquipoUbicacionDTO {
     private Long id;
     private String nombre;
     private String ubicacionActual;
+
+    @JsonProperty("estadoOperativo")
     private String estado;
-    private Double latitud;   // ✅ agregar
+
+    private Double latitud;
     private Double longitud;
 
     public EquipoUbicacionDTO() {}

@@ -1,0 +1,74 @@
+<!-- <h3>Datos Bancarios</h3>
+
+<div class="form-grid">
+  <div class="form-group">
+    <label>Banco</label>
+    <input [(ngModel)]="data.banco" class="form-input" />
+  </div>
+
+  <div class="form-group">
+    <label>Tipo de Cuenta</label>
+    <select [(ngModel)]="data.tipoCuenta" class="form-input">
+      <option value="">Seleccionar...</option>
+      <option>Caja de Ahorro</option>
+      <option>Cuenta Corriente</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>CBU / CVU</label>
+    <input [(ngModel)]="data.cbu" class="form-input" />
+  </div>
+</div>
+
+<div class="botones">
+  <button class="btn-anterior" (click)="prev.emit()">← Anterior</button>
+  <button class="btn-siguiente" (click)="next.emit()">Siguiente →</button>
+</div>
+ -->
+
+ <!-- 🟩 BANCARIO -->
+    <div *ngIf="tabActiva === 'bancario'" class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">
+          <i class="bi bi-bank me-2"></i>Banco
+        </label>
+        <input
+          [(ngModel)]="nuevoProveedor.banco"
+          class="form-control"
+          placeholder="Ej: Banco Nación, Banco Provincia..." />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">
+          <i class="bi bi-credit-card me-2"></i>Tipo de Cuenta
+        </label>
+        <select [(ngModel)]="nuevoProveedor.tipoCuenta" class="form-select">
+          <option value="">Seleccionar tipo de cuenta...</option>
+          <option value="Caja de Ahorro">Caja de Ahorro</option>
+          <option value="Cuenta Corriente">Cuenta Corriente</option>
+        </select>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label">
+          <i class="bi bi-cash-stack me-2"></i>CBU / CVU / Alias
+        </label>
+        <input
+          [(ngModel)]="nuevoProveedor.cbu"
+          placeholder="Ingrese CBU (22 dígitos), CVU o Alias bancario"
+          class="form-control"
+        />
+        <small class="text-muted">El CBU debe tener 22 dígitos numéricos</small>
+      </div>
+
+      <div class="col-12 text-end mt-4 button-container">
+        <button class="btn-anterior" (click)="volver()">
+          <i class="bi bi-arrow-left me-2"></i>Anterior
+        </button>
+        <button class="btn-siguiente" (click)="continuar()">
+          Siguiente<i class="bi bi-arrow-right ms-2"></i>
+        </button>
+      </div>
+    </div>
+

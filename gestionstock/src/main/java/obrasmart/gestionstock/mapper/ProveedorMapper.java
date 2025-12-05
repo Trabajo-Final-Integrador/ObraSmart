@@ -25,7 +25,7 @@ public class ProveedorMapper {
                 .estado(entity.getEstado())
                 .telefono(entity.getTelefono())
                 .email(entity.getEmail())
-                .personaContacto(entity.getPersonaContacto())
+
                 .horarioAtencion(entity.getHorarioAtencion())
                 .direccion(entity.getDireccion())
                 .ciudad(entity.getCiudad())
@@ -97,6 +97,7 @@ public class ProveedorMapper {
     }
 
     public void updateEntityFromDTO(ProveedorUpdateDTO dto, Proveedor entity) {
+
         if (dto == null || entity == null) return;
 
         if (dto.getRazonSocial() != null) entity.setRazonSocial(dto.getRazonSocial());
@@ -104,6 +105,7 @@ public class ProveedorMapper {
         if (dto.getCuit() != null) entity.setCuit(dto.getCuit());
         if (dto.getCondicionIVA() != null) entity.setCondicionIVA(dto.getCondicionIVA());
         if (dto.getTelefono() != null) entity.setTelefono(dto.getTelefono());
+
         if (dto.getEmail() != null) entity.setEmail(dto.getEmail());
         if (dto.getPersonaContacto() != null) entity.setPersonaContacto(dto.getPersonaContacto());
         if (dto.getHorarioAtencion() != null) entity.setHorarioAtencion(dto.getHorarioAtencion());
@@ -112,25 +114,36 @@ public class ProveedorMapper {
         if (dto.getProvincia() != null) entity.setProvincia(dto.getProvincia());
         if (dto.getCodigoPostal() != null) entity.setCodigoPostal(dto.getCodigoPostal());
         if (dto.getEspecialidad() != null) entity.setEspecialidad(dto.getEspecialidad());
-        if (dto.getMarcas() != null) entity.setMarcas(dto.getMarcas());
+
+        // Solo actualizar marcas si trae contenido, evitar pisar con lista vacía
+        if (dto.getMarcas() != null && !dto.getMarcas().isEmpty()) {
+            entity.setMarcas(dto.getMarcas());
+        }
+
+        // asignar TipoProveedor correctamente
         if (dto.getTipoProveedor() != null) entity.setTipoProveedor(dto.getTipoProveedor());
+
         if (dto.getTiempoEntrega() != null) entity.setTiempoEntrega(dto.getTiempoEntrega());
         if (dto.getPedidoMinimo() != null) entity.setPedidoMinimo(dto.getPedidoMinimo());
         if (dto.getCondicionesPago() != null) entity.setCondicionesPago(dto.getCondicionesPago());
         if (dto.getDescuentoVolumen() != null) entity.setDescuentoVolumen(dto.getDescuentoVolumen());
+
         if (dto.getTieneStock() != null) entity.setTieneStock(dto.getTieneStock());
         if (dto.getHaceEnvios() != null) entity.setHaceEnvios(dto.getHaceEnvios());
+
         if (dto.getZonaCobertura() != null) entity.setZonaCobertura(dto.getZonaCobertura());
         if (dto.getAceptaDevoluciones() != null) entity.setAceptaDevoluciones(dto.getAceptaDevoluciones());
         if (dto.getTieneCatalogo() != null) entity.setTieneCatalogo(dto.getTieneCatalogo());
         if (dto.getUrlCatalogo() != null) entity.setUrlCatalogo(dto.getUrlCatalogo());
+
         if (dto.getCodigoCliente() != null) entity.setCodigoCliente(dto.getCodigoCliente());
         if (dto.getBanco() != null) entity.setBanco(dto.getBanco());
         if (dto.getTipoCuenta() != null) entity.setTipoCuenta(dto.getTipoCuenta());
         if (dto.getCbu() != null) entity.setCbu(dto.getCbu());
         if (dto.getObservaciones() != null) entity.setObservaciones(dto.getObservaciones());
+
         if (dto.getEstado() != null) {
-            entity.setEstado(EstadoProveedor.valueOf(dto.getEstado()));
+            entity.setEstado(EstadoProveedor.valueOf(dto.getEstado().toUpperCase()));
         }
     }
 }

@@ -1,0 +1,69 @@
+<div class="modal-backdrop" (click)="cancelar()">
+  <div class="modal" (click)="$event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="modal-header">
+      <h2>Editar Usuario</h2>
+      <button class="close-btn" (click)="cancelar()">✕</button>
+    </div>
+
+    <!-- Form -->
+    <form class="modal-form" (ngSubmit)="guardarCambios()">
+
+      <!-- Email -->
+      <div class="form-group">
+        <label>Email <span class="required">*</span></label>
+        <input
+          type="email"
+          [(ngModel)]="usuario.email"
+          name="email"
+          placeholder="correo@ejemplo.com"
+          required
+        />
+      </div>
+
+      <!-- Username -->
+      <div class="form-group">
+        <label>Usuario <span class="required">*</span></label>
+        <input
+          type="text"
+          [(ngModel)]="usuario.username"
+          name="username"
+          required
+        />
+      </div>
+
+      <!-- Rol -->
+      <div class="form-group">
+        <label>Rol</label>
+        <select [(ngModel)]="usuario.role" name="role">
+          <option value="ADMINISTRACION">ADMINISTRACIÓN</option>
+          <option value="TECNICO">TÉCNICO</option>
+          <option value="OPERARIO">OPERARIO</option>
+        </select>
+      </div>
+
+      <!-- Estado -->
+      <div class="form-group">
+        <label>Estado</label>
+        <select [(ngModel)]="usuario.status" name="status">
+          <option value="ACTIVO">ACTIVO</option>
+          <option value="INACTIVO">INACTIVO</option>
+        </select>
+      </div>
+
+      <!-- Botones -->
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" (click)="cancelar()">
+          Cancelar
+        </button>
+
+        <button type="submit" class="btn-save">
+          Guardar Cambios
+        </button>
+      </div>
+      
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div *ngIf="tabActiva === 'observaciones'">
+  <div class="row g-3">
+    <div class="col-12">
+      <label class="form-label">
+        <i class="bi bi-chat-left-text me-2"></i>Notas y Observaciones
+      </label>
+      <textarea
+        [(ngModel)]="nuevoProveedor.observaciones"
+        class="form-control"
+        rows="8"
+        placeholder="Información adicional sobre el proveedor (acuerdos comerciales, datos de contacto extras, condiciones especiales, etc.)..."
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="form-footer-actions">
+    <button class="btn-anterior" (click)="volver()">
+      <i class="bi bi-arrow-left me-2"></i>
+      Anterior
+    </button>
+    <button class="btn-guardar" (click)="guardarProveedor()">
+      <i class="bi bi-check-lg me-2"></i>
+      Guardar Proveedor
+    </button>
+  </div>
+</div>

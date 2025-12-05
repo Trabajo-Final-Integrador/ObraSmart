@@ -1,6 +1,13 @@
-package com.ObraSmart.GestionReportes.Dto.Externos;
+package com.ObraSmart.GestionReportes.dto.externos;
 
 public record EquipoDTO(
         Long id,
-        String nombre
+        String codigoInterno,
+        String nombre,
+        Long idTipoEquipo,
+        Long idMarca,
+        Long idModelo,
+        String combustible,
+        String estadoOperativo,
+        Double kilometrajeHorasUso
 ) {}
