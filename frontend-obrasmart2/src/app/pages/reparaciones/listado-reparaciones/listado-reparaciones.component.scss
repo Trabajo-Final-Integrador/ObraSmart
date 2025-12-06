@@ -356,65 +356,64 @@
     width: 100%;
     border-collapse: collapse;
     text-align: left;
-    display: block;
-    overflow-y: auto;
-    flex: 1;
+   display: grid;
+grid-template-rows: auto 1fr; /* header + scroll cuerpo */
 
-    thead,
-    tbody,
-    tr {
-      display: table;
-      width: 100%;
-      table-layout: fixed;
-    }
+thead {
+  display: table; /* 🔹 Volvemos a comportamiento normal */
+  width: 100%;
+  table-layout: fixed;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #f8f9fa;
+}
 
-    thead {
-      width: calc(100% - 1em);
-    }
 
-    th,
-    td {
-      padding: 12px;
-      border-bottom: 1px solid #eee;
-    }
+tbody {
+  display: block;
+  overflow-y: auto;
+  max-height: calc(100vh - 360px); /* ajusto a tu vista */
+}
 
-    th {
-      background: #f8f9fa;
-      color: #333;
-      font-weight: 600;
-      font-size: 0.95rem;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+tbody tr {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  align-items: center;
+}
 
-    td {
-      font-size: 0.9rem;
-    }
+th,
+td {
+  height: 56px; /* 👌 iguala altura en todas las filas */
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
 
-    tbody tr {
-      transition: background 0.2s;
 
-      &:hover {
-        background: #f9f9f9;
-      }
-    }
+   .equipo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* 🔹 Espacio entre nombre y subtítulo */
+  line-height: 1.2;
+  max-width: 180px; /* Evita que se estire mucho y rompa la tabla */
+}
 
-    .equipo-info {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
+.equipo-info strong {
+  font-size: 0.93rem;
+  font-weight: 600;
+  color: #2f3b28; /* tono gris/verde */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* si el nombre es largo no rompe */
+}
 
-      strong {
-        color: #333;
-        font-weight: 600;
-      }
+.equipo-info small {
+  font-size: 0.78rem;
+  color: #666;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
 
-      small {
-        color: #666;
-        font-size: 0.85rem;
-      }
-    }
 
     .descripcion-text {
       display: inline-block;

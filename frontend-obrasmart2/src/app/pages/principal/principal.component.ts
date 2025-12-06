@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { SessionService } from '../../service/session.service';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet'; 
 import { GeolocalizacionService, EquipoUbicacion } from 'src/app/service/geolocalizacion.service';
 
@@ -45,9 +47,11 @@ export class PrincipalComponent {
   private map!: L.Map;
   equipos: EquipoUbicacion[] = [];
 
+  private apiUrl = 'http://localhost:8085/auth'; 
 
 
-  constructor(private session: SessionService, private auth: AuthService,  private geoService: GeolocalizacionService  ) {}
+
+  constructor(private session: SessionService, private auth: AuthService,  private geoService: GeolocalizacionService , private router: Router,private http: HttpClient ) {}
 
   toggleMenu() {
     this.menuAbierto = !this.menuAbierto;
@@ -196,6 +200,30 @@ private getEstadoIcon(estado: string): string {
       return 'bi-question-circle';
   }
 }
+userMenuAbierto = false;
+
+toggleUserMenu() {
+  this.userMenuAbierto = !this.userMenuAbierto;
+}
+
+irAPerfil() {
+  this.router.navigate(['/login']); 
+}
+
+cerrarSesion() {
+  this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true })
+    .subscribe({
+      next: () => {
+        console.log("Sesión cerrada correctamente");
+        this.router.navigate(['/login']);
+      },
+      error: () => {
+        console.warn("No se pudo cerrar sesión en servidor, igual redirijo");
+        this.router.navigate(['/login']);
+      }
+    });
+}
+
 
 
  
