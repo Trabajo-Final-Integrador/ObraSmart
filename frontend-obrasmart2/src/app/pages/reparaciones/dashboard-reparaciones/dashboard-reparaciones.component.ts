@@ -22,6 +22,12 @@ export class DashboardReparacionesComponent {
   flotaEnRevision = 0;
   flotaCriticos = 0;
 
+  // Sidebar menu state
+  menuAbierto = false;
+  submenuUsuariosOpen = false;
+  submenuReparacionOpen = false;
+  submenuStockOpen = false;
+
   constructor(
     private service: ReparacionService,
     private equipoService: EquipoService,
@@ -94,7 +100,30 @@ export class DashboardReparacionesComponent {
     this.router.navigate(['/reparaciones']);
   }
 
-    getDescripcionCorta(texto: string): string {
+  regresar() {
+    this.router.navigate(['/principal']);
+  }
+
+  toggleMenu() {
+    this.menuAbierto = !this.menuAbierto;
+  }
+
+  toggleUsuarios(event: Event) {
+    event.preventDefault();
+    this.submenuUsuariosOpen = !this.submenuUsuariosOpen;
+  }
+
+  toggleReparacion(event: Event) {
+    event.preventDefault();
+    this.submenuReparacionOpen = !this.submenuReparacionOpen;
+  }
+
+  toggleStock(event: Event) {
+    event.preventDefault();
+    this.submenuStockOpen = !this.submenuStockOpen;
+  }
+
+  getDescripcionCorta(texto: string): string {
     if (!texto) return '';
     return texto.length > 60 ? texto.slice(0, 60) + '...' : texto;
   }

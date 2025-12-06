@@ -11,7 +11,7 @@
 .top-navbar {
   display: flex;
   align-items: center;
-  background-color: #656666;
+  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
   color: white;
   padding: 15px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -92,7 +92,7 @@
   }
 
   .section-header {
-    background: linear-gradient(135deg, #00796b 0%, #00695c 100%);
+    background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
     color: white;
     padding: 12px 18px;
     font-weight: 600;
@@ -152,8 +152,8 @@
 
     &:focus {
       outline: none;
-      border-color: #00796b;
-      box-shadow: 0 0 0 3px rgba(0, 121, 107, 0.1);
+      border-color: #78866B;
+      box-shadow: 0 0 0 3px rgba(120, 134, 107, 0.1);
     }
 
     &::placeholder {
@@ -228,12 +228,12 @@
   }
 
   .btn-primary {
-    background: linear-gradient(135deg, #00796b 0%, #00695c 100%);
+    background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
     color: white;
-    box-shadow: 0 2px 5px rgba(0, 121, 107, 0.3);
+    box-shadow: 0 2px 5px rgba(120, 134, 107, 0.3);
 
     &:hover:not(:disabled) {
-      box-shadow: 0 4px 12px rgba(0, 121, 107, 0.4);
+      box-shadow: 0 4px 12px rgba(120, 134, 107, 0.4);
     }
   }
 

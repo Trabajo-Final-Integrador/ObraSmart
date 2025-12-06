@@ -18,7 +18,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 1.5rem;
-  background: linear-gradient(135deg, #00796b 0%, #00695c 100%);
+  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 
@@ -105,7 +105,7 @@
 // =9 FORM HEADER
 // ========================================
 .form-header {
-  background: linear-gradient(135deg, #00796b 0%, #00695c 100%);
+  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
   padding: 1rem 1.5rem;
   color: white;
   flex-shrink: 0;
@@ -150,7 +150,7 @@
     margin-bottom: 0.4rem;
 
     i {
-      color: #00796b;
+      color: #78866B;
       font-size: 1.1rem;
     }
 
@@ -174,8 +174,8 @@
     transition: all 0.3s ease;
 
     &:focus {
-      border-color: #00796b;
-      box-shadow: 0 0 0 0.2rem rgba(0, 121, 107, 0.15);
+      border-color: #78866B;
+      box-shadow: 0 0 0 0.2rem rgba(120, 134, 107, 0.15);
       outline: none;
     }
 
@@ -200,7 +200,7 @@
   align-items: center;
   padding: 1rem 1.5rem;
   background: #f8f9fa;
-  border-top: 1px solid #e9ecef;
+  border-top: 2px solid #6b7760;
   flex-shrink: 0;
 
   .btn-cancelar {
@@ -232,18 +232,19 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, #00796b 0%, #00695c 100%);
+    background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
     color: white;
     border: none;
     border-radius: 8px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 6px rgba(0, 121, 107, 0.3);
+    box-shadow: 0 2px 6px rgba(120, 134, 107, 0.3);
 
     &:hover:not(:disabled) {
+      background: #6b7760;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 121, 107, 0.4);
+      box-shadow: 0 4px 12px rgba(120, 134, 107, 0.4);
     }
 
     &:disabled {
@@ -266,7 +267,7 @@
   justify-content: center;
   gap: 1rem;
   padding: 1rem;
-  background: linear-gradient(135deg, #00796b 0%, #00695c 100%);
+  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
   color: rgba(255, 255, 255, 0.9);
   font-size: 0.85rem;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);

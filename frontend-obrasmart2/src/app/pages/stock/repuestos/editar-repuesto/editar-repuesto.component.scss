@@ -11,7 +11,7 @@
 .top-navbar {
   display: flex;
   align-items: center;
-  background-color: #656666;
+  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
   color: white;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -96,7 +96,7 @@
 }
 
 .form-header {
-  background: linear-gradient(135deg, #00796b 0%, #00695c 100%);
+  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
   color: white;
   padding: 15px 25px;
   display: flex;
@@ -137,7 +137,7 @@
     width: 3rem;
     height: 3rem;
     margin-bottom: 20px;
-    color: #00796b !important;
+    color: #78866B !important;
   }
 
   p {
@@ -156,7 +156,7 @@
   font-size: 0.9rem;
 
   i {
-    color: #00796b;
+    color: #78866B;
     font-size: 0.95rem;
   }
 
@@ -174,8 +174,8 @@
   transition: all 0.3s ease;
 
   &:focus {
-    border-color: #00796b;
-    box-shadow: 0 0 0 0.2rem rgba(0, 121, 107, 0.15);
+    border-color: #78866B;
+    box-shadow: 0 0 0 0.2rem rgba(120, 134, 107, 0.15);
     outline: none;
   }
 
@@ -186,7 +186,7 @@
 
 /* =9 Bot�n a�adir categor�a */
 .btn-add-category {
-  background: #00796b;
+  background: #78866B;
   color: white;
   border: none;
   border-radius: 6px;
@@ -203,7 +203,7 @@
   }
 
   &:hover {
-    background: #00695c;
+    background: #6b7760;
     transform: scale(1.05);
   }
 
@@ -253,14 +253,14 @@
 }
 
 .btn-guardar {
-  background: #00796b;
+  background: #78866B;
   color: white;
-  box-shadow: 0 2px 5px rgba(0, 121, 107, 0.3);
+  box-shadow: 0 2px 5px rgba(120, 134, 107, 0.3);
 
   &:hover:not(:disabled) {
-    background: #00695c;
+    background: #6b7760;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 121, 107, 0.4);
+    box-shadow: 0 4px 8px rgba(120, 134, 107, 0.4);
   }
 
   &:active:not(:disabled) {
@@ -270,13 +270,13 @@
 
 /* =9 Footer */
 .footer {
-  background: #656666;
+  background: #78866B;
   color: white;
   text-align: right;
   padding: 8px 20px;
   font-size: 0.9rem;
   flex-shrink: 0;
-  border-top: 2px solid #555;
+  border-top: 2px solid #6b7760;
 
   span {
     margin: 0 8px;
@@ -284,7 +284,7 @@
     transition: color 0.3s;
 
     &:hover {
-      color: #00796b;
+      color: #D0D9CD;
     }
   }
 
@@ -312,7 +312,7 @@
   }
 
   .modal-header {
-    background: linear-gradient(135deg, #00796b 0%, #00695c 100%);
+    background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
     color: white;
     border-bottom: none;
     padding: 20px 25px;
@@ -354,11 +354,11 @@
       font-weight: 500;
 
       &.btn-primary {
-        background: #00796b;
+        background: #78866B;
         border: none;
 
         &:hover {
-          background: #00695c;
+          background: #6b7760;
         }
       }
     }

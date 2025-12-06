@@ -23,6 +23,12 @@ export class DashboardStockComponent implements OnInit {
 
   loading = true;
 
+  // Sidebar menu state
+  menuAbierto = false;
+  submenuUsuariosOpen = false;
+  submenuReparacionOpen = false;
+  submenuStockOpen = false;
+
   constructor(
     private repSrv: RepuestoService,
     private movSrv: MovimientosService,
@@ -73,7 +79,30 @@ export class DashboardStockComponent implements OnInit {
     this.router.navigate([path]);
   }
 
-   toggleTheme() {
+  regresar() {
+    this.router.navigate(['/principal']);
+  }
+
+  toggleMenu() {
+    this.menuAbierto = !this.menuAbierto;
+  }
+
+  toggleUsuarios(event: Event) {
+    event.preventDefault();
+    this.submenuUsuariosOpen = !this.submenuUsuariosOpen;
+  }
+
+  toggleReparacion(event: Event) {
+    event.preventDefault();
+    this.submenuReparacionOpen = !this.submenuReparacionOpen;
+  }
+
+  toggleStock(event: Event) {
+    event.preventDefault();
+    this.submenuStockOpen = !this.submenuStockOpen;
+  }
+
+  toggleTheme() {
     this.themeService.toggleTheme();
     this.theme = this.themeService.getTheme();
   }

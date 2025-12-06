@@ -6,7 +6,7 @@
   align-items: center;
 
   i {
-    color: #00796b;
+    color: #78866B;
   }
 }
 
@@ -22,7 +22,7 @@
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 1.5rem;
-  border-top: 1px solid #e5e7eb;
+  border-top: 2px solid #6b7760;
   padding-top: 1.2rem;
 }
 
@@ -54,11 +54,11 @@
 }
 
 .btn-siguiente {
-  background-color: #00796b;
+  background-color: #78866B;
   color: white;
 
   &:hover {
-    background-color: #00695c;
+    background-color: #6b7760;
     transform: translateX(2px);
   }
 }

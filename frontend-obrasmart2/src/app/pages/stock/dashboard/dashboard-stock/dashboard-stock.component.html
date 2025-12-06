@@ -1,120 +1,188 @@
-<div class="bg-dark text-light d-flex flex-column" style="height: 100vh; overflow: hidden">
-
-  <div class="container py-4">
-
-    <!-- Títulos -->
-    <h2 class="titulo">Panel de Control</h2>
-    <p class="subtitulo">Gestión de inventario y stock de repuestos</p>
-
-    <!-- === CARDS SUPERIORES === -->
-    <div class="cards">
-
-      <div class="card shadow-sm">
-        <div class="card-header d-flex justify-content-between">
-          <span class="card-title">Total Repuestos</span>
-          <i class="bi bi-box"></i>
-        </div>
-        <div class="card-body">
-          <div class="value">{{ totalRepuestos }}</div>
-          <p class="small text-muted">Inventario total</p>
-        </div>
-      </div>
-
-      <div class="card shadow-sm">
-        <div class="card-header d-flex justify-content-between">
-          <span class="card-title">Stock Bajo</span>
-          <i class="bi bi-exclamation-triangle text-danger"></i>
-        </div>
-        <div class="card-body">
-          <div class="value text-danger">{{ stockBajo }}</div>
-          <p class="small text-muted">Requieren reposición</p>
-        </div>
-      </div>
-
-      <div class="card shadow-sm">
-        <div class="card-header d-flex justify-content-between">
-          <span class="card-title">Movimientos Hoy</span>
-          <i class="bi bi-activity"></i>
-        </div>
-        <div class="card-body">
-          <div class="value">{{ movimientosHoy }}</div>
-          <p class="small text-muted">Entradas y salidas</p>
-        </div>
-      </div>
-
-      <div class="card shadow-sm">
-        <div class="card-header d-flex justify-content-between">
-          <span class="card-title">Órdenes Pendientes</span>
-          <i class="bi bi-cart"></i>
-        </div>
-        <div class="card-body">
-          <div class="value">{{ ordenesPendientes }}</div>
-          <p class="small text-muted">En proceso</p>
-        </div>
-      </div>
-
+<div class="layout-container">
+  <!-- Navbar -->
+  <header class="top-navbar">
+    <button class="menu-btn" (click)="toggleMenu()">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="navbar-title">Panel de Control - Stock</div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" (click)="regresar()">
+        <i class="bi bi-arrow-left"></i>
+        Regresar
+      </button>
+      <app-helper></app-helper>
     </div>
+  </header>
 
-    <!-- === 2 COLUMNAS ABAJO === -->
-    <div class="row mt-4 g-4">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.open]="menuAbierto">
+    <div class="sidebar-header">
+      <h3><i class="bi bi-grid-3x3-gap me-2"></i>Menú Principal</h3>
+      <button class="close-sidebar-btn" (click)="toggleMenu()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <ul class="nav flex-column">
+      <!-- Usuarios -->
+      <li class="nav-item">
+        <a class="nav-link d-flex justify-content-between align-items-center" href="#" (click)="toggleUsuarios($event)">
+          <span><i class="bi bi-people me-2"></i> Gestion de Usuarios</span>
+          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuUsuariosOpen"></i>
+        </a>
+        <ul *ngIf="submenuUsuariosOpen" class="submenu">
+          <li><a class="dropdown-item" routerLink="/alta-usuario"><i class="bi bi-person-bounding-box"></i> Registrar Usuario</a></li>
+          <li><a class="dropdown-item" routerLink="/listado-usuario"><i class="bi bi-people"></i> Listado de Usuarios</a></li>
+        </ul>
+      </li>
 
-      <!-- ACCESO RÁPIDO -->
-      <div class="col-lg-6">
-        <div class="panel">
-          <h4>Acceso Rápido</h4>
+      <!-- Reparaciones -->
+      <li class="nav-item">
+        <a class="nav-link d-flex justify-content-between align-items-center" href="#" (click)="toggleReparacion($event)">
+          <span><i class="bi bi-tools me-2"></i> Gestion de Reparaciones</span>
+          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuReparacionOpen"></i>
+        </a>
+        <ul *ngIf="submenuReparacionOpen" class="submenu">
+          <li><a class="dropdown-item" routerLink="/reparaciones/dashboard"><i class="bi bi-columns-gap me-2"></i> Panel</a></li>
+          <li><a class="nav-link" routerLink="/reparaciones/listado"><i class="bi bi-tools me-2"></i> Reparaciones</a></li>
+        </ul>
+      </li>
 
-          <button class="btn btn-outline-light w-100 mb-2 text-start"
-                  (click)="ir('/stock/repuestos')">
-            <i class="bi bi-box-seam me-2"></i> Gestionar Repuestos
-          </button>
+      <!-- Equipos -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/equipos"><i class="bi bi-truck-flatbed"></i> Gestion de Equipos</a>
+      </li>
 
-          <button class="btn btn-outline-light w-100 mb-2 text-start"
-                  (click)="ir('/stock/movimientos')">
-            <i class="bi bi-arrow-left-right me-2"></i> Ver Movimientos
-          </button>
+      <!-- Stock -->
+      <li class="nav-item">
+        <a class="nav-link d-flex justify-content-between align-items-center" href="#" (click)="toggleStock($event)">
+          <span><i class="bi bi-box-seam me-2"></i> Gestion de Stock</span>
+          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuStockOpen"></i>
+        </a>
+        <ul *ngIf="submenuStockOpen" class="submenu">
+          <li><a class="dropdown-item" routerLink="/stock/dashboard" routerLinkActive="active"><i class="bi bi-columns-gap"></i> Indicadores</a></li>
+          <li><a class="dropdown-item" routerLink="/stock/repuestos"><i class="bi bi-box"></i> Repuestos</a></li>
+          <li><a class="dropdown-item" routerLink="/stock/proveedores"><i class="bi bi-truck"></i> Proveedores</a></li>
+          <li><a class="dropdown-item" routerLink="/stock/movimientos"><i class="bi bi-graph-up-arrow"></i> Movimientos</a></li>
+          <li><a class="dropdown-item" routerLink="/stock/ordenes"><i class="bi bi-cart2"></i> Órdenes</a></li>
+        </ul>
+      </li>
 
-          <button class="btn btn-outline-light w-100 mb-2 text-start"
-                  (click)="ir('/stock/ordenes')">
-            <i class="bi bi-cart-check me-2"></i> Órdenes de Compra
-          </button>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/reportes"><i class="bi bi-file-bar-graph me-2"></i> Gestion de Reportes</a>
+      </li>
+    </ul>
+  </aside>
 
-          <button class="btn btn-outline-light w-100 mb-2 text-start"
-                  (click)="ir('/stock/proveedores')">
-            <i class="bi bi-people me-2"></i> Gestionar Proveedores
-          </button>
+  <!-- Overlay para cerrar sidebar -->
+  <div class="sidebar-overlay" [class.active]="menuAbierto" (click)="toggleMenu()"></div>
 
+  <!-- Contenido principal -->
+  <div class="content">
+    <div class="dashboard-content">
+
+      <!-- Títulos -->
+      <div class="header-section">
+        <h2 class="titulo">Panel de Control</h2>
+        <p class="subtitulo">Gestión de inventario y stock de repuestos</p>
+      </div>
+
+      <!-- === CARDS SUPERIORES === -->
+      <div class="cards">
+        <div class="card shadow-sm">
+          <div class="card-header d-flex justify-content-between">
+            <span class="card-title">Total Repuestos</span>
+            <i class="bi bi-box"></i>
+          </div>
+          <div class="card-body">
+            <div class="value">{{ totalRepuestos }}</div>
+            <p class="small text-muted">Inventario total</p>
+          </div>
+        </div>
+
+        <div class="card shadow-sm">
+          <div class="card-header d-flex justify-content-between">
+            <span class="card-title">Stock Bajo</span>
+            <i class="bi bi-exclamation-triangle text-danger"></i>
+          </div>
+          <div class="card-body">
+            <div class="value text-danger">{{ stockBajo }}</div>
+            <p class="small text-muted">Requieren reposición</p>
+          </div>
+        </div>
+
+        <div class="card shadow-sm">
+          <div class="card-header d-flex justify-content-between">
+            <span class="card-title">Movimientos Hoy</span>
+            <i class="bi bi-activity"></i>
+          </div>
+          <div class="card-body">
+            <div class="value">{{ movimientosHoy }}</div>
+            <p class="small text-muted">Entradas y salidas</p>
+          </div>
+        </div>
+
+        <div class="card shadow-sm">
+          <div class="card-header d-flex justify-content-between">
+            <span class="card-title">Órdenes Pendientes</span>
+            <i class="bi bi-cart"></i>
+          </div>
+          <div class="card-body">
+            <div class="value">{{ ordenesPendientes }}</div>
+            <p class="small text-muted">En proceso</p>
+          </div>
         </div>
       </div>
 
-      <!-- ALERTAS DE STOCK -->
-      <div class="col-lg-6">
-        <div class="panel">
-          <h4>Alertas de Stock</h4>
+      <!-- === 2 COLUMNAS ABAJO === -->
+      <div class="row mt-4 g-4">
+        <!-- ACCESO RÁPIDO -->
+        <div class="col-lg-6">
+          <div class="panel">
+            <h4><i class="bi bi-lightning-fill me-2"></i>Acceso Rápido</h4>
 
-          <div *ngIf="alertasStock.length === 0" class="alert alert-success">
-            No hay alertas 🚀
+            <button class="btn-quick-access w-100 mb-2 text-start" (click)="ir('/stock/repuestos')">
+              <i class="bi bi-box-seam me-2"></i> Gestionar Repuestos
+            </button>
+
+            <button class="btn-quick-access w-100 mb-2 text-start" (click)="ir('/stock/movimientos')">
+              <i class="bi bi-arrow-left-right me-2"></i> Ver Movimientos
+            </button>
+
+            <button class="btn-quick-access w-100 mb-2 text-start" (click)="ir('/stock/ordenes')">
+              <i class="bi bi-cart-check me-2"></i> Órdenes de Compra
+            </button>
+
+            <button class="btn-quick-access w-100 mb-2 text-start" (click)="ir('/stock/proveedores')">
+              <i class="bi bi-people me-2"></i> Gestionar Proveedores
+            </button>
           </div>
+        </div>
 
-          <div *ngFor="let a of alertasStock" class="alerta-item">
-            <i class="bi bi-exclamation-octagon text-danger me-2"></i>
-            <div>
-              <strong>{{ a.nombre }}</strong>
-              <p>Stock: {{ a.stock }} (Mín: {{ a.minimo }})</p>
+        <!-- ALERTAS DE STOCK -->
+        <div class="col-lg-6">
+          <div class="panel">
+            <h4><i class="bi bi-exclamation-triangle-fill me-2"></i>Alertas de Stock</h4>
+
+            <div *ngIf="alertasStock.length === 0" class="alert alert-success">
+              <i class="bi bi-check-circle-fill me-2"></i>
+              No hay alertas
+            </div>
+
+            <div *ngFor="let a of alertasStock" class="alerta-item">
+              <i class="bi bi-exclamation-octagon text-danger me-2"></i>
+              <div>
+                <strong>{{ a.nombre }}</strong>
+                <p class="mb-0">Stock: {{ a.stock }} (Mín: {{ a.minimo }})</p>
+              </div>
             </div>
           </div>
-
         </div>
       </div>
-
     </div>
   </div>
- <div class="d-flex justify-content-end mb-3">
-  <button class="btn btn-outline-secondary" (click)="cambiarTema()">
-    <i class="bi" [ngClass]="theme === 'light' ? 'bi-moon-fill' : 'bi-sun-fill'"></i>
-    {{ theme === 'light' ? 'Modo Oscuro' : 'Modo Claro' }}
-  </button>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span class="version">v1.0.0</span>
+  </footer>
 </div>
-
-
-</div>
-

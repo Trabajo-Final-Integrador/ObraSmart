@@ -10,7 +10,7 @@
 .top-navbar {
   display: flex;
   align-items: center;
-  background-color: #656666;
+  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
   color: white;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -173,8 +173,8 @@
 
     button {
       border: none;
-      background: #00796b;
-      color: #555;
+      background: #78866B;
+      color: white;
       font-size: 1rem;
       border: none;
       border-radius: 4px;
@@ -182,9 +182,14 @@
       cursor: pointer;
        transition: 0.2s;
 
+      &:hover:not(:disabled) {
+        background: #6b7760;
+      }
+
       &:disabled {
         background: #f1f1f1;
         cursor: not-allowed;
+        color: #999;
       }
     }
 
@@ -198,12 +203,12 @@
 /* 🔹 Footer */
 .footer {
   margin-top: auto;
-  background: #656666;
+  background: #78866B;
   color: white;
   text-align: right;
   padding: 8px 0;
   font-size: 0.9rem;
-  border-top: 2px solid;
+  border-top: 2px solid #6b7760;
 
   span {
     margin: 0 5px;
@@ -224,12 +229,15 @@
   left: -280px;
   width: 280px;
   height: calc(100vh - 60px);
-  background-color: #3b3b3b;
+  background: rgba(120, 134, 107, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: white;
   transition: left 0.3s ease;
   overflow-y: auto;
   z-index: 1000;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
 
   &.open {
     left: 0;
@@ -246,26 +254,47 @@
   }
 
   .nav-item {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 4px 12px;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(169, 186, 157, 0.45);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
   }
 
   .nav-link {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-    color: white;
+    color: rgba(255, 255, 255, 0.95);
     text-decoration: none;
     font-weight: 500;
-    font-size: 1rem;
-    transition: all 0.3s;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      padding-left: 25px;
-    }
+    font-size: 0.95rem;
+    padding: 13px 16px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 
     i {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
+      opacity: 0.95;
+      color: #D0D9CD;
+    }
+
+    &:hover {
+      color: white;
+      border-left-color: #D0D9CD;
+      background: rgba(169, 186, 157, 0.6);
+      padding-left: 20px;
+    }
+
+    &.active {
+      background: rgba(169, 186, 157, 0.7);
+      border-left-color: #D0D9CD;
+      color: white;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
     }
   }
 
@@ -303,8 +332,8 @@
       }
 
       &.active {
-        background: rgba(255, 255, 255, 0.2);
-        border-left: 4px solid #00796b;
+        background: rgba(169, 186, 157, 0.65);
+        border-left: 4px solid #D0D9CD;
       }
 
       i {
