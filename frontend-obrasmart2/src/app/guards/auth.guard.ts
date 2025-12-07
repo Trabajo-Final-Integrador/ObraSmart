@@ -1,52 +1,51 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router,ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
+﻿import { Injectable } from '@angular/core';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { SessionService } from '../service/session.service';
+import Swal from 'sweetalert2';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
   constructor(private session: SessionService, private router: Router) {}
 
-   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-
-    console.log('🧭 Entrando al AuthGuard - URL:', state.url);
-    const url = state.url;
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const user = this.session.getUser();
 
-  
+    // Sin sesión: redirigir a login
+    if (!user) {
+      this.router.navigate(['/auth/login']);
+      return false;
+    }
 
-  // ⚙️ 2️⃣ Si no hay usuario logueado → redirigir al login
-  
-
-     if (!user) {
-    this.router.navigate(['/auth/login']);
-    return false;
-  }
-
-  // 🚫 Si el usuario está inactivo → login
-    if (user!.status === 'INACTIVO') {
-      alert('Tu cuenta está inactiva. Contacte al administrador.');
+    // Usuario inactivo
+    if (user.status === 'INACTIVO') {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Cuenta inactiva',
+        text: 'Contacta al administrador para habilitar el acceso.',
+        confirmButtonText: 'Entendido'
+      });
       this.session.clear();
       this.router.navigate(['/login']);
       return false;
     }
 
-    // 4️⃣ Acceso libre para rutas de stock
+    // Acceso libre para rutas de stock
     if (state.url.startsWith('/stock')) {
-      console.log('✅ Acceso libre permitido para rutas de STOCK');
       return true;
     }
 
-    console.log('🔎 Rol guardado en sesión:', user!.role);
-    console.log('🔎 Datos esperados:', route.data['role']);
-   
-    // 🔒 Si la ruta requiere rol ADMINISTRADOR y no lo es → sin acceso
-    if (route.data['role'] === 'ADMINISTRACION' && user.role != 'ADMINISTRACION') {
-      alert('Acceso denegado. Solo los administradores pueden acceder a esta sección.');
+    // Validación de rol admin
+    if (route.data['role'] === 'ADMINISTRACION' && user.role !== 'ADMINISTRACION') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Acceso denegado',
+        text: 'Solo los administradores pueden acceder a esta sección.',
+        confirmButtonText: 'Cerrar'
+      });
       this.router.navigate(['/principal']);
       return false;
     }
 
-    // ✅ Si todo está correcto, permitir acceso
     return true;
   }
 }

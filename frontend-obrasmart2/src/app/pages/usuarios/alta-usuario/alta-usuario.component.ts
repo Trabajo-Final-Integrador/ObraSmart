@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 import { Usuario } from '../usuario.model';
 
 @Component({
@@ -20,23 +21,28 @@ export class AltaUsuarioComponent {
     status: 'ACTIVO'
   };
 
-    constructor(private http: HttpClient,private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   crearUsuario() {
-    console.log('📤 Enviando usuario:', this.usuario);
-    console.log('📦 Datos que se envían al backend:', this.usuario);
-
     this.http.post('http://localhost:8085/users', this.usuario).subscribe({
-        next: (res) => {
-          console.log('✅ Usuario creado con éxito:', res);
-          alert('Usuario creado correctamente. Ahora puede iniciar sesión.');
-          this.router.navigate(['/auth/login']); // 👈 redirección al login
-        },
-        error: (err) => {
-          console.error('❌ Error al crear usuario:', err);
-          alert('Error al registrar usuario. Verifique los datos.');
-        }
+      next: (res) => {
+        console.log('Usuario creado con éxito:', res);
+        Swal.fire({
+          icon: 'success',
+          title: 'Usuario creado',
+          text: 'Ahora puedes iniciar sesión.',
+          confirmButtonText: 'Ir a login'
+        }).then(() => this.router.navigate(['/auth/login']));
+      },
+      error: (err) => {
+        console.error('Error al crear usuario:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Registro fallido',
+          text: 'No se pudo registrar el usuario. Verifica los datos.',
+          confirmButtonText: 'Cerrar'
+        });
+      }
     });
   }
 }
-

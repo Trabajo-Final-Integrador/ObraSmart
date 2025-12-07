@@ -7,4 +7,5 @@ export interface Usuario {
   password: string;
   role: 'ADMINISTRACION' | 'TECNICO' | 'OPERARIO';
   status: 'ACTIVO' | 'INACTIVO';
+  observaciones?: string;
 }

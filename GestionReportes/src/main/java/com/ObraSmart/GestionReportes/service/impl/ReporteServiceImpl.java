@@ -1,20 +1,15 @@
 package com.ObraSmart.GestionReportes.service.impl;
 
+import com.ObraSmart.GestionReportes.service.ReporteService;
 import com.ObraSmart.GestionReportes.dto.DashboardReporteDto;
 import com.ObraSmart.GestionReportes.dto.DashboardReporteDto.*;
-
-
-// DTOs externos reales
 import com.ObraSmart.GestionReportes.dto.externos.EquipoDTO;
+import com.ObraSmart.GestionReportes.dto.externos.MovimientoStockDto;
 import com.ObraSmart.GestionReportes.dto.externos.ReparacionResponseDto;
 import com.ObraSmart.GestionReportes.dto.externos.RepuestoDto;
-import com.ObraSmart.GestionReportes.dto.externos.MovimientoStockDto;
-
-
 import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -26,20 +21,20 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ReporteServiceImpl implements com.ObraSmart.GestionReportes.service.ReporteService {
+public class ReporteServiceImpl implements ReporteService {
 
     private final RestTemplate restTemplate;
 
-    // ============================
-    //  URLs DEL GATEWAY
-    // ============================
     @Value("${obrasmart.equipos.base-url}")
     private String equiposBaseUrl;
 
@@ -52,27 +47,24 @@ public class ReporteServiceImpl implements com.ObraSmart.GestionReportes.service
     @Value("${obrasmart.stock.movimientos-url}")
     private String movimientosUrl;
 
-
-    // ============================
-    //  MÉTODO PRINCIPAL
-    // ============================
     @Override
-    public DashboardReporteDto generarDashboard() {
+    public DashboardReporteDto generarDashboard(LocalDate startDate, LocalDate endDate, String preset) {
 
-        log.info("🔄 Generando dashboard de ObraSmart…");
+        log.info("Generando dashboard de ObraSmart con filtros de fecha");
+        RangoFechas rango = resolverRangoFechas(startDate, endDate, preset);
 
-        // 1) Consumimos los microservicios vía API Gateway
         List<EquipoDTO> equipos = obtenerEquipos();
         List<ReparacionResponseDto> reparaciones = obtenerReparaciones();
         List<RepuestoDto> repuestos = obtenerRepuestos();
         List<MovimientoStockDto> movimientos = obtenerMovimientos();
 
-        // 2) Construimos cada sección
-        EquiposDashboardDto equiposDto = construirSeccionEquipos(equipos, reparaciones);
-        ReparacionesDashboardDto reparacionesDto = construirSeccionReparaciones(reparaciones);
-        StockDashboardDto stockDto = construirSeccionStock(repuestos, movimientos);
+        List<ReparacionResponseDto> reparacionesFiltradas = filtrarReparacionesPorFecha(reparaciones, rango);
+        List<MovimientoStockDto> movimientosFiltrados = filtrarMovimientosPorFecha(movimientos, rango);
 
-        // 3) Calculamos estado general
+        EquiposDashboardDto equiposDto = construirSeccionEquipos(equipos, reparacionesFiltradas, reparaciones);
+        ReparacionesDashboardDto reparacionesDto = construirSeccionReparaciones(reparacionesFiltradas, reparaciones);
+        StockDashboardDto stockDto = construirSeccionStock(repuestos, movimientosFiltrados);
+
         EstadoGeneralDto estadoGeneral = calcularEstadoGeneral(equiposDto, reparacionesDto, stockDto);
 
         DashboardReporteDto dashboard = DashboardReporteDto.builder()
@@ -83,14 +75,9 @@ public class ReporteServiceImpl implements com.ObraSmart.GestionReportes.service
                 .fechaGeneracion(LocalDateTime.now())
                 .build();
 
-        log.info("✅ Dashboard generado correctamente.");
+        log.info("Dashboard generado correctamente ({} a {}).", rango.inicio(), rango.fin());
         return dashboard;
     }
-
-
-    // ============================
-    //  CONSUMO DE MICROSERVICIOS
-    // ============================
 
     private List<EquipoDTO> obtenerEquipos() {
         try {
@@ -101,119 +88,81 @@ public class ReporteServiceImpl implements com.ObraSmart.GestionReportes.service
                     new ParameterizedTypeReference<List<EquipoDTO>>() {}
             );
             return Optional.ofNullable(response.getBody()).orElse(List.of());
-
         } catch (Exception e) {
-            log.error("❌ Error consultando Equipos", e);
+            log.error("Error consultando Equipos", e);
             return List.of();
         }
     }
 
     private List<ReparacionResponseDto> obtenerReparaciones() {
         try {
-            log.info("🔍 Consultando reparaciones en: {}", reparacionesBaseUrl);
-
             var response = exchangeConCookie(
                     reparacionesBaseUrl,
                     HttpMethod.GET,
                     new ParameterizedTypeReference<List<ReparacionResponseDto>>() {}
             );
-            var lista = Optional.ofNullable(response.getBody()).orElse(List.of());
-            log.info("✅ Reparaciones obtenidas: {}", lista.size());
-            return lista;
-
+            return Optional.ofNullable(response.getBody()).orElse(List.of());
         } catch (Exception e) {
-            log.error("❌ Error consultando Reparaciones: {}", e.getMessage());
+            log.error("Error consultando Reparaciones: {}", e.getMessage());
             return List.of();
         }
     }
 
     private List<RepuestoDto> obtenerRepuestos() {
         try {
-            log.info("🔍 Consultando repuestos en: {}", repuestosUrl);
-
             var response = exchangeConCookie(
                     repuestosUrl,
                     HttpMethod.GET,
                     new ParameterizedTypeReference<List<RepuestoDto>>() {}
             );
-            var lista = Optional.ofNullable(response.getBody()).orElse(List.of());
-            log.info("✅ Repuestos obtenidos: {}", lista.size());
-            return lista;
-
+            return Optional.ofNullable(response.getBody()).orElse(List.of());
         } catch (Exception e) {
-            log.error("❌ Error consultando Repuestos: {}", e.getMessage());
+            log.error("Error consultando Repuestos: {}", e.getMessage());
             return List.of();
         }
     }
 
-
     private List<MovimientoStockDto> obtenerMovimientos() {
         try {
-            log.info("🔍 Consultando movimientos en: {}", movimientosUrl);
-
             var response = exchangeConCookie(
                     movimientosUrl,
                     HttpMethod.GET,
                     new ParameterizedTypeReference<List<MovimientoStockDto>>() {}
             );
-            var lista = Optional.ofNullable(response.getBody()).orElse(List.of());
-            log.info("✅ Movimientos obtenidos: {}", lista.size());
-            return lista;
-
+            return Optional.ofNullable(response.getBody()).orElse(List.of());
         } catch (Exception e) {
-            log.error("❌ Error consultando Movimientos: {}", e.getMessage());
+            log.error("Error consultando Movimientos: {}", e.getMessage());
             return List.of();
         }
     }
 
-
-
-    // ============================
-    //  SECCIÓN EQUIPOS
-    // ============================
-
     private EquiposDashboardDto construirSeccionEquipos(List<EquipoDTO> equipos,
-                                                        List<ReparacionResponseDto> reparaciones) {
+                                                        List<ReparacionResponseDto> reparacionesFiltradas,
+                                                        List<ReparacionResponseDto> reparacionesOriginales) {
 
         int totalEquipos = equipos.size();
-
-        // Crear un mapa de equipos por ID para búsqueda rápida
         Map<Long, EquipoDTO> equipoMap = equipos.stream()
                 .collect(Collectors.toMap(EquipoDTO::id, e -> e));
 
-        // Agrupar por tipo (usando nombre del equipo como proxy del tipo)
         Map<String, Long> porTipo = equipos.stream()
-                .collect(Collectors.groupingBy(
-                        e -> safeToString(e.nombre()),
-                        Collectors.counting()
-                ));
+                .collect(Collectors.groupingBy(e -> safeToString(e.nombre()), Collectors.counting()));
 
         Map<String, Long> porMarca = equipos.stream()
-                .collect(Collectors.groupingBy(
-                        e -> "Marca " + safeToString(e.idMarca()),
-                        Collectors.counting()
-                ));
+                .collect(Collectors.groupingBy(e -> "Marca " + safeToString(e.idMarca()), Collectors.counting()));
 
         Map<String, Long> porModelo = equipos.stream()
-                .collect(Collectors.groupingBy(
-                        e -> "Modelo " + safeToString(e.idModelo()),
-                        Collectors.counting()
-                ));
+                .collect(Collectors.groupingBy(e -> "Modelo " + safeToString(e.idModelo()), Collectors.counting()));
 
         Map<String, Long> porCombustible = equipos.stream()
-                .collect(Collectors.groupingBy(
-                        e -> safeToString(e.combustible()),
-                        Collectors.counting()
-                ));
+                .collect(Collectors.groupingBy(e -> safeToString(e.combustible()), Collectors.counting()));
 
+        List<ReparacionResponseDto> baseParaRanking = reparacionesFiltradas.isEmpty()
+                ? reparacionesOriginales
+                : reparacionesFiltradas;
 
-        // Ranking equipos más críticos - agrupar por equipoId real
-        Map<Long, Long> reparacionesPorEquipo = reparaciones.stream()
+        Map<Long, Long> reparacionesPorEquipo = baseParaRanking.stream()
                 .filter(r -> r.equipoId() != null)
-                .collect(Collectors.groupingBy(
-                        ReparacionResponseDto::equipoId,
-                        Collectors.counting()
-                ));
+                .collect(Collectors.groupingBy(ReparacionResponseDto::equipoId, Collectors.counting()));
 
         List<EquipoCriticoDto> equiposCriticos = reparacionesPorEquipo.entrySet()
                 .stream()
@@ -239,52 +188,40 @@ public class ReporteServiceImpl implements com.ObraSmart.GestionReportes.service
                 .build();
     }
 
+    private ReparacionesDashboardDto construirSeccionReparaciones(List<ReparacionResponseDto> reparacionesFiltradas,
+                                                                  List<ReparacionResponseDto> reparacionesOriginales) {
 
-    // ============================
-    //  SECCIÓN REPARACIONES
-    // ============================
+        List<ReparacionResponseDto> base = reparacionesFiltradas.isEmpty()
+                ? reparacionesOriginales
+                : reparacionesFiltradas;
 
-    private ReparacionesDashboardDto construirSeccionReparaciones(List<ReparacionResponseDto> reparaciones) {
+        int totalReparaciones = base.size();
 
-        int totalReparaciones = reparaciones.size();
+        Map<String, Long> porEstado = base.stream()
+                .collect(Collectors.groupingBy(r -> safeToString(r.estadoReparacion()), Collectors.counting()));
 
-        Map<String, Long> porEstado = reparaciones.stream()
-                .collect(Collectors.groupingBy(
-                        r -> safeToString(r.estadoReparacion()),
-                        Collectors.counting()
-                ));
+        Map<String, Long> porTipoMantenimiento = base.stream()
+                .collect(Collectors.groupingBy(r -> safeToString(r.tipoMantenimiento()), Collectors.counting()));
 
-        Map<String, Long> porTipoMantenimiento = reparaciones.stream()
-                .collect(Collectors.groupingBy(
-                        r -> safeToString(r.tipoMantenimiento()),
-                        Collectors.counting()
-                ));
-
-        Map<String, Long> reparacionesPorMes = reparaciones.stream()
+        Map<String, Long> reparacionesPorMes = base.stream()
                 .filter(r -> r.fechaCreacion() != null)
                 .collect(Collectors.groupingBy(
-                        r -> r.fechaCreacion().getYear() +
-                                "-" + String.format("%02d", r.fechaCreacion().getMonthValue()),
+                        r -> r.fechaCreacion().getYear() + "-" + String.format("%02d", r.fechaCreacion().getMonthValue()),
                         Collectors.counting()
                 ));
 
-        Map<Long, Long> reparacionesPorEquipo = reparaciones.stream()
+        Map<Long, Long> reparacionesPorEquipo = base.stream()
                 .filter(r -> r.equipoId() != null)
-                .collect(Collectors.groupingBy(
-                        ReparacionResponseDto::equipoId,
-                        Collectors.counting()
-                ));
+                .collect(Collectors.groupingBy(ReparacionResponseDto::equipoId, Collectors.counting()));
 
         List<EquipoCriticoDto> topEquipos = reparacionesPorEquipo.entrySet()
                 .stream()
                 .sorted(Map.Entry.<Long, Long>comparingByValue().reversed())
                 .limit(5)
-                .map(x -> new EquipoCriticoDto(x.getKey(),
-                        "Equipo " + x.getKey(),
-                        x.getValue()))
+                .map(x -> new EquipoCriticoDto(x.getKey(), "Equipo " + x.getKey(), x.getValue()))
                 .toList();
 
-        double tiempoPromedioHoras = reparaciones.stream()
+        double tiempoPromedioHoras = base.stream()
                 .filter(r -> r.fechaInicio() != null && r.fechaFin() != null)
                 .mapToLong(r -> java.time.Duration.between(r.fechaInicio(), r.fechaFin()).toHours())
                 .average()
@@ -301,23 +238,17 @@ public class ReporteServiceImpl implements com.ObraSmart.GestionReportes.service
                 .build();
     }
 
-
-    // ============================
-    //  SECCIÓN STOCK
-    // ============================
-
     private StockDashboardDto construirSeccionStock(List<RepuestoDto> repuestos,
                                                     List<MovimientoStockDto> movimientos) {
 
         int totalRepuestos = repuestos.size();
 
-        // Repuestos bajo mínimo
         List<RepuestoCriticoDto> repuestosCriticos = repuestos.stream()
                 .filter(r -> r.stock() != null && r.stockMinimo() != null && r.stock() < r.stockMinimo())
                 .map(r -> RepuestoCriticoDto.builder()
                         .repuestoId(r.id())
                         .nombre(r.nombre())
-                        .categoria("Categoría " + safeToString(r.idCategoria()))
+                        .categoria("Categoria " + safeToString(r.idCategoria()))
                         .stockActual(r.stock())
                         .stockMinimo(r.stockMinimo())
                         .build())
@@ -328,18 +259,11 @@ public class ReporteServiceImpl implements com.ObraSmart.GestionReportes.service
                 .filter(r -> r.stock() != null && r.stockMinimo() != null && r.stock() < r.stockMinimo())
                 .count();
 
-        // Agrupar por categoría
         Map<String, Long> repuestosPorCategoria = repuestos.stream()
-                .collect(Collectors.groupingBy(
-                        r -> "Categoría " + safeToString(r.idCategoria()),
-                        Collectors.counting()
-                ));
+                .collect(Collectors.groupingBy(r -> "Categoria " + safeToString(r.idCategoria()), Collectors.counting()));
 
         Map<String, Long> movimientosPorTipo = movimientos.stream()
-                .collect(Collectors.groupingBy(
-                        m -> safeToString(m.tipo()),
-                        Collectors.counting()
-                ));
+                .collect(Collectors.groupingBy(m -> safeToString(m.tipo()), Collectors.counting()));
 
         Map<String, Long> movimientosPorMes = new HashMap<>();
 
@@ -353,11 +277,6 @@ public class ReporteServiceImpl implements com.ObraSmart.GestionReportes.service
                 .build();
     }
 
-
-    // ============================
-    //  ESTADO GENERAL
-    // ============================
-
     private EstadoGeneralDto calcularEstadoGeneral(EquiposDashboardDto equipos,
                                                    ReparacionesDashboardDto reparaciones,
                                                    StockDashboardDto stock) {
@@ -365,16 +284,12 @@ public class ReporteServiceImpl implements com.ObraSmart.GestionReportes.service
         int equiposCriticos = Optional.ofNullable(equipos.getEquiposCriticos()).orElse(List.of()).size();
         int repuestosCriticos = stock.getRepuestosBajoMinimo();
 
-        // Contar reparaciones abiertas/activas
         Map<String, Long> estadosReparaciones = reparaciones.getReparacionesPorEstado();
         int reparacionesAbiertas = estadosReparaciones.entrySet().stream()
-                .filter(e -> e.getKey().contains("ABIERTA") ||
-                           e.getKey().contains("EN_PROCESO") ||
-                           e.getKey().contains("PENDIENTE"))
+                .filter(e -> e.getKey().contains("ABIERTA") || e.getKey().contains("EN_PROCESO") || e.getKey().contains("PENDIENTE"))
                 .mapToInt(e -> e.getValue().intValue())
                 .sum();
 
-        // Calcular nivel de riesgo
         String nivelRiesgo;
         String mensaje;
 
@@ -382,10 +297,10 @@ public class ReporteServiceImpl implements com.ObraSmart.GestionReportes.service
 
         if (totalProblemas >= 10) {
             nivelRiesgo = "ALTO";
-            mensaje = "Atención requerida: múltiples equipos críticos, stock bajo y reparaciones pendientes";
+            mensaje = "AtenciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n requerida: mÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âºltiples equipos crÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­ticos, stock bajo y reparaciones pendientes";
         } else if (totalProblemas >= 5) {
             nivelRiesgo = "MEDIO";
-            mensaje = "Monitoreo necesario: algunos equipos requieren atención";
+            mensaje = "Monitoreo necesario: algunos equipos requieren atenciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n";
         } else {
             nivelRiesgo = "BAJO";
             mensaje = "Sistema funcionando correctamente";
@@ -400,14 +315,76 @@ public class ReporteServiceImpl implements com.ObraSmart.GestionReportes.service
                 .build();
     }
 
+    private record RangoFechas(LocalDateTime inicio, LocalDateTime fin) {}
 
-    // ============================
-    //  HELPER
-    // ============================
+    private RangoFechas resolverRangoFechas(LocalDate startDate, LocalDate endDate, String preset) {
+        LocalDate hoy = LocalDate.now();
+        LocalDate inicio = startDate != null ? startDate : hoy.minusDays(29);
+        LocalDate fin = endDate != null ? endDate : hoy;
+
+        if (preset != null && !preset.isBlank()) {
+            String p = preset.trim().toUpperCase(Locale.ROOT);
+            switch (p) {
+                case "LAST_7_DAYS":
+                case "ULTIMOS_7_DIAS":
+                    inicio = hoy.minusDays(6);
+                    fin = hoy;
+                    break;
+                case "LAST_30_DAYS":
+                case "ULTIMOS_30_DIAS":
+                    inicio = hoy.minusDays(29);
+                    fin = hoy;
+                    break;
+                case "LAST_YEAR":
+                case "ULTIMO_ANO":
+                case "ULTIMO_ANHO":
+                    inicio = hoy.minusYears(1);
+                    fin = hoy;
+                    break;
+                case "THIS_YEAR":
+                case "ESTE_ANO":
+                case "ESTE_ANHO":
+                    inicio = LocalDate.of(hoy.getYear(), 1, 1);
+                    fin = hoy;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (inicio.isAfter(fin)) {
+            LocalDate temp = inicio;
+            inicio = fin;
+            fin = temp;
+        }
+
+        return new RangoFechas(inicio.atStartOfDay(), fin.atTime(LocalTime.MAX));
+    }
+
+    private List<ReparacionResponseDto> filtrarReparacionesPorFecha(List<ReparacionResponseDto> reparaciones,
+                                                                   RangoFechas rango) {
+        return reparaciones.stream()
+                .filter(r -> r.fechaCreacion() != null)
+                .filter(r -> !r.fechaCreacion().isBefore(rango.inicio()) && !r.fechaCreacion().isAfter(rango.fin()))
+                .toList();
+    }
+
+    private List<MovimientoStockDto> filtrarMovimientosPorFecha(List<MovimientoStockDto> movimientos,
+                                                                RangoFechas rango) {
+        ZoneId zone = ZoneId.systemDefault();
+        return movimientos.stream()
+                .filter(m -> m.fecha() != null)
+                .filter(m -> {
+                    LocalDateTime fechaMov = LocalDateTime.ofInstant(m.fecha(), zone);
+                    return !fechaMov.isBefore(rango.inicio()) && !fechaMov.isAfter(rango.fin());
+                })
+                .toList();
+    }
 
     private String safeToString(Object value) {
         return value != null ? value.toString() : "N/D";
     }
+
     private String obtenerCookieSesion() {
         var requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes == null) return null;
@@ -432,8 +409,6 @@ public class ReporteServiceImpl implements com.ObraSmart.GestionReportes.service
         }
 
         HttpEntity<Void> entity = new HttpEntity<>(headers);
-
         return restTemplate.exchange(url, method, entity, responseType);
     }
-
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DashboardReporteDto } from 'src/app/pages/reportes/reporte.model';
 
@@ -10,9 +10,21 @@ export class ReportesService {
 
   constructor(private http: HttpClient) {}
 
-  getDashboard(): Observable<DashboardReporteDto> {
+  getDashboard(filters?: { startDate?: string; endDate?: string; preset?: string }): Observable<DashboardReporteDto> {
     console.log('🔍 Solicitando dashboard de reportes...');
-    return this.http.get<DashboardReporteDto>(`${this.apiUrl}/dashboard`);
+
+    let params = new HttpParams();
+    if (filters?.startDate) {
+      params = params.set('startDate', filters.startDate);
+    }
+    if (filters?.endDate) {
+      params = params.set('endDate', filters.endDate);
+    }
+    if (filters?.preset) {
+      params = params.set('preset', filters.preset);
+    }
+
+    return this.http.get<DashboardReporteDto>(`${this.apiUrl}/dashboard`, { params });
   }
 
   generarDashboard(): Observable<DashboardReporteDto> {

@@ -1,43 +1,53 @@
 package com.ObraSmart.GestionReportes.controller;
 
-import lombok.RequiredArgsConstructor;
 import com.ObraSmart.GestionReportes.dto.DashboardReporteDto;
 import com.ObraSmart.GestionReportes.service.ReporteService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/reportes")
 @RequiredArgsConstructor
-
 public class ReporteController {
 
     private final ReporteService reporteService;
 
     /**
-     * Dashboard "live": solo consulta los otros microservicios.
+     * Dashboard "live": consulta los otros microservicios con un rango de fechas.
      */
     @GetMapping("/dashboard")
-    public ResponseEntity<DashboardReporteDto> getDashboardLive() {
-        DashboardReporteDto dto = reporteService.generarDashboard();
+    public ResponseEntity<DashboardReporteDto> getDashboardLive(
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalDate endDate,
+            @RequestParam(required = false) String preset
+    ) {
+        DashboardReporteDto dto = reporteService.generarDashboard(startDate, endDate, preset);
         return ResponseEntity.ok(dto);
     }
 
     /**
-     * Genera y devuelve dashboard.
-     * (Tu servicio NO implementa guardado, así que usamos lo mismo)
+     * Genera y devuelve dashboard (sin persistir).
      */
     @PostMapping("/dashboard")
-    public ResponseEntity<DashboardReporteDto> generarYGuardarDashboard() {
-        DashboardReporteDto dto = reporteService.generarDashboard();
+    public ResponseEntity<DashboardReporteDto> generarYGuardarDashboard(
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalDate endDate,
+            @RequestParam(required = false) String preset
+    ) {
+        DashboardReporteDto dto = reporteService.generarDashboard(startDate, endDate, preset);
         return ResponseEntity.ok(dto);
     }
 
     /**
-     * Historial → tu servicio NO lo implementa.
-     * Lo desactivo para evitar errores.
+     * Historial: no implementado. Se mantiene 501 para evitar errores.
      */
     @GetMapping("/dashboard/historial")
     public ResponseEntity<List<DashboardReporteDto>> getHistorial(

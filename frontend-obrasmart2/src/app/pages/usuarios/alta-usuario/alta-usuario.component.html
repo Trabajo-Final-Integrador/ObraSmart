@@ -1,67 +1,90 @@
-<div class="page-container">
-  <div class="card form-card shadow">
-    <div class="card-body">
-      <h3 class="card-title mb-4 text-center text-dark">Registrar Usuario</h3>
-
-      <form (ngSubmit)="crearUsuario()" #formUsuario="ngForm">
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Nombre</label>
-            <input type="text" class="form-control" [(ngModel)]="usuario.firstname" name="firstname" required placeholder="Ingrese nombre" />
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Apellido</label>
-            <input type="text" class="form-control" [(ngModel)]="usuario.lastname" name="lastname" required placeholder="Ingrese apellido" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control" [(ngModel)]="usuario.email" name="email" required placeholder="usuario@email.com" />
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Usuario</label>
-            <input type="text" class="form-control" [(ngModel)]="usuario.username" name="username" required placeholder="Ingrese nombre de usuario" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Contraseña</label>
-            <input type="password" class="form-control" [(ngModel)]="usuario.password" name="password" required placeholder="Ingrese contraseña" />
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Rol</label>
-            <select class="form-select" [(ngModel)]="usuario.role" name="role" required>
-              <option value="ADMINISTRADOR">Administrador</option>
-              <option value="TECNICO">Técnico</option>
-              <option value="OPERARIO">Operario</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Estado</label>
-            <select class="form-select" [(ngModel)]="usuario.status" name="status" required>
-              <option value="ACTIVO">Activo</option>
-              <option value="INACTIVO">Inactivo</option>
-            </select>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Observaciones</label>
-            <textarea class="form-control" rows="2" placeholder="Notas opcionales..."></textarea>
-          </div>
-        </div>
-
-        <div class="form-actions d-flex justify-content-end mt-4">
-          <button type="button" class="btn btn-outline-secondary me-2" routerLink="/principal">Cancelar</button>
-          <button type="submit" class="btn btn-success" [disabled]="formUsuario.invalid">
-            <i class="bi bi-person-plus"></i> Crear Usuario
-          </button>
-        </div>
-      </form>
+﻿<div class="layout-container">
+  <!-- Navbar superior -->
+  <header class="top-navbar">
+    <h1 class="navbar-title">Registrar Usuario</h1>
+    <div class="navbar-actions">
+      <button class="btn-home" routerLink="/principal" title="Volver al inicio">
+        <i class="bi bi-house-door"></i>
+      </button>
+      <app-helper tooltip="Completa los datos para crear un nuevo usuario."></app-helper>
     </div>
-  </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="page-container">
+    <div class="card form-card shadow">
+      <div class="card-body">
+        <h3 class="card-title mb-4 text-center text-dark">Registrar Usuario</h3>
+
+        <form (ngSubmit)="crearUsuario()" #formUsuario="ngForm">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Nombre</label>
+              <input type="text" class="form-control" [(ngModel)]="usuario.firstname" name="firstname" required placeholder="Ingrese nombre" />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Apellido</label>
+              <input type="text" class="form-control" [(ngModel)]="usuario.lastname" name="lastname" required placeholder="Ingrese apellido" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" [(ngModel)]="usuario.email" name="email" required placeholder="usuario@email.com" />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Usuario</label>
+              <input type="text" class="form-control" [(ngModel)]="usuario.username" name="username" required placeholder="Ingrese nombre de usuario" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Contraseña</label>
+              <input type="password" class="form-control" [(ngModel)]="usuario.password" name="password" required placeholder="Ingrese contraseña" />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Rol</label>
+              <select class="form-select" [(ngModel)]="usuario.role" name="role" required>
+                <option value="ADMINISTRADOR">Administrador</option>
+                <option value="TECNICO">Técnico</option>
+                <option value="OPERARIO">Operario</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Estado</label>
+              <select class="form-select" [(ngModel)]="usuario.status" name="status" required>
+                <option value="ACTIVO">Activo</option>
+                <option value="INACTIVO">Inactivo</option>
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Observaciones</label>
+              <textarea class="form-control" rows="3" [(ngModel)]="usuario.observaciones" name="observaciones" placeholder="Notas opcionales..."></textarea>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 mt-3 form-actions">
+            <button type="button" class="btn btn-light" routerLink="/listado-usuario">Cancelar</button>
+            <button type="submit" class="btn btn-success d-flex align-items-center gap-2">
+              <i class="bi bi-person-plus"></i>
+              Crear Usuario
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer-bar">
+    <div class="footer-links">
+      <span>Términos</span> | <span>Privacidad</span> | <span>Soporte</span>
+    </div>
+    <div class="footer-version">v1.0.0</div>
+  </footer>
 </div>

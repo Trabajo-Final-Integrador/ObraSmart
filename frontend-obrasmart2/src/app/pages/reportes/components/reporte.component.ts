@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { ReportesService } from 'src/app/service/reportes.service';
 import { DashboardReporteDto } from 'src/app/pages/reportes/reporte.model';
 import { ChartData, ChartOptions } from 'chart.js';
@@ -12,9 +12,13 @@ export class ReportesComponent implements OnInit {
 
   data!: DashboardReporteDto;
   isLoading = true;
-  reparacionesActivas: number = 0;
-reparacionesPendientes: number = 0;
+  reparacionesActivas = 0;
+  reparacionesPendientes = 0;
 
+  // Filtros de fecha
+  startDate = '';
+  endDate = '';
+  preset = 'LAST_30_DAYS';
 
   // Gráfico de tendencia de reparaciones (line chart)
   reparacionesChartData!: ChartData<'line'>;
@@ -55,43 +59,83 @@ reparacionesPendientes: number = 0;
       }
     }
   };
-  donutLegend: any[] = [];
+  donutLegend: { label: string; color: string }[] = [];
 
   constructor(private reportesService: ReportesService) {}
 
   ngOnInit(): void {
-    this.cargarDashboard();
+    this.aplicarPreset('LAST_30_DAYS');
   }
 
   cargarDashboard() {
     this.isLoading = true;
 
-    this.reportesService.getDashboard().subscribe({
+    this.reportesService.getDashboard({
+      startDate: this.startDate,
+      endDate: this.endDate,
+      preset: this.preset
+    }).subscribe({
       next: (resp) => {
-        console.log('📊 Datos recibidos del dashboard:', resp);
-        console.log('🔧 Reparaciones:', resp?.reparaciones);
-        console.log('📦 Stock:', resp?.stock);
-        console.log('🚜 Equipos:', resp?.equipos);
+        console.log('Datos recibidos del dashboard:', resp);
         this.data = resp;
 
-         const estados = resp.reparaciones?.reparacionesPorEstado || {};
+        const estados = resp.reparaciones?.reparacionesPorEstado || {};
+        this.reparacionesActivas =
+          (estados['ABIERTA'] || 0) +
+          (estados['EN_PROCESO'] || 0) +
+          (estados['PENDIENTE'] || 0);
 
-      this.reparacionesActivas =
-        (estados['ABIERTA'] || 0) +
-        (estados['EN_PROCESO'] || 0) +
-        (estados['PENDIENTE'] || 0);
-
-      this.reparacionesPendientes = (estados['PENDIENTE'] || 0);
+        this.reparacionesPendientes = (estados['PENDIENTE'] || 0);
 
         this.configurarGraficos();
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('❌ Error al cargar reportes:', err);
+        console.error('Error al cargar reportes:', err);
         this.isLoading = false;
         alert('Error al cargar los reportes. Revisa la consola para más detalles.');
       }
     });
+  }
+
+  aplicarPreset(preset: string) {
+    this.preset = preset;
+    const hoy = new Date();
+    let inicio = new Date(hoy);
+
+    switch (preset) {
+      case 'LAST_7_DAYS':
+        inicio.setDate(hoy.getDate() - 6);
+        break;
+      case 'LAST_30_DAYS':
+        inicio.setDate(hoy.getDate() - 29);
+        break;
+      case 'THIS_YEAR':
+        inicio = new Date(hoy.getFullYear(), 0, 1);
+        break;
+      case 'LAST_YEAR':
+        inicio = new Date(hoy.getFullYear() - 1, hoy.getMonth(), hoy.getDate());
+        break;
+      default:
+        inicio.setDate(hoy.getDate() - 29);
+        break;
+    }
+
+    this.startDate = this.formatearFecha(inicio);
+    this.endDate = this.formatearFecha(hoy);
+    this.cargarDashboard();
+  }
+
+  onDateChange() {
+    this.preset = 'CUSTOM';
+    if (this.startDate && this.endDate && this.startDate > this.endDate) {
+      this.endDate = this.startDate;
+    }
+    this.cargarDashboard();
+  }
+
+  private formatearFecha(fecha: Date): string {
+    return fecha.toISOString().split('T')[0];
   }
 
   configurarGraficos() {
