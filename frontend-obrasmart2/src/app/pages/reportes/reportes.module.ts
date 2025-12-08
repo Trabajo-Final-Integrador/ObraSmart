@@ -6,6 +6,7 @@ import { ReportesRoutingModule } from './reportes-routing.module';
 import { FormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts'; // Para gráficos
 import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     HttpClientModule,
     NgChartsModule,
-    ReportesRoutingModule
+    ReportesRoutingModule,
+    SharedModule  // Sidebar y ModalInfo compartidos
   ]
 })
 export class ReportesModule {}

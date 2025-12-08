@@ -297,10 +297,10 @@ public class ReporteServiceImpl implements ReporteService {
 
         if (totalProblemas >= 10) {
             nivelRiesgo = "ALTO";
-            mensaje = "AtenciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n requerida: mÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Âºltiples equipos crÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­ticos, stock bajo y reparaciones pendientes";
+            mensaje = "Atención requerida: múltiples equipos críticos, stock bajo y reparaciones pendientes";
         } else if (totalProblemas >= 5) {
             nivelRiesgo = "MEDIO";
-            mensaje = "Monitoreo necesario: algunos equipos requieren atenciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n";
+            mensaje = "Monitoreo necesario: algunos equipos requieren atención";
         } else {
             nivelRiesgo = "BAJO";
             mensaje = "Sistema funcionando correctamente";

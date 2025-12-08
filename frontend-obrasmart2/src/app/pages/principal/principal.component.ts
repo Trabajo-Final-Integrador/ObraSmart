@@ -1,6 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { SessionService } from '../../service/session.service';
+import { SidebarService } from '../../service/sidebar.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
@@ -32,11 +33,7 @@ const iconFueraServicio = createCustomIcon('#dc3545');
   styleUrls: ['./principal.component.scss'],
 })
 export class PrincipalComponent implements AfterViewInit {
-  menuAbierto = false;
   userMenuAbierto = false;
-  submenuStockOpen = false;
-  submenuReparacionOpen = false;
-  submenuUsuariosOpen = false;
 
   private map!: L.Map;
   equipos: EquipoUbicacion[] = [];
@@ -46,6 +43,7 @@ export class PrincipalComponent implements AfterViewInit {
     private session: SessionService,
     private auth: AuthService,
     private geoService: GeolocalizacionService,
+    private sidebarService: SidebarService,
     private router: Router,
     private http: HttpClient
   ) {}
@@ -55,27 +53,12 @@ export class PrincipalComponent implements AfterViewInit {
     this.cargarEquiposEnMapa();
   }
 
-  toggleMenu() {
-    this.menuAbierto = !this.menuAbierto;
+  toggleMenu(): void {
+    this.sidebarService.toggleSidebar();
   }
 
-  toggleUserMenu() {
+  toggleUserMenu(): void {
     this.userMenuAbierto = !this.userMenuAbierto;
-  }
-
-  toggleUsuarios(event: Event) {
-    event.preventDefault();
-    this.submenuUsuariosOpen = !this.submenuUsuariosOpen;
-  }
-
-  toggleStock(event: Event) {
-    event.preventDefault();
-    this.submenuStockOpen = !this.submenuStockOpen;
-  }
-
-  toggleReparacion(event: Event) {
-    event.preventDefault();
-    this.submenuReparacionOpen = !this.submenuReparacionOpen;
   }
 
   cerrarSesion() {
@@ -202,4 +185,5 @@ export class PrincipalComponent implements AfterViewInit {
         return 'bi-question-circle';
     }
   }
+
 }

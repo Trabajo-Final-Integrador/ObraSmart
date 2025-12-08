@@ -1,7 +1,7 @@
 <div class="layout-container">
   <!-- Navbar -->
   <header class="top-navbar">
-    <button class="menu-btn" (click)="toggleMenu()">
+    <button class="menu-btn" (click)="toggleSidebar()">
       <i class="bi bi-list"></i>
     </button>
     <div class="navbar-title">Panel de Control - Stock</div>
@@ -14,67 +14,11 @@
     </div>
   </header>
 
-  <!-- Sidebar -->
-  <aside class="sidebar" [class.open]="menuAbierto">
-    <div class="sidebar-header">
-      <h3><i class="bi bi-grid-3x3-gap me-2"></i>Menú Principal</h3>
-      <button class="close-sidebar-btn" (click)="toggleMenu()">
-        <i class="bi bi-x-lg"></i>
-      </button>
-    </div>
-    <ul class="nav flex-column">
-      <!-- Usuarios -->
-      <li class="nav-item">
-        <a class="nav-link d-flex justify-content-between align-items-center" href="#" (click)="toggleUsuarios($event)">
-          <span><i class="bi bi-people me-2"></i> Gestion de Usuarios</span>
-          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuUsuariosOpen"></i>
-        </a>
-        <ul *ngIf="submenuUsuariosOpen" class="submenu">
-          <li><a class="dropdown-item" routerLink="/alta-usuario"><i class="bi bi-person-bounding-box"></i> Registrar Usuario</a></li>
-          <li><a class="dropdown-item" routerLink="/listado-usuario"><i class="bi bi-people"></i> Listado de Usuarios</a></li>
-        </ul>
-      </li>
+  <!-- Sidebar compartido -->
+  <app-sidebar [type]="'full'"></app-sidebar>
 
-      <!-- Reparaciones -->
-      <li class="nav-item">
-        <a class="nav-link d-flex justify-content-between align-items-center" href="#" (click)="toggleReparacion($event)">
-          <span><i class="bi bi-tools me-2"></i> Gestion de Reparaciones</span>
-          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuReparacionOpen"></i>
-        </a>
-        <ul *ngIf="submenuReparacionOpen" class="submenu">
-          <li><a class="dropdown-item" routerLink="/reparaciones/dashboard"><i class="bi bi-columns-gap me-2"></i> Panel</a></li>
-          <li><a class="nav-link" routerLink="/reparaciones/listado"><i class="bi bi-tools me-2"></i> Reparaciones</a></li>
-        </ul>
-      </li>
-
-      <!-- Equipos -->
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/equipos"><i class="bi bi-truck-flatbed"></i> Gestion de Equipos</a>
-      </li>
-
-      <!-- Stock -->
-      <li class="nav-item">
-        <a class="nav-link d-flex justify-content-between align-items-center" href="#" (click)="toggleStock($event)">
-          <span><i class="bi bi-box-seam me-2"></i> Gestion de Stock</span>
-          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuStockOpen"></i>
-        </a>
-        <ul *ngIf="submenuStockOpen" class="submenu">
-          <li><a class="dropdown-item" routerLink="/stock/dashboard" routerLinkActive="active"><i class="bi bi-columns-gap"></i> Indicadores</a></li>
-          <li><a class="dropdown-item" routerLink="/stock/repuestos"><i class="bi bi-box"></i> Repuestos</a></li>
-          <li><a class="dropdown-item" routerLink="/stock/proveedores"><i class="bi bi-truck"></i> Proveedores</a></li>
-          <li><a class="dropdown-item" routerLink="/stock/movimientos"><i class="bi bi-graph-up-arrow"></i> Movimientos</a></li>
-          <li><a class="dropdown-item" routerLink="/stock/ordenes"><i class="bi bi-cart2"></i> Órdenes</a></li>
-        </ul>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/reportes"><i class="bi bi-file-bar-graph me-2"></i> Gestion de Reportes</a>
-      </li>
-    </ul>
-  </aside>
-
-  <!-- Overlay para cerrar sidebar -->
-  <div class="sidebar-overlay" [class.active]="menuAbierto" (click)="toggleMenu()"></div>
+  <!-- Modales compartidos -->
+  <app-modal-info></app-modal-info>
 
   <!-- Contenido principal -->
   <div class="content">

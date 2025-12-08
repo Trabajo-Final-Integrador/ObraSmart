@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ReparacionService, ReparacionResponseDTO } from 'src/app/service/reparaciones.service';
 import { EquipoService, EquipoDTO } from 'src/app/service/equipo.service';
+import { SidebarService } from 'src/app/service/sidebar.service';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
@@ -22,15 +23,10 @@ export class DashboardReparacionesComponent {
   flotaEnRevision = 0;
   flotaCriticos = 0;
 
-  // Sidebar menu state
-  menuAbierto = false;
-  submenuUsuariosOpen = false;
-  submenuReparacionOpen = false;
-  submenuStockOpen = false;
-
   constructor(
     private service: ReparacionService,
     private equipoService: EquipoService,
+    private sidebarService: SidebarService,
     private router: Router
   ) {}
 
@@ -104,23 +100,8 @@ export class DashboardReparacionesComponent {
     this.router.navigate(['/principal']);
   }
 
-  toggleMenu() {
-    this.menuAbierto = !this.menuAbierto;
-  }
-
-  toggleUsuarios(event: Event) {
-    event.preventDefault();
-    this.submenuUsuariosOpen = !this.submenuUsuariosOpen;
-  }
-
-  toggleReparacion(event: Event) {
-    event.preventDefault();
-    this.submenuReparacionOpen = !this.submenuReparacionOpen;
-  }
-
-  toggleStock(event: Event) {
-    event.preventDefault();
-    this.submenuStockOpen = !this.submenuStockOpen;
+  toggleMenu(): void {
+    this.sidebarService.toggleSidebar();
   }
 
   getDescripcionCorta(texto: string): string {

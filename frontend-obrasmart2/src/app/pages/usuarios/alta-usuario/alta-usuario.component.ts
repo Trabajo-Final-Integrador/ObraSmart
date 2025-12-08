@@ -1,6 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { SidebarService } from 'src/app/service/sidebar.service';
 import Swal from 'sweetalert2';
 import { Usuario } from '../usuario.model';
 
@@ -10,8 +11,6 @@ import { Usuario } from '../usuario.model';
   styleUrls: ['./alta-usuario.component.scss']
 })
 export class AltaUsuarioComponent {
-  menuAbierto = false;
-
   usuario: Usuario = {
     email: '',
     firstname: '',
@@ -22,10 +21,14 @@ export class AltaUsuarioComponent {
     status: 'ACTIVO'
   };
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private sidebarService: SidebarService
+  ) {}
 
   toggleMenu() {
-    this.menuAbierto = !this.menuAbierto;
+    this.sidebarService.toggleSidebar();
   }
 
   crearUsuario() {

@@ -1,11 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient  } from '@angular/common/http';
+import { SidebarService } from 'src/app/service/sidebar.service';
 import { Usuario } from '../usuario.model';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2'; 
-
-
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-listado-usuario',
@@ -15,10 +13,6 @@ import Swal from 'sweetalert2';
 export class ListadoUsuariosComponent implements OnInit {
   usuarios: any[] = [];
   private _filtro: string = '';
-  menuAbierto = false;
-  submenuUsuariosOpen = false;
-  submenuStockOpen = false;
-  submenuReparacionOpen = false;
 
   get filtro(): string {
     return this._filtro;
@@ -29,29 +23,19 @@ export class ListadoUsuariosComponent implements OnInit {
     this.paginaActual = 1; // resetear a la primera página cuando se filtra
   }
 
-  constructor(private http: HttpClient, private cdr: ChangeDetectorRef, private router: Router ) {}
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private sidebarService: SidebarService
+  ) {}
 
   ngOnInit(): void {
     this.obtenerUsuarios();
   }
 
   toggleSidebar(): void {
-    this.menuAbierto = !this.menuAbierto;
-  }
-
-  toggleUsuarios(event: Event): void {
-    event.preventDefault();
-    this.submenuUsuariosOpen = !this.submenuUsuariosOpen;
-  }
-
-  toggleStock(event: Event): void {
-    event.preventDefault();
-    this.submenuStockOpen = !this.submenuStockOpen;
-  }
-
-  toggleReparacion(event: Event): void {
-    event.preventDefault();
-    this.submenuReparacionOpen = !this.submenuReparacionOpen;
+    this.sidebarService.toggleSidebar();
   }
 
 

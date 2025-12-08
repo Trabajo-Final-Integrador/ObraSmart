@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { ReportesService } from 'src/app/service/reportes.service';
+import { SidebarService } from 'src/app/service/sidebar.service';
 import { DashboardReporteDto } from 'src/app/pages/reportes/reporte.model';
 import { ChartData, ChartOptions } from 'chart.js';
 
@@ -9,8 +10,6 @@ import { ChartData, ChartOptions } from 'chart.js';
   styleUrls: ['./reporte.component.scss']
 })
 export class ReportesComponent implements OnInit {
-  menuAbierto = false;
-
   data!: DashboardReporteDto;
   isLoading = true;
   reparacionesActivas = 0;
@@ -62,7 +61,10 @@ export class ReportesComponent implements OnInit {
   };
   donutLegend: { label: string; color: string }[] = [];
 
-  constructor(private reportesService: ReportesService) {}
+  constructor(
+    private reportesService: ReportesService,
+    private sidebarService: SidebarService
+  ) {}
 
   ngOnInit(): void {
     this.aplicarPreset('LAST_30_DAYS');
@@ -195,6 +197,6 @@ export class ReportesComponent implements OnInit {
   }
 
   toggleMenu() {
-    this.menuAbierto = !this.menuAbierto;
+    this.sidebarService.toggleSidebar();
   }
 }

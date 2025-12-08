@@ -4,6 +4,7 @@ import { MarcaService, MarcaDTO } from 'src/app/service/marca.service';
 import { ModeloService, ModeloDTO } from 'src/app/service/modelo.service';
 import { TipoEquipoService, TipoEquipoDTO } from 'src/app/service/tipo-equipo.service';
 import { Router } from '@angular/router';
+import { SidebarService } from 'src/app/service/sidebar.service';
 import Swal from 'sweetalert2';
 
 
@@ -26,12 +27,6 @@ export class EquiposListadoComponent implements OnInit {
   paginaActual = 1;
   equiposPorPagina = 5;
 
-  // Variables para el menú
-  menuAbierto = false;
-  submenuUsuariosOpen = false;
-  submenuStockOpen = false;
-  submenuReparacionOpen = false;
-
   get filtro(): string {
     return this._filtro;
   }
@@ -46,7 +41,8 @@ export class EquiposListadoComponent implements OnInit {
     private marcaService: MarcaService,
     private modeloService: ModeloService,
     private tipoService: TipoEquipoService,
-    private router: Router
+    private router: Router,
+    private sidebarService: SidebarService
   ) {}
 
  ngOnInit(): void {
@@ -126,22 +122,7 @@ getTipoEquipoNombre(idTipo: number): string {
 
   // Métodos para el menú
   toggleSidebar(): void {
-    this.menuAbierto = !this.menuAbierto;
-  }
-
-  toggleUsuarios(event: Event): void {
-    event.preventDefault();
-    this.submenuUsuariosOpen = !this.submenuUsuariosOpen;
-  }
-
-  toggleStock(event: Event): void {
-    event.preventDefault();
-    this.submenuStockOpen = !this.submenuStockOpen;
-  }
-
-  toggleReparacion(event: Event): void {
-    event.preventDefault();
-    this.submenuReparacionOpen = !this.submenuReparacionOpen;
+    this.sidebarService.toggleSidebar();
   }
 
   // Filtro de equipos

@@ -6,17 +6,31 @@
         <i class="bi bi-list"></i>
       </button>
       <div class="brand">
-        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+        <img
+          src="assets/asistente/logo.png"
+          alt="ObraSmart"
+          class="logo-navbar"
+        />
         <span class="brand-text">Centro de Reportes</span>
       </div>
     </div>
     <div class="navbar-actions">
-      <button class="nav-btn ghost" routerLink="/principal" title="Volver al inicio">
+      <button
+        class="nav-btn ghost"
+        routerLink="/principal"
+        title="Volver al inicio"
+      >
         <i class="bi bi-house-door"></i>
       </button>
-      <button class="nav-btn ghost" (click)="handleRefresh()" [disabled]="isLoading" title="Actualizar">
+      <button
+        class="nav-btn ghost"
+        (click)="handleRefresh()"
+        [disabled]="isLoading"
+        title="Actualizar"
+      >
         <i class="bi bi-arrow-repeat"></i>
       </button>
+      
       <button class="nav-btn primary">
         <i class="bi bi-download"></i>
         Exportar
@@ -24,188 +38,195 @@
     </div>
   </header>
 
-  <!-- Sidebar -->
-  <aside class="sidebar" [class.open]="menuAbierto">
-    <div class="sidebar-header">
-      <h3><i class="bi bi-grid-3x3-gap me-2"></i>Menú Principal</h3>
-      <button class="close-sidebar-btn" (click)="toggleMenu()">
-        <i class="bi bi-x-lg"></i>
-      </button>
-    </div>
-    <ul class="nav flex-column sidebar-menu">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/principal" (click)="toggleMenu()"><i class="bi bi-house-door me-2"></i> Inicio</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/alta-usuario" (click)="toggleMenu()"><i class="bi bi-people me-2"></i> Usuarios</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/reparaciones/dashboard" (click)="toggleMenu()"><i class="bi bi-tools me-2"></i> Reparaciones</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/equipos" (click)="toggleMenu()"><i class="bi bi-truck-flatbed me-2"></i> Equipos</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/stock/dashboard" (click)="toggleMenu()"><i class="bi bi-box-seam me-2"></i> Stock</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" routerLink="/reportes" (click)="toggleMenu()"><i class="bi bi-file-bar-graph me-2"></i> Reportes</a>
-      </li>
-    </ul>
-    <div class="sidebar-footer">
-      <div class="links">
-        <a href="#" (click)="$event.preventDefault()">Términos</a>
-        <span class="separator">|</span>
-        <a href="#" (click)="$event.preventDefault()">Privacidad</a>
-        <span class="separator">|</span>
-        <a href="#" (click)="$event.preventDefault()">Soporte</a>
-      </div>
-    </div>
-  </aside>
-  <div class="sidebar-overlay" [class.active]="menuAbierto" (click)="toggleMenu()"></div>
+  <!-- Sidebar compartido -->
+  <app-sidebar [type]="'simplified'"></app-sidebar>
+
+  <!-- Modales compartidos -->
+  <app-modal-info></app-modal-info>
 
   <div *ngIf="isLoading" class="loading">
     <i class="bi bi-arrow-repeat spinner"></i>
     <p>Cargando reportes...</p>
   </div>
 
-  <div class="dashboard" *ngIf="!isLoading && data as d">
-    <div class="page-heading">
-      <p>Estado en tiempo real de la flota y operaciones. Última actualización: {{ d.fechaGeneracion | date:'shortTime' }}</p>
-    </div>
-
-    <!-- FILTROS DE FECHA -->
-    <div class="filters-bar">
-      <div class="range-inputs">
-        <label>Desde</label>
-        <input type="date" [(ngModel)]="startDate" (change)="onDateChange()" />
-        <label>Hasta</label>
-        <input type="date" [(ngModel)]="endDate" (change)="onDateChange()" />
-      </div>
-
-      <div class="preset-buttons">
-        <span>Rangos rápidos</span>
-        <button (click)="aplicarPreset('LAST_7_DAYS')" [class.active]="preset === 'LAST_7_DAYS'">Últimos 7 días</button>
-        <button (click)="aplicarPreset('LAST_30_DAYS')" [class.active]="preset === 'LAST_30_DAYS'">Últimos 30 días</button>
-        <button (click)="aplicarPreset('THIS_YEAR')" [class.active]="preset === 'THIS_YEAR'">Este año</button>
-        <button (click)="aplicarPreset('LAST_YEAR')" [class.active]="preset === 'LAST_YEAR'">Último año</button>
-      </div>
-
-      <div class="range-summary">
-        <span>Rango activo:</span>
-        <strong>{{ startDate || '...' }}</strong>
-        <span>→</span>
-        <strong>{{ endDate || '...' }}</strong>
-      </div>
-    </div>
-
-    <!-- BANNER ESTADO GENERAL -->
-    <div class="banner"
-         [class.alto]="d.estadoGeneral?.nivelRiesgo === 'ALTO'"
-         [class.medio]="d.estadoGeneral?.nivelRiesgo === 'MEDIO'"
-         [class.bajo]="d.estadoGeneral?.nivelRiesgo === 'BAJO'">
-
-      <div class="banner-icon">
-        <i class="bi bi-exclamation-triangle"></i>
-      </div>
-
-      <div class="banner-info">
-        <h3>
-          Nivel de Riesgo:
-          {{ d.estadoGeneral?.nivelRiesgo }}
-        </h3>
-        <p>{{ d.estadoGeneral?.mensaje }}</p>
-      </div>
-    </div>
-
-    <!-- KPI CARDS -->
-    <div class="kpi-wrapper">
-      <div class="kpi-card">
-        <div class="kpi-icon"><i class="bi bi-truck"></i></div>
-        <h4>Total Equipos</h4>
-        <div class="kpi-value">{{ d.equipos?.totalEquipos }}</div>
+  <main>
+    <div class="dashboard" *ngIf="!isLoading && data as d">
+      <div class="page-heading">
         <p>
-          <span class="critical">{{ d.estadoGeneral?.equiposCriticos }} críticos</span>
-          requieren atención
+          Estado en tiempo real de la flota y operaciones. Última actualización:
+          {{ d.fechaGeneracion | date : "shortTime" }}
         </p>
       </div>
 
-      <div class="kpi-card">
-        <div class="kpi-icon"><i class="bi bi-tools"></i></div>
-        <h4>Reparaciones Activas</h4>
-        <div class="kpi-value">
-          {{ d.estadoGeneral?.reparacionesAbiertas || 0 }}
+      <!-- FILTROS DE FECHA -->
+      <div class="filters-bar">
+        <div class="range-inputs">
+          <label>Desde</label>
+          <input
+            type="date"
+            [(ngModel)]="startDate"
+            (change)="onDateChange()"
+          />
+          <label>Hasta</label>
+          <input type="date" [(ngModel)]="endDate" (change)="onDateChange()" />
         </div>
-        <p>
-          + {{ d.reparaciones?.reparacionesPorEstado?.['PENDIENTE'] || 0 }}
-          pendientes de inicio
-        </p>
+
+        <div class="preset-buttons">
+          <span>Rangos rápidos</span>
+          <button
+            (click)="aplicarPreset('LAST_7_DAYS')"
+            [class.active]="preset === 'LAST_7_DAYS'"
+          >
+            Últimos 7 días
+          </button>
+          <button
+            (click)="aplicarPreset('LAST_30_DAYS')"
+            [class.active]="preset === 'LAST_30_DAYS'"
+          >
+            Últimos 30 días
+          </button>
+          <button
+            (click)="aplicarPreset('THIS_YEAR')"
+            [class.active]="preset === 'THIS_YEAR'"
+          >
+            Este año
+          </button>
+          <button
+            (click)="aplicarPreset('LAST_YEAR')"
+            [class.active]="preset === 'LAST_YEAR'"
+          >
+            Último año
+          </button>
+        </div>
+
+        <div class="range-summary">
+          <span>Rango activo:</span>
+          <strong>{{ startDate || "..." }}</strong>
+          <span>→</span>
+          <strong>{{ endDate || "..." }}</strong>
+        </div>
       </div>
 
-      <div class="kpi-card">
-        <div class="kpi-icon"><i class="bi bi-box-seam"></i></div>
-        <h4>Alertas de Stock</h4>
-        <div class="kpi-value">{{ d.stock?.repuestosBajoMinimo }}</div>
-        <p>Ítems por debajo del mínimo</p>
+      <!-- BANNER ESTADO GENERAL -->
+      <div
+        class="banner"
+        [class.alto]="d.estadoGeneral?.nivelRiesgo === 'ALTO'"
+        [class.medio]="d.estadoGeneral?.nivelRiesgo === 'MEDIO'"
+        [class.bajo]="d.estadoGeneral?.nivelRiesgo === 'BAJO'"
+      >
+        <div class="banner-icon">
+          <i class="bi bi-exclamation-triangle"></i>
+        </div>
+
+        <div class="banner-info">
+          <h3>
+            Nivel de Riesgo:
+            {{ d.estadoGeneral?.nivelRiesgo }}
+          </h3>
+          <p>{{ d.estadoGeneral?.mensaje }}</p>
+        </div>
       </div>
 
-      <div class="kpi-card">
-        <div class="kpi-icon"><i class="bi bi-clock"></i></div>
-        <h4>Tiempo Medio Reparación</h4>
-        <div class="kpi-value">{{ d.reparaciones?.tiempoPromedioHoras }}h</div>
-        <p class="success">-2.5h vs mes anterior</p>
-      </div>
-    </div>
+      <!-- KPI CARDS -->
+      <div class="kpi-wrapper">
+        <div class="kpi-card">
+          <div class="kpi-icon"><i class="bi bi-truck"></i></div>
+          <h4>Total Equipos</h4>
+          <div class="kpi-value">{{ d.equipos?.totalEquipos }}</div>
+          <p>
+            <span class="critical"
+              >{{ d.estadoGeneral?.equiposCriticos }} críticos</span
+            >
+            requieren atención
+          </p>
+        </div>
 
-    <!-- GRÁFICOS Y LISTAS -->
-    <div class="charts-grid">
-      <div class="chart-card">
-        <h4>Tendencia de Reparaciones</h4>
-        <p class="chart-desc">Solicitudes de servicio en el rango seleccionado</p>
-        <canvas
-          baseChart
-          [data]="reparacionesChartData"
-          [options]="reparacionesChartOptions"
-          [type]="'line'">
-        </canvas>
+        <div class="kpi-card">
+          <div class="kpi-icon"><i class="bi bi-tools"></i></div>
+          <h4>Reparaciones Activas</h4>
+          <div class="kpi-value">
+            {{ d.estadoGeneral?.reparacionesAbiertas || 0 }}
+          </div>
+          <p>
+            + {{ d.reparaciones?.reparacionesPorEstado?.['PENDIENTE'] || 0 }}
+            pendientes de inicio
+          </p>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon"><i class="bi bi-box-seam"></i></div>
+          <h4>Alertas de Stock</h4>
+          <div class="kpi-value">{{ d.stock?.repuestosBajoMinimo }}</div>
+          <p>Ítems por debajo del mínimo</p>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon"><i class="bi bi-clock"></i></div>
+          <h4>Tiempo Medio Reparación</h4>
+          <div class="kpi-value">
+            {{ d.reparaciones?.tiempoPromedioHoras }}h
+          </div>
+          <p class="success">-2.5h vs mes anterior</p>
+        </div>
       </div>
 
-      <div class="chart-card donut">
-        <h4>Distribución de Flota</h4>
-        <p class="chart-desc">Equipos por tipo de maquinaria</p>
-        <canvas
-          baseChart
-          [data]="donutData"
-          [options]="donutOptions"
-          [type]="'doughnut'">
-        </canvas>
-        <div class="legend">
-          <div *ngFor="let item of donutLegend">
-            <span class="dot" [style.background]="item.color"></span>
-            {{ item.label }}
+      <!-- GRÁFICOS Y LISTAS -->
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h4>Tendencia de Reparaciones</h4>
+          <p class="chart-desc">
+            Solicitudes de servicio en el rango seleccionado
+          </p>
+          <canvas
+            baseChart
+            [data]="reparacionesChartData"
+            [options]="reparacionesChartOptions"
+            [type]="'line'"
+          >
+          </canvas>
+        </div>
+
+        <div class="chart-card donut">
+          <h4>Distribución de Flota</h4>
+          <p class="chart-desc">Equipos por tipo de maquinaria</p>
+          <canvas
+            baseChart
+            [data]="donutData"
+            [options]="donutOptions"
+            [type]="'doughnut'"
+          >
+          </canvas>
+          <div class="legend">
+            <div *ngFor="let item of donutLegend">
+              <span class="dot" [style.background]="item.color"></span>
+              {{ item.label }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="lists-grid">
+      <div class="lists-grid">
         <div class="list-card">
           <h4>Equipos Críticos</h4>
-          <p class="chart-desc">Unidades con mayor incidencia de fallas recientes</p>
+          <p class="chart-desc">
+            Unidades con mayor incidencia de fallas recientes
+          </p>
           <div *ngFor="let e of d.equipos?.equiposCriticos" class="list-item">
             <div class="list-left">
-              <div class="list-icon danger"><i class="bi bi-exclamation-circle"></i></div>
+              <div class="list-icon danger">
+                <i class="bi bi-exclamation-circle"></i>
+              </div>
               <div>
                 <div class="item-title">{{ e.nombreEquipo }}</div>
                 <div class="item-sub">ID: {{ e.equipoId }}</div>
+              </div>
+            </div>
+            <div class="list-right">
+              <div class="item-value">{{ e.cantidadReparaciones }} fallas</div>
+              <div class="item-sub">Último mes</div>
             </div>
           </div>
-          <div class="list-right">
-            <div class="item-value">{{ e.cantidadReparaciones }} fallas</div>
-            <div class="item-sub">Último mes</div>
-          </div>
         </div>
-      </div>
 
         <div class="list-card">
           <h4>Stock Crítico</h4>
@@ -216,14 +237,18 @@
               <div>
                 <div class="item-title">{{ s.nombre }}</div>
                 <div class="item-sub">
-                {{ s.categoria }} - <span class="warning-text">{{ s.stockActual }}/{{ s.stockMinimo }} min</span>
+                  {{ s.categoria }} -
+                  <span class="warning-text"
+                    >{{ s.stockActual }}/{{ s.stockMinimo }} min</span
+                  >
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 
   <footer class="footer-bar">
     <span class="version">v1.0.0</span>

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { RepuestoService } from 'src/app/service/repuesto.service';
 import { MovimientosService } from 'src/app/service/movimiento-stock.service';
 import { OrdenCompraService } from 'src/app/service/orden-compra.service';
+import { SidebarService } from 'src/app/service/sidebar.service';
 import { ThemeService } from 'src/app/service/theme.service';
 
 @Component({
@@ -23,18 +24,13 @@ export class DashboardStockComponent implements OnInit {
 
   loading = true;
 
-  // Sidebar menu state
-  menuAbierto = false;
-  submenuUsuariosOpen = false;
-  submenuReparacionOpen = false;
-  submenuStockOpen = false;
-
   constructor(
     private repSrv: RepuestoService,
     private movSrv: MovimientosService,
     private ordSrv: OrdenCompraService,
     private router: Router,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private sidebarService: SidebarService
   ) {}
 
   ngOnInit(): void {
@@ -83,23 +79,8 @@ export class DashboardStockComponent implements OnInit {
     this.router.navigate(['/principal']);
   }
 
-  toggleMenu() {
-    this.menuAbierto = !this.menuAbierto;
-  }
-
-  toggleUsuarios(event: Event) {
-    event.preventDefault();
-    this.submenuUsuariosOpen = !this.submenuUsuariosOpen;
-  }
-
-  toggleReparacion(event: Event) {
-    event.preventDefault();
-    this.submenuReparacionOpen = !this.submenuReparacionOpen;
-  }
-
-  toggleStock(event: Event) {
-    event.preventDefault();
-    this.submenuStockOpen = !this.submenuStockOpen;
+  toggleSidebar() {
+    this.sidebarService.toggleSidebar();
   }
 
   toggleTheme() {

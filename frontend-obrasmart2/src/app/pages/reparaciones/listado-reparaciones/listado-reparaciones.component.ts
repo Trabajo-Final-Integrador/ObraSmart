@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ReparacionService, ReparacionResponseDTO } from 'src/app/service/reparaciones.service';
+import { SidebarService } from 'src/app/service/sidebar.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-
-
 
 @Component({
   selector: 'app-listado-reparaciones',
@@ -18,18 +17,13 @@ export class ListadoReparacionesComponent implements OnInit {
   reparacionesOriginal: ReparacionResponseDTO[] = [];
   reparacionesFiltradas: ReparacionResponseDTO[] = [];
 
-  // Sidebar
-  menuAbierto = false;
-  submenuUsuariosOpen = false;
-  submenuReparacionOpen = false;
-  submenuStockOpen = false;
-
   // Paginación
   paginaActual = 1;
   reparacionesPorPagina = 10;
 
   constructor(
     private repSrv: ReparacionService,
+    private sidebarService: SidebarService,
     private router: Router
   ) {}
 
@@ -140,24 +134,9 @@ cancelarReparacion(id: number): void {
   });
 }
 
-// Métodos del sidebar
+// Método del sidebar
 toggleSidebar(): void {
-  this.menuAbierto = !this.menuAbierto;
-}
-
-toggleUsuarios(event: Event): void {
-  event.preventDefault();
-  this.submenuUsuariosOpen = !this.submenuUsuariosOpen;
-}
-
-toggleReparacion(event: Event): void {
-  event.preventDefault();
-  this.submenuReparacionOpen = !this.submenuReparacionOpen;
-}
-
-toggleStock(event: Event): void {
-  event.preventDefault();
-  this.submenuStockOpen = !this.submenuStockOpen;
+  this.sidebarService.toggleSidebar();
 }
 
 // Métodos de paginación

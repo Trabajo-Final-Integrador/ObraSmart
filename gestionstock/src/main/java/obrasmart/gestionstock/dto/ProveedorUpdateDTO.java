@@ -59,7 +59,7 @@ public class ProveedorUpdateDTO {
 
     private List<String> marcas;
 
-    @Size(max = 100)
+
     private TipoProveedor tipoProveedor;
 
     @Min(0)
