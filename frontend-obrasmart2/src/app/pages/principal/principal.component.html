@@ -4,7 +4,7 @@
       <i class="bi bi-list"></i>
     </button>
     <div class="navbar-title">
-      <img src="assets/asistente/logo.png"  class="logo-navbar me-2" />
+      <img src="assets/asistente/logo.png" class="logo-navbar me-2" />
       <span class="brand-text">Obra<span class="highlight">Smart</span></span>
     </div>
     <div class="navbar-actions">
@@ -12,18 +12,14 @@
         <i class="bi bi-bell"></i>
         <span class="badge">3</span>
       </button>
-      <button class="nav-icon-btn" (click)="toggleUserMenu()">
-  <i class="bi bi-person-circle"></i>
-</button>
-<div class="user-menu" *ngIf="userMenuAbierto">
-  <button (click)="irAPerfil()">
-    <i class="bi bi-person"></i> Perfil
-  </button>
-  <button (click)="cerrarSesion()">
-    <i class="bi bi-box-arrow-right"></i> Cerrar sesión
-  </button>
-</div>
-
+      <button class="nav-icon-btn" (click)="toggleUserMenu()" title="Usuario">
+        <i class="bi bi-person-circle"></i>
+      </button>
+      <div class="user-menu" *ngIf="userMenuAbierto">
+        <button class="logout-btn" (click)="cerrarSesion()">
+          <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+        </button>
+      </div>
     </div>
   </header>
 
@@ -34,30 +30,28 @@
         <i class="bi bi-x-lg"></i>
       </button>
     </div>
-    <ul class="nav flex-column">
+    <ul class="nav flex-column sidebar-menu">
       <!-- Usuarios -->
       <li class="nav-item">
         <a
           class="nav-link d-flex justify-content-between align-items-center"
           href="#"
           (click)="toggleUsuarios($event)"
-          ><i class="bi bi-people me-2"></i> Gestion de Usuarios
-          <i
-            class="bi bi-chevron-right toggle-icon"
-            [class.open]="submenuUsuariosOpen"
-          ></i>
+        >
+          <i class="bi bi-people me-2"></i> Gestión de Usuarios
+          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuUsuariosOpen"></i>
         </a>
 
         <ul *ngIf="submenuUsuariosOpen" class="submenu">
           <li>
-            <a class="dropdown-item" routerLink="/alta-usuario"
-              ><i class="bi bi-person-bounding-box"></i> Registrar Usuario</a
-            >
+            <a class="dropdown-item" routerLink="/alta-usuario">
+              <i class="bi bi-person-bounding-box"></i> Registrar Usuario
+            </a>
           </li>
           <li>
-            <a class="dropdown-item" routerLink="/listado-usuario"
-              ><i class="bi bi-people"></i> Listado de Usuarios</a
-            >
+            <a class="dropdown-item" routerLink="/listado-usuario">
+              <i class="bi bi-people"></i> Listado de Usuarios
+            </a>
           </li>
         </ul>
       </li>
@@ -70,12 +64,9 @@
           (click)="toggleReparacion($event)"
         >
           <span class="d-flex align-items-center">
-          <i class="bi bi-tools me-2"></i> Gestion de Reparaciones
+            <i class="bi bi-tools me-2"></i> Gestión de Reparaciones
           </span>
-          <i
-            class="bi bi-chevron-right toggle-icon"
-            [class.open]="submenuReparacionOpen"
-          ></i>
+          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuReparacionOpen"></i>
         </a>
 
         <ul *ngIf="submenuReparacionOpen" class="submenu">
@@ -84,23 +75,24 @@
               class="dropdown-item"
               routerLink="/reparaciones/dashboard"
               routerLinkActive="active"
-              > <i class="bi bi-columns-gap me-2"></i>   
-                Panel</a
             >
+              <i class="bi bi-columns-gap me-2"></i>
+              Centro de Reparaciones
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/reparaciones/listado"
-              ><i class="bi bi-tools me-2"></i> Reparaciones</a
-            >
+            <a class="nav-link" routerLink="/reparaciones/listado">
+              <i class="bi bi-tools me-2"></i> Reparaciones
+            </a>
           </li>
         </ul>
       </li>
 
       <!-- Equipos -->
       <li class="nav-item">
-        <a class="nav-link" routerLink="/equipos" routerLinkActive="active"
-          > <i class="bi bi-truck-flatbed"></i>  Gestion de  Equipos</a
-        >
+        <a class="nav-link" routerLink="/equipos" routerLinkActive="active">
+          <i class="bi bi-truck-flatbed"></i> Gestión de Equipos
+        </a>
       </li>
 
       <!-- Stock -->
@@ -112,12 +104,9 @@
         >
           <span class="d-flex align-items-center">
             <i class="bi bi-box-seam me-2"></i>
-            Gestion de Stock
+            Gestión de Stock
           </span>
-          <i
-            class="bi bi-chevron-right toggle-icon"
-            [class.open]="submenuStockOpen"
-          ></i>
+          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuStockOpen"></i>
         </a>
         <ul *ngIf="submenuStockOpen" class="submenu">
           <li>
@@ -125,59 +114,77 @@
               class="dropdown-item"
               routerLink="/stock/dashboard"
               routerLinkActive="active"
-              ><i class="bi bi-columns-gap"></i> Indicadores</a
             >
+              <i class="bi bi-columns-gap"></i> Indicadores
+            </a>
           </li>
           <li>
             <a
               class="dropdown-item"
               routerLink="/stock/repuestos"
               routerLinkActive="active"
-              ><i class="bi bi-box"></i> Repuestos</a
             >
+              <i class="bi bi-box"></i> Repuestos
+            </a>
           </li>
           <li>
             <a
               class="dropdown-item"
               routerLink="/stock/proveedores"
               routerLinkActive="active"
-              ><i class="bi bi-truck"></i> Proveedores</a
             >
+              <i class="bi bi-truck"></i> Proveedores
+            </a>
           </li>
           <li>
             <a
               class="dropdown-item"
               routerLink="/stock/movimientos"
               routerLinkActive="active"
-              ><i class="bi bi-graph-up-arrow"></i> Movimientos</a
             >
+              <i class="bi bi-graph-up-arrow"></i> Movimientos
+            </a>
           </li>
           <li>
             <a
               class="dropdown-item"
               routerLink="/stock/ordenes"
               routerLinkActive="active"
-              ><i class="bi bi-cart2"></i> Órdenes</a
             >
+              <i class="bi bi-cart2"></i> Órdenes
+            </a>
           </li>
         </ul>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/reportes"
-          ><i class="bi bi-file-bar-graph me-2"></i> Gestion de Reportes</a
-        >
+        <a class="nav-link" routerLink="/reportes">
+          <i class="bi bi-file-bar-graph me-2"></i> Gestión de Reportes
+        </a>
       </li>
     </ul>
+
+    <div class="sidebar-footer">
+      <div class="links">
+        <a href="#" (click)="$event.preventDefault()">Términos</a>
+        <span class="separator">|</span>
+        <a href="#" (click)="$event.preventDefault()">Privacidad</a>
+        <span class="separator">|</span>
+        <a href="#" (click)="$event.preventDefault()">Soporte</a>
+      </div>
+    </div>
   </aside>
 
   <!-- Overlay para cerrar sidebar -->
   <div class="sidebar-overlay" [class.active]="menuAbierto" (click)="toggleMenu()"></div>
 
   <div class="map-container">
-  <div id="map"></div>
-</div>
+    <div id="map"></div>
+  </div>
 
+  <footer class="footer-bar">
+    <span class="version">v1.0.0</span>
+  </footer>
 
-  <!-- 🔵 ASISTENTE GLOBAL (burbuja + chat) -->
+  <!-- ASISTENTE GLOBAL (burbuja + chat) -->
   <app-chat-asistente></app-chat-asistente>
 </div>

@@ -9,6 +9,7 @@ import { ChartData, ChartOptions } from 'chart.js';
   styleUrls: ['./reporte.component.scss']
 })
 export class ReportesComponent implements OnInit {
+  menuAbierto = false;
 
   data!: DashboardReporteDto;
   isLoading = true;
@@ -191,5 +192,9 @@ export class ReportesComponent implements OnInit {
 
   handleRefresh() {
     this.cargarDashboard();
+  }
+
+  toggleMenu() {
+    this.menuAbierto = !this.menuAbierto;
   }
 }

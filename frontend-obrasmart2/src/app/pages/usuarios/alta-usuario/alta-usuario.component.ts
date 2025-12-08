@@ -10,6 +10,7 @@ import { Usuario } from '../usuario.model';
   styleUrls: ['./alta-usuario.component.scss']
 })
 export class AltaUsuarioComponent {
+  menuAbierto = false;
 
   usuario: Usuario = {
     email: '',
@@ -22,6 +23,10 @@ export class AltaUsuarioComponent {
   };
 
   constructor(private http: HttpClient, private router: Router) {}
+
+  toggleMenu() {
+    this.menuAbierto = !this.menuAbierto;
+  }
 
   crearUsuario() {
     this.http.post('http://localhost:8085/users', this.usuario).subscribe({
