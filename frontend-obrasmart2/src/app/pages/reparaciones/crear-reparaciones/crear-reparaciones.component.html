@@ -1,31 +1,19 @@
 <div class="layout-container">
   <!-- 🔹 NAVBAR SUPERIOR -->
   <header class="top-navbar">
-    <div class="navbar-left">
-      <button class="btn-back" routerLink="/reparaciones/listado" title="Volver al listado">
-        <i class="bi bi-arrow-left-circle"></i>
-        <span>Volver</span>
-      </button>
-      <div class="navbar-title">
-        <i class="bi bi-tools"></i>
-        <h1>Nueva Reparación</h1>
-      </div>
-    </div>
-
-    <div class="navbar-actions">
-      <button class="btn-regresar" routerLink="/principal" title="Regresar al inicio">
-        <i class="bi bi-house-door"></i>
-      </button>
+    <button class="btn-back" routerLink="/reparaciones" title="Volver al listado">
+      <i class="bi bi-arrow-left-circle-fill"></i>
+    </button>
+    <div class="navbar-content">
+      <h1 class="navbar-title">Nueva Reparación</h1>
     </div>
   </header>
 
   <!-- 🔹 CONTENIDO PRINCIPAL -->
   <main class="content">
     <div class="form-card">
-     
-
-      <form (ngSubmit)="guardar()" class="card-body">
-        <div class="form-grid">
+      <form (ngSubmit)="guardar()" class="form-body">
+        <div class="form-row">
           <div class="form-group">
             <label class="form-label">
               Equipo <span class="required">*</span>
@@ -55,10 +43,12 @@
               <option value="PREDICTIVO">Predictivo</option>
             </select>
           </div>
+        </div>
 
+        <div class="form-row">
           <div class="form-group">
             <label class="form-label">
-              Responsable <span class="required">*</span>
+              Asignar Responsable <span class="required">*</span>
             </label>
             <select class="form-control"
                     [(ngModel)]="nueva.responsableId"
@@ -78,27 +68,27 @@
                    [(ngModel)]="nueva.fechaInicio"
                    name="fechaInicio">
           </div>
+        </div>
 
-          <div class="form-group full-width">
-            <label class="form-label">Ubicación / Dirección</label>
-            <input type="text"
-                   class="form-control"
-                   [(ngModel)]="nueva.direccion"
-                   name="direccion"
-                   placeholder="Ej: Av. Principal 123, Obra Central">
-          </div>
+        <div class="form-group">
+          <label class="form-label">Ubicación / Dirección</label>
+          <input type="text"
+                 class="form-control"
+                 [(ngModel)]="nueva.direccion"
+                 name="direccion"
+                 placeholder="Ej: Av. Principal 123, Obra Central">
+        </div>
 
-          <div class="form-group full-width">
-            <label class="form-label">
-              Descripción del Problema <span class="required">*</span>
-            </label>
-            <textarea rows="3"
-                      class="form-control"
-                      [(ngModel)]="nueva.descripcion"
-                      name="descripcion"
-                      required
-                      placeholder="Describe detalladamente el problema..."></textarea>
-          </div>
+        <div class="form-group">
+          <label class="form-label">
+            Descripción del Problema <span class="required">*</span>
+          </label>
+          <textarea rows="3"
+                    class="form-control"
+                    [(ngModel)]="nueva.descripcion"
+                    name="descripcion"
+                    required
+                    placeholder="Describe el problema..."></textarea>
         </div>
 
         <!-- Acciones -->

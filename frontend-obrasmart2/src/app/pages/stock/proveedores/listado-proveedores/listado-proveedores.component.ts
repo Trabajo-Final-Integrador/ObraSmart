@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProveedorService, ProveedorListadoDTO } from 'src/app/service/proveedor.service';
+import { SidebarService } from 'src/app/service/sidebar.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,11 +12,7 @@ import Swal from 'sweetalert2';
 export class ListadoProveedoresComponent implements OnInit {
 
   // UI States
-  menuAbierto = false;
   loading = true;
-  submenuUsuariosOpen = false;
-  submenuReparacionOpen = false;
-  submenuStockOpen = false;
 
   // Búsqueda y filtrado
   searchTerm: string = '';
@@ -32,7 +29,8 @@ export class ListadoProveedoresComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private proveedorService: ProveedorService
+    private proveedorService: ProveedorService,
+    private sidebarService: SidebarService
   ) {}
 
   ngOnInit(): void {
@@ -119,22 +117,7 @@ export class ListadoProveedoresComponent implements OnInit {
 
   // UI
   toggleSidebar() {
-    this.menuAbierto = !this.menuAbierto;
-  }
-
-  toggleUsuarios(event: Event) {
-    event.preventDefault();
-    this.submenuUsuariosOpen = !this.submenuUsuariosOpen;
-  }
-
-  toggleReparacion(event: Event) {
-    event.preventDefault();
-    this.submenuReparacionOpen = !this.submenuReparacionOpen;
-  }
-
-  toggleStock(event: Event) {
-    event.preventDefault();
-    this.submenuStockOpen = !this.submenuStockOpen;
+    this.sidebarService.toggleSidebar();
   }
 
   getBadgeClass(estado: string): string {

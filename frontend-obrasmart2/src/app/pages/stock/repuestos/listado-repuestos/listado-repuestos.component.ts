@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RepuestoService, RepuestoDTO } from 'src/app/service/repuesto.service';
 import { Router } from '@angular/router';
+import { SidebarService } from 'src/app/service/sidebar.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,12 +19,6 @@ export class ListadoRepuestosComponent implements OnInit {
   paginaActual = 1;
   repuestosPorPagina = 5;
 
-  // Variables para el menú
-  menuAbierto = false;
-  submenuUsuariosOpen = false;
-  submenuStockOpen = false;
-  submenuReparacionOpen = false;
-
   get filtro(): string {
     return this._filtro;
   }
@@ -35,7 +30,8 @@ export class ListadoRepuestosComponent implements OnInit {
 
   constructor(
     private repuestoService: RepuestoService,
-    private router: Router
+    private router: Router,
+    private sidebarService: SidebarService
   ) {}
 
   ngOnInit(): void {
@@ -110,22 +106,7 @@ export class ListadoRepuestosComponent implements OnInit {
 
   // Métodos para el menú
   toggleSidebar(): void {
-    this.menuAbierto = !this.menuAbierto;
-  }
-
-  toggleUsuarios(event: Event): void {
-    event.preventDefault();
-    this.submenuUsuariosOpen = !this.submenuUsuariosOpen;
-  }
-
-  toggleStock(event: Event): void {
-    event.preventDefault();
-    this.submenuStockOpen = !this.submenuStockOpen;
-  }
-
-  toggleReparacion(event: Event): void {
-    event.preventDefault();
-    this.submenuReparacionOpen = !this.submenuReparacionOpen;
+    this.sidebarService.toggleSidebar();
   }
 
   // Filtro de repuestos

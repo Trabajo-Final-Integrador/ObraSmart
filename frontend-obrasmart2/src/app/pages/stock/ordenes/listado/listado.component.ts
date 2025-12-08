@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OrdenCompra } from '../orden-compra.model';
 import { OrdenCompraService } from 'src/app/service/orden-compra.service';
+import { SidebarService } from 'src/app/service/sidebar.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,11 +13,7 @@ import Swal from 'sweetalert2';
 export class ListadoComponent implements OnInit {
 
   // UI States
-  menuAbierto = false;
   loading = true;
-  submenuUsuariosOpen = false;
-  submenuReparacionOpen = false;
-  submenuStockOpen = false;
 
   // Datos
   ordenes: OrdenCompra[] = [];
@@ -27,7 +24,8 @@ export class ListadoComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private ordenSrv: OrdenCompraService
+    private ordenSrv: OrdenCompraService,
+    private sidebarService: SidebarService
   ) {}
 
   ngOnInit(): void {
@@ -89,22 +87,7 @@ export class ListadoComponent implements OnInit {
 
   // UI
   toggleSidebar() {
-    this.menuAbierto = !this.menuAbierto;
-  }
-
-  toggleUsuarios(event: Event) {
-    event.preventDefault();
-    this.submenuUsuariosOpen = !this.submenuUsuariosOpen;
-  }
-
-  toggleReparacion(event: Event) {
-    event.preventDefault();
-    this.submenuReparacionOpen = !this.submenuReparacionOpen;
-  }
-
-  toggleStock(event: Event) {
-    event.preventDefault();
-    this.submenuStockOpen = !this.submenuStockOpen;
+    this.sidebarService.toggleSidebar();
   }
 
   // Acciones

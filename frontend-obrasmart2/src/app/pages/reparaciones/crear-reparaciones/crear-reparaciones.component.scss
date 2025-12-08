@@ -10,122 +10,52 @@
 /* 🔹 Navbar */
 .top-navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
   color: white;
-  padding: 10px 20px;
+  padding: 15px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  gap: 20px;
+  gap: 15px;
 
-  .navbar-left {
+  .btn-back {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 20px;
+    justify-content: center;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateX(-3px);
+    }
+
+    &:active {
+      transform: translateX(-3px) scale(0.98);
+    }
+  }
+
+  .navbar-content {
     flex: 1;
 
-    .btn-back {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
-      border-radius: 6px;
-      padding: 8px 16px;
-      font-size: 0.95rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      flex-shrink: 0;
-
-      i {
-        font-size: 1.2rem;
-      }
-
-      span {
-        font-weight: 500;
-      }
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.25);
-        border-color: rgba(255, 255, 255, 0.5);
-        transform: translateX(-3px);
-      }
-
-      &:active {
-        transform: translateX(-3px) scale(0.98);
-      }
-    }
-
     .navbar-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-
-      i {
-        font-size: 1.4rem;
-        opacity: 0.95;
-      }
-
-      h1 {
-        font-size: 1.3rem;
-        font-weight: 600;
-        margin: 0;
-        white-space: nowrap;
-      }
-    }
-  }
-
-  .navbar-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 15px;
-
-    .btn-regresar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background-color: rgba(255, 255, 255, 0.15);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 6px;
-      padding: 8px 16px;
-      font-size: 0.95rem;
+      font-size: 1.3rem;
       font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-
-      i {
-        font-size: 1.1rem;
-      }
-
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.25);
-        border-color: rgba(255, 255, 255, 0.5);
-        transform: translateX(-3px);
-      }
-
-      &:active {
-        transform: translateX(-3px) scale(0.98);
-      }
+      margin: 0;
+      line-height: 1.2;
     }
-  }
 
-  @media (max-width: 768px) {
-    gap: 10px;
-
-    .navbar-left {
-      gap: 10px;
-
-      .navbar-title h1 {
-        font-size: 1.1rem;
-      }
-
-      .btn-back span {
-        display: none;
-      }
+    .navbar-subtitle {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.8);
+      display: block;
+      margin-top: 2px;
     }
   }
 }
@@ -133,79 +63,73 @@
 /* 🔹 Contenido Principal */
 .content {
   flex: 1;
-  display: flex;
-  padding: 20px;
   overflow: hidden;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
-/* 🔹 Card del Formulario */
 .form-card {
+  width: 100%;
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 0.4s ease;
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: fadeInUp 0.4s ease;
-
-  .card-body {
-    flex: 1;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    gap: 0;
-  }
 }
 
-/* 🔹 Grid del Formulario */
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+.form-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   flex: 1;
-  align-content: start;
+  overflow: hidden;
+}
+
+/* 🔹 Filas y grupos de formulario */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
-
-  .full-width {
-    grid-column: 1 / -1;
-  }
 }
 
-/* 🔹 Grupos de Formulario */
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 4px;
 
   .form-label {
-    font-weight: 600;
+    font-weight: 500;
     color: #333;
     font-size: 0.85rem;
 
     .required {
       color: #c62828;
-      margin-left: 3px;
+      margin-left: 2px;
     }
   }
 
   .form-control {
     border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 8px 12px;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
     font-family: inherit;
     background: white;
 
     &:focus {
       outline: none;
       border-color: #78866B;
-      box-shadow: 0 0 0 3px rgba(120, 134, 107, 0.1);
+      box-shadow: 0 0 0 2px rgba(120, 134, 107, 0.1);
     }
 
     &::placeholder {
@@ -218,33 +142,31 @@
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 35px;
+    background-position: right 10px center;
+    padding-right: 30px;
   }
 
   textarea.form-control {
     resize: none;
-    height: 60px;
-    font-family: inherit;
+    height: 70px;
   }
 }
 
-/* 🔹 Acciones del Formulario */
+/* 🔹 Acciones del formulario */
 .form-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  padding-top: 10px;
-  border-top: 1px solid #eee;
-  flex-shrink: 0;
+  gap: 10px;
+  padding-top: 8px;
+  margin-top: auto;
 
   button {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 24px;
-    border-radius: 6px;
-    font-size: 0.95rem;
+    gap: 6px;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-size: 0.85rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -319,15 +241,20 @@
     padding: 15px;
   }
 
-  .form-card .card-body {
-    padding: 20px;
-  }
-
-  .form-grid {
+  .form-section .section-body {
+    padding: 15px;
     gap: 15px;
   }
 
-  .navbar-title {
+  .form-row {
+    gap: 15px;
+  }
+
+  .navbar-content .navbar-title {
     font-size: 1.1rem;
+  }
+
+  .navbar-content .navbar-subtitle {
+    font-size: 0.8rem;
   }
 }

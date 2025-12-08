@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MovimientosService } from 'src/app/service/movimiento-stock.service';
 import { Movimiento } from 'src/app/pages/stock/movimientos/movimiento.model';
 import { Router } from '@angular/router';
+import { SidebarService } from 'src/app/service/sidebar.service';
 
 @Component({
   selector: 'app-movimientos-listado',
@@ -11,11 +12,7 @@ import { Router } from '@angular/router';
 export class MovimientosListadoComponent implements OnInit {
 
   // UI States
-  menuAbierto = false;
   loading = true;
-  submenuUsuariosOpen = false;
-  submenuReparacionOpen = false;
-  submenuStockOpen = false;
 
   // Datos
   movimientos: Movimiento[] = [];
@@ -25,7 +22,11 @@ export class MovimientosListadoComponent implements OnInit {
   paginaActual = 1;
   movimientosPorPagina = 5;
 
-  constructor(private movSrv: MovimientosService, private router: Router) {}
+  constructor(
+    private movSrv: MovimientosService,
+    private router: Router,
+    private sidebarService: SidebarService
+  ) {}
 
   ngOnInit(): void {
     this.cargarMovimientos();
@@ -87,22 +88,7 @@ export class MovimientosListadoComponent implements OnInit {
 
   // UI
   toggleSidebar() {
-    this.menuAbierto = !this.menuAbierto;
-  }
-
-  toggleUsuarios(event: Event) {
-    event.preventDefault();
-    this.submenuUsuariosOpen = !this.submenuUsuariosOpen;
-  }
-
-  toggleReparacion(event: Event) {
-    event.preventDefault();
-    this.submenuReparacionOpen = !this.submenuReparacionOpen;
-  }
-
-  toggleStock(event: Event) {
-    event.preventDefault();
-    this.submenuStockOpen = !this.submenuStockOpen;
+    this.sidebarService.toggleSidebar();
   }
 
   // Acciones

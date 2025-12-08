@@ -1,139 +1,83 @@
 <div class="layout-container">
   <!-- 🔹 NAVBAR SUPERIOR -->
   <header class="top-navbar">
-    <button class="menu-btn" routerLink="/stock/repuestos" title="Volver">
-      <i class="bi bi-arrow-left"></i>
+    <button class="btn-back" routerLink="/stock/repuestos" title="Volver al listado">
+      <i class="bi bi-arrow-left-circle-fill"></i>
     </button>
-    <h1 class="navbar-title">Crear Nuevo Repuesto</h1>
-    <div class="navbar-actions">
-      <button class="btn-regresar" routerLink="/principal" title="Regresar al inicio">
-        <i class="bi bi-house-door"></i>
-      </button>
-      <app-helper tooltip="Complete todos los campos para registrar un nuevo repuesto en el inventario."></app-helper>
+    <div class="navbar-content">
+      <h1 class="navbar-title">Nuevo Repuesto</h1>
     </div>
   </header>
 
   <!-- 🔹 CONTENIDO PRINCIPAL -->
   <main class="content">
-    <div class="form-container">
-      <div class="form-card">
-        <div class="form-header">
-          <i class="bi bi-box-seam"></i>
-          <div>
-            <h2>Información del Repuesto</h2>
-            <p>Ingresa los detalles del nuevo repuesto para agregarlo al inventario</p>
+    <div class="form-card">
+      <div class="form-body">
+        <!-- Fila 1: Código y Categoría -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Código <span class="required">*</span></label>
+            <input type="text" class="form-control" [(ngModel)]="nuevoRepuesto.codigo" placeholder="Ej: REP-001" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Categoría <span class="required">*</span></label>
+            <select class="form-control" [(ngModel)]="nuevoRepuesto.idCategoria">
+              <option [ngValue]="0">Seleccionar...</option>
+              <option *ngFor="let c of categorias" [ngValue]="c.id">{{ c.nombre }}</option>
+            </select>
           </div>
         </div>
 
-        <div class="form-body">
-          <div class="row">
-            <!-- Código -->
-            <div class="col-md-6 mb-3">
-              <label class="form-label">
-                <i class="bi bi-upc-scan me-2"></i>Código <span class="text-danger">*</span>
-              </label>
-              <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="nuevoRepuesto.codigo"
-                placeholder="Ej: REP-001" />
-            </div>
+        <!-- Fila 2: Nombre del Repuesto -->
+        <div class="form-group">
+          <label class="form-label">Nombre del Repuesto <span class="required">*</span></label>
+          <input type="text" class="form-control" [(ngModel)]="nuevoRepuesto.nombre" placeholder="Ej: Filtro de aceite" />
+        </div>
 
-            <!-- Categoría -->
-            <div class="col-md-6 mb-3">
-              <label class="form-label">
-                <i class="bi bi-bookmark me-2"></i>Categoría <span class="text-danger">*</span>
-              </label>
-              <div class="d-flex gap-2">
-                <select class="form-select" [(ngModel)]="nuevoRepuesto.idCategoria">
-                  <option [ngValue]="0">Seleccionar...</option>
-                  <option *ngFor="let c of categorias" [ngValue]="c.id">
-                    {{ c.nombre }}
-                  </option>
-                </select>
-                <button class="btn btn-add-category" (click)="abrirModalCategoria()" title="Nueva categoría">
-                  <i class="bi bi-plus-lg"></i>
-                </button>
-              </div>
-            </div>
+        <!-- Fila 3: Unidad, Stock Inicial y Stock Mínimo -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Unidad de Medida <span class="required">*</span></label>
+            <select class="form-control" [(ngModel)]="nuevoRepuesto.unidadMedida">
+              <option value="">Seleccionar...</option>
+              <option value="Unidad">Unidad</option>
+              <option value="Caja">Caja</option>
+              <option value="Paquete">Paquete</option>
+              <option value="Litro">Litro</option>
+              <option value="Kilogramo">Kilogramo</option>
+              <option value="Metro">Metro</option>
+              <option value="Juego">Juego</option>
+              <option value="Par">Par</option>
+            </select>
+          </div>
 
-            <!-- Nombre -->
-            <div class="col-12 mb-3">
-              <label class="form-label">
-                <i class="bi bi-tag me-2"></i>Nombre del Repuesto <span class="text-danger">*</span>
-              </label>
-              <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="nuevoRepuesto.nombre"
-                placeholder="Ej: Filtro de aceite" />
-            </div>
-
-            <!-- Unidad de Medida -->
-            <div class="col-md-4 mb-3">
-              <label class="form-label">
-                <i class="bi bi-rulers me-2"></i>Unidad de Medida <span class="text-danger">*</span>
-              </label>
-              <select class="form-select" [(ngModel)]="nuevoRepuesto.unidadMedida">
-                <option value="">Seleccionar...</option>
-                <option value="Unidad">Unidad</option>
-                <option value="Caja">Caja</option>
-                <option value="Paquete">Paquete</option>
-                <option value="Litro">Litro</option>
-                <option value="Kilogramo">Kilogramo</option>
-                <option value="Metro">Metro</option>
-                <option value="Juego">Juego</option>
-                <option value="Par">Par</option>
-              </select>
-            </div>
-
-            <!-- Stock Inicial -->
-            <div class="col-md-4 mb-3">
-              <label class="form-label">
-                <i class="bi bi-box me-2"></i>Stock Inicial <span class="text-danger">*</span>
-              </label>
-              <input
-                type="number"
-                class="form-control"
-                min="0"
-                [(ngModel)]="nuevoRepuesto.stock"
-                placeholder="0" />
-            </div>
-
-            <!-- Stock Mínimo -->
-            <div class="col-md-4 mb-3">
-              <label class="form-label">
-                <i class="bi bi-exclamation-triangle me-2"></i>Stock Mínimo <span class="text-danger">*</span>
-              </label>
-              <input
-                type="number"
-                class="form-control"
-                min="0"
-                [(ngModel)]="nuevoRepuesto.stockMinimo"
-                placeholder="0" />
-            </div>
+          <div class="form-group">
+            <label class="form-label">Stock Inicial <span class="required">*</span></label>
+            <input type="number" class="form-control" min="0" [(ngModel)]="nuevoRepuesto.stock" placeholder="0" />
           </div>
         </div>
 
-        <div class="form-footer">
-          <button class="btn-cancelar" (click)="cancelar()" [disabled]="isSubmitting">
-            <i class="bi bi-x-lg me-2"></i>
-            Cancelar
-          </button>
-          <button class="btn-guardar" (click)="guardarRepuesto()" [disabled]="isSubmitting">
-            <i class="bi bi-check-lg me-2"></i>
-            {{ isSubmitting ? 'Guardando...' : 'Guardar Repuesto' }}
-          </button>
+        <!-- Fila 4: Stock Mínimo -->
+        <div class="form-group">
+          <label class="form-label">Stock Mínimo <span class="required">*</span></label>
+          <input type="number" class="form-control" min="0" [(ngModel)]="nuevoRepuesto.stockMinimo" placeholder="0" />
         </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="cancelar()" [disabled]="isSubmitting">
+          <i class="bi bi-x-lg"></i>
+          <span>Cancelar</span>
+        </button>
+        <button type="button" class="btn-primary" (click)="guardarRepuesto()" [disabled]="isSubmitting">
+          <i class="bi bi-check-lg"></i>
+          <span>{{ isSubmitting ? 'Guardando...' : 'Guardar Repuesto' }}</span>
+        </button>
       </div>
     </div>
   </main>
-
-  <!-- 🔹 FOOTER -->
-  <footer class="footer">
-    <span>Términos</span> | <span>Privacidad</span> | <span>Soporte</span>
-    <span class="version">v1.0.0</span>
-  </footer>
 </div>
 
 <!-- ============ MODAL NUEVA CATEGORÍA ============ -->
