@@ -211,18 +211,22 @@ getTipoEquipoNombre(idTipo: number): string {
     this.paginaActual = this.totalPaginas;
   }
 
-  // Método para obtener la clase del badge según el estado
+  // Método para obtener la clase del badge según el estado (paleta igual que reparaciones)
   getBadgeClass(estado: string): string {
     if (!estado) return 'badge';
 
-    switch (estado.toUpperCase()) {
-      case 'OPERATIVO':
-        return 'badge badge-success';
+    const normalized = estado.toUpperCase();
+    switch (normalized) {
+      case 'DISPONIBLE':
+      case 'OPERATIVO': // compatibilidad por si llega este valor
+        return 'badge badge-success'; // verde
+      case 'EN_MANTENIMIENTO':
       case 'MANTENIMIENTO':
-        return 'badge badge-warning';
+        return 'badge badge-warning'; // amarillo
+      case 'FUERA_DE_SERVICIO':
+      case 'FUERA SERVICIO':
       case 'FUERA_SERVICIO':
-      case 'FUERA DE SERVICIO':
-        return 'badge badge-danger';
+        return 'badge badge-danger'; // rojo
       default:
         return 'badge';
     }

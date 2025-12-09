@@ -190,6 +190,7 @@
   border-radius: 12px;
   padding: 18px;
   margin: 0 auto;
+  position: static;
   width: 98%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -470,7 +471,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 95px;
+  min-width: 150px;
+  width: 150px;
   height: 32px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
