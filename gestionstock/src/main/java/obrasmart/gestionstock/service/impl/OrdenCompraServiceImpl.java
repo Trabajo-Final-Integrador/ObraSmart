@@ -54,6 +54,10 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
         var oc = new OrdenCompra();
         oc.setProveedor(prov);
 
+        // ⭐ GENERAR CODIGO PROFESIONAL OC-000123
+        long next = repo.count() + 1;
+        oc.setCodigoOrden(String.format("OC-%06d", next));
+
         var lista = new java.util.ArrayList<OrdenCompraItem>();
         for (var it : dto.getItems()) {
             var rep = repRepo.findById(it.getIdRepuesto()).orElseThrow();
