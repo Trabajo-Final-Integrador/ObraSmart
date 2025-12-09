@@ -1,38 +1,56 @@
-<!-- 🟦 CATÁLOGO -->
-    <div *ngIf="tabActiva === 'catalogo'" class="grid grid-1">
-      <label
-        ><input
-          type="checkbox"
-          [(ngModel)]="nuevoProveedor.tieneCatalogo"
-          name="tieneCatalogo"
-        />
-        Tiene catálogo digital</label
-      >
+<!-- CATÁLOGO -->
+<div *ngIf="tabActiva === 'catalogo'" class="catalogo-panel">
+  <div class="catalogo-header">
+    <div class="icon">
+      <i class="bi bi-bag-check"></i>
+    </div>
+    <div>
+      <h3>Catálogo digital</h3>
+      <p>Comparte el enlace y tu código de cliente para agilizar las compras.</p>
+    </div>
+  </div>
 
-      <div *ngIf="nuevoProveedor.tieneCatalogo">
-        <div class="form-group">
-          <label>URL del Catálogo</label>
-          <input
-            type="url"
-            [(ngModel)]="nuevoProveedor.urlCatalogo"
-            name="urlCatalogo"
-            placeholder="https://..."
-            class="form-input"
-          />
-        </div>
-        <div class="form-group">
-          <label>Código de Cliente</label>
-          <input
-            type="text"
-            [(ngModel)]="nuevoProveedor.codigoCliente"
-            name="codigoCliente"
-            placeholder="Tu código como cliente"
-            class="form-input"
-          />
-        </div>
+  <div class="catalogo-grid">
+    <label class="check-row">
+      <input
+        type="checkbox"
+        [(ngModel)]="nuevoProveedor.tieneCatalogo"
+        name="tieneCatalogo"
+      />
+      <span class="checkmark"></span>
+      <div class="check-copy">
+        <span class="title">Tiene catálogo digital</span>
+        <small>Activa para indicar el link y tu código de cliente.</small>
       </div>
-      <div class="col-span-2 text-end mt-4">
+    </label>
+
+    <div class="field" *ngIf="nuevoProveedor.tieneCatalogo">
+      <label>URL del Catálogo <span class="req">*</span></label>
+      <input
+        type="url"
+        [(ngModel)]="nuevoProveedor.urlCatalogo"
+        name="urlCatalogo"
+        placeholder="https://tu-catalogo.com"
+        class="form-input"
+      />
+      <small class="help">Ejemplo: https://proveedor.com/catalogo</small>
+    </div>
+
+    <div class="field" *ngIf="nuevoProveedor.tieneCatalogo">
+      <label>Código de Cliente</label>
+      <input
+        type="text"
+        [(ngModel)]="nuevoProveedor.codigoCliente"
+        name="codigoCliente"
+        placeholder="Ej: VIAL-001"
+        class="form-input"
+      />
+      <small class="help">Código asignado por el proveedor.</small>
+    </div>
+  </div>
+
+  <div class="actions">
     <button class="btn-anterior" (click)="volver()">← Anterior</button>
     <button class="btn-siguiente" (click)="continuar()">Siguiente →</button>
   </div>
-    </div>
+</div>
