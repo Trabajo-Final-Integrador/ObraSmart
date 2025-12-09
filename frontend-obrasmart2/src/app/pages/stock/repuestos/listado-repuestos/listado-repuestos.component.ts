@@ -182,9 +182,9 @@ export class ListadoRepuestosComponent implements OnInit {
 
   // Estado del repuesto
   getEstado(r: RepuestoDTO): string {
-    if (r.stock <= r.stockMinimo) return "BAJO";
-    if (r.stock <= r.stockMinimo * 1.5) return "MEDIO";
-    return "OK";
+    if (r.stock <= r.stockMinimo) return "REPONER";
+    if (r.stock <= r.stockMinimo * 1.5) return "STOCK BAJO";
+    return "EN STOCK";
   }
 
   // Método para obtener la clase del badge según el estado
@@ -192,11 +192,11 @@ export class ListadoRepuestosComponent implements OnInit {
     const estado = this.getEstado(r);
 
     switch (estado) {
-      case 'BAJO':
+      case 'REPONER':
         return 'badge badge-danger';
-      case 'MEDIO':
+      case 'STOCK BAJO':
         return 'badge badge-warning';
-      case 'OK':
+      case 'EN STOCK':
         return 'badge badge-success';
       default:
         return 'badge';
