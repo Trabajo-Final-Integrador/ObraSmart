@@ -126,6 +126,11 @@
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(120, 134, 107, 0.2);
   }
+
+  &.banded {
+    padding: 0;
+    overflow: hidden;
+  }
 }
 
 .stat-header {
@@ -134,6 +139,7 @@
   color: #666;
   font-weight: 600;
   margin-bottom: 10px;
+  padding: 0;
 
   span {
     font-size: 0.95rem;
@@ -143,6 +149,21 @@
     font-size: 20px;
     color: #78866B;
   }
+}
+
+.stat-card.banded .stat-header {
+  background: linear-gradient(135deg, #78866B 0%, #6f7b65 100%);
+  color: #f5f7f4;
+  margin-bottom: 0;
+  padding: 10px 14px;
+
+  i {
+    color: #f5f7f4;
+  }
+}
+
+.stat-body {
+  padding: 16px;
 }
 
 .stat-value {
@@ -253,12 +274,18 @@
 
 /* === Chips de estado === */
 .chip {
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.75rem;
+  padding: 6px 14px;
+  border-radius: 18px;
+  font-size: 0.78rem;
   font-weight: 600;
   color: white;
   white-space: nowrap;
+  min-width: 110px;
+  width: 110px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .chip-warning {
