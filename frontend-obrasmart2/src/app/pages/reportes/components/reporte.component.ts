@@ -221,4 +221,9 @@ export class ReportesComponent implements OnInit {
   toggleMenu() {
     this.sidebarService.toggleSidebar();
   }
+
+  exportar() {
+    // Export simple: imprime la vista actual (puedes reemplazar por jsPDF/html2canvas si quieres PDF directo)
+    window.print();
+  }
 }
