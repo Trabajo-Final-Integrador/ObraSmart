@@ -173,22 +173,25 @@
       <!-- GRÁFICOS Y LISTAS -->
       <div class="charts-grid">
         <div class="chart-card">
-          <h4>Tendencia de Reparaciones</h4>
-          <p class="chart-desc">
-            Solicitudes de servicio en el rango seleccionado
-          </p>
+          <div class="card-head">
+            <h4>Tendencia de Reparaciones</h4>
+            <p class="chart-desc">Solicitudes de servicio en el rango seleccionado</p>
+          </div>
           <canvas
             baseChart
             [data]="reparacionesChartData"
             [options]="reparacionesChartOptions"
             [type]="'line'"
-          >
-          </canvas>
+            >
+            </canvas>
+          <p class="chart-note">Evolución mensual de pedidos de reparación (más alto = más demanda en el período).</p>
         </div>
 
         <div class="chart-card donut">
-          <h4>Distribución de Flota</h4>
-          <p class="chart-desc">Equipos por tipo de maquinaria</p>
+          <div class="card-head">
+            <h4>Distribución de Flota</h4>
+            <p class="chart-desc">Equipos por tipo de maquinaria</p>
+          </div>
           <canvas
             baseChart
             [data]="donutData"
@@ -207,40 +210,48 @@
 
       <div class="lists-grid">
         <div class="list-card">
-          <h4>Equipos Críticos</h4>
-          <p class="chart-desc">
-            Unidades con mayor incidencia de fallas recientes
-          </p>
-          <div *ngFor="let e of d.equipos?.equiposCriticos" class="list-item">
-            <div class="list-left">
-              <div class="list-icon danger">
-                <i class="bi bi-exclamation-circle"></i>
+          <div class="card-head">
+            <h4>Equipos Críticos</h4>
+            <p class="chart-desc">
+              Unidades con mayor incidencia de fallas recientes
+            </p>
+          </div>
+          <div class="items-grid">
+            <div *ngFor="let e of d.equipos?.equiposCriticos" class="list-item">
+              <div class="list-left">
+                <div class="list-icon danger">
+                  <i class="bi bi-exclamation-circle"></i>
+                </div>
+                <div>
+                  <div class="item-title">{{ e.nombreEquipo }}</div>
+                  <div class="item-sub">ID: {{ e.equipoId }}</div>
+                </div>
               </div>
-              <div>
-                <div class="item-title">{{ e.nombreEquipo }}</div>
-                <div class="item-sub">ID: {{ e.equipoId }}</div>
+              <div class="list-right">
+                <div class="item-value">{{ e.cantidadReparaciones }} fallas</div>
+                <div class="item-sub">Último mes</div>
               </div>
-            </div>
-            <div class="list-right">
-              <div class="item-value">{{ e.cantidadReparaciones }} fallas</div>
-              <div class="item-sub">Último mes</div>
             </div>
           </div>
         </div>
 
         <div class="list-card">
-          <h4>Stock Crítico</h4>
-          <p class="chart-desc">Repuestos por debajo del mínimo</p>
-          <div *ngFor="let s of d.stock?.repuestosCriticos" class="list-item">
-            <div class="list-left">
-              <div class="list-icon warning"><i class="bi bi-box"></i></div>
-              <div>
-                <div class="item-title">{{ s.nombre }}</div>
-                <div class="item-sub">
-                  {{ s.categoria }} -
-                  <span class="warning-text"
-                    >{{ s.stockActual }}/{{ s.stockMinimo }} min</span
-                  >
+          <div class="card-head">
+            <h4>Stock Crítico</h4>
+            <p class="chart-desc">Repuestos por debajo del mínimo</p>
+          </div>
+          <div class="items-grid">
+            <div *ngFor="let s of d.stock?.repuestosCriticos" class="list-item">
+              <div class="list-left">
+                <div class="list-icon warning"><i class="bi bi-box"></i></div>
+                <div>
+                  <div class="item-title">{{ s.nombre }}</div>
+                  <div class="item-sub">
+                    {{ s.categoria }} -
+                    <span class="warning-text"
+                      >{{ s.stockActual }}/{{ s.stockMinimo }} min</span
+                    >
+                  </div>
                 </div>
               </div>
             </div>

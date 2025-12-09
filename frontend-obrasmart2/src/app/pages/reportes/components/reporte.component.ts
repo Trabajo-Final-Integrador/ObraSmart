@@ -29,21 +29,30 @@ export class ReportesComponent implements OnInit {
       legend: {
         display: true,
         position: 'top',
+        align: 'start',
         labels: {
-          color: '#333',
-          font: { size: 12 }
+          color: '#2f5f5b',
+          font: { size: 11, weight: '600' },
+          boxWidth: 12,
+          padding: 12,
         }
+      },
+      tooltip: {
+        backgroundColor: '#2f5f5b',
+        titleFont: { size: 12, weight: '600' },
+        bodyFont: { size: 12 },
+        cornerRadius: 6
       }
     },
     scales: {
       y: {
         beginAtZero: true,
-        ticks: { color: '#666' },
-        grid: { color: '#e5e5e5' }
+        ticks: { color: '#4a4a4a' },
+        grid: { color: '#e5dfd5', borderDash: [4, 4] }
       },
       x: {
-        ticks: { color: '#666' },
-        grid: { color: '#e5e5e5' }
+        ticks: { color: '#4a4a4a' },
+        grid: { display: false }
       }
     }
   };
@@ -152,10 +161,18 @@ export class ReportesComponent implements OnInit {
         datasets: [{
           label: 'Reparaciones',
           data: valores,
-          borderColor: '#78866B',
-          backgroundColor: 'rgba(120, 134, 107, 0.1)',
+          borderColor: '#5c4e8f',
+          backgroundColor: 'rgba(92, 78, 143, 0.18)',
           tension: 0.4,
-          fill: true
+          fill: true,
+          borderWidth: 3.2,
+          pointRadius: 5,
+          pointBackgroundColor: '#f29e4c',
+          pointBorderColor: '#5c4e8f',
+          pointHoverRadius: 8,
+          pointHoverBackgroundColor: '#f29e4c',
+          pointHoverBorderColor: '#5c4e8f',
+          pointHoverBorderWidth: 2
         }]
       };
     }
@@ -165,20 +182,25 @@ export class ReportesComponent implements OnInit {
       const tipos = Object.keys(this.data.equipos.equiposPorTipo);
       const cantidades = Object.values(this.data.equipos.equiposPorTipo);
 
-      const colores = [
-        '#78866B',
-        '#A9BA9D',
-        '#D0D9CD',
-        '#6b7760',
-        '#8a9979',
-        '#c1cbb8'
+      const baseColores = [
+        '#2f5f5b',
+        '#658c88',
+        '#9abcb7',
+        '#e8c07d',
+        '#f2a65a',
+        '#d64550',
+        '#b2c7c0',
+        '#f7d7b4'
       ];
+
+      // Generamos colores alternando la paleta para reducir repeticiones cercanas
+      const colores = tipos.map((_, idx) => baseColores[(idx * 3) % baseColores.length]);
 
       this.donutData = {
         labels: tipos,
         datasets: [{
           data: cantidades,
-          backgroundColor: colores.slice(0, tipos.length),
+          backgroundColor: colores,
           borderWidth: 2,
           borderColor: '#fff'
         }]

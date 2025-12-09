@@ -115,11 +115,37 @@ public class ReporteServiceImpl implements ReporteService {
                     HttpMethod.GET,
                     new ParameterizedTypeReference<List<RepuestoDto>>() {}
             );
-            return Optional.ofNullable(response.getBody()).orElse(List.of());
+            var body = Optional.ofNullable(response.getBody()).orElse(List.of());
+            if (!body.isEmpty()) return body;
+        } catch (Exception e) {
+            log.warn("Error consultando Repuestos con cookie, probando sin sesión: {}", e.getMessage());
+        }
+        try {
+            ResponseEntity<List<RepuestoDto>> response = restTemplate.exchange(
+                    repuestosUrl,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<RepuestoDto>>() {}
+            );
+            var body = Optional.ofNullable(response.getBody()).orElse(List.of());
+            if (!body.isEmpty()) return body;
         } catch (Exception e) {
             log.error("Error consultando Repuestos: {}", e.getMessage());
-            return List.of();
         }
+        // Fallback directo al micro de stock (puerto 8083) en caso de que el gateway requiera sesión
+        try {
+            String fallbackUrl = repuestosUrl.replace("8085", "8083");
+            ResponseEntity<List<RepuestoDto>> response = restTemplate.exchange(
+                    fallbackUrl,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<RepuestoDto>>() {}
+            );
+            return Optional.ofNullable(response.getBody()).orElse(List.of());
+        } catch (Exception e) {
+            log.error("Error consultando Repuestos (fallback): {}", e.getMessage());
+        }
+        return List.of();
     }
 
     private List<MovimientoStockDto> obtenerMovimientos() {
@@ -129,11 +155,37 @@ public class ReporteServiceImpl implements ReporteService {
                     HttpMethod.GET,
                     new ParameterizedTypeReference<List<MovimientoStockDto>>() {}
             );
-            return Optional.ofNullable(response.getBody()).orElse(List.of());
+            var body = Optional.ofNullable(response.getBody()).orElse(List.of());
+            if (!body.isEmpty()) return body;
+        } catch (Exception e) {
+            log.warn("Error consultando Movimientos con cookie, probando sin sesión: {}", e.getMessage());
+        }
+        try {
+            ResponseEntity<List<MovimientoStockDto>> response = restTemplate.exchange(
+                    movimientosUrl,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<MovimientoStockDto>>() {}
+            );
+            var body = Optional.ofNullable(response.getBody()).orElse(List.of());
+            if (!body.isEmpty()) return body;
         } catch (Exception e) {
             log.error("Error consultando Movimientos: {}", e.getMessage());
-            return List.of();
         }
+        // Fallback directo al micro de stock (puerto 8083) si el gateway exige sesión
+        try {
+            String fallbackUrl = movimientosUrl.replace("8085", "8083");
+            ResponseEntity<List<MovimientoStockDto>> response = restTemplate.exchange(
+                    fallbackUrl,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<MovimientoStockDto>>() {}
+            );
+            return Optional.ofNullable(response.getBody()).orElse(List.of());
+        } catch (Exception e) {
+            log.error("Error consultando Movimientos (fallback): {}", e.getMessage());
+        }
+        return List.of();
     }
 
     private EquiposDashboardDto construirSeccionEquipos(List<EquipoDTO> equipos,
@@ -244,7 +296,7 @@ public class ReporteServiceImpl implements ReporteService {
         int totalRepuestos = repuestos.size();
 
         List<RepuestoCriticoDto> repuestosCriticos = repuestos.stream()
-                .filter(r -> r.stock() != null && r.stockMinimo() != null && r.stock() < r.stockMinimo())
+                .filter(r -> r.stock() != null && r.stockMinimo() != null && r.stock() <= r.stockMinimo())
                 .map(r -> RepuestoCriticoDto.builder()
                         .repuestoId(r.id())
                         .nombre(r.nombre())
@@ -256,7 +308,7 @@ public class ReporteServiceImpl implements ReporteService {
                 .toList();
 
         int repuestosBajoMinimo = (int) repuestos.stream()
-                .filter(r -> r.stock() != null && r.stockMinimo() != null && r.stock() < r.stockMinimo())
+                .filter(r -> r.stock() != null && r.stockMinimo() != null && r.stock() <= r.stockMinimo())
                 .count();
 
         Map<String, Long> repuestosPorCategoria = repuestos.stream()

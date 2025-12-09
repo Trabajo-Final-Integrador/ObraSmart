@@ -24,7 +24,10 @@ export class ReportesService {
       params = params.set('preset', filters.preset);
     }
 
-    return this.http.get<DashboardReporteDto>(`${this.apiUrl}/dashboard`, { params });
+    return this.http.get<DashboardReporteDto>(`${this.apiUrl}/dashboard`, {
+      params,
+      withCredentials: true
+    });
   }
 
   generarDashboard(): Observable<DashboardReporteDto> {
