@@ -156,10 +156,10 @@
                     [disabled]="modoDetalle"
                     required
                   >
-                    <option [ngValue]="0">Seleccionar técnico...</option>
-                    <option [ngValue]="1">Juan Pérez</option>
-                    <option [ngValue]="2">María González</option>
-                    <option [ngValue]="3">Carlos Rodríguez</option>
+                    <option [ngValue]="null">Seleccionar técnico...</option>
+                    <option *ngFor="let usuario of usuarios" [ngValue]="usuario.id">
+                      {{ usuario.username }} ({{ usuario.email }})
+                    </option>
                   </select>
                 </div>
 

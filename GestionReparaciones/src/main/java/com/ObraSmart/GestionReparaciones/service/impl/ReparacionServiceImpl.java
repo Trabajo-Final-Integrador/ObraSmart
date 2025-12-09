@@ -1,7 +1,9 @@
 package com.ObraSmart.GestionReparaciones.service.impl;
 
 import com.ObraSmart.GestionReparaciones.client.EquipoClient;
+import com.ObraSmart.GestionReparaciones.client.UsuarioClient;
 import com.ObraSmart.GestionReparaciones.dto.EquipoDTO;
+import com.ObraSmart.GestionReparaciones.dto.UsuarioDTO;
 import com.ObraSmart.GestionReparaciones.dto.ReparacionEstadoHistorialDto;
 import com.ObraSmart.GestionReparaciones.dto.ReparacionRequestDto;
 import com.ObraSmart.GestionReparaciones.dto.ReparacionResponseDto;
@@ -27,6 +29,7 @@ public class ReparacionServiceImpl implements ReparacionService {
     private final ReparacionRepository reparacionRepository;
     private final ReparacionEstadoHistorialRepository historialRepository;
     private final EquipoClient equipoClient;
+    private final UsuarioClient usuarioClient;
     private final GeocodingService geocodingService;
 
     // ================== CREAR ==================
@@ -50,7 +53,18 @@ public class ReparacionServiceImpl implements ReparacionService {
 
         // responsable
         reparacion.setResponsableId(request.getResponsableId());
-        reparacion.setResponsableNombreCompleto(request.getResponsableNombreCompleto());
+
+        // Obtener nombre del responsable desde el microservicio de usuarios
+        String nombreCompleto = request.getResponsableNombreCompleto();
+        if (nombreCompleto == null || nombreCompleto.isBlank()) {
+            try {
+                UsuarioDTO usuario = usuarioClient.obtenerUsuario(request.getResponsableId());
+                nombreCompleto = usuario.getNombreCompleto();
+            } catch (Exception e) {
+                nombreCompleto = "Usuario #" + request.getResponsableId();
+            }
+        }
+        reparacion.setResponsableNombreCompleto(nombreCompleto);
 
         // geolocalizacion
         reparacion.setDireccion(request.getDireccion());
@@ -105,7 +119,19 @@ public class ReparacionServiceImpl implements ReparacionService {
         reparacion.setTipoMantenimiento(request.getTipoMantenimiento());
         reparacion.setDescripcion(request.getDescripcion());
         reparacion.setResponsableId(request.getResponsableId());
-        reparacion.setResponsableNombreCompleto(request.getResponsableNombreCompleto());
+
+        // Obtener nombre del responsable si cambió
+        String nombreCompleto = request.getResponsableNombreCompleto();
+        if (nombreCompleto == null || nombreCompleto.isBlank()) {
+            try {
+                UsuarioDTO usuario = usuarioClient.obtenerUsuario(request.getResponsableId());
+                nombreCompleto = usuario.getNombreCompleto();
+            } catch (Exception e) {
+                nombreCompleto = "Usuario #" + request.getResponsableId();
+            }
+        }
+        reparacion.setResponsableNombreCompleto(nombreCompleto);
+
         reparacion.setDireccion(request.getDireccion());
 
         // Actualizar geolocalizacion si es necesario

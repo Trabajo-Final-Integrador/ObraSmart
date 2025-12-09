@@ -25,6 +25,25 @@
     cursor: pointer;
   }
 
+  
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .logo-navbar {
+      height: 36px;
+      width: auto;
+    }
+
+    .navbar-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin: 0;
+      line-height: 1.2;
+    }
+  }
+
   .navbar-title {
     flex: 1;
     font-size: 1.3rem;

@@ -1,9 +1,10 @@
 <div class="layout-container">
   <!-- 🔹 NAVBAR SUPERIOR -->
   <header class="top-navbar">
-    <button class="btn-back" routerLink="/reparaciones" title="Volver al listado">
-      <i class="bi bi-arrow-left-circle-fill"></i>
-    </button>
+    <button class="btn-back" routerLink="/listado-usuario" title="Volver al listado">
+        <i class="bi bi-arrow-left-circle"></i>
+        <span>Volver</span>
+      </button>
     <div class="navbar-content">
       <h1 class="navbar-title">Nueva Reparación</h1>
     </div>
@@ -55,9 +56,9 @@
                     name="responsableId"
                     required>
               <option [ngValue]="null">Seleccionar técnico...</option>
-              <option [ngValue]="1">Juan Pérez</option>
-              <option [ngValue]="2">María González</option>
-              <option [ngValue]="3">Carlos Rodríguez</option>
+              <option *ngFor="let usuario of usuarios" [ngValue]="usuario.id">
+                {{ usuario.username }} ({{ usuario.email }})
+              </option>
             </select>
           </div>
 
@@ -105,4 +106,9 @@
       </form>
     </div>
   </main>
+   <!-- 🔹 FOOTER -->
+  <footer class="footer">
+
+    <span class="version">v1.0.0</span>
+  </footer>
 </div>

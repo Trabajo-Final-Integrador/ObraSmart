@@ -10,41 +10,71 @@
 .top-navbar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
   color: white;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
-  .menu-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.6rem;
-    margin-right: 15px;
-    cursor: pointer;
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
   }
 
-  .navbar-title {
-    flex: 1;
-    font-size: 1.3rem;
-    font-weight: 500;
+  .menu-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 1.4rem;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.05);
+    }
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .logo-navbar {
+      height: 36px;
+      width: auto;
+    }
+
+    .navbar-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin: 0;
+      line-height: 1.2;
+    }
   }
 
   .navbar-actions {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
 
     .btn-regresar {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       background-color: rgba(255, 255, 255, 0.15);
       color: white;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 8px;
       padding: 8px 16px;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -53,14 +83,19 @@
         font-size: 1.1rem;
       }
 
+      span {
+        font-weight: 500;
+      }
+
       &:hover {
         background-color: rgba(255, 255, 255, 0.25);
-        border-color: rgba(255, 255, 255, 0.5);
-        transform: translateX(-3px);
+        border-color: rgba(255, 255, 255, 0.6);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       }
 
       &:active {
-        transform: translateX(-3px) scale(0.98);
+        transform: translateY(0);
       }
     }
   }
@@ -118,21 +153,44 @@
     text-align: left;
 
     th, td {
-      padding: 10px 12px;
+      padding: 12px 15px;
       border-bottom: 1px solid #eee;
     }
 
-    th {
-      background: #f8f9fa;
-      color: #333;
-      font-weight: 600;
+    thead tr {
+      background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+
+      th {
+        color: white;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: none;
+
+        &:first-child {
+          border-top-left-radius: 8px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 8px;
+        }
+      }
+    }
+
+    tbody tr {
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #f8f9fa;
+      }
     }
 
     .acciones {
-    display: flex;
-    justify-content: center;  /* centra horizontalmente */
-    align-items: center;      /* centra verticalmente */
-    gap: 8px;                 /* separa los iconos */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
     }
 
     .badge-success { color: rgb(48, 63, 48); font-weight: 600; }
@@ -142,17 +200,21 @@
       background: none;
       border: none;
       cursor: pointer;
-      font-size: 1.1rem;
-      margin: 0 5px;
-      padding: 6px;
-      border-radius: 4px;
-      transition: 0.2s ease;
+      font-size: 0.9rem;
+      margin: 0;
+      padding: 3px 5px;
+      line-height: 1;
 
-      &.edit { color: #273f5c; }
-      &.delete { color: #331916; }
+      &.edit {
+        color: #95a5a6;
+      }
 
-      &:hover {
-        background: rgba(0, 0, 0, 0.05);
+      &.delete {
+        color: #e74c3c;
+      }
+
+      &.view {
+        color: #8e44ad;
       }
     }
   }
@@ -163,39 +225,75 @@
     margin-top: 15px;
   }
 
-  .pagination-container {
+}
+
+/* 🔹 Paginación fuera de la card */
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 20px;
+  background: white;
+  border-radius: 8px;
+  margin-top: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  width: 98%;
+  margin-left: auto;
+  margin-right: auto;
+
+  .pagination-controls {
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-top: 15px;
-    gap: 6px;
-    padding-right: 2%;
+    gap: 10px;
 
-    button {
-      border: none;
-      background: #78866B;
-      color: white;
-      font-size: 1rem;
-      border: none;
+    .items-per-page {
+      padding: 6px 10px;
+      border: 1px solid #ddd;
       border-radius: 4px;
-      padding: 4px 6px;
+      font-size: 0.875rem;
       cursor: pointer;
-       transition: 0.2s;
+      background: white;
+      outline: none;
 
-      &:hover:not(:disabled) {
-        background: #6b7760;
-      }
-
-      &:disabled {
-        background: #f1f1f1;
-        cursor: not-allowed;
-        color: #999;
+      &:focus {
+        border-color: #78866B;
       }
     }
 
-    span {
-      color: #333;
-      font-weight: 500;
+    .pagination-buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .page-btn {
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+        color: #555;
+        font-size: 0.9rem;
+        padding: 6px 12px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.2s;
+
+        &:hover:not(:disabled) {
+          background: #e8e8e8;
+          border-color: #bbb;
+        }
+
+        &:disabled {
+          background: #fafafa;
+          color: #ccc;
+          cursor: not-allowed;
+          border-color: #eee;
+        }
+      }
+
+      .page-indicator {
+        color: #333;
+        font-size: 0.875rem;
+        font-weight: 500;
+        padding: 0 8px;
+      }
     }
   }
 }

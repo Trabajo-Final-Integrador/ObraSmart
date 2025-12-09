@@ -31,6 +31,24 @@
     }
   }
 
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .logo-navbar {
+      height: 36px;
+      width: auto;
+    }
+
+    .navbar-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin: 0;
+      line-height: 1.2;
+    }
+  }
+
   .navbar-title {
     flex: 1;
     font-size: 1.3rem;
@@ -42,26 +60,21 @@
     align-items: center;
     gap: 15px;
 
-    .btn-regresar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background-color: rgba(255, 255, 255, 0.15);
-      color: white;
+    .btn-back {
+      background: rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
       border-radius: 6px;
-      padding: 8px 16px;
+      padding: 6px 10px;
       font-size: 0.95rem;
-      font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
-
-      i {
-        font-size: 1.1rem;
-      }
+      display: flex;
+      align-items: center;
+      gap: 5px;
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.25);
+        background: rgba(255, 255, 255, 0.25);
         border-color: rgba(255, 255, 255, 0.5);
         transform: translateX(-3px);
       }
@@ -70,6 +83,7 @@
         transform: translateX(-3px) scale(0.98);
       }
     }
+
   }
 
   app-helper {

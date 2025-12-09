@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReparacionService, ReparacionResponseDTO, ReparacionRequestDto } from 'src/app/service/reparaciones.service';
 import { EquipoService, EquipoDTO } from 'src/app/service/equipo.service';
+import { UsuarioService } from '../../usuarios/usuario.service';
+import { Usuario } from '../../usuarios/usuario.model';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,6 +20,7 @@ export class EditarReparacionesComponent implements OnInit {
 
   reparacion: ReparacionResponseDTO | null = null;
   equipos: EquipoDTO[] = [];
+  usuarios: Usuario[] = [];
 
   formulario: ReparacionRequestDto = {
     equipoId: null as any,
@@ -32,7 +35,8 @@ export class EditarReparacionesComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private repSrv: ReparacionService,
-    private equipoService: EquipoService
+    private equipoService: EquipoService,
+    private usuarioService: UsuarioService
   ) {}
 
   ngOnInit(): void {
@@ -43,6 +47,7 @@ export class EditarReparacionesComponent implements OnInit {
     this.reparacionId = +this.route.snapshot.paramMap.get('id')!;
 
     this.cargarEquipos();
+    this.cargarUsuarios();
     this.cargarReparacion();
   }
 
@@ -50,6 +55,18 @@ export class EditarReparacionesComponent implements OnInit {
     this.equipoService.listar().subscribe({
       next: (data) => this.equipos = data,
       error: err => console.error("Error cargando equipos:", err)
+    });
+  }
+
+  cargarUsuarios(): void {
+    this.usuarioService.listarUsuarios().subscribe({
+      next: (data) => {
+        this.usuarios = data.filter(u => u.status === 'ACTIVO');
+      },
+      error: err => {
+        console.error("Error cargando usuarios:", err);
+        this.usuarios = [];
+      }
     });
   }
 

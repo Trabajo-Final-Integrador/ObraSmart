@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ReparacionService, ReparacionRequestDto } from 'src/app/service/reparaciones.service';
 import { Router } from '@angular/router';
 import { EquipoService, EquipoDTO } from 'src/app/service/equipo.service';
+import { UsuarioService } from '../../usuarios/usuario.service';
+import { Usuario } from '../../usuarios/usuario.model';
 import Swal from 'sweetalert2';
 
 
@@ -21,18 +23,25 @@ export class CrearReparacionComponent {
     fechaInicio: ''
   };
 
+  equipos: EquipoDTO[] = [];
+  usuarios: Usuario[] = [];
+
   constructor(
     private repSrv: ReparacionService,
     private equipoService: EquipoService,
+    private usuarioService: UsuarioService,
     private router: Router
   ) {}
-
-  equipos: EquipoDTO[] = [];
 
    ngOnInit(): void {
     this.equipoService.listar().subscribe({
       next: (data) => this.equipos = data,
       error: err => console.error("Error cargando equipos:", err)
+    });
+
+    this.usuarioService.listarUsuarios().subscribe({
+      next: (data) => this.usuarios = data.filter(u => u.status === 'ACTIVO'),
+      error: err => console.error("Error cargando usuarios:", err)
     });
   }
 

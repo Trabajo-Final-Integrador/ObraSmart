@@ -166,13 +166,27 @@ cerrarModal(): void {
 
 onUsuarioActualizado() {
   this.mostrarModal = false;
-
-
   this.obtenerUsuarios(); // refresca lista
-
-  
 }
 
-
+verUsuario(usuario: any): void {
+  Swal.fire({
+    title: '<strong>Información del Usuario</strong>',
+    html: `
+      <div style="text-align: left; padding: 10px;">
+        <p><strong>Nombre:</strong> ${usuario.firstname || 'N/A'} ${usuario.lastname || ''}</p>
+        <p><strong>Usuario:</strong> ${usuario.username}</p>
+        <p><strong>Email:</strong> ${usuario.email}</p>
+        <p><strong>Rol:</strong> ${usuario.role}</p>
+        <p><strong>Estado:</strong> <span style="color: ${usuario.status === 'ACTIVO' ? '#28a745' : '#dc3545'}">${usuario.status}</span></p>
+        <p><strong>Observaciones:</strong> ${usuario.observaciones || 'Sin observaciones'}</p>
+      </div>
+    `,
+    icon: 'info',
+    confirmButtonText: 'Cerrar',
+    confirmButtonColor: '#78866B',
+    width: '500px'
+  });
+}
 
 }

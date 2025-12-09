@@ -1,16 +1,21 @@
 <div class="layout-container">
   <!-- 🔹 NAVBAR SUPERIOR -->
   <header class="top-navbar">
-    <button class="menu-btn" (click)="toggleSidebar()" title="Menú principal">
-      <i class="bi bi-list"></i>
-    </button>
-    <h1 class="navbar-title">Gestión de Usuarios</h1>
-    <div class="navbar-actions">
-      <button class="btn-regresar" routerLink="/principal" title="Regresar al inicio">
-        <i class="bi bi-house-door"></i>
-
+    <div class="navbar-left">
+      <button class="menu-btn" (click)="toggleSidebar()" title="Menú principal">
+        <i class="bi bi-list"></i>
       </button>
-      <app-helper tooltip="Administre usuarios activos e inactivos."></app-helper>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+        <h1 class="navbar-title">Listado de Usuarios</h1>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" title="Volver al inicio">
+        <i class="bi bi-house-door-fill"></i>
+        
+      </button>
+      
     </div>
   </header>
 
@@ -32,9 +37,7 @@
             [(ngModel)]="filtro"
             placeholder="Buscar por usuario, email o rol"
           />
-          <button class="filter-btn" title="Filtrar">
-            <i class="bi bi-funnel"></i>
-          </button>
+          
         </div>
       </div>
 
@@ -74,6 +77,9 @@
               >
                 <i class="bi bi-trash"></i>
               </button>
+              <button class="btn-icon view" (click)="verUsuario(u)" title="Ver información">
+                <i class="bi bi-eye"></i>
+              </button>
             </td>
           </tr>
         </tbody>
@@ -88,34 +94,29 @@
         <i class="bi bi-exclamation-circle"></i>
         <p>No hay usuarios registrados.</p>
       </div>
-      <!-- 🔸 Paginación -->
-      <!-- 🔸 Paginador con estilo DataTable -->
-      <div class="pagination-container" *ngIf="usuariosFiltrados.length > 0">
-        <button (click)="primeraPagina()" [disabled]="paginaActual === 1">
-          &laquo;
-        </button>
-        <button (click)="paginaAnterior()" [disabled]="paginaActual === 1">
-          &lsaquo;
-        </button>
+    </div>
 
-        <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
-
-        <button
-          (click)="paginaSiguiente()"
-          [disabled]="paginaActual === totalPaginas"
-        >
-          &rsaquo;
-        </button>
-        <button
-          (click)="ultimaPagina()"
-          [disabled]="paginaActual === totalPaginas"
-        >
-          &raquo;
-        </button>
-
-        <select [(ngModel)]="usuariosPorPagina" (change)="paginaActual = 1">
+    <!-- 🔸 Paginación fuera de la card -->
+    <div class="pagination-wrapper" *ngIf="usuariosFiltrados.length > 0">
+      <div class="pagination-controls">
+        <select [(ngModel)]="usuariosPorPagina" (change)="paginaActual = 1" class="items-per-page">
           <option *ngFor="let n of [5, 10, 20, 50]" [value]="n">{{ n }}</option>
         </select>
+        <div class="pagination-buttons">
+          <button (click)="primeraPagina()" [disabled]="paginaActual === 1" class="page-btn" title="Primera página">
+            &laquo;
+          </button>
+          <button (click)="paginaAnterior()" [disabled]="paginaActual === 1" class="page-btn" title="Anterior">
+            &lsaquo;
+          </button>
+          <span class="page-indicator">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+          <button (click)="paginaSiguiente()" [disabled]="paginaActual === totalPaginas" class="page-btn" title="Siguiente">
+            &rsaquo;
+          </button>
+          <button (click)="ultimaPagina()" [disabled]="paginaActual === totalPaginas" class="page-btn" title="Última página">
+            &raquo;
+          </button>
+        </div>
       </div>
     </div>
   </main>

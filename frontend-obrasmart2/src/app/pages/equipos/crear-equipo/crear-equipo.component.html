@@ -1,17 +1,17 @@
 <div class="layout-container">
   <!-- Navbar -->
   <header class="top-navbar">
-    <button class="menu-btn" (click)="toggleSidebar()">
-      <i class="bi bi-list"></i>
-    </button>
-    <h1 class="navbar-title">{{ modoEdicion ? 'Editar Equipo' : 'Crear Nuevo Equipo' }}</h1>
     <div class="navbar-actions">
-      <button class="btn-regresar" routerLink="/equipos">
-        <i class="bi bi-arrow-left"></i>
-        Volver al Listado
+       <button class="btn-back" routerLink="/listado-usuario" title="Volver al listado">
+        <i class="bi bi-arrow-left-circle"></i>
+        <span>Volver</span>
       </button>
-      <app-helper [tooltip]="modoEdicion ? 'Modifique los datos del equipo en cada paso.' : 'Complete todos los pasos para registrar un nuevo equipo.'"></app-helper>
+     
     </div>
+    <div class="brand">
+      <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+    <h1 class="navbar-title">{{ modoEdicion ? 'Editar Equipo' : 'Crear Nuevo Equipo' }}</h1>
+   </div>
   </header>
 
   <!-- Sidebar -->

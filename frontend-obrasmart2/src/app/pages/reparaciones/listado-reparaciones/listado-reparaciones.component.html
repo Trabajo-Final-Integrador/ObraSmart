@@ -1,13 +1,19 @@
 <div class="layout-container">
   <!-- 🔹 NAVBAR SUPERIOR -->
   <header class="top-navbar">
-    <button class="menu-btn" (click)="toggleSidebar()" title="Menú principal">
-      <i class="bi bi-list"></i>
-    </button>
-    <h1 class="navbar-title">Gestión de Reparaciones</h1>
+    <div class="navbar-left">
+      <button class="menu-btn" (click)="toggleSidebar()" title="Menú principal">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+        <h1 class="navbar-title">Listado de Reparaciones</h1>
+      </div>
+    </div>
     <div class="navbar-actions">
-      <button class="btn-regresar" routerLink="/principal" title="Regresar al inicio">
-        <i class="bi bi-house-door"></i>
+      <button class="btn-regresar" routerLink="/principal" title="Volver al inicio">
+        <i class="bi bi-house-door-fill"></i>
+        
       </button>
     </div>
   </header>
@@ -20,26 +26,24 @@
 
   <!-- 🔹 CONTENIDO PRINCIPAL -->
   <main class="content">
-    <!-- 🔸 Barra de herramientas -->
-    <div class="toolbar">
-      <div class="search-container">
-        <i class="bi bi-search"></i>
-        <input
-          type="text"
-          [(ngModel)]="terminoBusqueda"
-          (input)="filtrar()"
-          placeholder="Buscar por equipo, código o responsable..."
-        />
-        
-      </div>
-      <button class="btn-nuevo" (click)="nuevaReparacion()">
-        <i class="bi bi-plus-lg"></i>
-        <span>Nueva Reparación</span>
-      </button>
-    </div>
-
     <!-- 🔸 Tabla -->
     <div class="table-container">
+      <div class="toolbar">
+        <div class="search-container">
+          <i class="bi bi-search"></i>
+          <input
+            type="text"
+            [(ngModel)]="terminoBusqueda"
+            (input)="filtrar()"
+            placeholder="Buscar por equipo, código o responsable..."
+          />
+        </div>
+        <button class="btn-nuevo" (click)="nuevaReparacion()">
+          <i class="bi bi-plus-lg"></i>
+          <span>Nueva Reparación</span>
+        </button>
+      </div>
+
       <div *ngIf="loading" class="empty-message">
         <i class="bi bi-hourglass-split"></i>
         <p>Cargando reparaciones...</p>
@@ -113,34 +117,29 @@
         <i class="bi bi-exclamation-circle"></i>
         <p>No hay reparaciones registradas.</p>
       </div>
+    </div>
 
-      <!-- 🔸 Paginación -->
-      <div class="pagination-container" *ngIf="reparacionesFiltradas.length > 0">
-        <button (click)="primeraPagina()" [disabled]="paginaActual === 1">
-          &laquo;
-        </button>
-        <button (click)="paginaAnterior()" [disabled]="paginaActual === 1">
-          &lsaquo;
-        </button>
-
-        <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
-
-        <button
-          (click)="paginaSiguiente()"
-          [disabled]="paginaActual === totalPaginas"
-        >
-          &rsaquo;
-        </button>
-        <button
-          (click)="ultimaPagina()"
-          [disabled]="paginaActual === totalPaginas"
-        >
-          &raquo;
-        </button>
-
-        <select [(ngModel)]="reparacionesPorPagina" (change)="paginaActual = 1">
+    <!-- 🔸 Paginación fuera de la card -->
+    <div class="pagination-wrapper" *ngIf="reparacionesFiltradas.length > 0">
+      <div class="pagination-controls">
+        <select [(ngModel)]="reparacionesPorPagina" (ngModelChange)="onCambiarPorPagina($event)" class="items-per-page">
           <option *ngFor="let n of [5, 10, 20, 50]" [value]="n">{{ n }}</option>
         </select>
+        <div class="pagination-buttons">
+          <button (click)="primeraPagina()" [disabled]="paginaActual === 1" class="page-btn" title="Primera página">
+            &laquo;
+          </button>
+          <button (click)="paginaAnterior()" [disabled]="paginaActual === 1" class="page-btn" title="Anterior">
+            &lsaquo;
+          </button>
+          <span class="page-indicator">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+          <button (click)="paginaSiguiente()" [disabled]="paginaActual === totalPaginas" class="page-btn" title="Siguiente">
+            &rsaquo;
+          </button>
+          <button (click)="ultimaPagina()" [disabled]="paginaActual === totalPaginas" class="page-btn" title="Última página">
+            &raquo;
+          </button>
+        </div>
       </div>
     </div>
   </main>

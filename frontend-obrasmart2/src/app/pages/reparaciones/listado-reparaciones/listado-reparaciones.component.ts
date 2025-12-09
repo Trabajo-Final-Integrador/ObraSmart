@@ -19,7 +19,7 @@ export class ListadoReparacionesComponent implements OnInit {
 
   // Paginación
   paginaActual = 1;
-  reparacionesPorPagina = 10;
+  reparacionesPorPagina = 5;
 
   constructor(
     private repSrv: ReparacionService,
@@ -39,6 +39,8 @@ export class ListadoReparacionesComponent implements OnInit {
         this.reparacionesOriginal = [...data];
         this.reparacionesFiltradas = [...data];
         this.loading = false;
+        console.log('Datos de reparaciones:', data);
+        console.log('Primera reparación responsable:', data[0]?.responsableNombreCompleto);
       },
       error: err => {
         console.error(err);
@@ -142,21 +144,34 @@ toggleSidebar(): void {
 // Métodos de paginación
 primeraPagina(): void {
   this.paginaActual = 1;
+  console.log('Primera página:', this.paginaActual);
 }
 
 paginaAnterior(): void {
   if (this.paginaActual > 1) {
     this.paginaActual--;
+    console.log('Página anterior:', this.paginaActual);
   }
 }
 
 paginaSiguiente(): void {
+  console.log('Intentando ir a siguiente página. Actual:', this.paginaActual, 'Total:', this.totalPaginas);
   if (this.paginaActual < this.totalPaginas) {
     this.paginaActual++;
+    console.log('Página siguiente:', this.paginaActual);
+  } else {
+    console.log('Ya estás en la última página');
   }
 }
 
 ultimaPagina(): void {
   this.paginaActual = this.totalPaginas;
+  console.log('Última página:', this.paginaActual);
+}
+
+onCambiarPorPagina(valor: number): void {
+  console.log('Cambiando items por página a:', valor);
+  this.reparacionesPorPagina = valor;
+  this.paginaActual = 1;
 }
 }
