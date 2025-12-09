@@ -65,6 +65,37 @@ export class ListadoRepuestosComponent implements OnInit {
     this.router.navigate(['/stock/repuestos/editar', id]);
   }
 
+  verDetalles(repuesto: RepuestoDTO) {
+    const estado = this.getEstado(repuesto);
+    const estadoColor = estado === 'OK' ? 'success' : estado === 'MEDIO' ? 'warning' : 'error';
+
+    Swal.fire({
+      title: `<strong>${repuesto.nombre}</strong>`,
+      html: `
+        <div style="text-align: left; padding: 20px;">
+          <p style="margin: 12px 0;"><strong><i class="bi bi-upc"></i> Código:</strong> ${repuesto.codigo}</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-box-seam"></i> Stock Actual:</strong> ${repuesto.stock} ${repuesto.unidadMedida}</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-exclamation-triangle"></i> Stock Mínimo:</strong> ${repuesto.stockMinimo} ${repuesto.unidadMedida}</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-rulers"></i> Unidad de Medida:</strong> ${repuesto.unidadMedida}</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-clipboard-check"></i> Estado:</strong>
+            <span style="color: ${estadoColor === 'success' ? '#28a745' : estadoColor === 'warning' ? '#ffc107' : '#dc3545'}; font-weight: bold;">
+              ${estado}
+            </span>
+          </p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-tag"></i> ID Categoría:</strong> ${repuesto.idCategoria}</p>
+        </div>
+      `,
+      confirmButtonText: 'Cerrar',
+      confirmButtonColor: '#00796b',
+      width: '500px',
+      showClass: {
+        popup: 'swal2-show',
+        backdrop: 'swal2-backdrop-show',
+        icon: 'swal2-icon-show'
+      }
+    });
+  }
+
   eliminarRepuesto(repuesto: RepuestoDTO) {
     Swal.fire({
       title: '¿Estás seguro?',

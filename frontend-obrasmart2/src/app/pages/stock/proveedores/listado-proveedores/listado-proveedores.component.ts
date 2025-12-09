@@ -141,6 +141,66 @@ export class ListadoProveedoresComponent implements OnInit {
     this.router.navigate(['/stock/proveedores/editar', proveedor.id]);
   }
 
+  verDetalles(proveedor: ProveedorListadoDTO): void {
+    // Cargar los datos completos del proveedor
+    this.proveedorService.obtenerPorId(proveedor.id).subscribe({
+      next: (proveedorCompleto) => {
+        Swal.fire({
+          title: `<strong>${proveedorCompleto.razonSocial}</strong>`,
+          html: `
+            <div style="text-align: left; padding: 20px;">
+              <h5 style="color: #00796b; margin-top: 0;">Información General</h5>
+              ${proveedorCompleto.nombreComercial ? `<p style="margin: 8px 0;"><strong><i class="bi bi-tag"></i> Nombre Comercial:</strong> ${proveedorCompleto.nombreComercial}</p>` : ''}
+              <p style="margin: 8px 0;"><strong><i class="bi bi-card-text"></i> CUIT:</strong> ${proveedorCompleto.cuit}</p>
+              <p style="margin: 8px 0;"><strong><i class="bi bi-receipt"></i> Condición IVA:</strong> ${proveedorCompleto.condicionIVA}</p>
+              <p style="margin: 8px 0;"><strong><i class="bi bi-clipboard-check"></i> Estado:</strong>
+                <span style="color: ${proveedorCompleto.estado === 'Activo' ? '#28a745' : '#dc3545'}; font-weight: bold;">
+                  ${proveedorCompleto.estado}
+                </span>
+              </p>
+
+              <h5 style="color: #00796b; margin-top: 15px;">Contacto</h5>
+              <p style="margin: 8px 0;"><strong><i class="bi bi-telephone"></i> Teléfono:</strong> ${proveedorCompleto.telefono}</p>
+              <p style="margin: 8px 0;"><strong><i class="bi bi-envelope"></i> Email:</strong> ${proveedorCompleto.email}</p>
+              ${proveedorCompleto.personaContacto ? `<p style="margin: 8px 0;"><strong><i class="bi bi-person"></i> Persona de Contacto:</strong> ${proveedorCompleto.personaContacto}</p>` : ''}
+              ${proveedorCompleto.horarioAtencion ? `<p style="margin: 8px 0;"><strong><i class="bi bi-clock"></i> Horario de Atención:</strong> ${proveedorCompleto.horarioAtencion}</p>` : ''}
+
+              <h5 style="color: #00796b; margin-top: 15px;">Dirección</h5>
+              <p style="margin: 8px 0;"><strong><i class="bi bi-geo-alt"></i> Dirección:</strong> ${proveedorCompleto.direccion}</p>
+              <p style="margin: 8px 0;"><strong><i class="bi bi-building"></i> Ciudad:</strong> ${proveedorCompleto.ciudad}</p>
+              <p style="margin: 8px 0;"><strong><i class="bi bi-map"></i> Provincia:</strong> ${proveedorCompleto.provincia}</p>
+              ${proveedorCompleto.codigoPostal ? `<p style="margin: 8px 0;"><strong><i class="bi bi-mailbox"></i> Código Postal:</strong> ${proveedorCompleto.codigoPostal}</p>` : ''}
+
+              <h5 style="color: #00796b; margin-top: 15px;">Información Comercial</h5>
+              ${proveedorCompleto.especialidad ? `<p style="margin: 8px 0;"><strong><i class="bi bi-briefcase"></i> Especialidad:</strong> ${proveedorCompleto.especialidad}</p>` : ''}
+              ${proveedorCompleto.marcas && proveedorCompleto.marcas.length > 0 ? `<p style="margin: 8px 0;"><strong><i class="bi bi-tags"></i> Marcas:</strong> ${proveedorCompleto.marcas.join(', ')}</p>` : ''}
+              ${proveedorCompleto.tiempoEntrega ? `<p style="margin: 8px 0;"><strong><i class="bi bi-truck"></i> Tiempo de Entrega:</strong> ${proveedorCompleto.tiempoEntrega} días</p>` : ''}
+              ${proveedorCompleto.pedidoMinimo ? `<p style="margin: 8px 0;"><strong><i class="bi bi-cash"></i> Pedido Mínimo:</strong> $${proveedorCompleto.pedidoMinimo.toFixed(2)}</p>` : ''}
+              ${proveedorCompleto.descuentoVolumen ? `<p style="margin: 8px 0;"><strong><i class="bi bi-percent"></i> Descuento por Volumen:</strong> ${proveedorCompleto.descuentoVolumen}%</p>` : ''}
+            </div>
+          `,
+          confirmButtonText: 'Cerrar',
+          confirmButtonColor: '#00796b',
+          width: '700px',
+          showClass: {
+            popup: 'swal2-show',
+            backdrop: 'swal2-backdrop-show',
+            icon: 'swal2-icon-show'
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error al cargar detalles del proveedor', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudieron cargar los detalles del proveedor',
+          confirmButtonColor: '#00796b'
+        });
+      }
+    });
+  }
+
   // eliminarProveedor(proveedor: ProveedorListadoDTO): void {
   //   Swal.fire({
   //     title: '¿Estás seguro?',

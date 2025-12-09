@@ -254,6 +254,9 @@
       border-radius: 4px;
       transition: 0.2s ease;
 
+      &.view {
+        color: #00796b;
+      }
       &.edit {
         color: #273f5c;
       }

@@ -475,6 +475,15 @@
   align-items: center;
   justify-content: center;
 
+  &.btn-view {
+    color: #00796b;
+
+    &:hover {
+      background: rgba(0, 121, 107, 0.1);
+      transform: scale(1.1);
+    }
+  }
+
   &.btn-edit {
     color: #78866B;
 

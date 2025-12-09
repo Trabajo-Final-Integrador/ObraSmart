@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OrdenCompraService, OrdenCompraDTO } from 'src/app/service/orden-compra.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -54,7 +55,11 @@ export class NuevaOrdenComponent implements OnInit {
     this.http.get<any[]>('http://localhost:8085/proveedores', { withCredentials: true })
       .subscribe({
         next: (data) => this.proveedores = data,
-        error: () => alert("Error cargando proveedores")
+        error: () => Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error cargando proveedores'
+        })
       });
   }
 
@@ -62,7 +67,11 @@ export class NuevaOrdenComponent implements OnInit {
     this.http.get<any[]>('http://localhost:8085/repuestos')
       .subscribe({
         next: (data) => this.repuestos = data,
-        error: () => alert("Error cargando repuestos")
+        error: () => Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error cargando repuestos'
+        })
       });
   }
 
@@ -72,7 +81,11 @@ export class NuevaOrdenComponent implements OnInit {
 
   agregarItemTemp() {
     if (!this.itemTemp.idRepuesto || this.itemTemp.cantidad <= 0 || this.itemTemp.precioUnitario <= 0) {
-      alert("Complete todos los datos del repuesto");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Datos incompletos',
+        text: 'Complete todos los datos del repuesto'
+      });
       return;
     }
 
@@ -114,12 +127,20 @@ export class NuevaOrdenComponent implements OnInit {
 
   guardar() {
     if (!this.nuevaOrden.idProveedor) {
-      alert("Debe seleccionar un proveedor");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Proveedor requerido',
+        text: 'Debe seleccionar un proveedor'
+      });
       return;
     }
 
     if (this.nuevaOrden.items.length === 0) {
-      alert("Debe agregar al menos un repuesto");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Items requeridos',
+        text: 'Debe agregar al menos un repuesto'
+      });
       return;
     }
 
@@ -128,12 +149,22 @@ export class NuevaOrdenComponent implements OnInit {
     this.ordenService.crear(this.nuevaOrden)
       .subscribe({
         next: () => {
-          alert("Orden creada exitosamente");
-          this.router.navigate(['/stock/ordenes']);
+          Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Orden creada exitosamente',
+            confirmButtonText: 'Aceptar'
+          }).then(() => {
+            this.router.navigate(['/stock/ordenes']);
+          });
         },
         error: (err) => {
           console.error('❌ Error al crear orden:', err);
-          alert("Error al guardar la orden");
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error al guardar la orden'
+          });
           this.isSubmitting = false;
         }
       });

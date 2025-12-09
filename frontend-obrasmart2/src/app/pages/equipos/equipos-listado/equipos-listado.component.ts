@@ -63,6 +63,49 @@ export class EquiposListadoComponent implements OnInit {
     this.router.navigate(['/equipos/editar', id]);
   }
 
+  verDetalles(equipo: EquipoDTO) {
+    const marcaNombre = this.getMarcaNombre(equipo.idMarca);
+    const modeloNombre = this.getModeloNombre(equipo.idModelo);
+    const tipoNombre = this.getTipoEquipoNombre(equipo.idTipoEquipo);
+
+    Swal.fire({
+      title: `<strong>${equipo.nombre}</strong>`,
+      html: `
+        <div style="text-align: left; padding: 20px;">
+          <p style="margin: 12px 0;"><strong><i class="bi bi-upc"></i> Código Interno:</strong> ${equipo.codigoInterno}</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-gear"></i> Tipo:</strong> ${tipoNombre}</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-tag"></i> Marca:</strong> ${marcaNombre}</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-tools"></i> Modelo:</strong> ${modeloNombre}</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-hash"></i> Número de Serie:</strong> ${equipo.numeroSerie}</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-calendar"></i> Año de Fabricación:</strong> ${equipo.anioFabricacion}</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-speedometer2"></i> Potencia:</strong> ${equipo.potenciaHp} HP</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-fuel-pump"></i> Combustible:</strong> ${equipo.combustible}</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-clipboard-check"></i> Estado:</strong>
+            <span style="color: ${equipo.estadoOperativo === 'OPERATIVO' ? '#28a745' : equipo.estadoOperativo === 'MANTENIMIENTO' ? '#ffc107' : '#dc3545'}; font-weight: bold;">
+              ${equipo.estadoOperativo || 'SIN ESTADO'}
+            </span>
+          </p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-clock-history"></i> Km/Horas de Uso:</strong> ${equipo.kilometrajeHorasUso}</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-wrench"></i> Último Mantenimiento:</strong> ${equipo.fechaUltimoMantenimiento || 'N/A'}</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-calendar-check"></i> Próximo Mantenimiento:</strong> ${equipo.proximoMantenimiento || 'N/A'}</p>
+          <p style="margin: 12px 0;"><strong><i class="bi bi-person"></i> Responsable:</strong> ${equipo.responsableMantenimiento}</p>
+          ${equipo.numeroPatente ? `<p style="margin: 12px 0;"><strong><i class="bi bi-card-text"></i> Patente:</strong> ${equipo.numeroPatente}</p>` : ''}
+          <p style="margin: 12px 0;"><strong><i class="bi bi-shield-check"></i> Seguro Vigente:</strong> ${equipo.seguroVigente ? 'Sí' : 'No'}</p>
+          ${equipo.fechaVencimientoSeguro ? `<p style="margin: 12px 0;"><strong><i class="bi bi-calendar-x"></i> Vencimiento Seguro:</strong> ${equipo.fechaVencimientoSeguro}</p>` : ''}
+          <p style="margin: 12px 0;"><strong><i class="bi bi-geo-alt"></i> Ubicación:</strong> ${equipo.ubicacionActual}</p>
+        </div>
+      `,
+      confirmButtonText: 'Cerrar',
+      confirmButtonColor: '#00796b',
+      width: '600px',
+      showClass: {
+        popup: 'swal2-show',
+        backdrop: 'swal2-backdrop-show',
+        icon: 'swal2-icon-show'
+      }
+    });
+  }
+
   eliminarEquipo(equipo: EquipoDTO) {
     Swal.fire({
       title: '¿Estás seguro?',
