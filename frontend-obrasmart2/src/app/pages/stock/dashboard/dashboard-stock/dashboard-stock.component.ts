@@ -21,6 +21,9 @@ export class DashboardStockComponent implements OnInit {
   ordenesPendientes = 0;
 
   alertasStock: any[] = [];
+  alertasPaginadas: any[] = [];
+  alertasPage = 1;
+  alertasPageSize = 8;
 
   loading = true;
 
@@ -66,9 +69,28 @@ export class DashboardStockComponent implements OnInit {
           stock: r.stock,
           minimo: r.stockMinimo
         }));
+      this.alertasPage = 1;
+      this.actualizarPaginacion();
 
       this.loading = false;
     });
+  }
+
+  get totalPaginasAlertas(): number {
+    return Math.max(1, Math.ceil(this.alertasStock.length / this.alertasPageSize));
+  }
+
+  actualizarPaginacion() {
+    const inicio = (this.alertasPage - 1) * this.alertasPageSize;
+    const fin = inicio + this.alertasPageSize;
+    this.alertasPaginadas = this.alertasStock.slice(inicio, fin);
+  }
+
+  avanzarAlertas(delta: number) {
+    const nueva = this.alertasPage + delta;
+    if (nueva < 1 || nueva > this.totalPaginasAlertas) return;
+    this.alertasPage = nueva;
+    this.actualizarPaginacion();
   }
 
   ir(path: string) {

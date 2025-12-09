@@ -78,7 +78,7 @@
       <div class="row mt-4 g-4 align-items-stretch equal-panels">
         <!-- ACCESO RÁPIDO -->
         <div class="col-lg-6">
-          <div class="panel quick-panel h-100">
+          <div class="panel quick-panel critical-panel h-100">
             <div class="card-head">
               <div>
                 <h4><i class="bi bi-lightning-fill me-2"></i>Acceso Rápido</h4>
@@ -146,7 +146,7 @@
             </div>
 
             <div class="items-grid">
-              <div *ngFor="let a of alertasStock" class="list-item warning">
+              <div *ngFor="let a of alertasPaginadas" class="list-item warning">
                 <div class="list-left">
                   <div class="list-icon warning"><i class="bi bi-box"></i></div>
                   <div>
@@ -157,6 +157,16 @@
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div class="pager" *ngIf="alertasStock.length > alertasPageSize">
+              <button class="pager-btn" [disabled]="alertasPage === 1" (click)="avanzarAlertas(-1)">
+                <i class="bi bi-chevron-left"></i>
+              </button>
+              <span class="pager-text">Página {{ alertasPage }} de {{ totalPaginasAlertas }}</span>
+              <button class="pager-btn" [disabled]="alertasPage === totalPaginasAlertas" (click)="avanzarAlertas(1)">
+                <i class="bi bi-chevron-right"></i>
+              </button>
             </div>
           </div>
         </div>
