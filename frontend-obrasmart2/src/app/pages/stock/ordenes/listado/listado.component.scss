@@ -1,67 +1,90 @@
 // ========================================
-// =� LAYOUT CONTAINER
+// LAYOUT CONTAINER
 // ========================================
 .layout-container {
-  display: grid;
-  grid-template-rows: 60px 1fr 50px;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
+  background-color: #f4f6f8;
+  font-family: "Segoe UI", Arial, sans-serif;
   overflow: hidden;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
 // ========================================
-// =9 NAVBAR SUPERIOR
+// NAVBAR SUPERIOR
 // ========================================
 .top-navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1.5rem;
   background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  color: white;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+  }
 
   .menu-btn {
     background: none;
     border: none;
     color: white;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     cursor: pointer;
-    transition: transform 0.2s;
+    padding: 5px;
+  }
 
-    &:hover {
-      transform: scale(1.1);
+  .brand {
+    display: flex;
+    align-items: center;
+
+    .logo-navbar {
+      height: 36px;
+      width: auto;
     }
   }
 
   .navbar-title {
-    color: white;
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.3rem;
+    font-weight: 500;
     margin: 0;
-    flex: 1;
-    text-align: center;
   }
 
   .navbar-actions {
     display: flex;
-    gap: 1rem;
     align-items: center;
+    gap: 15px;
 
     .btn-regresar {
-      background: rgba(255, 255, 255, 0.15);
-      border: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(255, 255, 255, 0.15);
       color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 0.95rem;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-size: 1.2rem;
+
+      i {
+        font-size: 1.1rem;
+      }
 
       &:hover {
-        background: rgba(255, 255, 255, 0.25);
-        transform: translateY(-2px);
+        background-color: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateX(-3px);
+      }
+
+      &:active {
+        transform: translateX(-3px) scale(0.98);
       }
     }
   }
@@ -71,19 +94,19 @@
 /* Sidebar y overlay ahora manejados por componente compartido */
 
 // ========================================
-// =9 CONTENIDO PRINCIPAL
+// CONTENIDO PRINCIPAL
 // ========================================
 .content {
-  grid-row: 2;
-  overflow: hidden;
-  padding: 1rem;
-  background: transparent;
+  flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  padding: 15px;
+  gap: 10px;
 }
 
 // ========================================
-// =9 TOOLBAR
+// TOOLBAR
 // ========================================
 .toolbar {
   display: flex;
@@ -142,7 +165,7 @@
 }
 
 // ========================================
-// =9 TABLA
+// TABLA
 // ========================================
 .table-wrapper {
   background: white;
@@ -378,92 +401,106 @@
 }
 
 // ========================================
-// =9 PAGINACI�N
+// PAGINACIÓN FUERA DE LA CARD
 // ========================================
-.pagination-container {
+.pagination-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-  padding: 10px;
-  border-top: 2px solid #6b7760;
+  padding: 12px 20px;
   background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
 
-  button {
-    background: #78866B;
-    color: white;
-    font-size: 1rem;
-    border: none;
-    border-radius: 4px;
-    padding: 6px 12px;
-    cursor: pointer;
-    transition: 0.2s;
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
-    &:hover:not(:disabled) {
-      background: #6b7760;
+    .items-per-page {
+      padding: 6px 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      background: white;
+      outline: none;
+
+      &:focus {
+        border-color: #78866B;
+      }
     }
 
-    &:disabled {
-      background: #ddd;
-      color: #999;
-      cursor: not-allowed;
-    }
-  }
+    .pagination-buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
 
-  span {
-    color: #333;
-    font-weight: 500;
-    padding: 0 10px;
-  }
+      .page-btn {
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+        color: #555;
+        font-size: 0.9rem;
+        padding: 6px 12px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.2s;
 
-  select {
-    padding: 6px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 0.95rem;
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.3s;
+        &:hover:not(:disabled) {
+          background: #e8e8e8;
+          border-color: #bbb;
+        }
 
-    &:hover,
-    &:focus {
-      border-color: #78866B;
+        &:disabled {
+          background: #fafafa;
+          color: #ccc;
+          cursor: not-allowed;
+          border-color: #eee;
+        }
+      }
+
+      .page-indicator {
+        color: #333;
+        font-size: 0.875rem;
+        font-weight: 500;
+        padding: 0 8px;
+      }
     }
   }
 }
 
 // ========================================
-// =9 FOOTER
+// FOOTER
 // ========================================
 .footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1rem;
-  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.85rem;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  background: #78866B;
+  color: white;
+  text-align: right;
+  padding: 10px 24px;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  border-top: 2px solid #6b7760;
 
   span {
+    margin: 0 8px;
     cursor: pointer;
     transition: color 0.3s;
 
     &:hover {
-      color: white;
+      color: #D0D9CD;
     }
+  }
 
-    &.version {
-      margin-left: auto;
-      font-weight: 500;
-    }
+  .version {
+    float: right;
+    margin-right: 15px;
+    opacity: 0.8;
   }
 }
 
 // ========================================
-// =� RESPONSIVE
+// RESPONSIVE
 // ========================================
 @media (max-width: 768px) {
   .navbar-title {

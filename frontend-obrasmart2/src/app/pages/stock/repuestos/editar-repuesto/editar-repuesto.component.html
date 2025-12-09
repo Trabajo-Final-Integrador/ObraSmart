@@ -1,19 +1,23 @@
 <div class="layout-container">
   <!-- 🔹 NAVBAR SUPERIOR -->
   <header class="top-navbar">
-    <button class="menu-btn" routerLink="/stock/repuestos" title="Volver">
-      <i class="bi bi-arrow-left"></i>
-    </button>
-    <i class="bi bi-pencil-square"></i>
-          <div>
-            <h3>Editar Información del Repuesto</h3>
-            <p>Modifica los detalles del repuesto en el inventario</p>
-          </div>
+    <div class="navbar-left">
+      <button class="menu-btn" routerLink="/stock/repuestos" title="Volver">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <div class="form-header">
+        <i class="bi bi-pencil-square"></i>
+        <div>
+          <h3>Editar Información del Repuesto</h3>
+          <p>Modifica los detalles del repuesto en el inventario</p>
+        </div>
+      </div>
+    </div>
     <div class="navbar-actions">
       <button class="btn-regresar" routerLink="/principal" title="Regresar al inicio">
         <i class="bi bi-house-door"></i>
       </button>
-      <app-helper tooltip="Modifique los campos necesarios para actualizar el repuesto."></app-helper>
+      
     </div>
   </header>
 
@@ -138,7 +142,7 @@
 
   <!-- 🔹 FOOTER -->
   <footer class="footer">
-    <span>Términos</span> | <span>Privacidad</span> | <span>Soporte</span>
+    
     <span class="version">v1.0.0</span>
   </footer>
 </div>

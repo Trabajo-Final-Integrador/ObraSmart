@@ -1,34 +1,293 @@
-<div class="card mt-4" *ngIf="orden as o">
-  <div class="card-header fw-bold">
-    Detalle de Orden #{{ o.id }}
+<div class="layout-container">
+  <!-- NAVBAR SUPERIOR -->
+  <header class="top-navbar print-hidden">
+    <div class="navbar-left">
+      <button
+        class="btn-back"
+        routerLink="/stock/ordenes"
+        title="Volver al listado"
+      >
+        <i class="bi bi-arrow-left-circle"></i>
+        <span>Volver</span>
+      </button>
+      <div class="brand">
+        <img
+          src="assets/asistente/logo.png"
+          alt="ObraSmart"
+          class="logo-navbar"
+        />
+      </div>
+      <div class="header-content">
+        <div>
+          <h3>Detalle de Orden de Compra</h3>
+          <p *ngIf="orden">Orden #{{ orden.id | number : "5.0-0" }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <button
+        class="btn-exportar"
+        (click)="exportarPDF()"
+        *ngIf="orden"
+        title="Exportar a PDF"
+      >
+        <i class="bi bi-file-earmark-pdf"></i>
+        <span>Exportar PDF</span>
+      </button>
+      <button
+        class="btn-regresar"
+        routerLink="/principal"
+        title="Regresar al inicio"
+      >
+        <i class="bi bi-house-door"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="content">
+    <!-- LOADING -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p>Cargando orden...</p>
+    </div>
+
+    <!-- ORDEN -->
+    <div *ngIf="!loading && orden" class="order-wrapper">
+      <!-- Card imprimible -->
+      <div class="order-document" #ordenContent>
+        <!-- HEADER DEL DOCUMENTO -->
+        <div class="doc-header">
+          <div class="company-info">
+            <h1 class="company-name">ObraSmart</h1>
+            <p class="company-subtitle">Gestión de Equipos y Mantenimiento</p>
+            <div class="company-details">
+              <p><i class="bi bi-geo-alt"></i> Buenos Aires, Argentina</p>
+              <p><i class="bi bi-telephone"></i> +54 9 11 1234-5678</p>
+              <p><i class="bi bi-envelope"></i> contacto@obrasmart.com</p>
+            </div>
+          </div>
+          <div class="doc-title">
+            <h2>ORDEN DE COMPRA</h2>
+            <div class="order-number">N° {{ orden.id | number : "5.0-0" }}</div>
+            <div class="order-date">
+              <i class="bi bi-calendar3"></i>
+              {{ orden.fecha | date : "dd/MM/yyyy" }}
+            </div>
+          </div>
+        </div>
+
+        <!-- INFORMACIÓN DEL PROVEEDOR -->
+        <div class="provider-section">
+          <h3 class="section-title">
+            <i class="bi bi-building"></i>
+            Información del Proveedor
+          </h3>
+
+          <div class="provider-grid">
+            <!-- Columna 1: Datos básicos -->
+            <div class="provider-column">
+              <div class="provider-data">
+                <label><i class="bi bi-building"></i> Razón Social:</label>
+                <span>{{
+                  proveedor?.razonSocial || orden.proveedorNombre
+                }}</span>
+              </div>
+              <div class="provider-data" *ngIf="proveedor?.nombreComercial">
+                <label><i class="bi bi-tag"></i> Nombre Comercial:</label>
+                <span>{{ proveedor?.nombreComercial }}</span>
+              </div>
+              <div class="provider-data" *ngIf="proveedor?.cuit">
+                <label><i class="bi bi-card-text"></i> CUIT:</label>
+                <span>{{ proveedor?.cuit }}</span>
+              </div>
+              <div class="provider-data" *ngIf="proveedor?.condicionIVA">
+                <label><i class="bi bi-receipt"></i> Condición IVA:</label>
+                <span>{{ proveedor?.condicionIVA }}</span>
+              </div>
+            </div>
+
+            <!-- Columna 2: Contacto -->
+            <div class="provider-column">
+      <div class="provider-data" *ngIf="proveedor?.telefono">
+        <label><i class="bi bi-telephone"></i> Teléfono:</label>
+        <span>{{ proveedor?.telefono }}</span>
+      </div>
+      <div class="provider-data" *ngIf="proveedor?.email">
+        <label><i class="bi bi-envelope"></i> Email:</label>
+        <span>{{ proveedor?.email }}</span>
+      </div>
+      <div class="provider-data" *ngIf="proveedor?.personaContacto">
+        <label><i class="bi bi-person"></i> Persona de Contacto:</label>
+        <span>{{ proveedor?.personaContacto }}</span>
+      </div>
+      <div class="provider-data" *ngIf="proveedor?.direccion">
+        <label><i class="bi bi-geo-alt"></i> Dirección:</label>
+        <span>{{ proveedor?.direccion }}, {{ proveedor?.ciudad }}, {{ proveedor?.provincia }}</span>
+      </div>
+    </div>
+
+            <!-- Columna 3: Condiciones comerciales -->
+             <div class="provider-column">
+      <div class="provider-data" *ngIf="proveedor?.condicionesPago">
+        <label><i class="bi bi-credit-card"></i> Condiciones de Pago:</label>
+        <span>{{ proveedor?.condicionesPago }}</span>
+      </div>
+      <div class="provider-data" *ngIf="proveedor?.tiempoEntrega">
+        <label><i class="bi bi-truck"></i> Tiempo de Entrega:</label>
+        <span>{{ proveedor?.tiempoEntrega }} días</span>
+      </div>
+      <div class="provider-data" *ngIf="proveedor?.pedidoMinimo">
+        <label><i class="bi bi-cash"></i> Pedido Mínimo:</label>
+        <span>${{ proveedor?.pedidoMinimo | number:'1.2-2' }}</span>
+      </div>
+      <div class="provider-data">
+        <label><i class="bi bi-clipboard-check"></i> Estado de Orden:</label>
+        <span
+          class="status-badge"
+          [ngClass]="{
+            'status-pendiente': orden.estado === 'PENDIENTE',
+            'status-aprobada': orden.estado === 'APROBADA',
+            'status-recibida': orden.estado === 'RECIBIDA',
+            'status-cancelada': orden.estado === 'CANCELADA'
+          }"
+        >
+          <i class="bi"
+            [ngClass]="{
+              'bi-clock-fill': orden.estado === 'PENDIENTE',
+              'bi-check-circle-fill': orden.estado === 'APROBADA',
+              'bi-box-arrow-in-down-fill': orden.estado === 'RECIBIDA',
+              'bi-x-circle-fill': orden.estado === 'CANCELADA'
+            }"></i>
+          {{ orden.estado }}
+        </span>
+      </div>
+    </div>
   </div>
+        </div>
 
-  <div class="card-body">
-    <p><strong>Proveedor:</strong> {{ o.proveedorNombre }}</p>
-    <p><strong>Estado:</strong> {{ o.estado }}</p>
-    <p><strong>Fecha:</strong> {{ o.fecha | date:'dd/MM/yyyy' }}</p>
+        <!-- TABLA DE ITEMS -->
+        <div class="items-section">
+          <h3 class="section-title">
+            <i class="bi bi-list-ul"></i>
+            Detalle de Items
+          </h3>
 
-    <h5 class="mt-4">Items</h5>
+          <div class="table-container">
+            <table class="items-table">
+              <thead>
+                <tr>
+                  <th class="col-item">#</th>
+                  <th class="col-repuesto">Repuesto</th>
+                  <th class="col-cantidad">Cantidad</th>
+                  <th class="col-precio">Precio Unit.</th>
+                  <th class="col-subtotal">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of orden.items; let i = index">
+                  <td class="col-item">{{ i + 1 }}</td>
+                  <td class="col-repuesto">
+                    <div class="repuesto-info">
+                      <i class="bi bi-box"></i>
+                      <span>{{
+                        item.repuestoNombre || "ID: " + item.idRepuesto
+                      }}</span>
+                    </div>
+                  </td>
+                  <td class="col-cantidad">{{ item.cantidad }}</td>
+                  <td class="col-precio">
+                    ${{ item.precioUnitario | number : "1.2-2" }}
+                  </td>
+                  <td class="col-subtotal">
+                    ${{
+                      item.cantidad * item.precioUnitario | number : "1.2-2"
+                    }}
+                  </td>
+                </tr>
+                <!-- Filas vacías para formato -->
+                <tr *ngFor="let _ of crearFilasVacias()" class="empty-row">
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr class="total-row">
+                  <td colspan="4" class="total-label">
+                    <strong>TOTAL GENERAL</strong>
+                  </td>
+                  <td class="total-amount">
+                    <strong>${{ calcularTotal() | number : "1.2-2" }}</strong>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
 
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Repuesto</th>
-          <th>Cantidad</th>
-          <th>Precio</th>
-          <th>Total</th>
-        </tr>
-      </thead>
+        <!-- OBSERVACIONES -->
+        <div class="observations-section">
+          <h4><i class="bi bi-chat-left-text"></i> Observaciones</h4>
+          <div class="observations-box">
+            <p>
+              Esta orden de compra debe ser confirmada con el proveedor antes de
+              proceder con el envío.
+            </p>
+            <p>
+              Los precios incluyen IVA y están sujetos a cambios según
+              disponibilidad.
+            </p>
+          </div>
+        </div>
 
-      <tbody>
-        <tr *ngFor="let item of o.items">
-          <td>{{ item?.repuestoNombre }}</td>
-          <td>{{ item?.cantidad }}</td>
-          <td>${{ item?.precioUnitario | number:'1.2-2' }}</td>
-          <td>${{ (item?.cantidad || 0) * (item?.precioUnitario || 0) | number:'1.2-2' }}</td>
-        </tr>
-      </tbody>
-    </table>
+        <!-- FIRMAS -->
+        <div class="signatures-section">
+          <div class="signature-box">
+            <div class="signature-line"></div>
+            <p class="signature-label">Autorizado por</p>
+            <p class="signature-name">Administración</p>
+          </div>
+          <div class="signature-box">
+            <div class="signature-line"></div>
+            <p class="signature-label">Recibido conforme</p>
+            <p class="signature-name">Proveedor</p>
+          </div>
+        </div>
 
-  </div>
+        <!-- FOOTER DEL DOCUMENTO -->
+        <div class="doc-footer">
+          <p>
+            <i class="bi bi-info-circle"></i>
+            Documento generado electrónicamente el
+            {{ orden.fecha | date : "dd/MM/yyyy HH:mm" }}
+          </p>
+          <p class="footer-legal">
+            Este documento es válido sin firma ni sello. ObraSmart - Sistema de
+            Gestión de Mantenimiento
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIN DATOS -->
+    <div *ngIf="!loading && !orden" class="no-data-container">
+      <i class="bi bi-exclamation-triangle"></i>
+      <h3>No se encontró la orden</h3>
+      <p>La orden de compra solicitada no existe o fue eliminada</p>
+      <button class="btn-volver" routerLink="/stock/ordenes">
+        <i class="bi bi-arrow-left"></i>
+        Volver al listado
+      </button>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer print-hidden">
+    <span class="version">v1.0.0</span>
+  </footer>
 </div>

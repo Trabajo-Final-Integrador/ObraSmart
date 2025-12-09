@@ -110,6 +110,14 @@ export class ListadoProveedoresComponent implements OnInit {
     }
   }
 
+  primeraPagina() {
+    this.currentPage = 1;
+  }
+
+  ultimaPagina() {
+    this.currentPage = this.totalPages;
+  }
+
   onItemsPerPageChange() {
     this.currentPage = 1;
     this.calcularPaginacion();

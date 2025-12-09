@@ -19,6 +19,10 @@ public class OrdenCompra {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "codigo_orden", unique = true, length = 12, nullable = false)
+    private String codigoOrden;
+
+
     @ManyToOne(optional=false) private Proveedor proveedor;
 
     @Enumerated(EnumType.STRING)

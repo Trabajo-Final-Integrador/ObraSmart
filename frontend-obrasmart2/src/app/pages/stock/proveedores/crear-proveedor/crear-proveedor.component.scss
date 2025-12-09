@@ -11,30 +11,77 @@
 .top-navbar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
   color: white;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
-  .menu-btn {
-    background: none;
-    border: none;
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+  }
+
+  .btn-back {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
-    font-size: 1.6rem;
-    margin-right: 15px;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 0.95rem;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
 
     &:hover {
-      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateX(-3px);
+    }
+
+    &:active {
+      transform: translateX(-3px) scale(0.98);
     }
   }
 
-  .navbar-title {
-    flex: 1;
-    font-size: 1.3rem;
-    font-weight: 500;
-    margin: 0;
+  .brand {
+    display: flex;
+    align-items: center;
+
+    .logo-navbar {
+      height: 36px;
+      width: auto;
+    }
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    i {
+      font-size: 1.4rem;
+      opacity: 0.9;
+    }
+
+    div {
+      h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      p {
+        margin: 2px 0 0 0;
+        font-size: 0.75rem;
+        opacity: 0.85;
+      }
+    }
   }
 
   .navbar-actions {
@@ -65,11 +112,11 @@
         border-color: rgba(255, 255, 255, 0.5);
         transform: translateX(-3px);
       }
-    }
-  }
 
-  app-helper {
-    color: white;
+      &:active {
+        transform: translateX(-3px) scale(0.98);
+      }
+    }
   }
 }
 
@@ -78,14 +125,16 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow: hidden;
   padding: 20px;
 }
 
 .form-container {
-  max-width: 1000px;
-  margin: 0 auto;
   width: 100%;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* 🔹 Tarjeta del formulario */
@@ -94,6 +143,9 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-header {
@@ -173,8 +225,7 @@
 
 .form-body {
   padding: 20px 30px;
-  min-height: 300px;
-  max-height: calc(100vh - 350px);
+  flex: 1;
   overflow-y: auto;
 }
 
@@ -289,8 +340,9 @@
   background: #f8f9fa;
   border-top: 1px solid #e9ecef;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .btn-cancelar,

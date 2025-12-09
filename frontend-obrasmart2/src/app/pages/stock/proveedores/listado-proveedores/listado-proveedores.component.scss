@@ -11,25 +11,42 @@
 .top-navbar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
   color: white;
-  padding: 12px 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+  }
 
   .menu-btn {
     background: none;
     border: none;
     color: white;
     font-size: 1.6rem;
-    margin-right: 15px;
     cursor: pointer;
+    padding: 5px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+
+    .logo-navbar {
+      height: 36px;
+      width: auto;
+    }
   }
 
   .navbar-title {
-    flex: 1;
-    font-size: 1.4rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 0;
   }
 
   .navbar-actions {
@@ -518,76 +535,73 @@
   }
 }
 
-/* 🔹 Paginación mejorada */
-.pagination-container {
+/* 🔹 Paginación fuera de la card */
+.pagination-wrapper {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
-  flex-wrap: wrap;
-  gap: 15px;
-}
+  padding: 12px 20px;
+  background: white;
+  border-radius: 8px;
+  margin-top: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  width: 98%;
+  margin-left: auto;
+  margin-right: auto;
 
-.pagination-info {
-  color: #666;
-  font-size: 0.9rem;
-}
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
-.pagination-controls {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+    .items-per-page {
+      padding: 6px 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      background: white;
+      outline: none;
 
-  .btn-page {
-    background: #78866B;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-
-    &:hover:not(:disabled) {
-      background: #6b7760;
-      transform: translateY(-2px);
+      &:focus {
+        border-color: #78866B;
+      }
     }
 
-    &:disabled {
-      background: #ddd;
-      color: #999;
-      cursor: not-allowed;
-    }
-  }
+    .pagination-buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
 
-  .page-number {
-    color: #333;
-    font-weight: 500;
-    padding: 0 10px;
-  }
-}
+      .page-btn {
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+        color: #555;
+        font-size: 0.9rem;
+        padding: 6px 12px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.2s;
 
-.items-per-page {
-  label {
-    color: #666;
-    font-size: 0.9rem;
-  }
+        &:hover:not(:disabled) {
+          background: #e8e8e8;
+          border-color: #bbb;
+        }
 
-  select {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.3s;
-    background: white;
+        &:disabled {
+          background: #fafafa;
+          color: #ccc;
+          cursor: not-allowed;
+          border-color: #eee;
+        }
+      }
 
-    &:hover,
-    &:focus {
-      border-color: #78866B;
+      .page-indicator {
+        color: #333;
+        font-size: 0.875rem;
+        font-weight: 500;
+        padding: 0 8px;
+      }
     }
   }
 }

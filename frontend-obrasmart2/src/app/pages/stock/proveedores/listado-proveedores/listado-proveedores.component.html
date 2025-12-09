@@ -1,15 +1,19 @@
 <div class="layout-container">
   <!-- 🔹 NAVBAR SUPERIOR -->
   <header class="top-navbar">
-    <button class="menu-btn" (click)="toggleSidebar()" title="Menú principal">
-      <i class="bi bi-list"></i>
-    </button>
-    <h1 class="navbar-title">Gestión de Proveedores</h1>
+    <div class="navbar-left">
+      <button class="menu-btn" (click)="toggleSidebar()" title="Menú principal">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+      </div>
+      <h1 class="navbar-title">Gestión de Proveedores</h1>
+    </div>
     <div class="navbar-actions">
       <button class="btn-regresar" routerLink="/principal" title="Regresar al inicio">
         <i class="bi bi-house-door"></i>
       </button>
-      <app-helper tooltip="Administra los proveedores de tu empresa. Puedes agregar, editar y filtrar proveedores."></app-helper>
     </div>
   </header>
 
@@ -105,32 +109,33 @@
         </div>
       </div>
 
-      <!-- PAGINACIÓN -->
-      <div class="pagination-container" *ngIf="proveedoresFiltrados.length > 0">
-        <div class="pagination-info">
-          Mostrando {{ startIndex + 1 }} - {{ endIndex }} de {{ proveedoresFiltrados.length }} proveedores
-        </div>
-        <div class="pagination-controls">
-          <button class="btn-page" [disabled]="currentPage === 1" (click)="cambiarPagina(currentPage - 1)">
-            <i class="bi bi-chevron-left"></i>
+    <!-- 🔸 Paginación fuera de la card -->
+    <div class="pagination-wrapper" *ngIf="proveedoresFiltrados.length > 0">
+      <div class="pagination-controls">
+        <select [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange()" class="items-per-page">
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+          <option [value]="50">50</option>
+        </select>
+        <div class="pagination-buttons">
+          <button (click)="primeraPagina()" [disabled]="currentPage === 1" class="page-btn" title="Primera página">
+            &laquo;
           </button>
-          <span class="page-number">Página {{ currentPage }} de {{ totalPages }}</span>
-          <button class="btn-page" [disabled]="currentPage === totalPages" (click)="cambiarPagina(currentPage + 1)">
-            <i class="bi bi-chevron-right"></i>
+          <button (click)="cambiarPagina(currentPage - 1)" [disabled]="currentPage === 1" class="page-btn" title="Anterior">
+            &lsaquo;
           </button>
-        </div>
-        <div class="items-per-page">
-          <label>
-            <select [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange()">
-              <option [value]="5">5 por página</option>
-              <option [value]="10">10 por página</option>
-              <option [value]="20">20 por página</option>
-              <option [value]="50">50 por página</option>
-            </select>
-          </label>
+          <span class="page-indicator">Página {{ currentPage }} de {{ totalPages }}</span>
+          <button (click)="cambiarPagina(currentPage + 1)" [disabled]="currentPage === totalPages" class="page-btn" title="Siguiente">
+            &rsaquo;
+          </button>
+          <button (click)="ultimaPagina()" [disabled]="currentPage === totalPages" class="page-btn" title="Última página">
+            &raquo;
+          </button>
         </div>
       </div>
-    </main>
+    </div>
+  </main>
 
   <!-- 🔹 FOOTER -->
   <footer class="footer">

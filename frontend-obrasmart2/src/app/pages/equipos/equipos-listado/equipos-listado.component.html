@@ -1,18 +1,19 @@
 <div class="layout-container">
   <!-- 🔹 NAVBAR SUPERIOR -->
   <header class="top-navbar">
-    <button class="menu-btn" (click)="toggleSidebar()" title="Menú principal">
-      <i class="bi bi-list"></i>
-    </button>
-     <div class="brand">
+    <div class="navbar-left">
+      <button class="menu-btn" (click)="toggleSidebar()" title="Menú principal">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="brand">
         <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
-        <h1 class="navbar-title">Listado de Equipos</h1>
       </div>
+      <h1 class="navbar-title">Listado de Equipos</h1>
+    </div>
     <div class="navbar-actions">
       <button class="btn-regresar" routerLink="/principal" title="Regresar al inicio">
         <i class="bi bi-house-door"></i>
       </button>
-     
     </div>
   </header>
 
@@ -33,9 +34,7 @@
           [(ngModel)]="filtro"
           placeholder="Buscar por código, nombre, marca, modelo o tipo"
         />
-        <button class="filter-btn" title="Filtrar">
-          <i class="bi bi-funnel"></i>
-        </button>
+        
       </div>
       <button class="btn-nuevo" (click)="nuevoEquipo()">
         <i class="bi bi-plus-lg"></i>
@@ -76,6 +75,7 @@
               <button class="btn-icon delete" title="Eliminar" (click)="eliminarEquipo(e)">
                 <i class="bi bi-trash"></i>
               </button>
+
             </td>
           </tr>
         </tbody>
@@ -90,34 +90,29 @@
         <i class="bi bi-exclamation-circle"></i>
         <p>No hay equipos registrados.</p>
       </div>
+    </div>
 
-      <!-- 🔸 Paginación -->
-      <div class="pagination-container" *ngIf="equiposFiltrados.length > 0">
-        <button (click)="primeraPagina()" [disabled]="paginaActual === 1">
-          &laquo;
-        </button>
-        <button (click)="paginaAnterior()" [disabled]="paginaActual === 1">
-          &lsaquo;
-        </button>
-
-        <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
-
-        <button
-          (click)="paginaSiguiente()"
-          [disabled]="paginaActual === totalPaginas"
-        >
-          &rsaquo;
-        </button>
-        <button
-          (click)="ultimaPagina()"
-          [disabled]="paginaActual === totalPaginas"
-        >
-          &raquo;
-        </button>
-
-        <select [(ngModel)]="equiposPorPagina" (change)="paginaActual = 1">
+    <!-- 🔸 Paginación fuera de la card -->
+    <div class="pagination-wrapper" *ngIf="equiposFiltrados.length > 0">
+      <div class="pagination-controls">
+        <select [(ngModel)]="equiposPorPagina" (change)="paginaActual = 1" class="items-per-page">
           <option *ngFor="let n of [5, 10, 20, 50]" [value]="n">{{ n }}</option>
         </select>
+        <div class="pagination-buttons">
+          <button (click)="primeraPagina()" [disabled]="paginaActual === 1" class="page-btn" title="Primera página">
+            &laquo;
+          </button>
+          <button (click)="paginaAnterior()" [disabled]="paginaActual === 1" class="page-btn" title="Anterior">
+            &lsaquo;
+          </button>
+          <span class="page-indicator">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+          <button (click)="paginaSiguiente()" [disabled]="paginaActual === totalPaginas" class="page-btn" title="Siguiente">
+            &rsaquo;
+          </button>
+          <button (click)="ultimaPagina()" [disabled]="paginaActual === totalPaginas" class="page-btn" title="Última página">
+            &raquo;
+          </button>
+        </div>
       </div>
     </div>
   </main>

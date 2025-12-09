@@ -102,7 +102,7 @@
               <button class="btn-icon delete" title="Cancelar"
                       (click)="cancelarReparacion(r.id)"
                       [disabled]="r.estadoReparacion === 'FINALIZADA' || r.estadoReparacion === 'CANCELADA'">
-                <i class="bi bi-x-circle"></i>
+               <i class="bi bi-x-square"></i>
               </button>
               <button class="btn-icon view" title="Ver detalle"
                       (click)="verDetalle(r.id)">

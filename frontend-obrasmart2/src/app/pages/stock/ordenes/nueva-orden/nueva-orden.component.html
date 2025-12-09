@@ -1,210 +1,144 @@
-<!-- <div class="page-container">
-
-  HEADER
-  <div class="header">
-    <button class="btn-back" (click)="volver()">
-      <i class="bi bi-arrow-left"></i>
-    </button>
-
-    <div>
-      <h1 class="title">Nueva Orden de Compra</h1>
-      <p class="subtitle">Complete los datos para crear una nueva orden de compra</p>
-    </div>
-  </div>
-
-  CONTENIDO
-  <div class="content">
-
-    ==== INFORMACIÓN DEL PROVEEDOR ====
-    <div class="card-section">
-      <h5 class="section-title">Información del Proveedor</h5>
-
-      <div class="form-group mt-3">
-        <label class="form-label">Proveedor *</label>
-        <select class="form-control modern-input" [(ngModel)]="nuevaOrden.proveedorId">
-          <option value="">Seleccionar proveedor</option>
-          <option *ngFor="let p of proveedores" [value]="p.id">{{ p.nombre }}</option>
-        </select>
+<div class="layout-container">
+  <!-- 🔹 NAVBAR SUPERIOR -->
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <button class="btn-back" routerLink="/stock/ordenes" title="Volver al listado">
+        <i class="bi bi-arrow-left-circle"></i>
+        <span>Volver</span>
+      </button>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+      </div>
+      <div class="header-content">
+        
+        <div>
+          <h3>Nueva Orden de Compra</h3>
+          <p>Complete los datos para crear una nueva orden de compra</p>
+        </div>
       </div>
     </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" title="Regresar al inicio">
+        <i class="bi bi-house-door"></i>
+      </button>
+    </div>
+  </header>
 
-    ==== REPUESTOS ====
-    <div class="card-section mt-4">
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="content">
+    <div class="form-container">
+      <div class="form-card">
+        <!-- INFORMACIÓN DEL PROVEEDOR -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <i class="bi bi-building me-2"></i>
+            Información del Proveedor
+          </h3>
 
-      <h5 class="section-title">Agregar Repuestos</h5>
-
-      <div class="item-grid">
-        <div>
-          <label class="form-label">Repuesto</label>
-          <select class="form-control modern-input" [(ngModel)]="itemTemp.idRepuesto">
-            <option value="">Seleccionar</option>
-            <option *ngFor="let r of repuestos" [value]="r.id">{{ r.nombre }}</option>
-          </select>
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-person-badge me-2"></i>Proveedor <span class="text-danger">*</span>
+            </label>
+            <select class="form-control" [(ngModel)]="nuevaOrden.idProveedor">
+              <option value="">Seleccionar proveedor</option>
+              <option *ngFor="let p of proveedores" [value]="p.id">{{ p.razonSocial }}</option>
+            </select>
+          </div>
         </div>
 
-        <div>
-          <label class="form-label">Cantidad</label>
-          <input type="number" class="form-control modern-input" min="1" [(ngModel)]="itemTemp.cantidad" />
+        <!-- AGREGAR REPUESTOS -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <i class="bi bi-box-seam me-2"></i>
+            Agregar Repuestos
+          </h3>
+
+          <div class="repuestos-grid">
+            <div>
+              <label class="form-label">
+                <i class="bi bi-box me-2"></i>Repuesto
+              </label>
+              <select class="form-control" [(ngModel)]="itemTemp.idRepuesto">
+                <option value="">Seleccionar</option>
+                <option *ngFor="let r of repuestos" [value]="r.id">{{ r.nombre }}</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label">
+                <i class="bi bi-123 me-2"></i>Cantidad
+              </label>
+              <input type="number" class="form-control" min="1" [(ngModel)]="itemTemp.cantidad" />
+            </div>
+
+            <div>
+              <label class="form-label">
+                <i class="bi bi-currency-dollar me-2"></i>Precio Unitario
+              </label>
+              <input type="number" class="form-control" min="0" step="0.01" [(ngModel)]="itemTemp.precioUnitario" />
+            </div>
+
+            <div class="add-container">
+              <button class="btn-add" (click)="agregarItemTemp()">
+                <i class="bi bi-plus-lg"></i> Agregar
+              </button>
+            </div>
+          </div>
+
+          <!-- TABLA -->
+          <div class="table-wrapper" *ngIf="nuevaOrden.items.length > 0">
+            <table class="items-table">
+              <thead>
+                <tr>
+                  <th><i class="bi bi-box me-2"></i>Repuesto</th>
+                  <th class="text-center"><i class="bi bi-123 me-2"></i>Cantidad</th>
+                  <th class="text-center"><i class="bi bi-currency-dollar me-2"></i>Precio Unit.</th>
+                  <th class="text-center"><i class="bi bi-calculator me-2"></i>Subtotal</th>
+                  <th class="text-center"><i class="bi bi-gear me-2"></i>Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of nuevaOrden.items; let i = index">
+                  <td>{{ obtenerNombreRepuesto(item.idRepuesto) }}</td>
+                  <td class="text-center">{{ item.cantidad }}</td>
+                  <td class="text-center">${{ item.precioUnitario | number:'1.2-2' }}</td>
+                  <td class="text-center">${{ item.cantidad * item.precioUnitario | number:'1.2-2' }}</td>
+                  <td class="text-center">
+                    <button class="btn-delete" (click)="eliminarItem(i)" title="Eliminar">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="total-section">
+            <div class="total-label">Total:</div>
+            <div class="total-value">${{ totalGeneral | number:'1.2-2' }}</div>
+          </div>
         </div>
 
-        <div>
-          <label class="form-label">Precio Unitario ($)</label>
-          <input type="number" class="form-control modern-input" min="0" step="0.01" [(ngModel)]="itemTemp.precioUnitario" />
-        </div>
+        <!-- FOOTER -->
+        <div class="form-footer">
+          <button class="btn-cancelar" [disabled]="isSubmitting" (click)="volver()">
+            <i class="bi bi-x-lg me-2"></i>
+            Cancelar
+          </button>
 
-        <div class="add-btn-container">
-          <button class="btn btn-dark add-btn" (click)="agregarItemTemp()">
-            <i class="bi bi-plus-lg"></i> Agregar
+          <button class="btn-guardar" [disabled]="isSubmitting" (click)="guardar()">
+            <i class="bi bi-check-lg me-2"></i>
+            <span *ngIf="!isSubmitting">Crear Orden de Compra</span>
+            <span *ngIf="isSubmitting">Guardando...</span>
           </button>
         </div>
       </div>
-
-      TABLA DE ITEMS
-      <table class="table modern-table mt-4" *ngIf="nuevaOrden.items.length > 0">
-        <thead>
-          <tr>
-            <th>Repuesto</th>
-            <th>Cantidad</th>
-            <th>Precio Unit.</th>
-            <th>Subtotal</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of nuevaOrden.items; let i = index">
-            <td>{{ item.repuestoNombre }}</td>
-            <td>{{ item.cantidad }}</td>
-            <td>${{ item.precioUnitario | number:'1.2-2' }}</td>
-            <td>${{ item.cantidad * item.precioUnitario | number:'1.2-2' }}</td>
-            <td>
-              <button class="btn btn-sm btn-outline-danger" (click)="eliminarItem(i)">
-                <i class="bi bi-trash"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="total-section">
-        <h4>Total: ${{ totalGeneral | number:'1.2-2' }}</h4>
-      </div>
     </div>
+  </main>
 
-    ==== BOTÓN GUARDAR ====
-    <div class="save-container">
-      <button class="btn btn-success btn-lg px-5" [disabled]="isSubmitting" (click)="guardar()">
-        <span *ngIf="!isSubmitting"><i class="bi bi-check-lg"></i> Guardar Orden</span>
-        <span *ngIf="isSubmitting">Guardando...</span>
-      </button>
-    </div>
-
-  </div>
-</div> -->
-<div class="new-order-page">
-
-  <!-- HEADER -->
-  <div class="header">
-    <button class="back-btn" (click)="volver()">
-      <i class="bi bi-arrow-left"></i>
-    </button>
-
-    <div class="header-text">
-      <h1>Nueva Orden de Compra</h1>
-      <p>Complete los datos para crear una nueva orden de compra</p>
-    </div>
-  </div>
-
-  <!-- CONTENIDO -->
-  <div class="content">
-
-    <!-- INFORMACIÓN DEL PROVEEDOR -->
-    <div class="card">
-      <h3>Información del Proveedor</h3>
-
-      <label class="label">Proveedor *</label>
-      <select class="input" [(ngModel)]="nuevaOrden.idProveedor">
-        <option value="">Seleccionar proveedor</option>
-        <option *ngFor="let p of proveedores" [value]="p.id">{{ p.razonSocial }}</option>
-      </select>
-    </div>
-
-    <!-- AGREGAR REPUESTOS -->
-    <div class="card">
-
-      <h3>Agregar Repuestos</h3>
-
-      <div class="repuestos-grid">
-
-        <div>
-          <label class="label">Repuesto</label>
-          <select class="input" [(ngModel)]="itemTemp.idRepuesto">
-            <option value="">Seleccionar</option>
-            <option *ngFor="let r of repuestos" [value]="r.id">{{ r.nombre }}</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="label">Cantidad</label>
-          <input type="number" class="input" min="1" [(ngModel)]="itemTemp.cantidad" />
-        </div>
-
-        <div>
-          <label class="label">Precio Unitario ($)</label>
-          <input type="number" class="input" min="0" step="0.01" [(ngModel)]="itemTemp.precioUnitario" />
-        </div>
-
-        <div class="add-container">
-          <button class="btn-add" (click)="agregarItemTemp()">
-            <i class="bi bi-plus-lg"></i> Agregar
-          </button>
-        </div>
-      </div>
-
-      <!-- TABLA -->
-      <table class="items-table" *ngIf="nuevaOrden.items.length > 0">
-        <thead>
-          <tr>
-            <th>Repuesto</th>
-            <th>Cantidad</th>
-            <th>Precio Unit.</th>
-            <th>Subtotal</th>
-            <th></th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr *ngFor="let item of nuevaOrden.items; let i = index">
-            <td>{{ obtenerNombreRepuesto(item.idRepuesto) }}</td>
-            <td>{{ item.cantidad }}</td>
-            <td>${{ item.precioUnitario | number:'1.2-2' }}</td>
-            <td>${{ item.cantidad * item.precioUnitario | number:'1.2-2' }}</td>
-            <td>
-              <button class="btn-delete" (click)="eliminarItem(i)">
-                <i class="bi bi-trash"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="total">
-        Total: ${{ totalGeneral | number:'1.2-2' }}
-      </div>
-    </div>
-
-    <!-- BOTÓN GUARDAR -->
-    <div class="save-container">
-
-      <button class="btn-cancelar" [disabled]="isSubmitting" (click)="volver()">
-        <span *ngIf="!isSubmitting"><i class="bi bi-x-lg"></i> Cancelar</span>
-      </button>
-      
-      <button class="btn-save" [disabled]="isSubmitting" (click)="guardar()">
-        <span *ngIf="!isSubmitting"><i class="bi bi-check-lg"></i> Crear orden de compra</span>
-        <span *ngIf="isSubmitting">Guardando...</span>
-      </button>
-      
-    </div>
-
-  </div>
+  <!-- 🔹 FOOTER -->
+  <footer class="footer">
+    <span class="version">v1.0.0</span>
+  </footer>
 </div>
