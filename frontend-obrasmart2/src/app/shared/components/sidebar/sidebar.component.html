@@ -33,6 +33,7 @@
                 class="dropdown-item"
                 [routerLink]="subitem.route"
                 routerLinkActive="active"
+                (click)="cerrarSidebar()"
               >
                 <i class="bi {{ subitem.icon }} me-2"></i> {{ subitem.label }}
               </a>
@@ -46,6 +47,7 @@
             class="nav-link"
             [routerLink]="item.route"
             routerLinkActive="active"
+            (click)="cerrarSidebar()"
           >
             <i class="bi {{ item.icon }} me-2"></i> {{ item.label }}
           </a>

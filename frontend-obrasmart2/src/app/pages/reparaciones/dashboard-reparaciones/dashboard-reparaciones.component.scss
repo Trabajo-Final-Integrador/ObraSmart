@@ -18,41 +18,54 @@
   flex-shrink: 0;
   z-index: 1000;
 
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+  }
+
   .menu-btn {
-    background: none;
-    border: none;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
-    font-size: 1.6rem;
-    margin-right: 15px;
+    font-size: 1.4rem;
+    padding: 8px 12px;
     cursor: pointer;
     transition: all 0.3s;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
-      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.05);
     }
   }
 
-  .navbar-title {
-    flex: 1;
-    font-size: 1.3rem;
-    font-weight: 500;
+  .brand {
+    .brand-text {
+      font-size: 1.3rem;
+      font-weight: 500;
+    }
   }
 
   .navbar-actions {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
 
     .btn-regresar {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       background-color: rgba(255, 255, 255, 0.15);
       color: white;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 8px;
       padding: 8px 16px;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -61,14 +74,19 @@
         font-size: 1.1rem;
       }
 
+      span {
+        font-weight: 500;
+      }
+
       &:hover {
         background-color: rgba(255, 255, 255, 0.25);
-        border-color: rgba(255, 255, 255, 0.5);
-        transform: translateX(-3px);
+        border-color: rgba(255, 255, 255, 0.6);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       }
 
       &:active {
-        transform: translateX(-3px) scale(0.98);
+        transform: translateY(0);
       }
     }
   }

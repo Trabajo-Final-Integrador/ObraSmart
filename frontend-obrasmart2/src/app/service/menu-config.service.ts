@@ -71,11 +71,6 @@ export class MenuConfigService {
             label: 'Listado de Reparaciones',
             icon: 'bi-list-ul',
             route: '/reparaciones/listado'
-          },
-          {
-            label: 'Nueva Reparación',
-            icon: 'bi-plus-circle',
-            route: '/reparaciones/crear'
           }
         ]
       },

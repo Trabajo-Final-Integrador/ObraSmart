@@ -63,18 +63,18 @@
           <label class="form-label">Stock Mínimo <span class="required">*</span></label>
           <input type="number" class="form-control" min="0" [(ngModel)]="nuevoRepuesto.stockMinimo" placeholder="0" />
         </div>
-      </div>
 
-      <!-- Acciones -->
-      <div class="form-actions">
-        <button type="button" class="btn-secondary" (click)="cancelar()" [disabled]="isSubmitting">
-          <i class="bi bi-x-lg"></i>
-          <span>Cancelar</span>
-        </button>
-        <button type="button" class="btn-primary" (click)="guardarRepuesto()" [disabled]="isSubmitting">
-          <i class="bi bi-check-lg"></i>
-          <span>{{ isSubmitting ? 'Guardando...' : 'Guardar Repuesto' }}</span>
-        </button>
+        <!-- Acciones -->
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="cancelar()" [disabled]="isSubmitting">
+            <i class="bi bi-x-lg"></i>
+            <span>Cancelar</span>
+          </button>
+          <button type="button" class="btn-primary" (click)="guardarRepuesto()" [disabled]="isSubmitting">
+            <i class="bi bi-check-lg"></i>
+            <span>{{ isSubmitting ? 'Guardando...' : 'Guardar Repuesto' }}</span>
+          </button>
+        </div>
       </div>
     </div>
   </main>
