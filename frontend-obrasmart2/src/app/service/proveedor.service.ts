@@ -28,7 +28,7 @@ export interface ProveedorDto {
   ciudad: string;
   provincia: string;
   codigoPostal?: string;
-   especialidad?: string;
+  especialidad?: string;
   marcas?: string[];
   tiempoEntrega?: number;
   pedidoMinimo?: number;
@@ -45,12 +45,9 @@ export interface ProveedorDto {
   tipoCuenta?: string;
   cbu?: string;
   observaciones?: string;
- 
 }
 
-// DTO para crear un proveedor (sin id)
 export interface ProveedorCreateDTO {
- 
   razonSocial: string;
   nombreComercial: string;
   cuit: string;
@@ -62,18 +59,14 @@ export interface ProveedorCreateDTO {
   ciudad: string;
   provincia: string;
   codigoPostal: string;
-
-  // 🧩 AGREGA ESTO:
   especialidad?: string;
-
+  marcas?: string[];
   horarioAtencion?: string;
-
   tiempoEntrega?: number;
   pedidoMinimo?: number;
   descuentoVolumen?: number;
   condicionesPago?: string;
   tieneStock?: boolean;
-  
   haceEnvios?: boolean;
   aceptaDevoluciones?: boolean;
   zonaCobertura?: string;
@@ -84,9 +77,7 @@ export interface ProveedorCreateDTO {
   tipoCuenta?: string;
   cbu?: string;
   observaciones?: string;
- 
 }
-
 
 export interface ProveedorUpdateDTO extends ProveedorCreateDTO {
   razonSocial: string;
@@ -100,18 +91,14 @@ export interface ProveedorUpdateDTO extends ProveedorCreateDTO {
   ciudad: string;
   provincia: string;
   codigoPostal: string;
-
-  // 🧩 AGREGA ESTO:
   especialidad?: string;
-
+  marcas?: string[];
   horarioAtencion?: string;
-
   tiempoEntrega?: number;
   pedidoMinimo?: number;
   descuentoVolumen?: number;
   condicionesPago?: string;
   tieneStock?: boolean;
-  
   haceEnvios?: boolean;
   aceptaDevoluciones?: boolean;
   zonaCobertura?: string;
@@ -161,25 +148,24 @@ export class ProveedorService {
   }
 
   eliminar(id: number): Observable<void> {
-    // Baja lógica: actualizar estado a Inactivo mediante query parameter
     const params = new HttpParams().set('nuevoEstado', 'Inactivo');
     return this.http.patch<void>(
       `${this.apiUrl}/${id}/estado`,
       null,
       {
-        params: params,
+        params,
         withCredentials: true
       }
     );
   }
-  cambiarEstado(id: number, estado: string) {
-  return this.http.patch(
-    `${this.apiUrl}/${id}/estado`,
-    null,
-    {
-      params: { nuevoEstado: estado.toUpperCase() }
-    }
-  );
-}
 
+  cambiarEstado(id: number, estado: string) {
+    return this.http.patch(
+      `${this.apiUrl}/${id}/estado`,
+      null,
+      {
+        params: { nuevoEstado: estado.toUpperCase() }
+      }
+    );
+  }
 }

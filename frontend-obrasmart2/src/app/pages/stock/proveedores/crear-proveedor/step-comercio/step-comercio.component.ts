@@ -1,16 +1,16 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-step-comercio',
   templateUrl: './step-comercio.component.html',
   styleUrls: ['./step-comercio.component.scss']
 })
-export class StepComercioComponent {
+export class StepComercioComponent implements OnChanges {
 
-  /** 🟠 Control de pestaña activa */
+  /** Control de pestaña activa */
   @Input() tabActiva: string = '';
 
-  /** ✅ Objeto del proveedor (recibido desde el padre) */
+  /** Objeto del proveedor (recibido desde el padre) */
   @Input() nuevoProveedor: any = {
     especialidad: '',
     tiempoEntrega: null,
@@ -25,15 +25,22 @@ export class StepComercioComponent {
     zonaCobertura: ''
   };
 
-  /** 🧩 Campos auxiliares del componente */
+  /** Campos auxiliares del componente */
   marcaInput: string = '';
   marcas: string[] = [];
 
-  /** 🔁 Eventos de navegación */
+  /** Eventos de navegación */
   @Output() next = new EventEmitter<void>();
   @Output() prev = new EventEmitter<void>();
 
-  /** ➕ Agrega una marca a la lista */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['nuevoProveedor'] && this.nuevoProveedor?.marcas?.length) {
+      // Inicializa marcas locales cuando el proveedor viene con datos (edición)
+      this.marcas = [...this.nuevoProveedor.marcas];
+    }
+  }
+
+  /** Agrega una marca a la lista */
   agregarMarca(): void {
     const marca = this.marcaInput.trim();
     if (marca && !this.marcas.includes(marca)) {
@@ -44,24 +51,22 @@ export class StepComercioComponent {
     }
   }
 
-  /** ✖ Elimina una marca por índice */
+  /** Elimina una marca por índice */
   eliminarMarca(index: number): void {
     this.marcas.splice(index, 1);
     this.nuevoProveedor.marcas = [...this.marcas];
   }
 
-  /** ✅ Validación básica antes de continuar */
+  /** Validación básica antes de continuar */
   continuar(): void {
-    // No hay campos estrictamente obligatorios, pero se puede validar si querés
     if (this.marcas.length === 0 && !this.nuevoProveedor.especialidad.trim()) {
       const confirmar = confirm('No cargaste ninguna marca ni especialidad. ¿Querés continuar igual?');
       if (!confirmar) return;
     }
-
-    this.next.emit(); // pasa al siguiente paso (bancario o confirmar)
+    this.next.emit();
   }
 
   volver(): void {
-    this.prev.emit(); // retrocede al paso anterior
+    this.prev.emit();
   }
 }

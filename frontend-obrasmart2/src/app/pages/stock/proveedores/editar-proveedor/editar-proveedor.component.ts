@@ -67,9 +67,10 @@ export class EditarProveedorComponent implements OnInit {
     direccion: '',
     ciudad: '',
     provincia: '',
-    codigoPostal: '',
-    especialidad: '',
-    tiempoEntrega: undefined,
+  codigoPostal: '',
+  especialidad: '',
+  marcas: [],
+  tiempoEntrega: undefined,
     pedidoMinimo: undefined,
     descuentoVolumen: undefined,
     condicionesPago: '',
@@ -122,6 +123,8 @@ export class EditarProveedorComponent implements OnInit {
   ciudad: data.ciudad ?? '',
   provincia: data.provincia ?? '',
   codigoPostal: data.codigoPostal ?? '',
+  especialidad: data.especialidad ?? '',
+  marcas: data.marcas ?? [],
   
   // 📌 Estos campos existen en el DTO, deben mandarse aunque no estén en formulario
   condicionesPago: data.condicionesPago ?? '',
