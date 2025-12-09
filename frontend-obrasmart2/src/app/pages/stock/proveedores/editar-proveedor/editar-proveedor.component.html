@@ -1,17 +1,41 @@
 <div class="layout-container">
   <!-- 🔹 NAVBAR SUPERIOR -->
   <header class="top-navbar">
-    <button class="menu-btn" routerLink="/stock/proveedores" title="Volver">
-      <i class="bi bi-arrow-left"></i>
-    </button>
-    <h1 class="navbar-title">Editar Proveedor</h1>
+    <div class="navbar-left">
+      <button class="btn-back" routerLink="/stock/proveedores" title="Volver al listado">
+        <i class="bi bi-arrow-left-circle"></i>
+        <span>Volver</span>
+      </button>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+      </div>
+      <div class="header-content">
+        <div>
+          <h3>Editar Proveedor</h3>
+          <p>Modifique la información en cada uno de los pasos</p>
+        </div>
+      </div>
+    </div>
     <div class="navbar-actions">
       <button class="btn-regresar" routerLink="/principal" title="Regresar al inicio">
         <i class="bi bi-house-door"></i>
       </button>
-      <app-helper tooltip="Modifique los datos del proveedor en cada uno de los pasos."></app-helper>
+      
     </div>
   </header>
+
+  <!-- 🔹 TABS DE NAVEGACIÓN -->
+  <nav class="tabs-navbar">
+    <button
+      *ngFor="let tab of tabs"
+      (click)="setTabActiva(tab.id)"
+      [ngClass]="{ active: tabActiva === tab.id }"
+      class="tab-btn"
+    >
+      <i [class]="tab.icon"></i>
+      <span class="tab-label">{{ tab.label }}</span>
+    </button>
+  </nav>
 
   <!-- 🔹 CONTENIDO PRINCIPAL -->
   <main class="content">
@@ -26,30 +50,6 @@
     <!-- Form Content -->
     <div *ngIf="!loading" class="form-container">
       <div class="form-card">
-        <!-- HEADER -->
-        <div class="form-header">
-          <div class="header-content">
-            <i class="bi bi-pencil-square"></i>
-            <div>
-              <h2>Editar Proveedor</h2>
-              <p>Modifique la información en cada uno de los pasos</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- TABS DE NAVEGACIÓN -->
-        <div class="tabs-container">
-          <button
-            *ngFor="let tab of tabs"
-            (click)="setTabActiva(tab.id)"
-            [ngClass]="{ active: tabActiva === tab.id }"
-            class="tab-btn"
-          >
-            <i [class]="tab.icon"></i>
-            <span class="tab-label">{{ tab.label }}</span>
-          </button>
-        </div>
-
         <!-- FORMULARIO -->
         <div class="form-body">
           <!-- ====== TAB GENERAL ====== -->
@@ -200,7 +200,7 @@
 
   <!-- 🔹 FOOTER -->
   <footer class="footer">
-    <span>Términos</span> | <span>Privacidad</span> | <span>Soporte</span>
+    
     <span class="version">v1.0.0</span>
   </footer>
 </div>
