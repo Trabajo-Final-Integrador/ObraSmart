@@ -4,7 +4,10 @@
     <button class="menu-btn" (click)="toggleSidebar()">
       <i class="bi bi-list"></i>
     </button>
-    <div class="navbar-title">Panel de Control - Stock</div>
+    <div class="navbar-brand">
+      <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+      <div class="navbar-title">Indicadores de Stock</div>
+    </div>
     <div class="navbar-actions">
       <button class="btn-regresar" (click)="regresar()">
         <i class="bi bi-arrow-left"></i>
@@ -23,12 +26,6 @@
   <!-- Contenido principal -->
   <div class="content">
     <div class="dashboard-content">
-
-      <!-- Títulos -->
-      <div class="header-section">
-        <h2 class="titulo">Panel de Control</h2>
-        <p class="subtitulo">Gestión de inventario y stock de repuestos</p>
-      </div>
 
       <!-- === CARDS SUPERIORES === -->
       <div class="cards">
@@ -78,45 +75,87 @@
       </div>
 
       <!-- === 2 COLUMNAS ABAJO === -->
-      <div class="row mt-4 g-4">
+      <div class="row mt-4 g-4 align-items-stretch equal-panels">
         <!-- ACCESO RÁPIDO -->
         <div class="col-lg-6">
-          <div class="panel">
-            <h4><i class="bi bi-lightning-fill me-2"></i>Acceso Rápido</h4>
+          <div class="panel quick-panel h-100">
+            <div class="card-head">
+              <div>
+                <h4><i class="bi bi-lightning-fill me-2"></i>Acceso Rápido</h4>
+                <p class="chart-desc">Atajos a las secciones de stock</p>
+              </div>
+            </div>
 
-            <button class="btn-quick-access w-100 mb-2 text-start" (click)="ir('/stock/repuestos')">
-              <i class="bi bi-box-seam me-2"></i> Gestionar Repuestos
-            </button>
+            <div class="items-grid quick-actions">
+              <button class="quick-action" (click)="ir('/stock/repuestos')">
+                <div class="list-left">
+                  <div class="list-icon"><i class="bi bi-box-seam"></i></div>
+                  <div>
+                    <div class="item-title">Gestionar Repuestos</div>
+                    <div class="item-sub">Altas, ediciones y búsqueda</div>
+                  </div>
+                </div>
+              </button>
 
-            <button class="btn-quick-access w-100 mb-2 text-start" (click)="ir('/stock/movimientos')">
-              <i class="bi bi-arrow-left-right me-2"></i> Ver Movimientos
-            </button>
+              <button class="quick-action" (click)="ir('/stock/movimientos')">
+                <div class="list-left">
+                  <div class="list-icon"><i class="bi bi-arrow-left-right"></i></div>
+                  <div>
+                    <div class="item-title">Ver Movimientos</div>
+                    <div class="item-sub">Entradas, salidas y ajustes</div>
+                  </div>
+                </div>
+              </button>
 
-            <button class="btn-quick-access w-100 mb-2 text-start" (click)="ir('/stock/ordenes')">
-              <i class="bi bi-cart-check me-2"></i> Órdenes de Compra
-            </button>
+              <button class="quick-action" (click)="ir('/stock/ordenes')">
+                <div class="list-left">
+                  <div class="list-icon"><i class="bi bi-cart-check"></i></div>
+                  <div>
+                    <div class="item-title">Órdenes de Compra</div>
+                    <div class="item-sub">Nuevas órdenes y seguimiento</div>
+                  </div>
+                </div>
+              </button>
 
-            <button class="btn-quick-access w-100 mb-2 text-start" (click)="ir('/stock/proveedores')">
-              <i class="bi bi-people me-2"></i> Gestionar Proveedores
-            </button>
+              <button class="quick-action" (click)="ir('/stock/proveedores')">
+                <div class="list-left">
+                  <div class="list-icon"><i class="bi bi-people"></i></div>
+                  <div>
+                    <div class="item-title">Gestionar Proveedores</div>
+                    <div class="item-sub">Altas, ediciones y contactos</div>
+                  </div>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
 
         <!-- ALERTAS DE STOCK -->
         <div class="col-lg-6">
-          <div class="panel">
-            <h4><i class="bi bi-exclamation-triangle-fill me-2"></i>Alertas de Stock</h4>
+          <div class="panel critical-panel h-100">
+            <div class="card-head">
+              <div>
+                <h4><i class="bi bi-exclamation-triangle-fill me-2"></i>Alertas de Stock</h4>
+                <p class="chart-desc">Repuestos por debajo del mínimo</p>
+              </div>
+            </div>
 
             <div *ngIf="alertasStock.length === 0" class="alert alert-success">
               <i class="bi bi-check-circle-fill me-2"></i>
               No hay alertas
             </div>
 
-            <div *ngFor="let a of alertasStock" class="alerta-item">
-              <i class="bi bi-exclamation-octagon text-danger me-2"></i>
-              <div>
-                <strong>{{ a.nombre }}</strong>
-                <p class="mb-0">Stock: {{ a.stock }} (Mín: {{ a.minimo }})</p>
+            <div class="items-grid">
+              <div *ngFor="let a of alertasStock" class="list-item warning">
+                <div class="list-left">
+                  <div class="list-icon warning"><i class="bi bi-box"></i></div>
+                  <div>
+                    <div class="item-title">{{ a.nombre }}</div>
+                    <div class="item-sub">
+                      Stock: {{ a.stock }} (Min: {{ a.minimo }})
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
