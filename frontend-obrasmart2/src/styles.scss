@@ -97,3 +97,19 @@ body[data-theme='opera-gx'] {
   width: 100%;
   z-index: 1;
 }
+
+/* Estado pill unificado para todas las tablas */
+.status-pill {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  height: 28px !important;
+  min-width: 110px;
+  padding: 0 12px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.4px !important;
+  text-transform: uppercase;
+  white-space: nowrap;
+}

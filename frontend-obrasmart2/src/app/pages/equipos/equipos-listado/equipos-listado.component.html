@@ -35,7 +35,6 @@
       <table class="styled-table">
         <thead>
           <tr>
-            <th>{{ 'equipos.table.photo' | translate }}</th>
             <th>{{ 'equipos.table.code' | translate }}</th>
             <th>{{ 'equipos.table.name' | translate }}</th>
             <th>{{ 'equipos.table.brand' | translate }}</th>
@@ -47,18 +46,15 @@
         </thead>
         <tbody>
           <tr *ngFor="let e of equiposPaginados">
-            <td>
-              <img class="mini-thumb" [src]="getMiniaturaEquipoUrl(e.id)" (error)="imgFallback($event)" />
-            </td>
             <td>{{ e.codigoInterno }}</td>
             <td>{{ e.nombre }}</td>
             <td>{{ getMarcaNombre(e.idMarca) }}</td>
             <td>{{ getModeloNombre(e.idModelo) }}</td>
             <td>{{ getTipoEquipoNombre(e.idTipoEquipo) }}</td>
             <td>
-              <app-status-badge [estado]="e.estadoOperativo"></app-status-badge>
+              <app-status-badge class="status-pill" [estado]="e.estadoOperativo"></app-status-badge>
             </td>
-            <td class="acciones">
+            <td class="acciones table-actions">
               <button class="btn-icon view" [title]="'equipos.actions.view' | translate" (click)="verDetalles(e)">
                 <i class="bi bi-eye"></i>
               </button>

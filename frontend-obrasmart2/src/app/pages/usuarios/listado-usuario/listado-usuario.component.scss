@@ -149,12 +149,15 @@
 
   .styled-table {
     width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
     text-align: left;
 
     th, td {
       padding: 12px 15px;
       border-bottom: 1px solid #eee;
+      vertical-align: middle;
+      line-height: 1.2;
     }
 
     thead tr {
@@ -180,55 +183,103 @@
 
     tbody tr {
       transition: background-color 0.2s ease;
+      border-bottom: 1px solid #eee;
 
       &:hover {
         background-color: #f8f9fa;
       }
+
+      td {
+        height: 56px;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+
+      td.col-acciones {
+        padding: 0 12px 0 20px !important;
+        text-align: left;
+      }
     }
 
-    .acciones {
-      display: flex;
-      justify-content: center;
+    .acciones,
+    .table-actions {
+      display: inline-flex;
+      justify-content: flex-start;
       align-items: center;
-      gap: 12px;
-    }
-
-    .foto-cell {
-      width: 90px;
-    }
-
-    .foto-cell img {
-      width: 56px;
+      gap: 10px;
+      white-space: nowrap;
+      overflow: visible;
       height: 56px;
-      border-radius: 12px;
-      object-fit: cover;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      width: 100%;
     }
 
     .badge-success { color: rgb(48, 63, 48); font-weight: 600; }
     .badge-danger { color: rgb(90, 43, 43); font-weight: 600; }
 
     .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       background: none;
       border: none;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       margin: 0;
-      padding: 3px 5px;
+      padding: 0;
       line-height: 1;
+      width: 34px;
+      height: 34px;
+      min-width: 34px;
+      min-height: 34px;
 
-      &.edit {
-        color: #95a5a6;
+      i, svg, mat-icon {
+        display: block;
+        vertical-align: middle;
+        line-height: 0;
       }
 
-      &.delete {
-        color: #e74c3c;
-      }
+      &.edit { color: #95a5a6; }
+      &.delete { color: #e74c3c; }
+      &.view { color: #8e44ad; }
+    }
 
-      &.view {
-        color: #8e44ad;
+    .col-email { width: 20%; }
+    .col-firstname { width: 15%; }
+    .col-lastname { width: 15%; }
+    .col-username { width: 12%; }
+    .col-role { width: 10%; }
+    .col-status { width: 8%; text-align: center; }
+    .col-observaciones { width: 10%; }
+    .col-acciones { width: 10%; text-align: center; overflow: visible; }
+
+    .cell-ellipsis {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .col-status app-status-badge {
+      &.status-pill {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        height: 28px !important;
+        padding: 0 12px !important;
+        min-width: 110px;
+        border-radius: 999px !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        white-space: nowrap;
       }
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .acciones hr {
+      display: none;
     }
   }
 
@@ -238,6 +289,21 @@
     margin-top: 15px;
   }
 
+}
+
+.status-pill {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  height: 28px !important;
+  min-width: 110px;
+  padding: 0 12px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.4px !important;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 /* 🔹 Paginación fuera de la card */

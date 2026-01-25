@@ -1,15 +1,17 @@
 .status-badge {
-  padding: 8px 14px;
-  border-radius: 18px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 92px;
-  height: 32px;
+  height: 28px;
+  min-width: 110px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
   background-color: #e9ecef;
   color: #495057;
   border: 1px solid #dee2e6;

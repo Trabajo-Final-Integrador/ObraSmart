@@ -1013,9 +1013,12 @@
     "table": {
       "photo": "Foto",
       "email": "Email",
+      "firstname": "Nombre",
+      "lastname": "Apellido",
       "username": "Usuario",
       "role": "Rol",
-      "status": "Estado"
+      "status": "Estado",
+      "observaciones": "Observaciones"
     },
     "form": {
       "title": "Registrar Usuario",
