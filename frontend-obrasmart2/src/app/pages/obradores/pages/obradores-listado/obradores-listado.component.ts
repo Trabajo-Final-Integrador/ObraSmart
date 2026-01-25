@@ -18,6 +18,8 @@ export class ObradoresListadoComponent implements OnInit {
   pageSize = 5;
   pageIndex = 0;
   supervisores: Usuario[] = [];
+  detalleVisible = false;
+  obradorSeleccionado?: ObradorDto;
 
   constructor(
     private obradorService: ObradorService,
@@ -108,7 +110,13 @@ export class ObradoresListadoComponent implements OnInit {
   }
 
   verDetalle(id: number): void {
-    this.router.navigate(['/obradores/detalle', id]);
+    const found = this.obradores.find((o) => o.id === id);
+    this.obradorSeleccionado = found;
+    this.detalleVisible = !!found;
+  }
+
+  editar(id: number): void {
+    this.router.navigate(['/obradores', id]);
   }
 
   toggleSidebar(): void {
@@ -120,7 +128,12 @@ export class ObradoresListadoComponent implements OnInit {
     const confirmado = confirm('¿Seguro que deseas eliminar este obrador?');
     if (!confirmado) return;
     this.obradorService.eliminar(id).subscribe({
-      next: () => this.fetchObradores(),
+      next: () => {
+        this.fetchObradores();
+        if (this.pageIndex >= this.totalPages) {
+          this.pageIndex = Math.max(0, this.totalPages - 1);
+        }
+      },
       error: (err) => {
         console.warn('[Obradores] eliminar falló', err);
       },

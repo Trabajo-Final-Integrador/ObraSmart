@@ -1,0 +1,86 @@
+@import 'styles/os-modal';
+
+.modal-backdrop {
+  @extend .os-modal-backdrop;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-card {
+  @extend .os-modal;
+  width: min(720px, 94vw);
+}
+
+.modal-header {
+  @extend .os-modal-header;
+
+  h2 {
+    @extend .os-modal-title;
+  }
+}
+
+.icon-btn {
+  @extend .os-modal-close;
+  width: 38px;
+  height: 38px;
+  font-size: 18px;
+  padding: 6px;
+}
+
+.modal-body {
+  @extend .os-modal-body;
+}
+
+.details-grid {
+  @extend .os-card-grid;
+}
+
+.detail {
+  @extend .os-card-item;
+
+  .label {
+    @extend .os-label;
+  }
+
+  .value {
+    @extend .os-value;
+  }
+}
+
+.equipos-section {
+  margin-top: 12px;
+
+  h3 {
+    margin: 0 0 8px;
+  }
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  @extend .os-chip;
+}
+
+.empty {
+  padding: 12px 0;
+  color: #cbd5c0;
+  text-align: center;
+}
+
+.modal-footer {
+  @extend .os-modal-footer;
+}
+
+.btn {
+  @extend .os-btn;
+}
+
+.btn.ghost {
+  @extend .os-btn;
+  @extend .ghost;
+}

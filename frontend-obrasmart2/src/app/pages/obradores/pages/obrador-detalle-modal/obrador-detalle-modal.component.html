@@ -1,0 +1,58 @@
+<div class="modal-backdrop" (click)="onClose()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <header class="modal-header">
+      <h2>{{ 'obradores.detail.title' | translate }}</h2>
+      <button class="icon-btn" (click)="onClose()" title="{{ 'common.close' | translate }}">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </header>
+
+    <section class="modal-body" *ngIf="obrador; else noDataTpl">
+      <div class="details-grid">
+        <div class="detail">
+          <span class="label">{{ 'obradores.fields.name' | translate }}</span>
+          <span class="value">{{ obrador?.nombre || '-' }}</span>
+        </div>
+        <div class="detail">
+          <span class="label">{{ 'obradores.fields.address' | translate }}</span>
+          <span class="value">{{ obrador?.ubicacion || '-' }}</span>
+        </div>
+        <div class="detail">
+          <span class="label">{{ 'obradores.fields.lat' | translate }}</span>
+          <span class="value">{{ latLabel }}</span>
+        </div>
+        <div class="detail">
+          <span class="label">{{ 'obradores.fields.lng' | translate }}</span>
+          <span class="value">{{ lngLabel }}</span>
+        </div>
+        <div class="detail">
+          <span class="label">{{ 'obradores.fields.state' | translate }}</span>
+          <span class="value">{{ estadoLabel }}</span>
+        </div>
+        <div class="detail">
+          <span class="label">{{ 'obradores.fields.supervisor' | translate }}</span>
+          <span class="value">{{ supervisorLabel }}</span>
+        </div>
+      </div>
+
+      <div class="equipos-section">
+        <h3>{{ 'obradores.fields.equipos' | translate }}</h3>
+        <div class="chips" *ngIf="equipoIdsSafe.length; else noEquiposTpl">
+          <span class="chip" *ngFor="let eq of equipoIdsSafe">{{ eq }}</span>
+        </div>
+      </div>
+    </section>
+
+    <ng-template #noDataTpl>
+      <div class="empty">{{ 'common.noData' | translate }}</div>
+    </ng-template>
+
+    <ng-template #noEquiposTpl>
+      <div class="empty">{{ 'obradores.detail.noEquipos' | translate }}</div>
+    </ng-template>
+
+    <footer class="modal-footer">
+      <button class="btn ghost" (click)="onClose()">{{ 'common.close' | translate }}</button>
+    </footer>
+  </div>
+</div>

@@ -1076,6 +1076,23 @@
       }
     }
   },
+  "obradores": {
+    "detail": {
+      "title": "Detalle de Obrador",
+      "noEquipos": "Sin equipos asignados"
+    },
+    "fields": {
+      "name": "Nombre",
+      "address": "Dirección",
+      "lat": "Latitud",
+      "lng": "Longitud",
+      "state": "Estado",
+      "supervisor": "Supervisor responsable",
+      "equipos": "Equipos"
+    },
+    "editTitle": "Editar Obrador",
+    "newTitle": "Nuevo Obrador"
+  },
   "language": {
     "label": "Idioma",
     "spanish": "Español",

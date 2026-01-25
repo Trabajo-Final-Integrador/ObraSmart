@@ -8,9 +8,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ObradoresListadoComponent } from './pages/obradores-listado/obradores-listado.component';
 import { ObradorFormComponent } from './pages/obrador-form/obrador-form.component';
 import { ObradorDetalleComponent } from './pages/obrador-detalle/obrador-detalle.component';
+import { ObradorDetalleModalComponent } from './pages/obrador-detalle-modal/obrador-detalle-modal.component';
 
 @NgModule({
-  declarations: [ObradoresListadoComponent, ObradorFormComponent, ObradorDetalleComponent],
+  declarations: [ObradoresListadoComponent, ObradorFormComponent, ObradorDetalleComponent, ObradorDetalleModalComponent],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, SharedModule, ObradoresRoutingModule],
 })
 export class ObradoresModule {}

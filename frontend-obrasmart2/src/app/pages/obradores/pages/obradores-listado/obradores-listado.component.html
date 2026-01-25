@@ -61,7 +61,7 @@
                 <button class="btn-icon view" title="Ver" (click)="verDetalle(obrador.id)">
                   <i class="bi bi-eye"></i>
                 </button>
-                <button class="btn-icon edit" title="Editar" (click)="verDetalle(obrador.id)">
+                <button class="btn-icon edit" title="Editar" (click)="editar(obrador.id)">
                   <i class="bi bi-pencil"></i>
                 </button>
                 <button class="btn-icon delete" title="Eliminar" (click)="eliminar(obrador.id)">
@@ -96,4 +96,14 @@
       </div>
     </div>
   </main>
+  <footer class="footer">
+    <span class="version">v1.0.0</span>
+  </footer>
+
+  <app-obrador-detalle-modal
+    *ngIf="detalleVisible"
+    [obrador]="obradorSeleccionado"
+    [supervisores]="supervisores"
+    (close)="detalleVisible = false">
+  </app-obrador-detalle-modal>
 </div>

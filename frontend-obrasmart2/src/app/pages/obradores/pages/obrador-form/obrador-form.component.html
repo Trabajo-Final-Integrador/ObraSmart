@@ -1,13 +1,19 @@
 <div class="layout-container">
   <header class="top-navbar">
     <div class="navbar-left">
+      <button class="menu-btn" (click)="toggleSidebar()" [title]="'menu.main' | translate">
+        <i class="bi bi-list"></i>
+      </button>
       <div class="brand">
         <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
-        <h1 class="navbar-title">{{ isEdit ? 'Editar Obrador' : 'Nuevo Obrador' }}</h1>
+        <span class="navbar-title">{{ isEdit ? ('obradores.editTitle' | translate) : ('obradores.newTitle' | translate) }}</span>
       </div>
     </div>
     <div class="navbar-actions">
-      <button class="btn-regresar" routerLink="/obradores" title="Volver">
+      <button class="btn-regresar" routerLink="/principal" [title]="'common.backHome' | translate">
+        <i class="bi bi-house-door-fill"></i>
+      </button>
+      <button class="btn-regresar" routerLink="/obradores" [title]="'common.back' | translate">
         <i class="bi bi-arrow-left-circle"></i>
       </button>
     </div>
@@ -17,63 +23,63 @@
   <app-modal-info></app-modal-info>
 
   <main class="content">
-    <div class="header">
-      <h2>{{ isEdit ? 'Editar Obrador' : 'Nuevo Obrador' }}</h2>
-      <button class="btn ghost" (click)="cancelar()">Volver</button>
+    <div class="card">
+      <form [formGroup]="form" (ngSubmit)="guardar()">
+        <div class="form-grid">
+          <label>
+            {{ 'obradores.fields.name' | translate }}
+            <input type="text" formControlName="nombre" required />
+          </label>
+
+          <label>
+            {{ 'obradores.fields.address' | translate }}
+            <input type="text" formControlName="ubicacion" />
+          </label>
+
+          <label>
+            {{ 'obradores.fields.lat' | translate }}
+            <input type="number" step="0.000001" formControlName="lat" />
+          </label>
+
+          <label>
+            {{ 'obradores.fields.lng' | translate }}
+            <input type="number" step="0.000001" formControlName="lng" />
+          </label>
+
+          <label>
+            {{ 'obradores.fields.state' | translate }}
+            <select formControlName="estado">
+              <option value="ACTIVO">ACTIVO</option>
+              <option value="INACTIVO">INACTIVO</option>
+            </select>
+          </label>
+
+          <label>
+            {{ 'obradores.fields.supervisor' | translate }}
+            <select formControlName="supervisorUserId">
+              <option [ngValue]="null">-- {{ 'common.noData' | translate }} --</option>
+              <option *ngFor="let u of supervisores" [ngValue]="u.id">
+                {{ u.username || u.email || (u.firstname + ' ' + u.lastname) }}
+              </option>
+            </select>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn primary" [disabled]="loading">
+            {{ isEdit ? ('obradores.editTitle' | translate) : ('obradores.newTitle' | translate) }}
+          </button>
+          <button type="button" class="btn ghost" (click)="cancelar()">{{ 'common.cancel' | translate }}</button>
+          <span *ngIf="loading">Guardando...</span>
+          <span class="error" *ngIf="error">{{ error }}</span>
+        </div>
+      </form>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="guardar()">
-      <div class="form-grid">
-        <label>
-          Nombre
-          <input type="text" formControlName="nombre" required />
-        </label>
-
-        <label>
-          Dirección
-          <input type="text" formControlName="ubicacion" />
-        </label>
-
-        <label>
-          Latitud
-          <input type="number" step="0.000001" formControlName="lat" />
-        </label>
-
-        <label>
-          Longitud
-          <input type="number" step="0.000001" formControlName="lng" />
-        </label>
-
-        <label>
-          Estado
-          <select formControlName="estado">
-            <option value="ACTIVO">ACTIVO</option>
-            <option value="INACTIVO">INACTIVO</option>
-          </select>
-        </label>
-
-        <label>
-          Supervisor responsable
-          <select formControlName="supervisorUserId">
-            <option [ngValue]="null">-- Sin supervisor --</option>
-            <option *ngFor="let u of supervisores" [ngValue]="u.id">
-              {{ u.username || u.email || (u.firstname + ' ' + u.lastname) }}
-            </option>
-          </select>
-        </label>
+    <section *ngIf="isEdit" class="equipos-section card">
+      <div class="equipos-header">
+        <h3>Equipos del obrador</h3>
       </div>
-
-      <div class="actions">
-        <button type="submit" class="btn primary" [disabled]="loading">
-          {{ isEdit ? 'Guardar cambios' : 'Crear obrador' }}
-        </button>
-        <span *ngIf="loading">Guardando...</span>
-        <span class="error" *ngIf="error">{{ error }}</span>
-      </div>
-    </form>
-
-    <section *ngIf="isEdit" class="equipos-section">
-      <h3>Equipos del obrador</h3>
       <div class="equipos-actions">
         <select [(ngModel)]="equipoSeleccionado">
           <option [ngValue]="null">Selecciona equipo</option>
@@ -97,4 +103,7 @@
       </table>
     </section>
   </main>
+  <footer class="footer">
+    <span class="version">v1.0.0</span>
+  </footer>
 </div>

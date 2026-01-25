@@ -62,11 +62,12 @@ export class ObradorFormComponent implements OnInit {
     this.loading = true;
     this.obradorService.obtener(id).subscribe({
       next: (obrador) => {
+        const { lat, lng } = this.mapLatLngFromResponse(obrador);
         this.form.patchValue({
           nombre: obrador.nombre,
           ubicacion: obrador.ubicacion,
-          lat: obrador.lat ?? null,
-          lng: obrador.lng ?? null,
+          lat,
+          lng,
           estado: (obrador as any).estado || 'ACTIVO',
           supervisorUserId: obrador.supervisorUserId ?? null,
         });
@@ -88,8 +89,11 @@ export class ObradorFormComponent implements OnInit {
     }
 
     this.loading = true;
+    const { lat, lng, ...rest } = this.form.value;
     const payload: Partial<ObradorDto> = {
-      ...this.form.value,
+      ...rest,
+      lat: lat ?? null,
+      lng: lng ?? null,
       supervisorUserId: this.form.value.supervisorUserId ?? null,
     };
 
@@ -148,5 +152,12 @@ export class ObradorFormComponent implements OnInit {
         this.error = 'No se pudo asignar el equipo';
       },
     });
+  }
+
+  private mapLatLngFromResponse(obrador: any): { lat: number | null; lng: number | null } {
+    if (!obrador) return { lat: null, lng: null };
+    const lat = obrador.lat ?? obrador.latitud ?? null;
+    const lng = obrador.lng ?? obrador.longitud ?? null;
+    return { lat, lng };
   }
 }

@@ -1076,6 +1076,23 @@
       }
     }
   },
+  "obradores": {
+    "detail": {
+      "title": "Site Detail",
+      "noEquipos": "No assigned equipment"
+    },
+    "fields": {
+      "name": "Name",
+      "address": "Address",
+      "lat": "Latitude",
+      "lng": "Longitude",
+      "state": "Status",
+      "supervisor": "Responsible supervisor",
+      "equipos": "Equipment"
+    },
+    "editTitle": "Edit Site",
+    "newTitle": "New Site"
+  },
   "language": {
     "label": "Language",
     "spanish": "Spanish",
