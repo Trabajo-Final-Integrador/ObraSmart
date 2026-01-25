@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
 import { GeolocalizacionService, EquipoUbicacion } from 'src/app/service/geolocalizacion.service';
+import { EquipoService, EquipoDTO } from 'src/app/service/equipo.service';
 import { environment } from '../../../environments/environment';
 import { MediaService } from 'src/app/service/media.service';
 import { appendCacheBust, MEDIA_OFFSETS } from '../../shared/utils/media-helper';
@@ -61,6 +62,14 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
   detalleVisible = false;
   selectedEquipoId?: number;
   private apiUrl = `${environment.apiUrl}/auth`;
+  notificacionesAbierto = false;
+  notificacionesMantenimiento: Array<{
+    id?: number;
+    nombre: string;
+    proximoMantenimiento: string;
+    diasRestantes: number;
+    visto: boolean;
+  }> = [];
 
   constructor(
     private session: SessionService,
@@ -72,7 +81,8 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
     private media: MediaService,
     private themeService: ThemeService,
     private languageService: LanguageService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private equipoService: EquipoService
   ) {}
 
   ngOnInit(): void {
@@ -82,6 +92,7 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
     this.session.user$.subscribe((u) => {
       this.avatarSrc = this.buildAvatarUrl(u?.userId);
     });
+    this.cargarNotificacionesMantenimiento();
   }
 
   ngAfterViewInit(): void {
@@ -333,6 +344,14 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
     if (this.configMenuAbierto) this.userMenuAbierto = false;
   }
 
+  toggleNotificaciones(): void {
+    this.notificacionesAbierto = !this.notificacionesAbierto;
+    if (this.notificacionesAbierto) {
+      this.configMenuAbierto = false;
+      this.userMenuAbierto = false;
+    }
+  }
+
   seleccionarIdioma(id: string): void {
     this.selectedLanguage = id;
     this.languageService.setLang(id as 'es' | 'en');
@@ -343,5 +362,44 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
     this.selectedThemeId = id;
     this.themeService.apply(id);
     this.configMenuAbierto = false;
+  }
+
+  get notificacionesPendientes(): number {
+    return this.notificacionesMantenimiento.filter((n) => !n.visto).length;
+  }
+
+  onNotificacionClick(notificacion: { id?: number }): void {
+    this.notificacionesMantenimiento = this.notificacionesMantenimiento.map((n) =>
+      n.id === notificacion.id ? { ...n, visto: true } : n
+    );
+    this.notificacionesAbierto = false;
+    this.router.navigate(['/reparaciones/crear'], {
+      queryParams: notificacion.id ? { equipoId: notificacion.id } : {},
+    });
+  }
+
+  private cargarNotificacionesMantenimiento(): void {
+    this.equipoService.listar().subscribe({
+      next: (equipos: EquipoDTO[]) => {
+        const ahora = new Date();
+        const msDia = 1000 * 60 * 60 * 24;
+        this.notificacionesMantenimiento = (equipos || [])
+          .filter((eq) => !!eq.proximoMantenimiento)
+          .map((eq) => {
+            const fecha = new Date(eq.proximoMantenimiento);
+            const diffDias = Math.ceil((fecha.getTime() - ahora.getTime()) / msDia);
+            return {
+              id: eq.id,
+              nombre: eq.nombre || eq.codigoInterno || 'Equipo',
+              proximoMantenimiento: fecha.toISOString(),
+              diasRestantes: diffDias,
+              visto: false,
+            };
+          })
+          .filter((n) => n.diasRestantes >= 0 && n.diasRestantes <= 5)
+          .sort((a, b) => a.diasRestantes - b.diasRestantes);
+      },
+      error: (err) => console.error('Error cargando notificaciones de mantenimiento', err),
+    });
   }
 }

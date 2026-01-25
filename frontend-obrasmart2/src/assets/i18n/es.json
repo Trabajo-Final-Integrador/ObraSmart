@@ -875,6 +875,10 @@
       }
     }
   },
+  "notifications": {
+    "upcoming": "Mantenimientos próximos",
+    "empty": "No hay notificaciones"
+  },
   "menu": {
     "main": "Menú Principal",
     "equipos": "Gestión de Equipos",

@@ -8,6 +8,10 @@
       <span class="brand-text">Obra<span class="highlight">Smart</span></span>
     </div>
     <div class="navbar-actions">
+      <button class="nav-icon-btn notif-btn" (click)="toggleNotificaciones()" [attr.title]="'Notificaciones'">
+        <i class="bi" [ngClass]="{ 'bi-bell-fill': notificacionesPendientes > 0, 'bi-bell': notificacionesPendientes === 0 }"></i>
+        <span *ngIf="notificacionesPendientes > 0" class="notif-badge">{{ notificacionesPendientes }}</span>
+      </button>
       <button class="nav-icon-btn config-btn" (click)="toggleConfigMenu()" [title]="'navbar.config' | translate">
         <i class="bi bi-gear"></i>
       </button>
@@ -19,6 +23,17 @@
       </button>
     </div>
   </header>
+
+  <div class="notif-dropdown" *ngIf="notificacionesAbierto">
+    <div class="notif-header">{{ 'notifications.upcoming' | translate }}</div>
+    <div class="notif-empty" *ngIf="notificacionesMantenimiento.length === 0">{{ 'notifications.empty' | translate }}</div>
+    <ul class="notif-list" *ngIf="notificacionesMantenimiento.length > 0">
+      <li *ngFor="let n of notificacionesMantenimiento" [class.visto]="n.visto" (click)="onNotificacionClick(n)">
+        <div class="notif-title">{{ n.nombre }}</div>
+        <div class="notif-meta">PrÃ³ximo: {{ n.proximoMantenimiento | date:'dd/MM' }} · En {{ n.diasRestantes }} dÃ­a{{ n.diasRestantes === 1 ? '' : 's' }}</div>
+      </li>
+    </ul>
+  </div>
 
   <!-- ✅ Sidebar compartido (tipo full con header y submenus) -->
   <app-sidebar [type]="'full'"></app-sidebar>

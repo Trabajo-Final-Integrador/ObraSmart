@@ -875,6 +875,10 @@
       }
     }
   },
+  "notifications": {
+    "upcoming": "Upcoming maintenance",
+    "empty": "No notifications"
+  },
   "menu": {
     "main": "Main Menu",
     "equipos": "Equipment Management",
