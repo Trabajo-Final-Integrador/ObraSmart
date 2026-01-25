@@ -14,8 +14,8 @@
       <div class="avatar-wrapper">
         <img [src]="avatarSrc" (error)="onAvatarError($event)" alt="Usuario" class="user-avatar" />
       </div>
-      <button class="nav-icon-btn nav-logout-btn" (click)="cerrarSesion()" [title]="'logout' | translate">
-        <i class="bi bi-box-arrow-right"></i><span class="logout-label">{{ 'logout' | translate }}</span>
+      <button class="nav-icon-btn nav-logout-btn" (click)="cerrarSesion()" [attr.title]="'logout' | translate" [attr.aria-label]="'logout' | translate">
+        <i class="bi bi-box-arrow-right"></i>
       </button>
     </div>
   </header>

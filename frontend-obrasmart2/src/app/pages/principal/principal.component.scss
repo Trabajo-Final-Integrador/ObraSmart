@@ -296,21 +296,21 @@ html, body {
 }
 
 .nav-logout-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.4);
-  color: #fff;
+  padding: 8px;
+  min-width: 40px;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #f8fafc;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.2);
   }
-}
 
-.logout-label {
-  font-size: 0.9rem;
-  font-weight: 600;
+  i {
+    font-size: 1.25rem;
+  }
 }
 
 #map {

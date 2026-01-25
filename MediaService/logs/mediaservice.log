@@ -1,74 +1,34 @@
-2026-01-24T05:31:24.897-03:00  INFO 32528 --- [main] c.o.m.MediaServiceApplication            : Starting MediaServiceApplication using Java 17.0.18 with PID 32528 (C:\Users\ferch\OneDrive\Escritorio\OBRASMART DEMO\ObraSmart\MediaService\target\classes started by ferch in C:\Users\ferch\OneDrive\Escritorio\OBRASMART DEMO\ObraSmart\MediaService)
-2026-01-24T05:31:24.907-03:00  INFO 32528 --- [main] c.o.m.MediaServiceApplication            : No active profile set, falling back to 1 default profile: "default"
-2026-01-24T05:31:26.259-03:00  INFO 32528 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-01-24T05:31:26.328-03:00  INFO 32528 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 59 ms. Found 2 JPA repository interfaces.
-2026-01-24T05:31:27.315-03:00  INFO 32528 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8090 (http)
-2026-01-24T05:31:27.330-03:00  INFO 32528 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2026-01-24T05:31:27.331-03:00  INFO 32528 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
-2026-01-24T05:31:27.433-03:00  INFO 32528 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2026-01-24T05:31:27.434-03:00  INFO 32528 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2462 ms
-2026-01-24T05:31:27.733-03:00  INFO 32528 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-01-24T05:31:27.917-03:00  INFO 32528 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6aa6c17
-2026-01-24T05:31:27.920-03:00  INFO 32528 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-01-24T05:31:28.016-03:00  INFO 32528 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
-2026-01-24T05:31:28.016-03:00  INFO 32528 --- [main] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
-2026-01-24T05:31:28.017-03:00  INFO 32528 --- [main] o.f.c.internal.license.VersionPrinter    : 
-2026-01-24T05:31:28.040-03:00  INFO 32528 --- [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/mediaservice (PostgreSQL 17.4)
-2026-01-24T05:31:28.048-03:00  WARN 32528 --- [main] o.f.c.internal.database.base.Database    : Flyway upgrade recommended: PostgreSQL 17.4 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
-2026-01-24T05:31:28.087-03:00  INFO 32528 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.027s)
-2026-01-24T05:31:28.104-03:00  INFO 32528 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 2
-2026-01-24T05:31:28.107-03:00  INFO 32528 --- [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
-2026-01-24T05:31:28.250-03:00  INFO 32528 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2026-01-24T05:31:28.369-03:00  INFO 32528 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
-2026-01-24T05:31:28.432-03:00  INFO 32528 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2026-01-24T05:31:28.821-03:00  INFO 32528 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-01-24T05:31:28.900-03:00  WARN 32528 --- [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2026-01-24T05:31:30.398-03:00  INFO 32528 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-01-24T05:31:30.507-03:00  INFO 32528 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-01-24T05:31:32.073-03:00  INFO 32528 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3299ee2c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@542759f, org.springframework.security.web.context.SecurityContextHolderFilter@7b1bb01c, org.springframework.security.web.header.HeaderWriterFilter@7640a191, org.springframework.web.filter.CorsFilter@68ac6e6e, org.springframework.security.web.authentication.logout.LogoutFilter@5d3a147f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7fd624f5, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5a0b925a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6eb6750f, org.springframework.security.web.access.ExceptionTranslationFilter@6919a8a, org.springframework.security.web.access.intercept.AuthorizationFilter@154fcedd]
-2026-01-24T05:31:33.286-03:00  INFO 32528 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
-2026-01-24T05:31:33.509-03:00  INFO 32528 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8090 (http) with context path ''
-2026-01-24T05:31:33.540-03:00  INFO 32528 --- [main] c.o.m.MediaServiceApplication            : Started MediaServiceApplication in 9.351 seconds (process running for 19.893)
-2026-01-24T05:31:36.026-03:00  INFO 32528 --- [http-nio-8090-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-01-24T05:31:36.027-03:00  INFO 32528 --- [http-nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2026-01-24T05:31:36.030-03:00  INFO 32528 --- [http-nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
-2026-01-24T10:06:53.265-03:00  INFO 32528 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2026-01-24T10:06:53.272-03:00  INFO 32528 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2026-01-24T10:06:53.277-03:00  INFO 32528 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2026-01-24T16:25:04.617-03:00  INFO 13248 --- [main] c.o.m.MediaServiceApplication            : Starting MediaServiceApplication using Java 17.0.18 with PID 13248 (C:\Users\ferch\OneDrive\Escritorio\OBRASMART DEMO\ObraSmart\MediaService\target\classes started by ferch in C:\Users\ferch\OneDrive\Escritorio\OBRASMART DEMO\ObraSmart\MediaService)
-2026-01-24T16:25:04.620-03:00  INFO 13248 --- [main] c.o.m.MediaServiceApplication            : No active profile set, falling back to 1 default profile: "default"
-2026-01-24T16:25:05.788-03:00  INFO 13248 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-01-24T16:25:05.862-03:00  INFO 13248 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 67 ms. Found 2 JPA repository interfaces.
-2026-01-24T16:25:06.753-03:00  INFO 13248 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8090 (http)
-2026-01-24T16:25:06.765-03:00  INFO 13248 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2026-01-24T16:25:06.765-03:00  INFO 13248 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
-2026-01-24T16:25:06.844-03:00  INFO 13248 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2026-01-24T16:25:06.845-03:00  INFO 13248 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2163 ms
-2026-01-24T16:25:07.134-03:00  INFO 13248 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-01-24T16:25:07.312-03:00  INFO 13248 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@39851c5
-2026-01-24T16:25:07.313-03:00  INFO 13248 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-01-24T16:25:07.400-03:00  INFO 13248 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
-2026-01-24T16:25:07.401-03:00  INFO 13248 --- [main] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
-2026-01-24T16:25:07.401-03:00  INFO 13248 --- [main] o.f.c.internal.license.VersionPrinter    : 
-2026-01-24T16:25:07.415-03:00  INFO 13248 --- [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/mediaservice (PostgreSQL 17.4)
-2026-01-24T16:25:07.422-03:00  WARN 13248 --- [main] o.f.c.internal.database.base.Database    : Flyway upgrade recommended: PostgreSQL 17.4 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
-2026-01-24T16:25:07.466-03:00  INFO 13248 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.033s)
-2026-01-24T16:25:07.503-03:00  INFO 13248 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 2
-2026-01-24T16:25:07.506-03:00  INFO 13248 --- [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
-2026-01-24T16:25:07.600-03:00  INFO 13248 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2026-01-24T16:25:07.704-03:00  INFO 13248 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
-2026-01-24T16:25:07.765-03:00  INFO 13248 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2026-01-24T16:25:08.113-03:00  INFO 13248 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-01-24T16:25:08.203-03:00  WARN 13248 --- [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2026-01-24T16:25:09.282-03:00  INFO 13248 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-01-24T16:25:09.332-03:00  INFO 13248 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-01-24T16:25:10.005-03:00  INFO 13248 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@704ca8a8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@61c98f5, org.springframework.security.web.context.SecurityContextHolderFilter@719e8f9f, org.springframework.security.web.header.HeaderWriterFilter@5cc28282, org.springframework.web.filter.CorsFilter@1784d711, org.springframework.security.web.authentication.logout.LogoutFilter@7e113065, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1455a374, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@54d6f172, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4624e3d1, org.springframework.security.web.access.ExceptionTranslationFilter@4458887d, org.springframework.security.web.access.intercept.AuthorizationFilter@6ea1fc9]
-2026-01-24T16:25:10.906-03:00  INFO 13248 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
-2026-01-24T16:25:11.066-03:00  INFO 13248 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8090 (http) with context path ''
-2026-01-24T16:25:11.083-03:00  INFO 13248 --- [main] c.o.m.MediaServiceApplication            : Started MediaServiceApplication in 7.056 seconds (process running for 15.789)
-2026-01-24T16:30:40.557-03:00  INFO 13248 --- [http-nio-8090-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-01-24T16:30:40.558-03:00  INFO 13248 --- [http-nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2026-01-24T16:30:40.562-03:00  INFO 13248 --- [http-nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
-2026-01-24T22:21:51.743-03:00  INFO 13248 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2026-01-24T22:21:51.751-03:00  INFO 13248 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2026-01-24T22:21:51.755-03:00  INFO 13248 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-01-25T13:22:24.177-03:00  INFO 5884 --- [main] c.o.m.MediaServiceApplication            : Starting MediaServiceApplication using Java 17.0.18 with PID 5884 (C:\Users\ferch\OneDrive\Escritorio\PS\OBRASMART DEMO\ObraSmart\MediaService\target\classes started by ferch in C:\Users\ferch\OneDrive\Escritorio\PS\OBRASMART DEMO\ObraSmart\MediaService)
+2026-01-25T13:22:24.185-03:00  INFO 5884 --- [main] c.o.m.MediaServiceApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-01-25T13:22:25.452-03:00  INFO 5884 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-25T13:22:25.527-03:00  INFO 5884 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 63 ms. Found 2 JPA repository interfaces.
+2026-01-25T13:22:26.422-03:00  INFO 5884 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8090 (http)
+2026-01-25T13:22:26.449-03:00  INFO 5884 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-25T13:22:26.449-03:00  INFO 5884 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2026-01-25T13:22:26.524-03:00  INFO 5884 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-25T13:22:26.525-03:00  INFO 5884 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2276 ms
+2026-01-25T13:22:26.824-03:00  INFO 5884 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-25T13:22:27.005-03:00  INFO 5884 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7bf65e0f
+2026-01-25T13:22:27.007-03:00  INFO 5884 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-25T13:22:27.096-03:00  INFO 5884 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
+2026-01-25T13:22:27.097-03:00  INFO 5884 --- [main] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2026-01-25T13:22:27.097-03:00  INFO 5884 --- [main] o.f.c.internal.license.VersionPrinter    : 
+2026-01-25T13:22:27.122-03:00  INFO 5884 --- [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/mediaservice (PostgreSQL 17.4)
+2026-01-25T13:22:27.131-03:00  WARN 5884 --- [main] o.f.c.internal.database.base.Database    : Flyway upgrade recommended: PostgreSQL 17.4 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
+2026-01-25T13:22:27.176-03:00  INFO 5884 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.032s)
+2026-01-25T13:22:27.187-03:00  INFO 5884 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 2
+2026-01-25T13:22:27.189-03:00  INFO 5884 --- [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-01-25T13:22:27.292-03:00  INFO 5884 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-25T13:22:27.422-03:00  INFO 5884 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
+2026-01-25T13:22:27.474-03:00  INFO 5884 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-25T13:22:27.858-03:00  INFO 5884 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-25T13:22:27.942-03:00  WARN 5884 --- [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-25T13:22:28.958-03:00  INFO 5884 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-25T13:22:29.016-03:00  INFO 5884 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-25T13:22:29.706-03:00  INFO 5884 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6ea1fc9, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@75e068dc, org.springframework.security.web.context.SecurityContextHolderFilter@42718ebf, org.springframework.security.web.header.HeaderWriterFilter@597084b7, org.springframework.web.filter.CorsFilter@437a4e61, org.springframework.security.web.authentication.logout.LogoutFilter@539953af, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@719e8f9f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@11b234aa, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@268eefe7, org.springframework.security.web.access.ExceptionTranslationFilter@48e1e18a, org.springframework.security.web.access.intercept.AuthorizationFilter@55b7f0d]
+2026-01-25T13:22:30.650-03:00  INFO 5884 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2026-01-25T13:22:30.805-03:00  INFO 5884 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8090 (http) with context path ''
+2026-01-25T13:22:30.822-03:00  INFO 5884 --- [main] c.o.m.MediaServiceApplication            : Started MediaServiceApplication in 7.232 seconds (process running for 8.983)
+2026-01-25T13:26:14.334-03:00  INFO 5884 --- [http-nio-8090-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-25T13:26:14.335-03:00  INFO 5884 --- [http-nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-25T13:26:14.338-03:00  INFO 5884 --- [http-nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
