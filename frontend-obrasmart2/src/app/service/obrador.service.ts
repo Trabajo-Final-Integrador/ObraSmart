@@ -43,4 +43,8 @@ export class ObradorService {
   asignarEquipo(id: number, equipoId: number): Observable<ObradorDto> {
     return this.http.post<ObradorDto>(`${this.baseUrl}/${id}/equipos`, { equipoId });
   }
+
+  eliminar(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
 }

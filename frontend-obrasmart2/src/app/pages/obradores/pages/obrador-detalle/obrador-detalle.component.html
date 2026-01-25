@@ -1,0 +1,87 @@
+<div class="layout-container">
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <button class="menu-btn" (click)="volver()" title="Menú">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+        <span class="navbar-title">Detalle de Obrador</span>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" title="Inicio">
+        <i class="bi bi-house-door-fill"></i>
+      </button>
+      <button class="btn-regresar" (click)="volver()" title="Volver a obradores">
+        <i class="bi bi-arrow-left-circle"></i>
+      </button>
+    </div>
+  </header>
+
+  <app-sidebar [type]="'full'"></app-sidebar>
+  <app-modal-info></app-modal-info>
+
+  <main class="content">
+    <div class="card">
+      <div *ngIf="loading" class="info">Cargando obrador...</div>
+      <div *ngIf="error" class="error">{{ error }}</div>
+
+      <ng-container *ngIf="!loading && !error && obrador">
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="label">Nombre</span>
+            <span class="value">{{ obrador.nombre }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Dirección</span>
+            <span class="value">{{ obrador.ubicacion || '-' }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Latitud</span>
+            <span class="value">{{ obrador.lat ?? '-' }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Longitud</span>
+            <span class="value">{{ obrador.lng ?? '-' }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Estado</span>
+            <span class="value">{{ estadoLabel }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Supervisor responsable</span>
+            <span class="value">{{ getSupervisorLabel(obrador.supervisorUserId) }}</span>
+          </div>
+        </div>
+
+        <div class="equipos-card">
+          <div class="equipos-header">
+            <h3>Equipos asignados</h3>
+          </div>
+          <div class="equipos-list" *ngIf="equipoIdsSafe.length > 0; else noEquipos">
+            <div class="chip" *ngFor="let eq of equipoIdsSafe">{{ eq }}</div>
+          </div>
+          <ng-template #noEquipos>
+            <div class="info">Sin equipos asignados.</div>
+          </ng-template>
+        </div>
+      </ng-container>
+
+      <div class="actions">
+        <button class="btn primary" (click)="irAEditar()" [disabled]="!obrador?.id">
+          <i class="bi bi-pencil"></i>
+          Editar
+        </button>
+        <button class="btn ghost" (click)="volver()">
+          <i class="bi bi-arrow-left-circle"></i>
+          Volver
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span class="version">v1.0.0</span>
+  </footer>
+</div>

@@ -114,6 +114,15 @@ spring:
               - AddRequestHeader=X-Forwarded-Host, localhost
               - AddRequestHeader=X-Forwarded-Proto, http
 
+          # ---------- OBRADORES ----------
+          - id: obradores
+            uri: http://localhost:8084
+            predicates:
+              - Path=/obradores/**
+            filters:
+              - AddRequestHeader=X-Forwarded-Host, localhost
+              - AddRequestHeader=X-Forwarded-Proto, http
+
           # ---------- ASISTENTE ----------
           - id: asistente
             uri: http://localhost:8099

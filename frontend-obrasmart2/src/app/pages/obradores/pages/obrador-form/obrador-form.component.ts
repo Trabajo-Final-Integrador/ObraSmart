@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObradorDto, ObradorService } from 'src/app/service/obrador.service';
-import { UserDto, UserService } from 'src/app/service/user.service';
 import { EquipoDTO, EquipoService } from 'src/app/service/equipo.service';
+import { UsuarioService } from 'src/app/pages/usuarios/usuario.service';
+import { Usuario } from 'src/app/pages/usuarios/usuario.model';
+import { SidebarService } from 'src/app/service/sidebar.service';
 
 @Component({
   selector: 'app-obrador-form',
@@ -16,7 +18,7 @@ export class ObradorFormComponent implements OnInit {
   loading = false;
   error?: string;
   obradorId?: number;
-  usuarios: UserDto[] = [];
+  supervisores: Usuario[] = [];
   equiposDisponibles: EquipoDTO[] = [];
   equiposAsignados: EquipoDTO[] = [];
   equipoSeleccionado: number | null = null;
@@ -26,8 +28,9 @@ export class ObradorFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private obradorService: ObradorService,
-    private userService: UserService,
-    private equipoService: EquipoService
+    private usuarioService: UsuarioService,
+    private equipoService: EquipoService,
+    private sidebarService: SidebarService
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +54,7 @@ export class ObradorFormComponent implements OnInit {
       lat: [null],
       lng: [null],
       estado: ['ACTIVO'],
-      responsableUserId: [null],
+      supervisorUserId: [null],
     });
   }
 
@@ -65,7 +68,7 @@ export class ObradorFormComponent implements OnInit {
           lat: obrador.lat ?? null,
           lng: obrador.lng ?? null,
           estado: (obrador as any).estado || 'ACTIVO',
-          responsableUserId: obrador.supervisorUserId ?? null,
+          supervisorUserId: obrador.supervisorUserId ?? null,
         });
         this.equiposAsignados = this.equiposDisponibles.filter((e) => (obrador.equipoIds || []).includes(e.id || 0));
         this.loading = false;
@@ -85,7 +88,10 @@ export class ObradorFormComponent implements OnInit {
     }
 
     this.loading = true;
-    const payload: Partial<ObradorDto> = this.form.value;
+    const payload: Partial<ObradorDto> = {
+      ...this.form.value,
+      supervisorUserId: this.form.value.supervisorUserId ?? null,
+    };
 
     const request$ = this.isEdit && this.obradorId
       ? this.obradorService.actualizar(this.obradorId, payload)
@@ -108,9 +114,17 @@ export class ObradorFormComponent implements OnInit {
     this.router.navigate(['/obradores']);
   }
 
+  toggleSidebar(): void {
+    this.sidebarService.toggleSidebar();
+  }
+
   private cargarUsuarios(): void {
-    this.userService.listar().subscribe({
-      next: (usuarios) => (this.usuarios = usuarios),
+    this.usuarioService.listarUsuarios().subscribe({
+      next: (usuarios) => {
+        this.supervisores = (usuarios || []).filter(
+          (u) => (u as any).role === 'ADMINISTRACION' || (u as any).rol === 'ADMINISTRACION'
+        );
+      },
       error: (err) => console.warn('No se pudieron cargar usuarios', err),
     });
   }

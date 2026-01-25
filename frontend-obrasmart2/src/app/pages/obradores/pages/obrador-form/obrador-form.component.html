@@ -53,11 +53,11 @@
         </label>
 
         <label>
-          Responsable
-          <select formControlName="responsableUserId">
-            <option [ngValue]="null">-- Sin responsable --</option>
-            <option *ngFor="let u of usuarios" [ngValue]="u.id">
-              {{ u.nombre || u.username }}
+          Supervisor responsable
+          <select formControlName="supervisorUserId">
+            <option [ngValue]="null">-- Sin supervisor --</option>
+            <option *ngFor="let u of supervisores" [ngValue]="u.id">
+              {{ u.username || u.email || (u.firstname + ' ' + u.lastname) }}
             </option>
           </select>
         </label>

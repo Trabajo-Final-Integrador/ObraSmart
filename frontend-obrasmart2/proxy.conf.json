@@ -1,11 +1,17 @@
 {
-    "/api":  {
-                 "target":  "http://localhost:8085",
-                 "secure":  false,
-                 "changeOrigin":  true,
-                 "logLevel":  "debug",
-                 "pathRewrite":  {
-                                     "^/api":  ""
-                                 }
-             }
+    "/api": {
+        "target": "http://localhost:8085",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/api": ""
+        }
+    },
+    "/obradores": {
+        "target": "http://localhost:8085",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug"
+    }
 }

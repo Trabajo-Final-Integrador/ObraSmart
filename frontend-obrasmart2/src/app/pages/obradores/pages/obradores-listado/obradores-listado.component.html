@@ -1,9 +1,12 @@
 <div class="layout-container">
   <header class="top-navbar">
     <div class="navbar-left">
+      <button class="menu-btn" (click)="toggleSidebar()" title="Menú">
+        <i class="bi bi-list"></i>
+      </button>
       <div class="brand">
         <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
-        <h1 class="navbar-title">Obradores</h1>
+        <span class="navbar-title">Obradores</span>
       </div>
     </div>
     <div class="navbar-actions">
@@ -17,35 +20,80 @@
   <app-modal-info></app-modal-info>
 
   <main class="content">
-    <div class="header">
-      <h2>Obradores</h2>
-      <button class="btn primary" (click)="crearNuevo()">Nuevo obrador</button>
+    <div class="toolbar">
+      <div class="search-container">
+        <i class="bi bi-search"></i>
+        <input type="text" [(ngModel)]="filtro" (ngModelChange)="onFilterChange()" placeholder="Buscar por nombre, ubicación o supervisor" />
+      </div>
+      <button class="btn primary" (click)="crearNuevo()">
+        <i class="bi bi-plus-lg"></i>
+        <span>Nuevo obrador</span>
+      </button>
     </div>
 
-    <div *ngIf="loading" class="info">Cargando obradores...</div>
-    <div *ngIf="error" class="error">{{ error }}</div>
+    <div class="table-container">
+      <div *ngIf="loading" class="info">Cargando obradores...</div>
 
-    <table class="table" *ngIf="!loading && !error">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Dirección</th>
-          <th>Lat</th>
-          <th>Lng</th>
-          <th>Estado</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let obrador of obradores">
-          <td>{{ obrador.nombre }}</td>
-          <td>{{ obrador.ubicacion || '—' }}</td>
-          <td>{{ obrador.lat ?? '—' }}</td>
-          <td>{{ obrador.lng ?? '—' }}</td>
-          <td>{{ obrador.estado || 'ACTIVO' }}</td>
-          <td><button class="btn link" (click)="verDetalle(obrador.id)">Ver / Editar</button></td>
-        </tr>
-      </tbody>
-    </table>
+      <table class="styled-table" *ngIf="!loading">
+        <thead>
+          <tr>
+            <th class="col-nombre">Nombre</th>
+            <th class="col-ubicacion">Ubicación</th>
+            <th class="col-supervisor">Supervisor</th>
+            <th class="col-equipos">Equipos</th>
+            <th class="col-acciones text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="error">
+            <td class="error-row" colspan="5">{{ error }}</td>
+          </tr>
+          <tr *ngIf="!error && obradoresFiltrados.length === 0">
+            <td class="empty-row" colspan="5">No hay obradores para mostrar.</td>
+          </tr>
+          <ng-container *ngIf="!error && obradoresFiltrados.length > 0">
+            <tr *ngFor="let obrador of obradoresPaginados">
+            <td class="col-nombre">{{ obrador.nombre }}</td>
+            <td class="col-ubicacion cell-ellipsis" [title]="obrador.ubicacion || '-'">{{ obrador.ubicacion || '-' }}</td>
+            <td class="col-supervisor">{{ getSupervisorLabel(obrador.supervisorUserId) }}</td>
+            <td class="col-equipos">{{ obrador.equipoIds?.length || 0 }}</td>
+            <td class="acciones table-actions col-acciones">
+                <button class="btn-icon view" title="Ver" (click)="verDetalle(obrador.id)">
+                  <i class="bi bi-eye"></i>
+                </button>
+                <button class="btn-icon edit" title="Editar" (click)="verDetalle(obrador.id)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn-icon delete" title="Eliminar" (click)="eliminar(obrador.id)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination-wrapper" *ngIf="!loading && !error && obradoresFiltrados.length > 0">
+      <div class="pagination-controls">
+        <select [ngModel]="pageSize" (ngModelChange)="onPageSizeChange($event)" class="items-per-page">
+          <option *ngFor="let n of [5, 10, 20, 50]" [ngValue]="n">{{ n }}</option>
+        </select>
+        <div class="pagination-buttons">
+          <button (click)="firstPage()" [disabled]="pageIndex === 0" class="page-btn" title="Primera página">
+            «
+          </button>
+          <button (click)="prevPage()" [disabled]="pageIndex === 0" class="page-btn" title="Anterior">
+            ‹
+          </button>
+          <span class="page-indicator">Página {{ pageIndex + 1 }} de {{ totalPages }}</span>
+          <button (click)="nextPage()" [disabled]="pageIndex + 1 >= totalPages" class="page-btn" title="Siguiente">
+            ›
+          </button>
+          <button (click)="lastPage()" [disabled]="pageIndex + 1 >= totalPages" class="page-btn" title="Última página">
+            »
+          </button>
+        </div>
+      </div>
+    </div>
   </main>
 </div>
