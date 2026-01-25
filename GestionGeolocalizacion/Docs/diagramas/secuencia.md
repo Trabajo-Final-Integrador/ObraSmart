@@ -1,0 +1,1 @@
+Guía para diagrama de secuencia.

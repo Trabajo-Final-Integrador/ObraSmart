@@ -1,0 +1,114 @@
+﻿<div class="layout-container">
+  <!-- NAVBAR SUPERIOR -->
+  <header class="top-navbar">
+    <button class="btn-back" routerLink="/reparaciones" [title]="'common.back' | translate">
+        <i class="bi bi-arrow-left-circle"></i>
+        <span>{{ 'common.back' | translate }}</span>
+      </button>
+    <div class="navbar-content">
+      <h1 class="navbar-title">{{ 'repairs.create.title' | translate }}</h1>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="content">
+    <div class="form-card">
+      <form (ngSubmit)="guardar()" class="form-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">
+              {{ 'repairs.form.equipment.label' | translate }} <span class="required">*</span>
+            </label>
+            <select class="form-control"
+                    [(ngModel)]="nueva.equipoId"
+                    name="equipoId"
+                    required>
+              <option [ngValue]="null">{{ 'repairs.form.equipment.placeholder' | translate }}</option>
+              <option *ngFor="let eq of equipos" [value]="eq.id">
+                {{ eq.nombre }} - {{ eq.numeroSerie }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              {{ 'repairs.form.maintenance.label' | translate }} <span class="required">*</span>
+            </label>
+            <select class="form-control"
+                    [(ngModel)]="nueva.tipoMantenimiento"
+                    name="tipoMantenimiento"
+                    required>
+              <option value="">{{ 'repairs.form.maintenance.placeholder' | translate }}</option>
+              <option value="CORRECTIVO">{{ 'repairs.form.maintenance.corrective' | translate }}</option>
+              <option value="PREVENTIVO">{{ 'repairs.form.maintenance.preventive' | translate }}</option>
+              <option value="PREDICTIVO">{{ 'repairs.form.maintenance.predictive' | translate }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">
+              {{ 'repairs.form.responsible.label' | translate }} <span class="required">*</span>
+            </label>
+            <select class="form-control"
+                    [(ngModel)]="nueva.responsableId"
+                    name="responsableId"
+                    required>
+              <option [ngValue]="null">{{ 'repairs.form.responsible.placeholder' | translate }}</option>
+              <option *ngFor="let usuario of usuarios" [ngValue]="usuario.id">
+                {{ usuario.username }} ({{ usuario.email }})
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">{{ 'repairs.form.startDate.label' | translate }}</label>
+            <input type="date"
+                   class="form-control"
+                   [(ngModel)]="nueva.fechaInicio"
+                   name="fechaInicio">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">{{ 'repairs.form.address.label' | translate }}</label>
+          <input type="text"
+                 class="form-control"
+                 [(ngModel)]="nueva.direccion"
+                 name="direccion"
+                 [placeholder]="'repairs.form.address.placeholder' | translate">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            {{ 'repairs.form.description.label' | translate }} <span class="required">*</span>
+          </label>
+          <textarea rows="3"
+                    class="form-control"
+                    [(ngModel)]="nueva.descripcion"
+                    name="descripcion"
+                    required
+                    [placeholder]="'repairs.form.description.placeholder' | translate"></textarea>
+        </div>
+
+        <!-- Acciones -->
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="volver()">
+            <i class="bi bi-x-lg"></i>
+            <span>{{ 'common.cancel' | translate }}</span>
+          </button>
+          <button type="submit" class="btn-primary">
+            <i class="bi bi-save"></i>
+            <span>{{ 'repairs.form.actions.save' | translate }}</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+   <!-- FOOTER -->
+  <footer class="footer">
+
+    <span class="version">v1.0.0</span>
+  </footer>
+</div>

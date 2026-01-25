@@ -1,0 +1,1144 @@
+{
+  "logout": "Log out",
+  "common": {
+    "cancel": "Cancel",
+    "back": "Back",
+    "backHome": "Back to home",
+    "noData": "No data",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "yes": "Yes",
+    "no": "No",
+    "warning": "Attention",
+    "error": "Error",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "support": "Support",
+    "firstPage": "First page",
+    "prevPage": "Previous",
+    "nextPage": "Next",
+    "lastPage": "Last page",
+    "pageIndicator": "Page {{page}} of {{total}}",
+    "close": "Close"
+  },
+  "orders": {
+    "list": {
+      "title": "Purchase Orders",
+      "subtitle": "Manage purchase orders to suppliers",
+      "loading": "Loading orders...",
+      "empty": "No purchase orders found",
+      "actions": {
+        "new": "New Order"
+      }
+    },
+    "table": {
+      "number": "Order No.",
+      "supplier": "Supplier",
+      "date": "Date",
+      "items": "Items",
+      "total": "Total",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "received": "Received",
+      "canceled": "Canceled",
+      "pendiente": "Pending",
+      "aprobada": "Approved",
+      "recibida": "Received",
+      "cancelada": "Canceled"
+    },
+    "form": {
+      "title": "New Purchase Order",
+      "subtitle": "Fill in the details to create a new purchase order",
+      "sections": {
+        "supplier": "Supplier Information",
+        "items": "Add Spare Parts"
+      },
+      "fields": {
+        "supplier": "Supplier",
+        "part": "Spare Part",
+        "qty": "Quantity",
+        "unitPrice": "Unit Price",
+        "subtotal": "Subtotal"
+      },
+      "labels": {
+        "total": "Total"
+      }
+    },
+    "actions": {
+      "new": "New Order",
+      "addItem": "Add",
+      "create": "Create Purchase Order",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "view": "View detail",
+      "approve": "Approve",
+      "receive": "Receive",
+      "export": "Export PDF",
+      "back": "Back to list"
+    },
+    "detail": {
+      "title": "Purchase Order Detail",
+      "subtitle": "Order #{{id}}",
+      "loading": "Loading order...",
+      "sections": {
+        "supplier": "Supplier Information",
+        "items": "Items Detail",
+        "observations": "Observations",
+        "signatures": "Signatures",
+        "document": "Document"
+      },
+      "table": {
+        "index": "#",
+        "part": "Spare Part",
+        "qty": "Quantity",
+        "unitPrice": "Unit Price",
+        "subtotal": "Subtotal",
+        "total": "GRAND TOTAL"
+      },
+      "status": {
+        "title": "Order Status",
+        "pending": "Pending",
+        "approved": "Approved",
+        "received": "Received",
+        "canceled": "Canceled"
+      },
+      "notes": {
+        "confirm": "This purchase order must be confirmed with the supplier before proceeding with shipment.",
+        "prices": "Prices include VAT and are subject to change based on availability."
+      },
+      "signatures": {
+        "authorized": "Authorized by",
+        "received": "Received by"
+      },
+      "footer": {
+        "generated": "Document generated electronically on {{date}}",
+        "legal": "This document is valid without signature or seal. ObraSmart - Maintenance Management System"
+      },
+      "actions": {
+        "back": "Back",
+        "export": "Export PDF"
+      },
+      "empty": {
+        "title": "Order not found",
+        "description": "The requested purchase order does not exist or was removed",
+        "back": "Back to list"
+      }
+    }
+  },
+  "repairs": {
+    "dashboard": {
+      "title": "Repairs Center",
+      "total": "Total Repairs",
+      "totalHint": "+2 since last week",
+      "inMaintenance": "In Maintenance",
+      "inMaintenanceHint": "Need active attention",
+      "outOfService": "Out of Service",
+      "outOfServiceHint": "Critical equipment stopped",
+      "doneThisMonth": "Completed (Month)",
+      "doneHint": "+12% operational efficiency",
+      "recent": {
+        "title": "Recent Repairs",
+        "viewAll": "View all",
+        "empty": "No repairs recorded"
+      },
+      "fleet": {
+        "title": "Fleet Status",
+        "operational": "Operational",
+        "inReview": "Under Review",
+        "critical": "Critical"
+      }
+    },
+    "table": {
+      "photo": "Photo",
+      "code": "Code",
+      "equipment": "Equipment",
+      "description": "Description",
+      "responsible": "Responsible",
+      "status": "Status",
+      "startDate": "Start Date",
+      "noDescription": "(no description)"
+    },
+    "list": {
+      "title": "Repairs List",
+      "searchPlaceholder": "Search by equipment, code or responsible...",
+      "loading": "Loading repairs...",
+      "noDescription": "(no description)"
+    },
+    "empty": {
+      "noData": "No repairs registered."
+    },
+    "actions": {
+      "new": "New Repair",
+      "cancel": "Cancel",
+      "view": "View detail",
+      "start": "Start",
+      "finish": "Finish"
+    },
+    "status": {
+      "created": "Created",
+      "inProgress": "In progress",
+      "paused": "Paused",
+      "done": "Finished",
+      "canceled": "Canceled"
+    },
+    "form": {
+      "imageAlt": "Repair image",
+      "imagePlaceholder": "Choose file (max 5MB)",
+      "upload": "Upload image",
+      "uploading": "Uploading...",
+      "equipment": {
+        "label": "Equipment",
+        "placeholder": "Select equipment..."
+      },
+      "maintenance": {
+        "label": "Maintenance Type",
+        "placeholder": "Select...",
+        "corrective": "Corrective",
+        "preventive": "Preventive",
+        "predictive": "Predictive"
+      },
+      "responsible": {
+        "label": "Responsible",
+        "placeholder": "Select technician..."
+      },
+      "status": {
+        "label": "Repair Status",
+        "placeholder": "Select status..."
+      },
+      "address": {
+        "label": "Location / Address",
+        "placeholder": "Ex: Main Ave 123, Central Site"
+      },
+      "description": {
+        "label": "Problem Description",
+        "placeholder": "Describe the problem in detail..."
+      },
+      "startDate": {
+        "label": "Start Date"
+      },
+      "actions": {
+        "saveChanges": "Save Changes",
+        "save": "Save Repair"
+      },
+      "alert": {
+        "invalidFileTitle": "Invalid file",
+        "uploadSuccess": "Image uploaded",
+        "uploadErrorTitle": "Error",
+        "uploadErrorText": "The image could not be uploaded"
+      }
+    },
+    "detail": {
+      "title": "Repair Detail",
+      "subtitle": "View the repair details",
+      "equipment": "Equipment",
+      "code": "Code",
+      "description": "Description",
+      "responsible": "Responsible",
+      "status": "Status",
+      "statusLabel": "Status:",
+      "startDate": "Start date",
+      "maintenance": "Maintenance Type",
+      "address": "Location",
+      "addressUnknown": "Not specified",
+      "noAddress": "Not specified",
+      "tracking": "Tracking Information",
+      "createdAt": "Creation Date:",
+      "startAt": "Start Date:",
+      "endAt": "End Date:",
+      "updatedAt": "Last Update:",
+      "notStarted": "Not started",
+      "notFinished": "Not finished",
+      "actions": {
+        "close": "Close"
+      },
+      "statusLabels": {
+        "created": "Created",
+        "creada": "Created",
+        "en_proceso": "In progress",
+        "finalizada": "Finished",
+        "cancelada": "Canceled",
+        "pausada": "Paused",
+        "inProgress": "In progress",
+        "paused": "Paused",
+        "done": "Finished",
+        "canceled": "Canceled"
+      },
+      "upload": {
+        "title": "Upload image",
+        "fileLabel": "Choose file (max 5MB)",
+        "uploadBtn": "Upload",
+        "uploading": "Uploading...",
+        "urlPlaceholder": "Paste URL (http/https)",
+        "saveLinkBtn": "Save link",
+        "saving": "Saving...",
+        "maxSizeHint": "Images up to 5MB. Formats: JPG, PNG, WEBP.",
+        "success": "Image uploaded",
+        "error": "Error uploading the image",
+        "linkSaved": "Link saved",
+        "errorLink": "Error saving the link",
+        "invalidFile": "Invalid image. Use JPG, PNG or WEBP up to 5MB."
+      }
+    },
+    "edit": {
+      "title": "Edit Repair Information",
+      "subtitle": "Modify the repair details"
+    },
+    "create": {
+      "title": "New Repair"
+    },
+    "loading": "Loading...",
+    "loadingDetail": "Loading repair information...",
+    "alert": {
+      "loadErrorTitle": "Error loading repairs",
+      "loadErrorText": "Repairs could not be loaded.",
+      "loadErrorDetail": "The repair information could not be loaded.",
+      "cancel": {
+        "title": "Cancel repair?",
+        "text": "This action will mark the repair as canceled.",
+        "confirm": "Yes, cancel",
+        "successTitle": "Repair canceled",
+        "successText": "The repair has been canceled successfully.",
+        "errorTitle": "Error canceling",
+        "errorText": "The repair could not be canceled."
+      },
+      "missingFields": {
+        "title": "Incomplete fields",
+        "text": "Please complete all required fields."
+      },
+      "updateSuccessTitle": "Repair updated",
+      "updateSuccessText": "Changes have been saved successfully.",
+      "updateErrorTitle": "Error updating",
+      "updateErrorText": "The repair could not be updated.",
+      "state": {
+        "startTitle": "Start repair",
+        "startText": "The repair will change to IN PROGRESS.",
+        "finishTitle": "Finish repair",
+        "finishText": "The repair will be marked as FINISHED.",
+        "defaultTitle": "Change status",
+        "defaultText": "Do you want to continue?",
+        "confirm": "Yes, continue",
+        "successTitle": "Status updated",
+        "successText": "The repair status has been updated.",
+        "errorTitle": "Error",
+        "errorText": "The status could not be changed."
+      },
+      "createSuccessTitle": "Repair created",
+      "createSuccessText": "The repair was registered successfully.",
+      "createErrorTitle": "Error creating repair",
+      "createErrorText": "An unexpected error occurred."
+    }
+  },
+  "navbar": {
+    "config": "Settings",
+    "theme": "Theme",
+    "map": {
+      "label": "Map",
+      "themes": {
+        "carto-positron": "Carto Positron (Light)",
+        "carto-darkmatter": "Carto DarkMatter",
+        "osm-classic": "OSM Classic",
+        "carto-voyager": "Modern Satellite",
+        "opentopo": "OpenTopoMap",
+        "osm-hot": "OSM Humanitarian (HOT)"
+      }
+    }
+  },
+  "stock": {
+    "dashboard": {
+      "title": "Stock Indicators",
+      "totalItems": "Total Spare Parts",
+      "totalHint": "Total inventory",
+      "lowStock": "Low Stock",
+      "lowStockHint": "Require replenishment",
+      "movementsToday": "Movements Today",
+      "movementsHint": "Inbound and outbound",
+      "pendingOrders": "Pending Orders",
+      "pendingOrdersHint": "In progress",
+      "quick": {
+        "title": "Quick Access",
+        "subtitle": "Shortcuts to stock sections"
+      },
+      "alerts": {
+        "title": "Stock Alerts",
+        "subtitle": "Parts below minimum",
+        "empty": "No alerts"
+      }
+    },
+    "items": {
+      "title": "Spare Parts Management",
+      "subtitle": "Create, edit and search",
+      "new": "New Spare Part",
+      "searchPlaceholder": "Search by code or name...",
+      "filter": "Filter",
+      "loading": "Loading spare parts...",
+      "emptySearch": "No spare parts found matching \"{{query}}\"",
+      "noData": "No spare parts registered.",
+      "headers": {
+        "photo": "Photo",
+        "code": "Code",
+        "name": "Name",
+        "currentStock": "Current Stock",
+        "unit": "Unit",
+        "minStock": "Minimum Stock",
+        "status": "Status",
+        "actions": "Actions"
+      }
+    },
+    "partDetail": {
+      "code": "Code",
+      "stock": "Stock",
+      "minStock": "Minimum stock",
+      "unit": "Unit",
+      "category": "Category"
+    },
+    "upload": {
+      "chooseFile": "Choose file (max 5MB)",
+      "uploading": "Uploading...",
+      "upload": "Upload"
+    },
+    "spareForm": {
+      "titleNew": "New Spare Part",
+      "titleEdit": "Edit Spare Part",
+      "subtitleNew": "Fill in the data to create a new spare part",
+      "subtitleEdit": "Update the spare part details in inventory",
+      "loading": "Loading spare part information...",
+      "fields": {
+        "code": "Code",
+        "category": "Category",
+        "name": "Spare Part Name",
+        "unit": "Unit of Measure",
+        "stock": "Initial Stock",
+        "stockCurrent": "Current Stock",
+        "stockMin": "Minimum Stock"
+      },
+      "placeholders": {
+        "code": "Ex: REP-001",
+        "category": "Select...",
+        "name": "Ex: Oil filter",
+        "unit": "Select...",
+        "stock": "0",
+        "stockMin": "0"
+      },
+      "actions": {
+        "back": "Back",
+        "cancel": "Cancel",
+        "save": "Save Spare Part",
+        "saving": "Saving...",
+        "update": "Update Spare Part",
+        "updating": "Updating..."
+      },
+      "modal": {
+        "title": "New Category",
+        "label": "Category name",
+        "placeholder": "Ex: Transmission",
+        "cancel": "Cancel",
+        "save": "Save"
+      }
+    },
+    "spareDetail": {
+      "fallbackName": "Spare Part",
+      "code": "Code"
+    },
+    "suppliers": {
+      "title": "Suppliers Management",
+      "subtitle": "Create, edit and contacts",
+      "new": "New Supplier",
+      "detailTitle": "Supplier Detail",
+      "searchPlaceholder": "Search by company name, specialty or contact...",
+      "filters": {
+        "all": "All statuses",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "loading": "Loading suppliers...",
+      "empty": "No suppliers found",
+      "headers": {
+        "name": "Business Name",
+        "specialty": "Specialty",
+        "contact": "Contact",
+        "status": "Status",
+        "actions": "Actions"
+      }
+    },
+    "movements": {
+      "title": "Stock Movements",
+      "subtitle": "History of inventory inflows and outflows",
+      "new": "Record Movement",
+      "loading": "Loading movements...",
+      "table": {
+        "datetime": "Date & Time",
+        "part": "Spare part",
+        "type": "Type",
+        "quantity": "Quantity",
+        "note": "Note"
+      }
+    },
+    "movementForm": {
+      "title": "New Movement",
+      "subtitle": "Log an inbound or outbound stock movement for a part",
+      "part": "Spare part",
+      "selectPart": "Select part",
+      "type": "Movement Type",
+      "selectType": "Select type",
+      "typeIn": "Inbound",
+      "typeOut": "Outbound",
+      "quantity": "Quantity",
+      "quantityPlaceholder": "Ex: 10",
+      "note": "Note",
+      "noteOptional": "(optional)",
+      "notePlaceholder": "Reason, supplier, customer, etc.",
+      "submit": "Record Movement"
+    },
+    "orders": {
+      "title": "Purchase Orders",
+      "subtitle": "New orders and tracking",
+      "new": "New Purchase Order"
+    }
+  },
+  "providers": {
+    "list": {
+      "title": "Suppliers Management",
+      "searchPlaceholder": "Search by business name, specialty or contact...",
+      "filters": {
+        "allStates": "All statuses"
+      },
+      "actions": {
+        "new": "New Supplier"
+      },
+      "loading": "Loading suppliers...",
+      "empty": "No suppliers found"
+    },
+    "table": {
+      "companyName": "Business Name",
+      "specialty": "Specialty",
+      "contact": "Contact",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "tabs": {
+      "general": "General",
+      "contact": "Contact",
+      "commercial": "Commercial",
+      "catalog": "Catalog",
+      "bank": "Banking",
+      "notes": "Notes"
+    },
+    "form": {
+      "createTitle": "New Supplier",
+      "editTitle": "Edit Supplier",
+      "subtitle": "Complete the information in each step",
+      "loading": "Loading supplier data..."
+    },
+    "actions": {
+      "back": "Back",
+      "next": "Next",
+      "prev": "Previous",
+      "save": "Save Supplier",
+      "cancel": "Cancel"
+    },
+    "fields": {
+      "companyName": "Business Name",
+      "tradeName": "Trade Name",
+      "taxId": "Tax ID",
+      "taxCondition": "Tax Condition",
+      "status": "Status",
+      "phone": "Main Phone",
+      "email": "Email",
+      "schedule": "Service Hours",
+      "address": "Address",
+      "city": "City",
+      "state": "State/Province",
+      "zip": "Zip Code",
+      "contactPerson": "Contact Person",
+      "specialty": "Specialty",
+      "deliveryTime": "Delivery Time (days)",
+      "brands": "Brands distributed",
+      "addBrand": "Add brand...",
+      "minOrder": "Minimum Order ($)",
+      "volumeDiscount": "Volume Discount (%)",
+      "paymentTerms": "Payment Terms",
+      "hasStock": "Has own stock",
+      "ships": "Ships orders",
+      "returns": "Accepts returns",
+      "coverage": "Coverage Area",
+      "catalogTitle": "Digital catalog",
+      "catalogDescription": "Share the link and customer code to speed up purchases.",
+      "hasCatalog": "Has digital catalog",
+      "catalogUrl": "Catalog URL",
+      "catalogCode": "Customer Code",
+      "bank": "Bank",
+      "accountType": "Account Type",
+      "cbu": "CBU / CVU / Alias",
+      "notes": "Notes and Observations"
+    },
+    "placeholders": {
+      "companyName": "Ex: Argentina Distributor LLC",
+      "tradeName": "Ex: Parts House",
+      "taxId": "XX-XXXXXXXX-X",
+      "phone": "Ex: +54 9 351 123-4567",
+      "email": "Ex: contact@supplier.com",
+      "schedule": "Ex: Mon to Fri 8:00 to 18:00",
+      "address": "Ex: 1234 Main Ave",
+      "city": "Ex: Cordoba",
+      "state": "Select...",
+      "zip": "Ex: 5000",
+      "specialty": "Ex: Hydraulic parts",
+      "deliveryTime": "Ex: 3",
+      "addBrand": "Add brand...",
+      "coverage": "Ex: Cordoba Capital and surroundings",
+      "catalogUrl": "https://your-catalog.com",
+      "catalogUrlHelp": "Example: https://supplier.com/catalog",
+      "catalogCode": "Ex: VIAL-001",
+      "catalogCodeHelp": "Code assigned by the supplier.",
+      "bank": "Ex: Banco Nación, Banco Provincia...",
+      "accountType": "Select account type...",
+      "taxCondition": "Select...",
+      "cbu": "Enter CBU (22 digits), CVU or bank Alias",
+      "cbuHelp": "CBU must be 22 numeric digits",
+      "notes": "Additional supplier information..."
+    },
+    "detail": {
+      "title": "Supplier Detail",
+      "loading": "Loading supplier...",
+      "empty": "Supplier not found",
+      "sections": {
+        "general": "General Information",
+        "contact": "Contact",
+        "address": "Address",
+        "commercial": "Commercial Information",
+        "catalog": "Catalog",
+        "bank": "Bank Data",
+        "notes": "Notes"
+      },
+      "actions": {
+        "close": "Close"
+      }
+    }
+  },
+  "equipos": {
+    "detail": {
+      "noType": "No type",
+      "noStatus": "No status",
+      "fallbackName": "Equipment",
+      "code": "Code",
+      "loading": "Loading details...",
+      "general": "General Data",
+      "type": "Type",
+      "brand": "Brand",
+      "model": "Model",
+      "status": "Status",
+      "serial": "Serial",
+      "internalCode": "Internal code",
+      "location": "Location",
+      "latlng": "Lat / Lng",
+      "description": "Description",
+      "noLocation": "No location"
+    },
+    "upload": {
+      "title": "Upload image",
+      "chooseFile": "Choose file (max 5MB)",
+      "uploading": "Uploading...",
+      "upload": "Upload",
+      "linkPlaceholder": "Paste URL (http/https)",
+      "saving": "Saving...",
+      "saveLink": "Save link"
+    },
+    "list": {
+      "title": "Equipment List",
+      "searchPlaceholder": "Search by code, name, brand, model or type",
+      "empty": {
+        "noResults": "No equipment found matching \"{{query}}\"",
+        "noData": "No equipment registered."
+      }
+    },
+    "table": {
+      "photo": "Img",
+      "code": "Internal Code",
+      "name": "Name",
+      "brand": "Brand",
+      "model": "Model",
+      "type": "Type",
+      "status": "Status"
+    },
+    "actions": {
+      "new": "New Equipment",
+      "view": "View details"
+    },
+    "alert": {
+      "delete": {
+        "title": "Are you sure?",
+        "text": "The equipment \"{{name}}\" ({{code}}) will be deleted",
+        "confirm": "Yes, delete",
+        "successTitle": "Equipment deleted",
+        "successText": "The equipment was deleted successfully",
+        "error": "The equipment could not be deleted. It may be related to other records."
+      }
+    },
+    "create": {
+      "titleNew": "Create New Equipment",
+      "titleEdit": "Edit Equipment",
+      "steps": {
+        "basic": "Basic Information",
+        "specs": "Specifications",
+        "status": "Status and Operation",
+        "location": "Location and Confirm",
+        "indicator": "Step {{current}} of {{total}}"
+      },
+      "basic": {
+        "title": "Basic Information",
+        "subtitle": "Enter the main equipment data"
+      },
+      "specs": {
+        "title": "Technical Specifications",
+        "subtitle": "Define the equipment technical characteristics"
+      },
+      "status": {
+        "title": "Status and Operation",
+        "subtitle": "Configure operational status and maintenance"
+      },
+      "location": {
+        "title": "Location and Additional Information",
+        "subtitle": "Complete the location data and confirm the information"
+      },
+      "form": {
+        "name": {
+          "label": "Name",
+          "placeholder": "Ex: Main Excavator"
+        },
+        "code": {
+          "label": "Internal Code",
+          "placeholder": "Ex: EXC-001"
+        },
+        "serial": {
+          "label": "Serial Number",
+          "placeholder": "Ex: NS123456789"
+        },
+        "brand": {
+          "label": "Brand",
+          "placeholder": "Select a brand..."
+        },
+        "model": {
+          "label": "Model",
+          "placeholder": "Select a model..."
+        },
+        "type": {
+          "label": "Equipment Type",
+          "placeholder": "Select a type..."
+        },
+        "year": {
+          "label": "Year of Manufacture",
+          "placeholder": "Ex: 2020"
+        },
+        "fuel": {
+          "label": "Fuel",
+          "placeholder": "Select...",
+          "diesel": "Diesel",
+          "gasoline": "Gasoline"
+        },
+        "power": {
+          "label": "Power (HP)",
+          "placeholder": "Ex: 150.5"
+        },
+        "operationalStatus": {
+          "label": "Operational Status",
+          "placeholder": "Select a status...",
+          "available": "Available",
+          "assigned": "Assigned",
+          "maintenance": "In Maintenance",
+          "out": "Out of Service"
+        },
+        "lastMaintenance": {
+          "label": "Last Maintenance"
+        },
+        "nextMaintenance": {
+          "label": "Next Maintenance"
+        },
+        "usage": {
+          "label": "Km / Hs of Use",
+          "placeholder": "Ex: 1500.5"
+        },
+        "maintenanceResponsible": {
+          "label": "Maintenance Responsible",
+          "placeholder": "Responsible name"
+        },
+        "active": {
+          "label": "Active State"
+        },
+        "currentLocation": {
+          "label": "Current Location",
+          "placeholder": "Ex: Buenos Aires, Argentina",
+          "searching": "Searching coordinates...",
+          "helper": "Coordinates will be filled automatically"
+        },
+        "insurance": {
+          "label": "Insurance Active",
+          "placeholder": "Select..."
+        },
+        "lat": {
+          "label": "Latitude",
+          "placeholder": "Ex: -34.603722"
+        },
+        "lng": {
+          "label": "Longitude",
+          "placeholder": "Ex: -58.381592"
+        }
+      },
+      "summary": {
+        "title": "Equipment Summary"
+      },
+      "actions": {
+        "addBrand": "Add new brand",
+        "addModel": "Add new model",
+        "addType": "Add new type",
+        "prev": "Previous",
+        "next": "Next",
+        "save": "Save Equipment",
+        "update": "Update Equipment"
+      },
+      "footer": {
+        "copy": "© 2025 ObraSmart - Management System"
+      },
+      "modal": {
+        "brand": {
+          "title": "Create New Brand",
+          "nameLabel": "Brand Name",
+          "namePlaceholder": "Ex: Caterpillar",
+          "create": "Create Brand"
+        },
+        "model": {
+          "title": "Create New Model",
+          "nameLabel": "Model Name",
+          "namePlaceholder": "Ex: 308",
+          "brandLabel": "Brand",
+          "brandPlaceholder": "Select brand...",
+          "create": "Create Model"
+        },
+        "type": {
+          "title": "Create New Equipment Type",
+          "nameLabel": "Name",
+          "namePlaceholder": "Ex: Excavator",
+          "prefixLabel": "Prefix (1-4 uppercase letters)",
+          "prefixPlaceholder": "EXCV",
+          "descriptionLabel": "Description (optional)",
+          "descriptionPlaceholder": "Equipment type description...",
+          "create": "Create Type"
+        }
+      },
+      "alert": {
+        "loadErrorTitle": "Error",
+        "loadErrorText": "The equipment could not be loaded",
+        "coordsFoundTitle": "Coordinates found",
+        "coordsFoundText": "Lat: {{lat}}, Lon: {{lon}}",
+        "coordsNotFoundTitle": "No coordinates found",
+        "coordsNotFoundText": "Try a more specific location.",
+        "missingFieldsTitle": "Incomplete fields",
+        "missingFieldsText": "Please complete all required fields before continuing.",
+        "brandSuccessTitle": "Brand created!",
+        "brandSuccessText": "The brand was registered successfully.",
+        "brandErrorTitle": "Error",
+        "brandErrorText": "The brand could not be created. Please try again.",
+        "modelSuccessTitle": "Model created!",
+        "modelErrorTitle": "Error",
+        "modelErrorText": "The model could not be created.",
+        "typeSuccessTitle": "Equipment type created",
+        "typeErrorTitle": "Error",
+        "typeErrorText": "The equipment type could not be created",
+        "updateSuccessTitle": "Equipment updated",
+        "updateSuccessText": "Changes were saved successfully",
+        "updateErrorTitle": "Error updating equipment",
+        "updateErrorText": "Please check the data.",
+        "createSuccessTitle": "Equipment created",
+        "createSuccessText": "The equipment was created successfully.",
+        "createErrorTitle": "Error creating equipment",
+        "createErrorText": "Please check the data."
+      },
+      "sidebar": {
+        "registerUser": "Register User",
+        "listUsers": "Users List",
+        "repairsDashboard": "Dashboard",
+        "repairsList": "Repairs",
+        "stockDashboard": "Dashboard",
+        "stockRepuestos": "Spare parts",
+      "stockSuppliers": "Suppliers",
+      "stockMoves": "Movements",
+      "stockOrders": "Orders"
+      }
+    }
+  },
+  "menu": {
+    "main": "Main Menu",
+    "equipos": "Equipment Management",
+    "reports": "Reports",
+    "obradores": "Sites / Yards",
+    "traslados": "Transfers / Logistics",
+    "home": "Home",
+    "users": {
+      "label": "User Management",
+      "register": "Register User",
+      "list": "Users List"
+    },
+    "repairs": {
+      "label": "Repairs Management",
+      "dashboard": "Repairs Center",
+      "list": "Repairs List"
+    },
+    "stock": {
+      "label": "Stock Management",
+      "dashboard": "Indicators",
+      "spares": "Spare parts",
+      "suppliers": "Suppliers",
+      "movements": "Movements",
+      "orders": "Orders"
+    }
+  },
+  "auth": {
+    "login": {
+      "welcome": "Welcome to the system",
+      "title": "Sign in",
+      "username": {
+        "label": "Username",
+        "placeholder": "Enter your username"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      },
+      "actions": {
+        "loading": "Signing in...",
+        "submit": "Sign in"
+      },
+      "forgot": "Forgot your password?",
+      "errors": {
+        "missingCredentials": "Username and password are required.",
+        "invalidCredentials": "Invalid credentials. Check your username or password.",
+        "connection": "Could not connect to server. Please try again.",
+        "unexpected": "An unexpected error occurred."
+      }
+    },
+    "reset": {
+      "title": "Reset password",
+      "subtitle": "Enter your email and a new password.",
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email"
+      },
+      "password": {
+        "label": "New password",
+        "placeholder": "New password"
+      },
+      "confirm": {
+        "label": "Repeat password",
+        "placeholder": "Repeat password"
+      },
+      "actions": {
+        "loading": "Processing...",
+        "submit": "Reset password"
+      },
+      "backToLogin": "Back to login",
+      "errors": {
+        "mismatch": "Passwords do not match",
+        "unexpected": "Error resetting password"
+      },
+      "success": "Password reset successfully."
+    }
+  },
+  "users": {
+    "list": {
+      "title": "Users list",
+      "searchPlaceholder": "Search by username, email or role",
+      "emptySearch": "No users found matching \"{{query}}\"",
+      "noData": "No users registered.",
+      "errors": {
+        "invalidId": "Cannot delete: invalid ID."
+      },
+      "delete": {
+        "title": "Are you sure?",
+        "text": "Do you want to delete this user?",
+        "confirm": "Yes, delete",
+        "success": "User deleted successfully",
+        "error": "The user could not be deleted"
+      }
+    },
+    "modal": {
+      "title": "Edit User",
+      "email": {
+        "label": "Email",
+        "placeholder": "email@example.com"
+      },
+      "username": {
+        "label": "Username"
+      },
+      "role": {
+        "label": "Role",
+        "admin": "Administration",
+        "tech": "Technician",
+        "worker": "Operator"
+      },
+      "status": {
+        "label": "Status"
+      },
+      "actions": {
+        "save": "Save Changes"
+      },
+      "upload": {
+        "title": "Photos and credentials",
+        "profile": "Profile photo",
+        "upload": "Upload",
+        "choose": "Choose file (max 5MB)",
+        "noFile": "No file selected",
+        "credential": "Credential {{number}}",
+        "pending": "Pending backend"
+      },
+      "alert": {
+        "saveSuccess": "Changes saved successfully",
+        "updateError": "The user could not be updated",
+        "fileTooLarge": "File too large",
+        "maxSize": "Maximum 5MB",
+        "invalidFormat": "Invalid format",
+        "onlyImages": "Images only",
+        "uploadSuccess": "Image uploaded",
+        "uploadError": "The image could not be uploaded"
+      }
+    },
+    "table": {
+      "photo": "Photo",
+      "email": "Email",
+      "username": "Username",
+      "role": "Role",
+      "status": "Status"
+    },
+    "form": {
+      "title": "Register User",
+      "subtitle": "Fill in the new user's information",
+      "helper": "Fill the fields to create a new user.",
+      "firstname": {
+        "label": "First name",
+        "placeholder": "Enter first name"
+      },
+      "lastname": {
+        "label": "Last name",
+        "placeholder": "Enter last name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "user@email.com"
+      },
+      "username": {
+        "label": "Username",
+        "placeholder": "Enter username"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter password"
+      },
+      "role": {
+        "label": "Role",
+        "admin": "Administration",
+        "tech": "Technician",
+        "worker": "Operator"
+      },
+      "status": {
+        "label": "Status",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "notes": {
+        "label": "Notes",
+        "placeholder": "Optional notes..."
+      },
+      "actions": {
+        "save": "Save User"
+      },
+      "alert": {
+        "successTitle": "User created",
+        "successText": "You can now sign in.",
+        "successConfirm": "Go to login",
+        "errorTitle": "Registration failed",
+        "errorText": "The user could not be registered. Check the data.",
+        "errorConfirm": "Close"
+      }
+    }
+  },
+  "language": {
+    "label": "Language",
+    "spanish": "Spanish",
+    "english": "English"
+  },
+  "chat": {
+    "title": "ObraSmart Assistant",
+    "subtitle": "Ask about equipment, stock and more",
+    "placeholder": "Type your message...",
+    "send": "Send",
+    "error": "❌ Error communicating with the assistant."
+  },
+  "footer": {
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "support": "Support",
+    "copyright": "© 2025 ObraSmart"
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "Updated: {{time}}",
+    "loading": "Loading reports...",
+    "actions": {
+      "refresh": "Refresh",
+      "export": "Export"
+    },
+    "filters": {
+      "from": "From",
+      "to": "To",
+      "quickRanges": "Quick ranges",
+      "activeRange": "Active range:"
+    },
+    "ranges": {
+      "last7Days": "Last 7 days",
+      "last30Days": "Last 30 days",
+      "thisYear": "This year",
+      "lastYear": "Last year"
+    },
+    "risk": {
+      "title": "Risk level: {{level}}",
+      "level": "Level",
+      "description": "Description",
+      "note": "Monitoring needed: {{text}}",
+      "levels": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "critical": "Critical"
+      }
+    },
+    "cards": {
+      "totalEquipment": "Total Equipment",
+      "totalEquipmentHint": "{{count}} critical need attention",
+      "activeRepairs": "Active Repairs",
+      "activeRepairsHint": "+{{count}} pending start",
+      "stockAlerts": "Stock Alerts",
+      "stockAlertsHint": "Items below minimum",
+      "avgRepairTime": "Average Repair Time",
+      "avgRepairTimeHint": "{{delta}} vs previous month",
+      "criticalEquipment": "Critical Equipment",
+      "criticalEquipmentHint": "Units with highest recent failures",
+      "stockCritical": "Critical Stock",
+      "stockCriticalHint": "Spare parts below minimum"
+    },
+    "charts": {
+      "repairsTrend": "Repairs Trend",
+      "repairsTrendSubtitle": "Service requests in selected range",
+      "repairsTrend.note": "Monthly evolution of repair requests (higher = more demand in the period).",
+      "fleetDistribution": "Fleet Distribution",
+      "fleetDistributionSubtitle": "Equipment by machine type"
+    }
+  }
+}

@@ -1,0 +1,156 @@
+﻿<div class="layout-container">
+  <!-- NAVBAR SUPERIOR -->
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <button class="menu-btn" (click)="toggleSidebar()" [title]="'menu.main' | translate">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+        <h1 class="navbar-title">{{ 'repairs.list.title' | translate }}</h1>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" [title]="'common.backHome' | translate">
+        <i class="bi bi-house-door-fill"></i>
+        
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar compartido -->
+  <app-sidebar [type]="'full'"></app-sidebar>
+
+  <!-- Modales compartidos -->
+  <app-modal-info></app-modal-info>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="content">
+    <!-- Tabla -->
+    <div class="table-container">
+      <div class="toolbar">
+        <div class="search-container">
+          <i class="bi bi-search"></i>
+          <input
+            type="text"
+            [(ngModel)]="terminoBusqueda"
+            (input)="filtrar()"
+            [placeholder]="'repairs.list.searchPlaceholder' | translate"
+          />
+        </div>
+        <button class="btn-nuevo" (click)="nuevaReparacion()">
+          <i class="bi bi-plus-lg"></i>
+          <span>{{ 'repairs.actions.new' | translate }}</span>
+        </button>
+      </div>
+
+      <div *ngIf="loading" class="empty-message">
+        <i class="bi bi-hourglass-split"></i>
+        <p>{{ 'repairs.list.loading' | translate }}</p>
+      </div>
+
+      <table *ngIf="!loading" class="styled-table">
+        <thead>
+          <tr>
+            <th>{{ 'repairs.table.photo' | translate }}</th>
+            <th>{{ 'repairs.table.code' | translate }}</th>
+            <th>{{ 'repairs.table.equipment' | translate }}</th>
+            <th>{{ 'repairs.table.description' | translate }}</th>
+            <th>{{ 'repairs.table.responsible' | translate }}</th>
+            <th class="text-center">{{ 'repairs.table.status' | translate }}</th>
+            <th>{{ 'repairs.table.startDate' | translate }}</th>
+            <th class="text-center">{{ 'common.actions' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of reparacionesPaginadas">
+            <td class="foto-cell">
+              <img class="mini-thumb" [src]="getReparacionImg(r)" (error)="onImgError(r, $event)" [alt]="'repairs.table.photo' | translate" />
+            </td>
+            <td class="font-monospace">#{{ r.equipoCodigoInterno }}</td>
+            <td>
+              <div class="equipo-info">
+                <strong>{{ r.equipoNombre }}</strong>
+                <small>{{ r.tipoMantenimiento }}</small>
+              </div>
+            </td>
+            <td>
+              <span class="descripcion-text" [title]="r.descripcion">
+                {{ r.descripcion || ('repairs.table.noDescription' | translate) }}
+              </span>
+            </td>
+            <td>
+              <div class="responsable-info">
+                <i class="bi bi-person-circle"></i>
+                <span>{{ r.responsableNombreCompleto }}</span>
+              </div>
+            </td>
+            <td class="text-center">
+              <app-status-badge [estado]="r.estadoReparacion"></app-status-badge>
+            </td>
+            <td>{{ r.fechaInicio ? (r.fechaInicio | date:'dd/MM/yyyy') : '-' }}</td>
+            <td class="acciones">
+              <button class="btn-icon edit" [title]="'common.edit' | translate"
+                      (click)="editarReparacion(r.id)"
+                      [disabled]="r.estadoReparacion === 'FINALIZADA' || r.estadoReparacion === 'CANCELADA'">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn-icon delete" [title]="'repairs.actions.cancel' | translate"
+                      (click)="cancelarReparacion(r.id)"
+                      [disabled]="r.estadoReparacion === 'FINALIZADA' || r.estadoReparacion === 'CANCELADA'">
+               <i class="bi bi-x-square"></i>
+              </button>
+              <button class="btn-icon view" [title]="'repairs.actions.view' | translate"
+                      (click)="verDetalle(r.id)">
+                <i class="bi bi-eye"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="reparacionesFiltradas.length === 0 && !loading" class="empty-message">
+        <i class="bi bi-exclamation-circle"></i>
+        <p>{{ 'repairs.empty.noData' | translate }}</p>
+      </div>
+    </div>
+
+    <!-- Paginación fuera de la card -->
+    <div class="pagination-wrapper" *ngIf="reparacionesFiltradas.length > 0">
+      <div class="pagination-controls">
+        <select [(ngModel)]="reparacionesPorPagina" (ngModelChange)="onCambiarPorPagina($event)" class="items-per-page">
+          <option *ngFor="let n of [5, 10, 20, 50]" [value]="n">{{ n }}</option>
+        </select>
+        <div class="pagination-buttons">
+          <button (click)="primeraPagina()" [disabled]="paginaActual === 1" class="page-btn" [title]="'common.firstPage' | translate">
+            &laquo;
+          </button>
+          <button (click)="paginaAnterior()" [disabled]="paginaActual === 1" class="page-btn" [title]="'common.prevPage' | translate">
+            &lsaquo;
+          </button>
+          <span class="page-indicator">{{ 'common.pageIndicator' | translate:{ page: paginaActual, total: totalPaginas } }}</span>
+          <button (click)="paginaSiguiente()" [disabled]="paginaActual === totalPaginas" class="page-btn" [title]="'common.nextPage' | translate">
+            &rsaquo;
+          </button>
+          <button (click)="ultimaPagina()" [disabled]="paginaActual === totalPaginas" class="page-btn" [title]="'common.lastPage' | translate">
+            &raquo;
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+    <span class="version">v1.0.0</span>
+  </footer>
+  <app-reparacion-detalle-modal
+    [visible]="detalleVisible"
+    [reparacion]="reparacionSeleccionada"
+    [imageUrl]="detalleImagen"
+    (closed)="cerrarDetalleModal()">
+  </app-reparacion-detalle-modal>
+</div>
+
+

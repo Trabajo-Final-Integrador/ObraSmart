@@ -1,0 +1,702 @@
+﻿<div class="layout-container">
+  <!-- Navbar -->
+  <header class="top-navbar">
+    <div class="navbar-actions">
+       <button class="btn-back" routerLink="/listado-usuario" [title]="'common.back' | translate">
+        <i class="bi bi-arrow-left-circle"></i>
+        <span>{{ 'common.back' | translate }}</span>
+      </button>
+     
+    </div>
+    <div class="brand">
+      <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+    <h1 class="navbar-title">{{ modoEdicion ? ('equipos.create.titleEdit' | translate) : ('equipos.create.titleNew' | translate) }}</h1>
+   </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.open]="menuAbierto">
+    <ul class="nav flex-column">
+      <!-- Usuarios -->
+      <li class="nav-item">
+        <a
+          class="nav-link d-flex justify-content-between align-items-center"
+          href="#"
+          (click)="toggleUsuarios($event)"
+        >
+          <span><i class="bi bi-people me-2"></i>{{ 'menu.users' | translate }}</span>
+          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuUsuariosOpen"></i>
+        </a>
+        <ul *ngIf="submenuUsuariosOpen" class="submenu">
+          <li>
+            <a class="dropdown-item" routerLink="/alta-usuario">
+              <i class="bi bi-person-plus"></i> {{ 'equipos.create.sidebar.registerUser' | translate }}
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="/listado-usuario">
+              <i class="bi bi-list-ul"></i> {{ 'equipos.create.sidebar.listUsers' | translate }}
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Reparaciones -->
+      <li class="nav-item">
+        <a
+          class="nav-link d-flex justify-content-between align-items-center"
+          href="#"
+          (click)="toggleReparacion($event)"
+        >
+          <span><i class="bi bi-tools me-2"></i>{{ 'menu.repairs' | translate }}</span>
+          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuReparacionOpen"></i>
+        </a>
+        <ul *ngIf="submenuReparacionOpen" class="submenu">
+          <li>
+            <a class="dropdown-item" routerLink="/reparaciones/dashboard">
+              <i class="bi bi-columns-gap"></i> {{ 'equipos.create.sidebar.repairsDashboard' | translate }}
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="/reparaciones/listado">
+              <i class="bi bi-tools"></i> {{ 'equipos.create.sidebar.repairsList' | translate }}
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Equipos -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/equipos" routerLinkActive="active">
+          <i class="bi bi-cone-striped me-2"></i> {{ 'menu.equipos' | translate }}
+        </a>
+      </li>
+
+      <!-- Stock -->
+      <li class="nav-item">
+        <a
+          class="nav-link d-flex justify-content-between align-items-center"
+          href="#"
+          (click)="toggleStock($event)"
+        >
+          <span><i class="bi bi-box-seam me-2"></i>{{ 'menu.stock' | translate }}</span>
+          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuStockOpen"></i>
+        </a>
+        <ul *ngIf="submenuStockOpen" class="submenu">
+          <li>
+            <a class="dropdown-item" routerLink="/stock/dashboard">
+              <i class="bi bi-columns-gap"></i> {{ 'equipos.create.sidebar.stockDashboard' | translate }}
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="/stock/repuestos">
+              <i class="bi bi-box"></i> {{ 'equipos.create.sidebar.stockRepuestos' | translate }}
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="/stock/proveedores">
+              <i class="bi bi-truck"></i> {{ 'equipos.create.sidebar.stockSuppliers' | translate }}
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="/stock/movimientos">
+              <i class="bi bi-graph-up-arrow"></i> {{ 'equipos.create.sidebar.stockMoves' | translate }}
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="/stock/ordenes">
+              <i class="bi bi-cart2"></i> {{ 'equipos.create.sidebar.stockOrders' | translate }}
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Reportes -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/reportes">
+          <i class="bi bi-file-bar-graph me-2"></i> {{ 'menu.reports' | translate }}
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Contenido Principal -->
+  <div class="content">
+    <div class="wizard-container">
+
+      <!-- Progress Stepper -->
+      <div class="stepper">
+        <div class="step" [class.active]="pasoActual === 1" [class.completed]="pasoActual > 1">
+          <div class="step-circle">
+            <i *ngIf="pasoActual > 1" class="bi bi-check-lg"></i>
+            <span *ngIf="pasoActual <= 1">1</span>
+          </div>
+          <div class="step-label">{{ 'equipos.create.steps.basic' | translate }}</div>
+        </div>
+
+        <div class="step-line" [class.completed]="pasoActual > 1"></div>
+
+        <div class="step" [class.active]="pasoActual === 2" [class.completed]="pasoActual > 2">
+          <div class="step-circle">
+            <i *ngIf="pasoActual > 2" class="bi bi-check-lg"></i>
+            <span *ngIf="pasoActual <= 2">2</span>
+          </div>
+          <div class="step-label">{{ 'equipos.create.steps.specs' | translate }}</div>
+        </div>
+
+        <div class="step-line" [class.completed]="pasoActual > 2"></div>
+
+        <div class="step" [class.active]="pasoActual === 3" [class.completed]="pasoActual > 3">
+          <div class="step-circle">
+            <i *ngIf="pasoActual > 3" class="bi bi-check-lg"></i>
+            <span *ngIf="pasoActual <= 3">3</span>
+          </div>
+          <div class="step-label">{{ 'equipos.create.steps.status' | translate }}</div>
+        </div>
+
+        <div class="step-line" [class.completed]="pasoActual > 3"></div>
+
+        <div class="step" [class.active]="pasoActual === 4" [class.completed]="pasoActual > 4">
+          <div class="step-circle">
+            <i *ngIf="pasoActual > 4" class="bi bi-check-lg"></i>
+            <span *ngIf="pasoActual <= 4">4</span>
+          </div>
+          <div class="step-label">{{ 'equipos.create.steps.location' | translate }}</div>
+        </div>
+      </div>
+
+      <!-- Form Container -->
+      <div class="form-container">
+        <form #equipoForm="ngForm">
+
+          <!-- PASO 1: Información Básica -->
+          <div class="step-content" *ngIf="pasoActual === 1">
+            <div class="step-header">
+              <i class="bi bi-info-circle"></i>
+              <h2>{{ 'equipos.create.basic.title' | translate }}</h2>
+              <p>{{ 'equipos.create.basic.subtitle' | translate }}</p>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="nombre">{{ 'equipos.create.form.name.label' | translate }} *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nombre"
+                  name="nombre"
+                  [(ngModel)]="equipo.nombre"
+                  required
+                  [placeholder]="'equipos.create.form.name.placeholder' | translate"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="codigoInterno">{{ 'equipos.create.form.code.label' | translate }} *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="codigoInterno"
+                  name="codigoInterno"
+                  [(ngModel)]="equipo.codigoInterno"
+                  required
+                  [placeholder]="'equipos.create.form.code.placeholder' | translate"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="numeroSerie">{{ 'equipos.create.form.serial.label' | translate }} *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="numeroSerie"
+                  name="numeroSerie"
+                  [(ngModel)]="equipo.numeroSerie"
+                  required
+                  [placeholder]="'equipos.create.form.serial.placeholder' | translate"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- PASO 2: Especificaciones Técnicas -->
+          <div class="step-content" *ngIf="pasoActual === 2">
+            <div class="step-header">
+              <i class="bi bi-gear"></i>
+              <h2>{{ 'equipos.create.specs.title' | translate }}</h2>
+              <p>{{ 'equipos.create.specs.subtitle' | translate }}</p>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="marca">{{ 'equipos.create.form.brand.label' | translate }} *</label>
+                <div class="input-with-button">
+                  <select
+                    class="form-control"
+                    id="marca"
+                    name="marca"
+                    [(ngModel)]="equipo.idMarca"
+                    required
+                  >
+                    <option value="">{{ 'equipos.create.form.brand.placeholder' | translate }}</option>
+                    <option *ngFor="let m of marcas" [value]="m.id">{{ m.nombre }}</option>
+                  </select>
+                  <button class="btn-add" type="button" data-bs-toggle="modal" data-bs-target="#modalMarca" [title]="'equipos.create.actions.addBrand' | translate">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="modelo">{{ 'equipos.create.form.model.label' | translate }} *</label>
+                <div class="input-with-button">
+                  <select
+                    class="form-control"
+                    id="modelo"
+                    name="modelo"
+                    [(ngModel)]="equipo.idModelo"
+                    required
+                  >
+                    <option value="">{{ 'equipos.create.form.model.placeholder' | translate }}</option>
+                    <option *ngFor="let model of modelos" [value]="model.id">{{ model.nombre }}</option>
+                  </select>
+                  <button class="btn-add" type="button" data-bs-toggle="modal" data-bs-target="#modalModelo" [title]="'equipos.create.actions.addModel' | translate">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="tipoEquipo">{{ 'equipos.create.form.type.label' | translate }} *</label>
+                <div class="input-with-button">
+                  <select
+                    class="form-control"
+                    id="tipoEquipo"
+                    name="tipoEquipo"
+                    [(ngModel)]="equipo.idTipoEquipo"
+                    required
+                  >
+                    <option value="">{{ 'equipos.create.form.type.placeholder' | translate }}</option>
+                    <option *ngFor="let t of tipos" [value]="t.id">{{ t.nombre }}</option>
+                  </select>
+                  <button class="btn-add" type="button" data-bs-toggle="modal" data-bs-target="#modalTipo" [title]="'equipos.create.actions.addType' | translate">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="anioFabricacion">{{ 'equipos.create.form.year.label' | translate }} *</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="anioFabricacion"
+                  name="anioFabricacion"
+                  [(ngModel)]="equipo.anioFabricacion"
+                  min="1900"
+                  max="2100"
+                  [placeholder]="'equipos.create.form.year.placeholder' | translate"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="combustible">{{ 'equipos.create.form.fuel.label' | translate }}</label>
+                <select
+                  class="form-control"
+                  id="combustible"
+                  name="combustible"
+                  [(ngModel)]="equipo.combustible"
+                >
+                  <option value="">{{ 'equipos.create.form.fuel.placeholder' | translate }}</option>
+                  <option value="DIESEL">{{ 'equipos.create.form.fuel.diesel' | translate }}</option>
+                  <option value="GASOLINA">{{ 'equipos.create.form.fuel.gasoline' | translate }}</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="potenciaHp">{{ 'equipos.create.form.power.label' | translate }} *</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="potenciaHp"
+                  name="potenciaHp"
+                  [(ngModel)]="equipo.potenciaHp"
+                  step="0.01"
+                  [placeholder]="'equipos.create.form.power.placeholder' | translate"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- PASO 3: Estado y Operación -->
+          <div class="step-content" *ngIf="pasoActual === 3">
+            <div class="step-header">
+              <i class="bi bi-activity"></i>
+              <h2>{{ 'equipos.create.status.title' | translate }}</h2>
+              <p>{{ 'equipos.create.status.subtitle' | translate }}</p>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="estadoOperativo">{{ 'equipos.create.form.operationalStatus.label' | translate }} *</label>
+                <select
+                  class="form-control"
+                  id="estadoOperativo"
+                  name="estadoOperativo"
+                  [(ngModel)]="equipo.estadoOperativo"
+                  required
+                >
+                  <option value="">{{ 'equipos.create.form.operationalStatus.placeholder' | translate }}</option>
+                  <option value="DISPONIBLE">{{ 'equipos.create.form.operationalStatus.available' | translate }}</option>
+                  <option value="ASIGNADO">{{ 'equipos.create.form.operationalStatus.assigned' | translate }}</option>
+                  <option value="EN_MANTENIMIENTO">{{ 'equipos.create.form.operationalStatus.maintenance' | translate }}</option>
+                  <option value="FUERA_DE_SERVICIO">{{ 'equipos.create.form.operationalStatus.out' | translate }}</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="fechaUltimoMantenimiento">{{ 'equipos.create.form.lastMaintenance.label' | translate }} *</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fechaUltimoMantenimiento"
+                  name="fechaUltimoMantenimiento"
+                  [(ngModel)]="equipo.fechaUltimoMantenimiento"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="proximoMantenimiento">{{ 'equipos.create.form.nextMaintenance.label' | translate }} *</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="proximoMantenimiento"
+                  name="proximoMantenimiento"
+                  [(ngModel)]="equipo.proximoMantenimiento"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="kilometrajeHorasUso">{{ 'equipos.create.form.usage.label' | translate }} *</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="kilometrajeHorasUso"
+                  name="kilometrajeHorasUso"
+                  [(ngModel)]="equipo.kilometrajeHorasUso"
+                  step="0.01"
+                  [placeholder]="'equipos.create.form.usage.placeholder' | translate"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="responsableMantenimiento">{{ 'equipos.create.form.maintenanceResponsible.label' | translate }} *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="responsableMantenimiento"
+                  name="responsableMantenimiento"
+                  [(ngModel)]="equipo.responsableMantenimiento"
+                  [placeholder]="'equipos.create.form.maintenanceResponsible.placeholder' | translate"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="activo">{{ 'equipos.create.form.active.label' | translate }}</label>
+                <select
+                  class="form-control"
+                  id="activo"
+                  name="activo"
+                  [(ngModel)]="equipo.activo"
+                >
+                  <option [ngValue]="true">{{ 'common.yes' | translate }}</option>
+                  <option [ngValue]="false">{{ 'common.no' | translate }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- PASO 4: Ubicación y Confirmación -->
+          <div class="step-content" *ngIf="pasoActual === 4">
+            <div class="step-header">
+              <i class="bi bi-geo-alt"></i>
+              <h2>{{ 'equipos.create.location.title' | translate }}</h2>
+              <p>{{ 'equipos.create.location.subtitle' | translate }}</p>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="ubicacionActual">
+                  {{ 'equipos.create.form.currentLocation.label' | translate }} *
+                  <span *ngIf="geocodificando" class="geocoding-badge">
+                    <i class="bi bi-arrow-repeat spin"></i> {{ 'equipos.create.form.currentLocation.searching' | translate }}
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="ubicacionActual"
+                  name="ubicacionActual"
+                  [(ngModel)]="equipo.ubicacionActual"
+                  (ngModelChange)="onUbicacionChange($event)"
+                  [placeholder]="'equipos.create.form.currentLocation.placeholder' | translate"
+                  required
+                />
+                <small class="form-text text-muted">
+                  <i class="bi bi-info-circle"></i> {{ 'equipos.create.form.currentLocation.helper' | translate }}
+                </small>
+              </div>
+
+              <div class="form-group">
+                <label for="seguroVigente">{{ 'equipos.create.form.insurance.label' | translate }}</label>
+                <select
+                  class="form-control"
+                  id="seguroVigente"
+                  name="seguroVigente"
+                  [(ngModel)]="equipo.seguroVigente"
+                >
+                  <option value="">{{ 'equipos.create.form.insurance.placeholder' | translate }}</option>
+                  <option [ngValue]="true">{{ 'common.yes' | translate }}</option>
+                  <option [ngValue]="false">{{ 'common.no' | translate }}</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="latitud">{{ 'equipos.create.form.lat.label' | translate }}</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="latitud"
+                  name="latitud"
+                  [(ngModel)]="equipo.latitud"
+                  step="0.000001"
+                  [placeholder]="'equipos.create.form.lat.placeholder' | translate"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="longitud">{{ 'equipos.create.form.lng.label' | translate }}</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="longitud"
+                  name="longitud"
+                  [(ngModel)]="equipo.longitud"
+                  step="0.000001"
+                  [placeholder]="'equipos.create.form.lng.placeholder' | translate"
+                />
+              </div>
+            </div>
+
+            <!-- Resumen -->
+            <div class="summary-section">
+              <h3><i class="bi bi-clipboard-check"></i> {{ 'equipos.create.summary.title' | translate }}</h3>
+              <div class="summary-grid">
+                <div class="summary-item">
+                  <strong>{{ 'equipos.create.form.name.label' | translate }}</strong>
+                  <span>{{ equipo.nombre || '-' }}</span>
+                </div>
+                <div class="summary-item">
+                  <strong>{{ 'equipos.create.form.code.label' | translate }}</strong>
+                  <span>{{ equipo.codigoInterno || '-' }}</span>
+                </div>
+                <div class="summary-item">
+                  <strong>{{ 'equipos.create.form.serial.label' | translate }}</strong>
+                  <span>{{ equipo.numeroSerie || '-' }}</span>
+                </div>
+                <div class="summary-item">
+                  <strong>{{ 'equipos.create.form.year.label' | translate }}</strong>
+                  <span>{{ equipo.anioFabricacion || '-' }}</span>
+                </div>
+                <div class="summary-item">
+                  <strong>{{ 'equipos.create.form.power.label' | translate }}</strong>
+                  <span>{{ equipo.potenciaHp ? equipo.potenciaHp + ' HP' : '-' }}</span>
+                </div>
+                <div class="summary-item">
+                  <strong>{{ 'equipos.create.form.operationalStatus.label' | translate }}</strong>
+                  <span>{{ equipo.estadoOperativo || '-' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="wizard-navigation">
+        <button
+          type="button"
+          class="btn-prev"
+          (click)="pasoAnterior()"
+          [disabled]="pasoActual === 1"
+        >
+          <i class="bi bi-arrow-left"></i>
+          {{ 'equipos.create.actions.prev' | translate }}
+        </button>
+
+        <div class="step-indicator">
+          {{ 'equipos.create.steps.indicator' | translate:{ current: pasoActual, total: totalPasos } }}
+        </div>
+
+        <button
+          type="button"
+          class="btn-next"
+          (click)="siguientePaso()"
+          *ngIf="pasoActual < totalPasos"
+        >
+          {{ 'equipos.create.actions.next' | translate }}
+          <i class="bi bi-arrow-right"></i>
+        </button>
+
+        <button
+          type="button"
+          class="btn-save"
+          (click)="guardar()"
+          *ngIf="pasoActual === totalPasos"
+        >
+          <i class="bi bi-check-lg"></i>
+          {{ modoEdicion ? ('equipos.create.actions.update' | translate) : ('equipos.create.actions.save' | translate) }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span>{{ 'equipos.create.footer.copy' | translate }}</span>
+    <span class="version">v1.0.0</span>
+  </footer>
+</div>
+
+<!-- Modal Crear Marca -->
+<div class="modal fade" id="modalMarca" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="bi bi-plus-circle"></i> {{ 'equipos.create.modal.brand.title' | translate }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">{{ 'equipos.create.modal.brand.nameLabel' | translate }}</label>
+        <input
+          type="text"
+          maxlength="30"
+          class="form-control"
+          [placeholder]="'equipos.create.modal.brand.namePlaceholder' | translate"
+          [(ngModel)]="nuevaMarca"
+          name="nuevaMarca"
+        />
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">{{ 'common.cancel' | translate }}</button>
+        <button
+          class="btn btn-primary"
+          (click)="crearMarca()"
+          [disabled]="!nuevaMarca?.trim()"
+          data-bs-dismiss="modal"
+        >
+          {{ 'equipos.create.modal.brand.create' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Crear Modelo -->
+<div class="modal fade" id="modalModelo" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="bi bi-plus-circle"></i> {{ 'equipos.create.modal.model.title' | translate }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">{{ 'equipos.create.modal.model.nameLabel' | translate }}</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="nuevoModelo"
+            [placeholder]="'equipos.create.modal.model.namePlaceholder' | translate"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">{{ 'equipos.create.modal.model.brandLabel' | translate }}</label>
+          <select class="form-select" [(ngModel)]="idMarcaSeleccionada">
+            <option value="">{{ 'equipos.create.modal.model.brandPlaceholder' | translate }}</option>
+            <option *ngFor="let m of marcas" [value]="m.id">{{ m.nombre }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">{{ 'common.cancel' | translate }}</button>
+        <button class="btn btn-primary" (click)="crearModelo()" data-bs-dismiss="modal">
+          {{ 'equipos.create.modal.model.create' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Crear Tipo de Equipo -->
+<div class="modal fade" id="modalTipo" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="bi bi-plus-circle"></i> {{ 'equipos.create.modal.type.title' | translate }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">{{ 'equipos.create.modal.type.nameLabel' | translate }}</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="nuevoTipo"
+            [placeholder]="'equipos.create.modal.type.namePlaceholder' | translate"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">{{ 'equipos.create.modal.type.prefixLabel' | translate }}</label>
+          <input
+            type="text"
+            class="form-control"
+            maxlength="4"
+            style="text-transform: uppercase;"
+            [(ngModel)]="nuevoPrefijo"
+            [placeholder]="'equipos.create.modal.type.prefixPlaceholder' | translate"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">{{ 'equipos.create.modal.type.descriptionLabel' | translate }}</label>
+          <textarea
+            rows="2"
+            class="form-control"
+            [(ngModel)]="nuevaDescripcion"
+            [placeholder]="'equipos.create.modal.type.descriptionPlaceholder' | translate"
+          ></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">{{ 'common.cancel' | translate }}</button>
+        <button class="btn btn-primary" (click)="crearTipo()" data-bs-dismiss="modal">
+          {{ 'equipos.create.modal.type.create' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

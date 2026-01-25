@@ -1,0 +1,40 @@
+
+<div class="login-page">
+
+
+  <div class="overlay"></div>
+
+  <div class="container">
+    <!-- Columna izquierda -->
+    <div class="welcome-section">
+      <h1>{{ 'auth.login.welcome' | translate }}</h1>
+      
+    
+    </div>
+
+    <!-- Columna derecha -->
+    <div class="form-section">
+      <h2>{{ 'auth.login.title' | translate }}</h2>
+      <form (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+        <label class="form-label">{{ 'auth.login.username.label' | translate }}</label>
+        <input type="text" [(ngModel)]="username" name="username" class="form-control" [placeholder]="'auth.login.username.placeholder' | translate" required />
+        <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+      </div>
+
+        <div class="mb-3">
+        <label class="form-label">{{ 'auth.login.password.label' | translate }}</label>
+        <input type="password" [(ngModel)]="password" name="password" class="form-control"  [placeholder]="'auth.login.password.placeholder' | translate" required />
+        </div>
+        <button type="submit" [disabled]="loading">{{ loading ? ('auth.login.actions.loading' | translate) : ('auth.login.actions.submit' | translate) }}</button>
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+        <div class="text-center mt-3">
+        <a routerLink="/auth/reset-password" class="text-decoration">{{ 'auth.login.forgot' | translate }}</a>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+
+</div>
+

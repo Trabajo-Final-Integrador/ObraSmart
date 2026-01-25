@@ -1,0 +1,120 @@
+﻿<div class="modal-backdrop" (click)="cancelar()">
+    <div class="modal" (click)="$event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="modal-header">
+      <h2>{{ 'users.modal.title' | translate }}</h2>
+      <button class="close-btn" (click)="cancelar()">✕</button>
+    </div>
+
+    <div class="modal-body">
+    <!-- Form -->
+    <form class="modal-form" (ngSubmit)="guardarCambios()">
+
+      <!-- Email -->
+      <div class="form-group">
+        <label>{{ 'users.modal.email.label' | translate }} <span class="required">*</span></label>
+        <input
+          type="email"
+          [(ngModel)]="usuario.email"
+          name="email"
+          [placeholder]="'users.modal.email.placeholder' | translate"
+          required
+          [disabled]="soloLectura"
+        />
+      </div>
+
+      <!-- Username -->
+      <div class="form-group">
+        <label>{{ 'users.modal.username.label' | translate }} <span class="required">*</span></label>
+        <input
+          type="text"
+          [(ngModel)]="usuario.username"
+          name="username"
+          required
+          [disabled]="soloLectura"
+        />
+      </div>
+
+      <!-- Rol -->
+      <div class="form-group">
+        <label>{{ 'users.modal.role.label' | translate }}</label>
+        <select [(ngModel)]="usuario.role" name="role" [disabled]="soloLectura">
+          <option value="ADMINISTRACION">ADMINISTRACIÓN</option>
+          <option value="TECNICO">TÉCNICO</option>
+          <option value="OPERARIO">OPERARIO</option>
+        </select>
+      </div>
+
+      <!-- Estado -->
+      <div class="form-group">
+        <label>{{ 'users.modal.status.label' | translate }}</label>
+        <select [(ngModel)]="usuario.status" name="status" [disabled]="soloLectura">
+          <option value="ACTIVO">ACTIVO</option>
+          <option value="INACTIVO">INACTIVO</option>
+        </select>
+      </div>
+
+      <!-- Botones -->
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" (click)="cancelar()">
+          {{ 'common.cancel' | translate }}
+        </button>
+
+        <button type="submit" class="btn-save">
+          {{ 'users.modal.actions.save' | translate }}
+        </button>
+      </div>
+    </form>
+
+    <div class="upload-section">
+      <h3>{{ 'users.modal.upload.title' | translate }}</h3>
+
+      <div class="upload-grid">
+        <div class="upload-card">
+          <div class="label-row">
+            <span>{{ 'users.modal.upload.profile' | translate }}</span>
+            <button type="button" class="btn-upload" (click)="upload('profile')" [disabled]="!files['profile'] || !usuario?.id || uploading['profile']">{{ 'users.modal.upload.upload' | translate }}</button>
+          </div>
+          <div class="preview">
+            <img [src]="previews['profile'] || placeholderData" (error)="imgFallback($event, 'profile')" [alt]="'users.modal.upload.profile' | translate" />
+          </div>
+          <div class="file-row">
+            <label class="file-label">
+              <input
+                type="file"
+                accept=".png,.jpg,.jpeg,.webp"
+                (change)="selectFile($event, 'profile')"
+              />
+              <span>{{ 'users.modal.upload.choose' | translate }}</span>
+            </label>
+            <span class="file-name">{{ files['profile']?.name || ('users.modal.upload.noFile' | translate) }}</span>
+          </div>
+        </div>
+
+        <div class="upload-card" *ngFor="let slot of slots">
+          <div class="label-row">
+            <span>{{ 'users.modal.upload.credential' | translate:{ number: slot.slice(-1) } }}</span>
+            <button type="button" class="btn-upload" (click)="upload(slot)" [disabled]="true" [title]="'users.modal.upload.pending' | translate">{{ 'users.modal.upload.upload' | translate }}</button>
+          </div>
+          <div class="preview">
+            <img [src]="previews[slot] || placeholderData" (error)="imgFallback($event, slot)" [alt]="slot" />
+          </div>
+          <div class="file-row">
+            <label class="file-label">
+              <input
+                type="file"
+                accept=".png,.jpg,.jpeg,.webp"
+                (change)="selectFile($event, slot)"
+              />
+              <span>{{ 'users.modal.upload.choose' | translate }}</span>
+            </label>
+            <span class="file-name">{{ files[slot]?.name || ('users.modal.upload.noFile' | translate) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+</div>

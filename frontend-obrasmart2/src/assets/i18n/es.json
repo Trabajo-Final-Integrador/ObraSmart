@@ -1,0 +1,1144 @@
+{
+  "logout": "Cerrar sesión",
+  "common": {
+    "cancel": "Cancelar",
+    "back": "Volver",
+    "backHome": "Volver al inicio",
+    "noData": "Sin datos",
+    "actions": "Acciones",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "view": "Ver",
+    "warning": "Atención",
+    "error": "Error",
+    "yes": "Sí",
+    "no": "No",
+    "terms": "Términos",
+    "privacy": "Privacidad",
+    "support": "Soporte",
+    "firstPage": "Primera página",
+    "prevPage": "Anterior",
+    "nextPage": "Siguiente",
+    "lastPage": "Última página",
+    "pageIndicator": "Página {{page}} de {{total}}",
+    "close": "Cerrar"
+  },
+  "orders": {
+    "list": {
+      "title": "Órdenes de Compra",
+      "subtitle": "Gestiona las órdenes de compra a proveedores",
+      "loading": "Cargando órdenes...",
+      "empty": "No se encontraron órdenes registradas",
+      "actions": {
+        "new": "Nueva Orden"
+      }
+    },
+    "table": {
+      "number": "N° Orden",
+      "supplier": "Proveedor",
+      "date": "Fecha",
+      "items": "Ítems",
+      "total": "Total",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "approved": "Aprobada",
+      "received": "Recibida",
+      "canceled": "Cancelada",
+      "pendiente": "Pendiente",
+      "aprobada": "Aprobada",
+      "recibida": "Recibida",
+      "cancelada": "Cancelada"
+    },
+    "form": {
+      "title": "Nueva Orden de Compra",
+      "subtitle": "Complete los datos para crear una nueva orden de compra",
+      "sections": {
+        "supplier": "Información del Proveedor",
+        "items": "Agregar Repuestos"
+      },
+      "fields": {
+        "supplier": "Proveedor",
+        "part": "Repuesto",
+        "qty": "Cantidad",
+        "unitPrice": "Precio Unitario",
+        "subtotal": "Subtotal"
+      },
+      "labels": {
+        "total": "Total"
+      }
+    },
+    "actions": {
+      "new": "Nueva Orden",
+      "addItem": "Agregar",
+      "create": "Crear Orden de Compra",
+      "cancel": "Cancelar",
+      "saving": "Guardando...",
+      "view": "Ver detalle",
+      "approve": "Aprobar",
+      "receive": "Recibir",
+      "export": "Exportar PDF",
+      "back": "Volver al listado"
+    },
+    "detail": {
+      "title": "Detalle de Orden de Compra",
+      "subtitle": "Orden #{{id}}",
+      "loading": "Cargando orden...",
+      "sections": {
+        "supplier": "Información del Proveedor",
+        "items": "Detalle de Ítems",
+        "observations": "Observaciones",
+        "signatures": "Firmas",
+        "document": "Documento"
+      },
+      "table": {
+        "index": "#",
+        "part": "Repuesto",
+        "qty": "Cantidad",
+        "unitPrice": "Precio Unit.",
+        "subtotal": "Subtotal",
+        "total": "TOTAL GENERAL"
+      },
+      "status": {
+        "title": "Estado de Orden",
+        "pending": "Pendiente",
+        "approved": "Aprobada",
+        "received": "Recibida",
+        "canceled": "Cancelada"
+      },
+      "notes": {
+        "confirm": "Esta orden de compra debe ser confirmada con el proveedor antes de proceder con el envío.",
+        "prices": "Los precios incluyen IVA y están sujetos a cambios según disponibilidad."
+      },
+      "signatures": {
+        "authorized": "Autorizado por",
+        "received": "Recibido conforme"
+      },
+      "footer": {
+        "generated": "Documento generado electrónicamente el {{date}}",
+        "legal": "Este documento es válido sin firma ni sello. ObraSmart - Sistema de Gestión de Mantenimiento"
+      },
+      "actions": {
+        "back": "Volver",
+        "export": "Exportar PDF"
+      },
+      "empty": {
+        "title": "No se encontró la orden",
+        "description": "La orden de compra solicitada no existe o fue eliminada",
+        "back": "Volver al listado"
+      }
+    }
+  },
+  "repairs": {
+    "dashboard": {
+      "title": "Centro de Reparaciones",
+      "total": "Total Reparaciones",
+      "totalHint": "+2 desde la semana pasada",
+      "inMaintenance": "En Mantenimiento",
+      "inMaintenanceHint": "Requieren atención activa",
+      "outOfService": "Fuera de Servicio",
+      "outOfServiceHint": "Equipos críticos detenidos",
+      "doneThisMonth": "Finalizadas (Mes)",
+      "doneHint": "+12% eficiencia operativa",
+      "recent": {
+        "title": "Reparaciones Recientes",
+        "viewAll": "Ver todas",
+        "empty": "No hay reparaciones registradas"
+      },
+      "fleet": {
+        "title": "Estado de la Flota",
+        "operational": "Operativa",
+        "inReview": "En Revisión",
+        "critical": "Críticos"
+      }
+    },
+    "table": {
+      "photo": "Foto",
+      "code": "Código",
+      "equipment": "Equipo",
+      "description": "Descripción",
+      "responsible": "Responsable",
+      "status": "Estado",
+      "startDate": "Fecha Inicio",
+      "noDescription": "(sin descripción)"
+    },
+    "list": {
+      "title": "Listado de Reparaciones",
+      "searchPlaceholder": "Buscar por equipo, código o responsable...",
+      "loading": "Cargando reparaciones...",
+      "noDescription": "(sin descripción)"
+    },
+    "empty": {
+      "noData": "No hay reparaciones registradas."
+    },
+    "actions": {
+      "new": "Nueva Reparación",
+      "cancel": "Cancelar",
+      "view": "Ver detalle",
+      "start": "Iniciar",
+      "finish": "Finalizar"
+    },
+    "status": {
+      "created": "Creada",
+      "inProgress": "En proceso",
+      "paused": "Pausada",
+      "done": "Finalizada",
+      "canceled": "Cancelada"
+    },
+    "form": {
+      "imageAlt": "Imagen de la reparación",
+      "imagePlaceholder": "Elegir archivo (max 5MB)",
+      "upload": "Subir imagen",
+      "uploading": "Subiendo...",
+      "equipment": {
+        "label": "Equipo",
+        "placeholder": "Seleccionar equipo..."
+      },
+      "maintenance": {
+        "label": "Tipo de Mantenimiento",
+        "placeholder": "Seleccionar...",
+        "corrective": "Correctivo",
+        "preventive": "Preventivo",
+        "predictive": "Predictivo"
+      },
+      "responsible": {
+        "label": "Responsable",
+        "placeholder": "Seleccionar técnico..."
+      },
+      "status": {
+        "label": "Estado de la Reparación",
+        "placeholder": "Seleccionar estado..."
+      },
+      "address": {
+        "label": "Ubicación / Dirección",
+        "placeholder": "Ej: Av. Principal 123, Obra Central"
+      },
+      "description": {
+        "label": "Descripción del Problema",
+        "placeholder": "Describe detalladamente el problema..."
+      },
+      "startDate": {
+        "label": "Fecha de Inicio"
+      },
+      "actions": {
+        "saveChanges": "Guardar Cambios",
+        "save": "Guardar Reparación"
+      },
+      "alert": {
+        "invalidFileTitle": "Archivo inválido",
+        "uploadSuccess": "Imagen subida",
+        "uploadErrorTitle": "Error",
+        "uploadErrorText": "No se pudo subir la imagen"
+      }
+    },
+    "detail": {
+      "title": "Detalle de Reparación",
+      "subtitle": "Visualiza los detalles de la reparación",
+      "equipment": "Equipo",
+      "code": "Código",
+      "description": "Descripción",
+      "responsible": "Responsable",
+      "status": "Estado",
+      "statusLabel": "Estado:",
+      "startDate": "Fecha inicio",
+      "maintenance": "Tipo de Mantenimiento",
+      "address": "Ubicación",
+      "addressUnknown": "No especificada",
+      "noAddress": "No especificada",
+      "tracking": "Información de Seguimiento",
+      "createdAt": "Fecha Creación:",
+      "startAt": "Fecha Inicio:",
+      "endAt": "Fecha Fin:",
+      "updatedAt": "Última Actualización:",
+      "notStarted": "No iniciada",
+      "notFinished": "No finalizada",
+      "actions": {
+        "close": "Cerrar"
+      },
+      "statusLabels": {
+        "created": "Creada",
+        "creada": "Creada",
+        "en_proceso": "En proceso",
+        "finalizada": "Finalizada",
+        "cancelada": "Cancelada",
+        "pausada": "Pausada",
+        "inProgress": "En proceso",
+        "paused": "Pausada",
+        "done": "Finalizada",
+        "canceled": "Cancelada"
+      },
+      "upload": {
+        "title": "Subir imagen",
+        "fileLabel": "Elegir archivo (max 5MB)",
+        "uploadBtn": "Subir",
+        "uploading": "Subiendo...",
+        "urlPlaceholder": "Pegar URL (http/https)",
+        "saveLinkBtn": "Guardar link",
+        "saving": "Guardando...",
+        "maxSizeHint": "Imágenes hasta 5MB. Formatos: JPG, PNG, WEBP.",
+        "success": "Imagen subida",
+        "error": "Error al subir la imagen",
+        "linkSaved": "Link guardado",
+        "errorLink": "Error al guardar el link",
+        "invalidFile": "Imagen inválida. Usa JPG, PNG o WEBP hasta 5MB."
+      }
+    },
+    "edit": {
+      "title": "Editar Información de la Reparación",
+      "subtitle": "Modifica los detalles de la reparación"
+    },
+    "create": {
+      "title": "Nueva Reparación"
+    },
+    "loading": "Cargando...",
+    "loadingDetail": "Cargando información de la reparación...",
+    "alert": {
+      "loadErrorTitle": "Error al cargar reparaciones",
+      "loadErrorText": "No se pudieron cargar las reparaciones.",
+      "loadErrorDetail": "No se pudo cargar la información de la reparación.",
+      "cancel": {
+        "title": "¿Cancelar reparación?",
+        "text": "Esta acción marcará la reparación como cancelada.",
+        "confirm": "Sí, cancelar",
+        "successTitle": "Reparación cancelada",
+        "successText": "La reparación ha sido cancelada correctamente.",
+        "errorTitle": "Error al cancelar",
+        "errorText": "No se pudo cancelar la reparación."
+      },
+      "missingFields": {
+        "title": "Campos incompletos",
+        "text": "Por favor completa todos los campos requeridos."
+      },
+      "updateSuccessTitle": "Reparación actualizada",
+      "updateSuccessText": "Los cambios han sido guardados correctamente.",
+      "updateErrorTitle": "Error al actualizar",
+      "updateErrorText": "No se pudo actualizar la reparación.",
+      "state": {
+        "startTitle": "Iniciar reparación",
+        "startText": "La reparación cambiará a estado EN PROCESO.",
+        "finishTitle": "Finalizar reparación",
+        "finishText": "La reparación se marcará como FINALIZADA.",
+        "defaultTitle": "Cambiar estado",
+        "defaultText": "¿Deseas continuar?",
+        "confirm": "Sí, continuar",
+        "successTitle": "Estado actualizado",
+        "successText": "El estado de la reparación ha sido actualizado.",
+        "errorTitle": "Error",
+        "errorText": "No se pudo cambiar el estado."
+      },
+      "createSuccessTitle": "Reparación creada",
+      "createSuccessText": "La reparación fue registrada correctamente.",
+      "createErrorTitle": "Error al crear reparación",
+      "createErrorText": "Ocurrió un error inesperado."
+    }
+  },
+  "navbar": {
+    "config": "Configuración",
+    "theme": "Tema visual",
+    "map": {
+      "label": "Mapa",
+      "themes": {
+        "carto-positron": "Carto Positron (Light)",
+        "carto-darkmatter": "Carto DarkMatter",
+        "osm-classic": "OSM Clásico",
+        "carto-voyager": "Satélite moderno",
+        "opentopo": "OpenTopoMap",
+        "osm-hot": "OSM Humanitario (HOT)"
+      }
+    }
+  },
+  "stock": {
+    "dashboard": {
+      "title": "Indicadores de Stock",
+      "totalItems": "Total Repuestos",
+      "totalHint": "Inventario total",
+      "lowStock": "Stock Bajo",
+      "lowStockHint": "Requieren reposición",
+      "movementsToday": "Movimientos Hoy",
+      "movementsHint": "Entradas y salidas",
+      "pendingOrders": "Órdenes Pendientes",
+      "pendingOrdersHint": "En proceso",
+      "quick": {
+        "title": "Acceso Rápido",
+        "subtitle": "Atajos a las secciones de stock"
+      },
+      "alerts": {
+        "title": "Alertas de Stock",
+        "subtitle": "Repuestos por debajo del mínimo",
+        "empty": "No hay alertas"
+      }
+    },
+    "items": {
+      "title": "Gestión de Repuestos",
+      "subtitle": "Altas, ediciones y búsqueda",
+      "new": "Nuevo Repuesto",
+      "searchPlaceholder": "Buscar por código o nombre...",
+      "filter": "Filtrar",
+      "loading": "Cargando repuestos...",
+      "emptySearch": "No se encontraron repuestos que coincidan con \"{{query}}\"",
+      "noData": "No hay repuestos registrados.",
+      "headers": {
+        "photo": "Foto",
+        "code": "Código",
+        "name": "Nombre",
+        "currentStock": "Stock Actual",
+        "unit": "Unidad",
+        "minStock": "Stock Mínimo",
+        "status": "Estado",
+        "actions": "Acciones"
+      }
+    },
+    "partDetail": {
+      "code": "Código",
+      "stock": "Stock",
+      "minStock": "Stock mínimo",
+      "unit": "Unidad",
+      "category": "Categoría"
+    },
+    "upload": {
+      "chooseFile": "Elegir archivo (max 5MB)",
+      "uploading": "Subiendo...",
+      "upload": "Subir"
+    },
+    "spareForm": {
+      "titleNew": "Nuevo Repuesto",
+      "titleEdit": "Editar Repuesto",
+      "subtitleNew": "Complete los datos para crear un nuevo repuesto",
+      "subtitleEdit": "Modifica los detalles del repuesto en el inventario",
+      "loading": "Cargando información del repuesto...",
+      "fields": {
+        "code": "Código",
+        "category": "Categoría",
+        "name": "Nombre del Repuesto",
+        "unit": "Unidad de Medida",
+        "stock": "Stock Inicial",
+        "stockCurrent": "Stock Actual",
+        "stockMin": "Stock Mínimo"
+      },
+      "placeholders": {
+        "code": "Ej: REP-001",
+        "category": "Seleccionar...",
+        "name": "Ej: Filtro de aceite",
+        "unit": "Seleccionar...",
+        "stock": "0",
+        "stockMin": "0"
+      },
+      "actions": {
+        "back": "Volver",
+        "cancel": "Cancelar",
+        "save": "Guardar Repuesto",
+        "saving": "Guardando...",
+        "update": "Actualizar Repuesto",
+        "updating": "Actualizando..."
+      },
+      "modal": {
+        "title": "Nueva Categoría",
+        "label": "Nombre de la categoría",
+        "placeholder": "Ej: Transmisión",
+        "cancel": "Cancelar",
+        "save": "Guardar"
+      }
+    },
+    "spareDetail": {
+      "fallbackName": "Repuesto",
+      "code": "Código"
+    },
+    "suppliers": {
+      "title": "Gestión de Proveedores",
+      "subtitle": "Altas, ediciones y contactos",
+      "new": "Nuevo Proveedor",
+      "detailTitle": "Detalle de Proveedor",
+      "searchPlaceholder": "Buscar por razón social, especialidad o contacto...",
+      "filters": {
+        "all": "Todos los estados",
+        "active": "Activos",
+        "inactive": "Inactivos"
+      },
+      "loading": "Cargando proveedores...",
+      "empty": "No se encontraron proveedores",
+      "headers": {
+        "name": "Razón Social",
+        "specialty": "Especialidad",
+        "contact": "Contacto",
+        "status": "Estado",
+        "actions": "Acciones"
+      }
+    },
+    "movements": {
+      "title": "Movimientos de Stock",
+      "subtitle": "Historial de entradas y salidas del inventario",
+      "new": "Registrar Movimiento",
+      "loading": "Cargando movimientos...",
+      "table": {
+        "datetime": "Fecha y Hora",
+        "part": "Repuesto",
+        "type": "Tipo",
+        "quantity": "Cantidad",
+        "note": "Observación"
+      }
+    },
+    "movementForm": {
+      "title": "Nuevo Movimiento",
+      "subtitle": "Registra una entrada o salida de stock para un repuesto específico",
+      "part": "Repuesto",
+      "selectPart": "Seleccionar repuesto",
+      "type": "Tipo de Movimiento",
+      "selectType": "Seleccionar tipo",
+      "typeIn": "Entrada",
+      "typeOut": "Salida",
+      "quantity": "Cantidad",
+      "quantityPlaceholder": "Ej: 10",
+      "note": "Observación",
+      "noteOptional": "(opcional)",
+      "notePlaceholder": "Motivo del movimiento, proveedor, cliente, etc.",
+      "submit": "Registrar Movimiento"
+    },
+    "orders": {
+      "title": "Órdenes de Compra",
+      "subtitle": "Nuevas órdenes y seguimiento",
+      "new": "Nueva Orden de Compra"
+    }
+  },
+  "providers": {
+    "list": {
+      "title": "Gestión de Proveedores",
+      "searchPlaceholder": "Buscar por razón social, especialidad o contacto...",
+      "filters": {
+        "allStates": "Todos los estados"
+      },
+      "actions": {
+        "new": "Nuevo Proveedor"
+      },
+      "loading": "Cargando proveedores...",
+      "empty": "No se encontraron proveedores"
+    },
+    "table": {
+      "companyName": "Razón Social",
+      "specialty": "Especialidad",
+      "contact": "Contacto",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo"
+    },
+    "tabs": {
+      "general": "General",
+      "contact": "Contacto",
+      "commercial": "Comercial",
+      "catalog": "Catálogo",
+      "bank": "Datos Bancarios",
+      "notes": "Observaciones"
+    },
+    "form": {
+      "createTitle": "Nuevo Proveedor",
+      "editTitle": "Editar Proveedor",
+      "subtitle": "Complete la información en cada uno de los pasos",
+      "loading": "Cargando datos del proveedor..."
+    },
+    "actions": {
+      "back": "Volver",
+      "next": "Siguiente",
+      "prev": "Anterior",
+      "save": "Guardar Proveedor",
+      "cancel": "Cancelar"
+    },
+    "fields": {
+      "companyName": "Razón Social",
+      "tradeName": "Nombre Comercial",
+      "taxId": "CUIT",
+      "taxCondition": "Condición IVA",
+      "status": "Estado",
+      "phone": "Teléfono Principal",
+      "email": "Email",
+      "schedule": "Horario de Atención",
+      "address": "Dirección",
+      "city": "Ciudad",
+      "state": "Provincia",
+      "zip": "Código Postal",
+      "contactPerson": "Persona de Contacto",
+      "specialty": "Especialidad",
+      "deliveryTime": "Tiempo de Entrega (días)",
+      "brands": "Marcas que distribuye",
+      "addBrand": "Agregar marca...",
+      "minOrder": "Pedido Mínimo ($)",
+      "volumeDiscount": "Descuento por Volumen (%)",
+      "paymentTerms": "Condiciones de Pago",
+      "hasStock": "Tiene stock propio",
+      "ships": "Hace envíos",
+      "returns": "Acepta devoluciones",
+      "coverage": "Zona de Cobertura",
+      "catalogTitle": "Catálogo digital",
+      "catalogDescription": "Comparte el enlace y tu código de cliente para agilizar las compras.",
+      "hasCatalog": "Tiene catálogo digital",
+      "catalogUrl": "URL del Catálogo",
+      "catalogCode": "Código de Cliente",
+      "bank": "Banco",
+      "accountType": "Tipo de Cuenta",
+      "cbu": "CBU / CVU / Alias",
+      "notes": "Notas y Observaciones"
+    },
+    "placeholders": {
+      "companyName": "Ej: Distribuidora Argentina S.A.",
+      "tradeName": "Ej: Casa del Repuesto",
+      "taxId": "XX-XXXXXXXX-X",
+      "phone": "Ej: +54 9 351 123-4567",
+      "email": "Ej: contacto@proveedor.com",
+      "schedule": "Ej: Lunes a Viernes 8:00 a 18:00",
+      "address": "Ej: Av. Colón 1234",
+      "city": "Ej: Córdoba",
+      "state": "Seleccionar...",
+      "zip": "Ej: 5000",
+      "specialty": "Ej: Repuestos hidráulicos",
+      "deliveryTime": "Ej: 3",
+      "addBrand": "Agregar marca...",
+      "coverage": "Ej: Córdoba Capital y alrededores",
+      "catalogUrl": "https://tu-catalogo.com",
+      "catalogUrlHelp": "Ejemplo: https://proveedor.com/catalogo",
+      "catalogCode": "Ej: VIAL-001",
+      "catalogCodeHelp": "Código asignado por el proveedor.",
+      "bank": "Ej: Banco Nación, Banco Provincia...",
+      "accountType": "Seleccionar tipo de cuenta...",
+      "taxCondition": "Seleccionar...",
+      "cbu": "Ingrese CBU (22 dígitos), CVU o Alias bancario",
+      "cbuHelp": "El CBU debe tener 22 dígitos numéricos",
+      "notes": "Información adicional sobre el proveedor..."
+    },
+    "detail": {
+      "title": "Detalle del Proveedor",
+      "loading": "Cargando proveedor...",
+      "empty": "Proveedor no encontrado",
+      "sections": {
+        "general": "Información General",
+        "contact": "Contacto",
+        "address": "Dirección",
+        "commercial": "Información Comercial",
+        "catalog": "Catálogo",
+        "bank": "Datos Bancarios",
+        "notes": "Observaciones"
+      },
+      "actions": {
+        "close": "Cerrar"
+      }
+    }
+  },
+  "equipos": {
+    "detail": {
+      "noType": "Sin tipo",
+      "noStatus": "Sin estado",
+      "fallbackName": "Equipo",
+      "code": "Código",
+      "loading": "Cargando detalles...",
+      "general": "Datos generales",
+      "type": "Tipo",
+      "brand": "Marca",
+      "model": "Modelo",
+      "status": "Estado",
+      "serial": "Serie",
+      "internalCode": "Código interno",
+      "location": "Ubicación",
+      "latlng": "Lat / Lng",
+      "description": "Descripción",
+      "noLocation": "Sin ubicación"
+    },
+    "upload": {
+      "title": "Subir imagen",
+      "chooseFile": "Elegir archivo (max 5MB)",
+      "uploading": "Subiendo...",
+      "upload": "Subir",
+      "linkPlaceholder": "Pegar URL (http/https)",
+      "saving": "Guardando...",
+      "saveLink": "Guardar link"
+    },
+    "list": {
+      "title": "Listado de Equipos",
+      "searchPlaceholder": "Buscar por código, nombre, marca, modelo o tipo",
+      "empty": {
+        "noResults": "No se encontraron equipos que coincidan con \"{{query}}\"",
+        "noData": "No hay equipos registrados."
+      }
+    },
+    "table": {
+      "photo": "Img",
+      "code": "Código Interno",
+      "name": "Nombre",
+      "brand": "Marca",
+      "model": "Modelo",
+      "type": "Tipo",
+      "status": "Estado"
+    },
+    "actions": {
+      "new": "Nuevo Equipo",
+      "view": "Ver detalles"
+    },
+    "alert": {
+      "delete": {
+        "title": "¿Estás seguro?",
+        "text": "Se eliminará el equipo \"{{name}}\" ({{code}})",
+        "confirm": "Sí, eliminar",
+        "successTitle": "Equipo eliminado",
+        "successText": "El equipo fue eliminado correctamente",
+        "error": "No se pudo eliminar el equipo. Puede estar relacionado con otros registros."
+      }
+    },
+    "create": {
+      "titleNew": "Crear Nuevo Equipo",
+      "titleEdit": "Editar Equipo",
+      "steps": {
+        "basic": "Información Básica",
+        "specs": "Especificaciones",
+        "status": "Estado y Operación",
+        "location": "Ubicación y Confirmar",
+        "indicator": "Paso {{current}} de {{total}}"
+      },
+      "basic": {
+        "title": "Información Básica",
+        "subtitle": "Ingrese los datos principales del equipo"
+      },
+      "specs": {
+        "title": "Especificaciones Técnicas",
+        "subtitle": "Defina las características técnicas del equipo"
+      },
+      "status": {
+        "title": "Estado y Operación",
+        "subtitle": "Configure el estado operativo y mantenimiento"
+      },
+      "location": {
+        "title": "Ubicación e Información Adicional",
+        "subtitle": "Complete los datos de ubicación y confirme la información"
+      },
+      "form": {
+        "name": {
+          "label": "Nombre",
+          "placeholder": "Ej: Excavadora Principal"
+        },
+        "code": {
+          "label": "Código Interno",
+          "placeholder": "Ej: EXC-001"
+        },
+        "serial": {
+          "label": "Número de Serie",
+          "placeholder": "Ej: NS123456789"
+        },
+        "brand": {
+          "label": "Marca",
+          "placeholder": "Seleccione una marca..."
+        },
+        "model": {
+          "label": "Modelo",
+          "placeholder": "Seleccione un modelo..."
+        },
+        "type": {
+          "label": "Tipo de Equipo",
+          "placeholder": "Seleccione un tipo..."
+        },
+        "year": {
+          "label": "Año de Fabricación",
+          "placeholder": "Ej: 2020"
+        },
+        "fuel": {
+          "label": "Combustible",
+          "placeholder": "Seleccione...",
+          "diesel": "Diésel",
+          "gasoline": "Gasolina"
+        },
+        "power": {
+          "label": "Potencia (HP)",
+          "placeholder": "Ej: 150.5"
+        },
+        "operationalStatus": {
+          "label": "Estado Operativo",
+          "placeholder": "Seleccione un estado...",
+          "available": "Disponible",
+          "assigned": "Asignado",
+          "maintenance": "En Mantenimiento",
+          "out": "Fuera de Servicio"
+        },
+        "lastMaintenance": {
+          "label": "Último Mantenimiento"
+        },
+        "nextMaintenance": {
+          "label": "Próximo Mantenimiento"
+        },
+        "usage": {
+          "label": "Km / Hs de Uso",
+          "placeholder": "Ej: 1500.5"
+        },
+        "maintenanceResponsible": {
+          "label": "Responsable Mantenimiento",
+          "placeholder": "Nombre del responsable"
+        },
+        "active": {
+          "label": "Estado Activo"
+        },
+        "currentLocation": {
+          "label": "Ubicación Actual",
+          "placeholder": "Ej: Buenos Aires, Argentina",
+          "searching": "Buscando coordenadas...",
+          "helper": "Las coordenadas se completarán automáticamente"
+        },
+        "insurance": {
+          "label": "Seguro Vigente",
+          "placeholder": "Seleccione..."
+        },
+        "lat": {
+          "label": "Latitud",
+          "placeholder": "Ej: -34.603722"
+        },
+        "lng": {
+          "label": "Longitud",
+          "placeholder": "Ej: -58.381592"
+        }
+      },
+      "summary": {
+        "title": "Resumen del Equipo"
+      },
+      "actions": {
+        "addBrand": "Agregar nueva marca",
+        "addModel": "Agregar nuevo modelo",
+        "addType": "Agregar nuevo tipo",
+        "prev": "Anterior",
+        "next": "Siguiente",
+        "save": "Guardar Equipo",
+        "update": "Actualizar Equipo"
+      },
+      "footer": {
+        "copy": "© 2025 ObraSmart - Sistema de Gestión"
+      },
+      "modal": {
+        "brand": {
+          "title": "Crear Nueva Marca",
+          "nameLabel": "Nombre de la Marca",
+          "namePlaceholder": "Ej: Caterpillar",
+          "create": "Crear Marca"
+        },
+        "model": {
+          "title": "Crear Nuevo Modelo",
+          "nameLabel": "Nombre del Modelo",
+          "namePlaceholder": "Ej: 308",
+          "brandLabel": "Marca",
+          "brandPlaceholder": "Seleccione marca...",
+          "create": "Crear Modelo"
+        },
+        "type": {
+          "title": "Crear Nuevo Tipo de Equipo",
+          "nameLabel": "Nombre",
+          "namePlaceholder": "Ej: Excavadora",
+          "prefixLabel": "Prefijo (1-4 letras mayúsculas)",
+          "prefixPlaceholder": "EXCV",
+          "descriptionLabel": "Descripción (opcional)",
+          "descriptionPlaceholder": "Descripción del tipo de equipo...",
+          "create": "Crear Tipo"
+        }
+      },
+      "alert": {
+        "loadErrorTitle": "Error",
+        "loadErrorText": "No se pudo cargar el equipo",
+        "coordsFoundTitle": "Coordenadas encontradas",
+        "coordsFoundText": "Lat: {{lat}}, Lon: {{lon}}",
+        "coordsNotFoundTitle": "No se encontraron coordenadas",
+        "coordsNotFoundText": "Intente con una ubicación más específica.",
+        "missingFieldsTitle": "Campos incompletos",
+        "missingFieldsText": "Por favor complete todos los campos requeridos antes de continuar.",
+        "brandSuccessTitle": "¡Marca creada!",
+        "brandSuccessText": "La marca fue registrada correctamente.",
+        "brandErrorTitle": "Error",
+        "brandErrorText": "No se pudo crear la marca. Intente nuevamente.",
+        "modelSuccessTitle": "¡Modelo creado!",
+        "modelErrorTitle": "Error",
+        "modelErrorText": "No se pudo crear el modelo.",
+        "typeSuccessTitle": "Tipo de equipo creado",
+        "typeErrorTitle": "Error",
+        "typeErrorText": "No se pudo crear el tipo de equipo",
+        "updateSuccessTitle": "Equipo actualizado",
+        "updateSuccessText": "Los cambios se guardaron correctamente",
+        "updateErrorTitle": "Error al actualizar equipo",
+        "updateErrorText": "Verificá los datos.",
+        "createSuccessTitle": "Equipo creado",
+        "createSuccessText": "El equipo fue creado correctamente.",
+        "createErrorTitle": "Error al crear equipo",
+        "createErrorText": "Verificá los datos."
+      },
+      "sidebar": {
+        "registerUser": "Registrar Usuario",
+        "listUsers": "Listado de Usuarios",
+        "repairsDashboard": "Panel",
+        "repairsList": "Reparaciones",
+        "stockDashboard": "Panel",
+        "stockRepuestos": "Repuestos",
+      "stockSuppliers": "Proveedores",
+      "stockMoves": "Movimientos",
+      "stockOrders": "Órdenes"
+      }
+    }
+  },
+  "menu": {
+    "main": "Menú Principal",
+    "equipos": "Gestión de Equipos",
+    "reports": "Gestión de Reportes",
+    "obradores": "Gestión de Obradores",
+    "traslados": "Logística / Traslados",
+    "home": "Inicio",
+    "users": {
+      "label": "Gestión de Usuarios",
+      "register": "Registrar Usuario",
+      "list": "Listado de Usuarios"
+    },
+    "repairs": {
+      "label": "Gestión de Reparaciones",
+      "dashboard": "Centro de Reparaciones",
+      "list": "Listado de Reparaciones"
+    },
+    "stock": {
+      "label": "Gestión de Stock",
+      "dashboard": "Indicadores",
+      "spares": "Repuestos",
+      "suppliers": "Proveedores",
+      "movements": "Movimientos",
+      "orders": "Órdenes"
+    }
+  },
+  "auth": {
+    "login": {
+      "welcome": "Bienvenido al Sistema",
+      "title": "Iniciar sesión",
+      "username": {
+        "label": "Usuario",
+        "placeholder": "Ingrese su usuario"
+      },
+      "password": {
+        "label": "Contraseña",
+        "placeholder": "Ingrese su contraseña"
+      },
+      "actions": {
+        "loading": "Ingresando...",
+        "submit": "Ingresar"
+      },
+      "forgot": "¿No recuerda su contraseña?",
+      "errors": {
+        "missingCredentials": "Debe ingresar usuario y contraseña.",
+        "invalidCredentials": "Credenciales inválidas. Verifique su usuario o contraseña.",
+        "connection": "No se pudo conectar con el servidor. Intente nuevamente.",
+        "unexpected": "Ocurrió un error inesperado."
+      }
+    },
+    "reset": {
+      "title": "Recuperar contraseña",
+      "subtitle": "Ingrese su correo electrónico y una nueva contraseña.",
+      "email": {
+        "label": "Correo electrónico",
+        "placeholder": "Ingrese su email"
+      },
+      "password": {
+        "label": "Nueva contraseña",
+        "placeholder": "Nueva contraseña"
+      },
+      "confirm": {
+        "label": "Repetir contraseña",
+        "placeholder": "Repetir contraseña"
+      },
+      "actions": {
+        "loading": "Procesando...",
+        "submit": "Restablecer contraseña"
+      },
+      "backToLogin": "Volver al inicio de sesión",
+      "errors": {
+        "mismatch": "Las contraseñas no coinciden",
+        "unexpected": "Error al restablecer la contraseña"
+      },
+      "success": "Contraseña restablecida correctamente."
+    }
+  },
+  "users": {
+    "list": {
+      "title": "Listado de Usuarios",
+      "searchPlaceholder": "Buscar por usuario, email o rol",
+      "emptySearch": "No se encontraron usuarios que coincidan con \"{{query}}\"",
+      "noData": "No hay usuarios registrados.",
+      "errors": {
+        "invalidId": "No se pudo eliminar: el ID es inválido."
+      },
+      "delete": {
+        "title": "¿Está seguro?",
+        "text": "¿Desea eliminar este usuario?",
+        "confirm": "Sí, eliminar",
+        "success": "Usuario eliminado correctamente",
+        "error": "No se pudo eliminar el usuario"
+      }
+    },
+    "modal": {
+      "title": "Editar Usuario",
+      "email": {
+        "label": "Email",
+        "placeholder": "correo@ejemplo.com"
+      },
+      "username": {
+        "label": "Usuario"
+      },
+      "role": {
+        "label": "Rol",
+        "admin": "Administración",
+        "tech": "Técnico",
+        "worker": "Operario"
+      },
+      "status": {
+        "label": "Estado"
+      },
+      "actions": {
+        "save": "Guardar Cambios"
+      },
+      "upload": {
+        "title": "Fotos y credenciales",
+        "profile": "Foto de perfil",
+        "upload": "Subir",
+        "choose": "Elegir archivo (max 5MB)",
+        "noFile": "Ningún archivo seleccionado",
+        "credential": "Credencial {{number}}",
+        "pending": "Pendiente de backend"
+      },
+      "alert": {
+        "saveSuccess": "Cambios guardados correctamente",
+        "updateError": "No se pudo actualizar el usuario",
+        "fileTooLarge": "Archivo demasiado grande",
+        "maxSize": "Máximo 5MB",
+        "invalidFormat": "Formato inválido",
+        "onlyImages": "Solo imágenes",
+        "uploadSuccess": "Imagen subida",
+        "uploadError": "No se pudo subir la imagen"
+      }
+    },
+    "table": {
+      "photo": "Foto",
+      "email": "Email",
+      "username": "Usuario",
+      "role": "Rol",
+      "status": "Estado"
+    },
+    "form": {
+      "title": "Registrar Usuario",
+      "subtitle": "Complete la información del nuevo usuario",
+      "helper": "Completa los datos para crear un nuevo usuario.",
+      "firstname": {
+        "label": "Nombre",
+        "placeholder": "Ingrese nombre"
+      },
+      "lastname": {
+        "label": "Apellido",
+        "placeholder": "Ingrese apellido"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "usuario@email.com"
+      },
+      "username": {
+        "label": "Usuario",
+        "placeholder": "Ingrese nombre de usuario"
+      },
+      "password": {
+        "label": "Contraseña",
+        "placeholder": "Ingrese contraseña"
+      },
+      "role": {
+        "label": "Rol",
+        "admin": "Administración",
+        "tech": "Técnico",
+        "worker": "Operario"
+      },
+      "status": {
+        "label": "Estado",
+        "active": "Activo",
+        "inactive": "Inactivo"
+      },
+      "notes": {
+        "label": "Observaciones",
+        "placeholder": "Notas opcionales..."
+      },
+      "actions": {
+        "save": "Guardar Usuario"
+      },
+      "alert": {
+        "successTitle": "Usuario creado",
+        "successText": "Ahora puedes iniciar sesión.",
+        "successConfirm": "Ir a login",
+        "errorTitle": "Registro fallido",
+        "errorText": "No se pudo registrar el usuario. Verifica los datos.",
+        "errorConfirm": "Cerrar"
+      }
+    }
+  },
+  "language": {
+    "label": "Idioma",
+    "spanish": "Español",
+    "english": "English"
+  },
+  "chat": {
+    "title": "Asistente ObraSmart",
+    "subtitle": "Consultá sobre equipos, stock y más",
+    "placeholder": "Escribe tu mensaje...",
+    "send": "Enviar",
+    "error": "❌ Error comunicando con el asistente."
+  },
+  "footer": {
+    "terms": "Términos",
+    "privacy": "Privacidad",
+    "support": "Soporte",
+    "copyright": "© 2025 ObraSmart"
+  },
+  "reports": {
+    "title": "Reportes",
+    "subtitle": "Última actualización: {{time}}",
+    "loading": "Cargando reportes...",
+    "actions": {
+      "refresh": "Actualizar",
+      "export": "Exportar"
+    },
+    "filters": {
+      "from": "Desde",
+      "to": "Hasta",
+      "quickRanges": "Rangos rápidos",
+      "activeRange": "Rango activo:"
+    },
+    "ranges": {
+      "last7Days": "Últimos 7 días",
+      "last30Days": "Últimos 30 días",
+      "thisYear": "Este año",
+      "lastYear": "Último año"
+    },
+    "risk": {
+      "title": "Nivel de Riesgo: {{level}}",
+      "level": "Nivel",
+      "description": "Descripción",
+      "note": "Monitoreo necesario: {{text}}",
+      "levels": {
+        "low": "Bajo",
+        "medium": "Medio",
+        "high": "Alto",
+        "critical": "Crítico"
+      }
+    },
+    "cards": {
+      "totalEquipment": "Total Equipos",
+      "totalEquipmentHint": "{{count}} críticos requieren atención",
+      "activeRepairs": "Reparaciones Activas",
+      "activeRepairsHint": "+{{count}} pendientes de inicio",
+      "stockAlerts": "Alertas de Stock",
+      "stockAlertsHint": "Ítems por debajo del mínimo",
+      "avgRepairTime": "Tiempo Medio Reparación",
+      "avgRepairTimeHint": "{{delta}} vs mes anterior",
+      "criticalEquipment": "Equipos Críticos",
+      "criticalEquipmentHint": "Unidades con mayor incidencia de fallas recientes",
+      "stockCritical": "Stock Crítico",
+      "stockCriticalHint": "Repuestos por debajo del mínimo"
+    },
+    "charts": {
+      "repairsTrend": "Tendencia de Reparaciones",
+      "repairsTrendSubtitle": "Solicitudes de servicio en el rango seleccionado",
+      "repairsTrend.note": "Evolución mensual de pedidos de reparación (más alto = más demanda en el período).",
+      "fleetDistribution": "Distribución de Flota",
+      "fleetDistributionSubtitle": "Equipos por tipo de maquinaria"
+    }
+  }
+}

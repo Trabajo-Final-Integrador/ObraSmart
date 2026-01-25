@@ -1,0 +1,185 @@
+<div class="layout-container">
+  <!-- 🔹 NAVBAR SUPERIOR -->
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <button class="menu-btn" routerLink="/stock/repuestos" [title]="'common.back' | translate">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <div class="form-header">
+        <i class="bi bi-pencil-square"></i>
+        <div>
+          <h3>{{ 'stock.spareForm.titleEdit' | translate }}</h3>
+          <p>{{ 'stock.spareForm.subtitleEdit' | translate }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" title="Regresar al inicio">
+        <i class="bi bi-house-door"></i>
+      </button>
+      
+    </div>
+  </header>
+
+  <!-- 🔹 CONTENIDO PRINCIPAL -->
+  <main class="content">
+    <div class="form-container">
+      <div class="form-card">
+        
+
+        <div *ngIf="loading" class="loading-container">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">{{ 'stock.spareForm.loading' | translate }}</span>
+          </div>
+          <p>{{ 'stock.spareForm.loading' | translate }}</p>
+        </div>
+
+        <div *ngIf="!loading">
+          <div class="form-body">
+            <div class="row">
+              <!-- Código -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label">
+                  <i class="bi bi-upc-scan me-2"></i>{{ 'stock.spareForm.fields.code' | translate }} <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="repuesto.codigo"
+                  [placeholder]="'stock.spareForm.placeholders.code' | translate" />
+              </div>
+
+              <!-- Categoría -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label">
+                  <i class="bi bi-bookmark me-2"></i>{{ 'stock.spareForm.fields.category' | translate }} <span class="text-danger">*</span>
+                </label>
+                <div class="d-flex gap-2">
+                  <select class="form-select" [(ngModel)]="repuesto.idCategoria">
+                    <option [ngValue]="0">{{ 'stock.spareForm.placeholders.category' | translate }}</option>
+                    <option *ngFor="let c of categorias" [ngValue]="c.id">
+                      {{ c.nombre }}
+                    </option>
+                  </select>
+                  <button class="btn btn-add-category" (click)="abrirModalCategoria()" title="Nueva categoría">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Nombre -->
+              <div class="col-12 mb-3">
+                <label class="form-label">
+                  <i class="bi bi-tag me-2"></i>{{ 'stock.spareForm.fields.name' | translate }} <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="repuesto.nombre"
+                  [placeholder]="'stock.spareForm.placeholders.name' | translate" />
+              </div>
+
+              <!-- Unidad de Medida -->
+              <div class="col-md-4 mb-3">
+                <label class="form-label">
+                  <i class="bi bi-rulers me-2"></i>{{ 'stock.spareForm.fields.unit' | translate }} <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" [(ngModel)]="repuesto.unidadMedida">
+                  <option value="">{{ 'stock.spareForm.placeholders.unit' | translate }}</option>
+                  <option value="Unidad">Unidad</option>
+                  <option value="Caja">Caja</option>
+                  <option value="Paquete">Paquete</option>
+                  <option value="Litro">Litro</option>
+                  <option value="Kilogramo">Kilogramo</option>
+                  <option value="Metro">Metro</option>
+                  <option value="Juego">Juego</option>
+                  <option value="Par">Par</option>
+                </select>
+              </div>
+
+              <!-- Stock Actual -->
+              <div class="col-md-4 mb-3">
+                <label class="form-label">
+                  <i class="bi bi-box me-2"></i>{{ 'stock.spareForm.fields.stockCurrent' | translate }} <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="number"
+                  class="form-control"
+                  min="0"
+                  [(ngModel)]="repuesto.stock"
+                  [placeholder]="'stock.spareForm.placeholders.stock' | translate" />
+              </div>
+
+              <!-- Stock Mínimo -->
+              <div class="col-md-4 mb-3">
+                <label class="form-label">
+                  <i class="bi bi-exclamation-triangle me-2"></i>{{ 'stock.spareForm.fields.stockMin' | translate }} <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="number"
+                  class="form-control"
+                  min="0"
+                  [(ngModel)]="repuesto.stockMinimo"
+                  [placeholder]="'stock.spareForm.placeholders.stockMin' | translate" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <button class="btn-cancelar" (click)="cancelar()" [disabled]="isSubmitting">
+              <i class="bi bi-x-lg me-2"></i>
+              {{ 'stock.spareForm.actions.cancel' | translate }}
+            </button>
+            <button class="btn-guardar" (click)="actualizarRepuesto()" [disabled]="isSubmitting">
+              <i class="bi bi-check-lg me-2"></i>
+              {{ isSubmitting ? ('stock.spareForm.actions.updating' | translate) : ('stock.spareForm.actions.update' | translate) }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 🔹 FOOTER -->
+  <footer class="footer">
+    
+    <span class="version">v1.0.0</span>
+  </footer>
+</div>
+
+<!-- ============ MODAL NUEVA CATEGORÍA ============ -->
+<div class="modal-backdrop fade show" *ngIf="isCategoryModalOpen"></div>
+
+<div class="modal fade show d-block" tabindex="-1" role="dialog" *ngIf="isCategoryModalOpen">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="bi bi-bookmark-plus me-2"></i>{{ 'stock.spareForm.modal.title' | translate }}
+        </h5>
+        <button type="button" class="btn-close" (click)="cerrarModalCategoria()"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">{{ 'stock.spareForm.modal.label' | translate }} <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="newCategoriaNombre"
+            [placeholder]="'stock.spareForm.modal.placeholder' | translate"
+            (keyup.enter)="guardarCategoria()" />
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="cerrarModalCategoria()">
+          {{ 'stock.spareForm.modal.cancel' | translate }}
+        </button>
+        <button type="button" class="btn btn-primary" (click)="guardarCategoria()">
+          <i class="bi bi-check-lg me-2"></i>{{ 'stock.spareForm.modal.save' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

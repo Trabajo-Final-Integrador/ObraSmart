@@ -1,0 +1,31 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: gestionstock
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/gestion_stockdb
+    username: postgres
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 2
+      minimum-idle: 0
+      idle-timeout: 30000
+      max-lifetime: 600000
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+logging:
+  level:
+    org.springframework.security: INFO
+    org.springframework.web: INFO

@@ -1,0 +1,1 @@
+Guía para armar el DER de GestionReparaciones en Draw.io.

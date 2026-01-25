@@ -1,0 +1,47 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: identity-service
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:identity}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASS:123456}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+app:
+  security:
+    jwt:
+      secret: ${JWT_SECRET:dev-secret-change-please-use-a-very-long-secret-32bytes+}
+      access-ttl-min: ${JWT_ACCESS_TTL_MIN:15}
+      refresh-ttl-h: ${JWT_REFRESH_TTL_H:168}
+  cookies:
+    access-name: ACCESS_TOKEN
+    refresh-name: REFRESH_TOKEN
+    secure: ${COOKIES_SECURE:false}
+    same-site: ${COOKIES_SAMESITE:Lax}
+  storage:
+    endpoint: ${STORAGE_ENDPOINT:http://minio:9000}
+    access-key: ${STORAGE_ACCESS_KEY:minioadmin}
+    secret-key: ${STORAGE_SECRET_KEY:minioadmin}
+    bucket: ${STORAGE_BUCKET:identity}
+    region: ${STORAGE_REGION:us-east-1}
+    secure: ${STORAGE_SECURE:false}
+
+admin:
+  username: ${ADMIN_USERNAME:admin}
+  email: ${ADMIN_EMAIL:admin@local}
+  password: ${ADMIN_PASSWORD:admin123}
+  require-env: ${ADMIN_REQUIRE_ENV:false}
+
+logging:
+  level:
+    org.springframework.security: INFO

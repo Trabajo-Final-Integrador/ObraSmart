@@ -1,0 +1,74 @@
+<!-- <h3>Datos Bancarios</h3>
+
+<div class="form-grid">
+  <div class="form-group">
+    <label>Banco</label>
+    <input [(ngModel)]="data.banco" class="form-input" />
+  </div>
+
+  <div class="form-group">
+    <label>Tipo de Cuenta</label>
+    <select [(ngModel)]="data.tipoCuenta" class="form-input">
+      <option value="">Seleccionar...</option>
+      <option>Caja de Ahorro</option>
+      <option>Cuenta Corriente</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>CBU / CVU</label>
+    <input [(ngModel)]="data.cbu" class="form-input" />
+  </div>
+</div>
+
+<div class="botones">
+  <button class="btn-anterior" (click)="prev.emit()">← Anterior</button>
+  <button class="btn-siguiente" (click)="next.emit()">Siguiente →</button>
+</div>
+ -->
+
+ <!-- 🟩 BANCARIO -->
+    <div *ngIf="tabActiva === 'bancario'" class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">
+          <i class="bi bi-bank me-2"></i>{{ 'providers.fields.bank' | translate }}
+        </label>
+        <input
+          [(ngModel)]="nuevoProveedor.banco"
+          class="form-control"
+          [placeholder]="'providers.placeholders.bank' | translate" />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">
+          <i class="bi bi-credit-card me-2"></i>{{ 'providers.fields.accountType' | translate }}
+        </label>
+        <select [(ngModel)]="nuevoProveedor.tipoCuenta" class="form-select">
+          <option value="">{{ 'providers.placeholders.accountType' | translate }}</option>
+          <option value="Caja de Ahorro">Caja de Ahorro</option>
+          <option value="Cuenta Corriente">Cuenta Corriente</option>
+        </select>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label">
+          <i class="bi bi-cash-stack me-2"></i>{{ 'providers.fields.cbu' | translate }}
+        </label>
+        <input
+          [(ngModel)]="nuevoProveedor.cbu"
+          [placeholder]="'providers.placeholders.cbu' | translate"
+          class="form-control"
+        />
+        <small class="text-muted">{{ 'providers.placeholders.cbuHelp' | translate }}</small>
+      </div>
+
+      <div class="col-12 text-end mt-4 button-container">
+        <button class="btn-anterior" (click)="volver()">
+          <i class="bi bi-arrow-left me-2"></i>{{ 'providers.actions.prev' | translate }}
+        </button>
+        <button class="btn-siguiente" (click)="continuar()">
+          {{ 'providers.actions.next' | translate }}<i class="bi bi-arrow-right ms-2"></i>
+        </button>
+      </div>
+    </div>
+

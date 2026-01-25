@@ -1,0 +1,334 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f4f6f8;
+  font-family: "Segoe UI", Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* 🔹 Navbar */
+.top-navbar {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+  color: white;
+  padding: 8px 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  gap: 12px;
+  min-height: 56px;
+
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+
+    .btn-back {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateX(-3px);
+      }
+
+      &:active {
+        transform: translateX(-3px) scale(0.98);
+      }
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .logo-navbar {
+        height: 32px;
+        width: auto;
+      }
+
+      .brand-text {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+
+        h3 {
+          font-size: 1.1rem;
+          font-weight: 600;
+          margin: 0;
+          line-height: 1.3;
+          color: white;
+        }
+
+        p {
+          font-size: 0.75rem;
+          font-weight: 400;
+          margin: 0;
+          line-height: 1.2;
+          color: rgba(255, 255, 255, 0.85);
+        }
+      }
+    }
+  }
+
+  .navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+/* 🔹 Contenido Principal */
+.page-container {
+  flex: 1;
+  overflow: hidden;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-card {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 0.4s ease;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.shadow {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card {
+  border: none;
+}
+
+.card-body {
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+}
+
+/* 🔹 Filas del formulario */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -7px;
+  margin-bottom: 0;
+}
+
+.col-md-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding: 0 7px;
+
+  @media (max-width: 768px) {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+.mb-3 {
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 🔹 Labels y controles */
+.form-label {
+  font-weight: 500;
+  color: #333;
+  font-size: 0.85rem;
+}
+
+.form-control,
+.form-select {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  background: white;
+
+  &:focus {
+    outline: none;
+    border-color: #78866B;
+    box-shadow: 0 0 0 2px rgba(120, 134, 107, 0.1);
+  }
+
+  &::placeholder {
+    color: #999;
+  }
+}
+
+.form-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+textarea.form-control {
+  resize: none;
+  min-height: 70px;
+}
+
+/* 🔹 Acciones del formulario */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 8px;
+  margin-top: auto;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    min-width: 140px;
+    justify-content: center;
+
+    i {
+      font-size: 1.1rem;
+    }
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.btn-cancel {
+  background: white;
+  color: #555;
+  border: 1px solid #ddd;
+
+  &:hover:not(:disabled) {
+    background: #f5f5f5;
+    border-color: #bbb;
+  }
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+  color: white;
+  box-shadow: 0 2px 5px rgba(120, 134, 107, 0.3);
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 4px 12px rgba(120, 134, 107, 0.4);
+  }
+}
+
+/* 🔹 Footer */
+.footer-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 18px;
+  background: #78866B;
+  color: #fff;
+  font-size: 13px;
+
+  .footer-version {
+    font-weight: 500;
+  }
+}
+
+/* 🔹 Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🔹 Responsive */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 15px;
+  }
+
+  .card-body {
+    padding: 20px;
+    gap: 15px;
+  }
+
+  .row {
+    gap: 15px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,57 @@
+@import 'src/styles/os-modal';
+
+.provider-modal {
+  width: min(900px, 94vw);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.provider-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-title {
+  margin: 0 0 8px;
+  color: #d8f3dc;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.muted {
+  color: #cbd5c0;
+  margin: 0;
+}
+
+.loading-container,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 220px;
+  color: #e7f2e6;
+}
+
+.empty-state i {
+  font-size: 32px;
+}
+
+@media (max-width: 768px) {
+  .header-actions {
+    flex-wrap: wrap;
+  }
+}

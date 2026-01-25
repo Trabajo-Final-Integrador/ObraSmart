@@ -1,0 +1,53 @@
+<div class="layout-container">
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+        <h1 class="navbar-title">Traslados</h1>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" title="Volver al inicio">
+        <i class="bi bi-house-door-fill"></i>
+      </button>
+    </div>
+  </header>
+
+  <app-sidebar [type]="'full'"></app-sidebar>
+  <app-modal-info></app-modal-info>
+
+  <main class="content">
+    <div class="header">
+      <h2>Traslados</h2>
+      <button class="btn primary" (click)="crearNuevo()">Nuevo traslado</button>
+    </div>
+
+    <div *ngIf="loading" class="info">Cargando traslados...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <table class="table" *ngIf="!loading && !error">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Equipo</th>
+          <th>Origen</th>
+          <th>Destino</th>
+          <th>Estado</th>
+          <th>Programado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of traslados">
+          <td>{{ t.id }}</td>
+          <td>{{ nombreEquipo(t.equipoId) }}</td>
+          <td>{{ t.origenObradorId }}</td>
+          <td>{{ t.destinoObradorId }}</td>
+          <td>{{ t.estado }}</td>
+          <td>{{ t.programadoPara || '—' }}</td>
+          <td><button class="btn link" (click)="verDetalle(t.id)">Ver / Estado</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</div>

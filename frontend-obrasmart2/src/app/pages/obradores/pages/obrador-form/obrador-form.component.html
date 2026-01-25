@@ -1,0 +1,100 @@
+<div class="layout-container">
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+        <h1 class="navbar-title">{{ isEdit ? 'Editar Obrador' : 'Nuevo Obrador' }}</h1>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/obradores" title="Volver">
+        <i class="bi bi-arrow-left-circle"></i>
+      </button>
+    </div>
+  </header>
+
+  <app-sidebar [type]="'full'"></app-sidebar>
+  <app-modal-info></app-modal-info>
+
+  <main class="content">
+    <div class="header">
+      <h2>{{ isEdit ? 'Editar Obrador' : 'Nuevo Obrador' }}</h2>
+      <button class="btn ghost" (click)="cancelar()">Volver</button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="guardar()">
+      <div class="form-grid">
+        <label>
+          Nombre
+          <input type="text" formControlName="nombre" required />
+        </label>
+
+        <label>
+          Dirección
+          <input type="text" formControlName="ubicacion" />
+        </label>
+
+        <label>
+          Latitud
+          <input type="number" step="0.000001" formControlName="lat" />
+        </label>
+
+        <label>
+          Longitud
+          <input type="number" step="0.000001" formControlName="lng" />
+        </label>
+
+        <label>
+          Estado
+          <select formControlName="estado">
+            <option value="ACTIVO">ACTIVO</option>
+            <option value="INACTIVO">INACTIVO</option>
+          </select>
+        </label>
+
+        <label>
+          Responsable
+          <select formControlName="responsableUserId">
+            <option [ngValue]="null">-- Sin responsable --</option>
+            <option *ngFor="let u of usuarios" [ngValue]="u.id">
+              {{ u.nombre || u.username }}
+            </option>
+          </select>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn primary" [disabled]="loading">
+          {{ isEdit ? 'Guardar cambios' : 'Crear obrador' }}
+        </button>
+        <span *ngIf="loading">Guardando...</span>
+        <span class="error" *ngIf="error">{{ error }}</span>
+      </div>
+    </form>
+
+    <section *ngIf="isEdit" class="equipos-section">
+      <h3>Equipos del obrador</h3>
+      <div class="equipos-actions">
+        <select [(ngModel)]="equipoSeleccionado">
+          <option [ngValue]="null">Selecciona equipo</option>
+          <option *ngFor="let eq of equiposDisponibles" [ngValue]="eq.id">{{ eq.nombre || eq.codigoInterno }}</option>
+        </select>
+        <button class="btn primary" (click)="asignarEquipo()" [disabled]="!equipoSeleccionado">Asignar equipo</button>
+      </div>
+      <table class="table" *ngIf="equiposAsignados.length">
+        <thead>
+          <tr>
+            <th>Equipo</th>
+            <th>Código</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let eq of equiposAsignados">
+            <td>{{ eq.nombre }}</td>
+            <td>{{ eq.codigoInterno }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>

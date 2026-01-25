@@ -1,0 +1,197 @@
+<div class="os-modal-backdrop" *ngIf="visible" (click)="cerrar()"></div>
+<div class="os-modal order-modal" *ngIf="visible" (click)="$event.stopPropagation()">
+  <div class="os-modal-header">
+    <div>
+      <h3 class="os-modal-title">{{ 'orders.detail.title' | translate }}</h3>
+      <p class="os-modal-subtitle" *ngIf="orden">
+        {{ 'orders.detail.subtitle' | translate:{ id: (orden.id | number : '5.0-0') } }}
+      </p>
+      <p class="os-modal-subtitle" *ngIf="!orden && !loading">{{ 'orders.detail.empty.description' | translate }}</p>
+    </div>
+    <div class="header-actions">
+      <span *ngIf="orden" class="os-chip status-chip">
+        {{ getStatusKey(orden.estado) | translate }}
+      </span>
+      <button class="os-btn secondary" (click)="exportarPDF()" [disabled]="loading || !orden">
+        <i class="bi bi-file-earmark-pdf me-2"></i>{{ 'orders.detail.actions.export' | translate }}
+      </button>
+      <button class="os-modal-close" (click)="cerrar()">&times;</button>
+    </div>
+  </div>
+
+  <div class="os-modal-body">
+    <div *ngIf="loading" class="loading-container">
+      <div class="spinner-border text-light" role="status">
+        <span class="visually-hidden">{{ 'orders.detail.loading' | translate }}</span>
+      </div>
+      <p>{{ 'orders.detail.loading' | translate }}</p>
+    </div>
+
+    <div *ngIf="!loading && orden" class="order-body" #ordenContent>
+      <div class="order-header">
+        <div>
+          <p class="muted">{{ 'orders.detail.sections.document' | translate }}</p>
+          <h4 class="order-title">{{ 'orders.detail.title' | translate }}</h4>
+          <div class="order-meta">
+            <span class="os-chip primary">#{{ orden.id | number : '5.0-0' }}</span>
+            <span class="os-chip">{{ orden.fecha | date:'dd/MM/yyyy' }}</span>
+            <span class="os-chip status-chip">{{ getStatusKey(orden.estado) | translate }}</span>
+          </div>
+        </div>
+        <div class="brand-block">
+          <img src="assets/asistente/logo.png" alt="ObraSmart" />
+          <p class="muted">ObraSmart</p>
+        </div>
+      </div>
+
+      <div class="os-card">
+        <h5 class="section-title">
+          <i class="bi bi-building me-2"></i>{{ 'orders.detail.sections.supplier' | translate }}
+        </h5>
+        <div class="provider-grid">
+          <div class="provider-col">
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.companyName' | translate }}</span>
+              <span class="os-value">{{ proveedor?.razonSocial || orden.proveedorNombre }}</span>
+            </div>
+            <div class="os-card-item" *ngIf="proveedor?.nombreComercial">
+              <span class="os-label">{{ 'providers.fields.tradeName' | translate }}</span>
+              <span class="os-value">{{ proveedor?.nombreComercial }}</span>
+            </div>
+            <div class="os-card-item" *ngIf="proveedor?.cuit">
+              <span class="os-label">{{ 'providers.fields.taxId' | translate }}</span>
+              <span class="os-value">{{ proveedor?.cuit }}</span>
+            </div>
+            <div class="os-card-item" *ngIf="proveedor?.condicionIVA">
+              <span class="os-label">{{ 'providers.fields.taxCondition' | translate }}</span>
+              <span class="os-value">{{ proveedor?.condicionIVA }}</span>
+            </div>
+          </div>
+
+          <div class="provider-col">
+            <div class="os-card-item" *ngIf="proveedor?.telefono">
+              <span class="os-label">{{ 'providers.fields.phone' | translate }}</span>
+              <span class="os-value">{{ proveedor?.telefono }}</span>
+            </div>
+            <div class="os-card-item" *ngIf="proveedor?.email">
+              <span class="os-label">{{ 'providers.fields.email' | translate }}</span>
+              <span class="os-value">{{ proveedor?.email }}</span>
+            </div>
+            <div class="os-card-item" *ngIf="proveedor?.personaContacto">
+              <span class="os-label">{{ 'providers.fields.contactPerson' | translate }}</span>
+              <span class="os-value">{{ proveedor?.personaContacto }}</span>
+            </div>
+            <div class="os-card-item" *ngIf="proveedor?.direccion || proveedor?.ciudad || proveedor?.provincia">
+              <span class="os-label">{{ 'providers.fields.address' | translate }}</span>
+              <span class="os-value">
+                {{ proveedor?.direccion }}<span *ngIf="proveedor?.direccion">, </span>
+                {{ proveedor?.ciudad }}<span *ngIf="proveedor?.ciudad">, </span>
+                {{ proveedor?.provincia }}
+              </span>
+            </div>
+          </div>
+
+          <div class="provider-col">
+            <div class="os-card-item" *ngIf="proveedor?.condicionesPago">
+              <span class="os-label">{{ 'providers.fields.paymentTerms' | translate }}</span>
+              <span class="os-value">{{ proveedor?.condicionesPago }}</span>
+            </div>
+            <div class="os-card-item" *ngIf="proveedor?.tiempoEntrega">
+              <span class="os-label">{{ 'providers.fields.deliveryTime' | translate }}</span>
+              <span class="os-value">{{ proveedor?.tiempoEntrega }}</span>
+            </div>
+            <div class="os-card-item" *ngIf="proveedor?.pedidoMinimo">
+              <span class="os-label">{{ 'providers.fields.minOrder' | translate }}</span>
+              <span class="os-value">${{ proveedor?.pedidoMinimo | number:'1.2-2' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="os-card">
+        <h5 class="section-title">
+          <i class="bi bi-list-ul me-2"></i>{{ 'orders.detail.sections.items' | translate }}
+        </h5>
+        <div class="table-container">
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>{{ 'orders.detail.table.index' | translate }}</th>
+                <th>{{ 'orders.detail.table.part' | translate }}</th>
+                <th class="text-center">{{ 'orders.detail.table.qty' | translate }}</th>
+                <th class="text-end">{{ 'orders.detail.table.unitPrice' | translate }}</th>
+                <th class="text-end">{{ 'orders.detail.table.subtotal' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of orden.items; let i = index">
+                <td>#{{ i + 1 }}</td>
+                <td>
+                  <div class="item-name">
+                    <i class="bi bi-box"></i>
+                    <span>{{ item.repuestoNombre || ('orders.detail.table.part' | translate) }}</span>
+                  </div>
+                </td>
+                <td class="text-center">{{ item.cantidad }}</td>
+                <td class="text-end">${{ item.precioUnitario | number:'1.2-2' }}</td>
+                <td class="text-end">${{ item.cantidad * item.precioUnitario | number:'1.2-2' }}</td>
+              </tr>
+              <tr *ngFor="let _ of crearFilasVacias()" class="empty-row">
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="total-row">
+                <td colspan="4" class="text-end">{{ 'orders.detail.table.total' | translate }}</td>
+                <td class="text-end">${{ calcularTotal() | number:'1.2-2' }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <div class="os-card two-columns">
+        <div>
+          <h5 class="section-title"><i class="bi bi-chat-left-text me-2"></i>{{ 'orders.detail.sections.observations' | translate }}</h5>
+          <p class="muted">{{ 'orders.detail.notes.confirm' | translate }}</p>
+          <p class="muted">{{ 'orders.detail.notes.prices' | translate }}</p>
+        </div>
+        <div class="signatures">
+          <div>
+            <div class="signature-line"></div>
+            <p class="os-label">{{ 'orders.detail.signatures.authorized' | translate }}</p>
+          </div>
+          <div>
+            <div class="signature-line"></div>
+            <p class="os-label">{{ 'orders.detail.signatures.received' | translate }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-footer">
+        <p>
+          <i class="bi bi-info-circle"></i>
+          {{ 'orders.detail.footer.generated' | translate:{ date: (orden.fecha | date:'dd/MM/yyyy HH:mm') } }}
+        </p>
+        <p class="muted">{{ 'orders.detail.footer.legal' | translate }}</p>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && !orden" class="empty-state">
+      <i class="bi bi-exclamation-triangle"></i>
+      <p>{{ 'orders.detail.empty.title' | translate }}</p>
+      <small class="muted">{{ 'orders.detail.empty.description' | translate }}</small>
+    </div>
+  </div>
+
+  <div class="os-modal-footer">
+    <button class="os-btn ghost" (click)="cerrar()">{{ 'common.close' | translate }}</button>
+    <button class="os-btn primary" (click)="exportarPDF()" [disabled]="loading || !orden">
+      <i class="bi bi-file-earmark-pdf me-2"></i>{{ 'orders.detail.actions.export' | translate }}
+    </button>
+  </div>
+</div>

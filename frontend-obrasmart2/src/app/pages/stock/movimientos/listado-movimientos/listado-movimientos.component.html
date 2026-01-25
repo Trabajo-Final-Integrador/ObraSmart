@@ -1,0 +1,147 @@
+<div class="layout-container">
+  <!-- 🔹 NAVBAR SUPERIOR -->
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <button class="menu-btn" (click)="toggleSidebar()" [title]="'menu.main' | translate">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+      </div>
+      <h1 class="navbar-title">{{ 'stock.movements.title' | translate }}</h1>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" [title]="'common.backHome' | translate">
+        <i class="bi bi-house-door"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar compartido -->
+  <app-sidebar [type]="'full'"></app-sidebar>
+
+  <!-- Modales compartidos -->
+  <app-modal-info></app-modal-info>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="content">
+      <!-- TOOLBAR -->
+      <div class="toolbar">
+        <div class="toolbar-info">
+          <i class="bi bi-graph-up-arrow me-2"></i>
+          <span>{{ 'stock.movements.subtitle' | translate }}</span>
+        </div>
+
+        <div class="toolbar-actions">
+          <button class="btn-nuevo" (click)="nuevoMovimiento()">
+            <i class="bi bi-plus-lg"></i>
+            {{ 'stock.movements.new' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <!-- TABLA -->
+      <div class="table-wrapper">
+        <div *ngIf="loading" class="loading-container">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p>{{ 'stock.movements.loading' | translate }}</p>
+        </div>
+
+        <div *ngIf="!loading" class="table-scroll">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th><i class="bi bi-calendar-event me-2"></i>{{ 'stock.movements.table.datetime' | translate }}</th>
+                <th><i class="bi bi-box me-2"></i>{{ 'stock.movements.table.part' | translate }}</th>
+                <th class="text-center"><i class="bi bi-arrow-left-right me-2"></i>{{ 'stock.movements.table.type' | translate }}</th>
+                <th class="text-center"><i class="bi bi-123 me-2"></i>{{ 'stock.movements.table.quantity' | translate }}</th>
+                <th><i class="bi bi-chat-left-text me-2"></i>{{ 'stock.movements.table.note' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let mov of movimientosPaginados">
+                <td>
+                  <div class="fecha-info">
+                    <i class="bi bi-calendar3"></i>
+                    <span>{{ formatFecha(mov.fecha) }}</span>
+                  </div>
+                </td>
+                <td>
+                  <strong>{{ mov.repuestoNombre }}</strong>
+                </td>
+
+                <td class="text-center">
+                  <span
+                    class="badge"
+                    [ngClass]="{
+                      'badge-entrada': mov.tipo === 'ENTRADA',
+                      'badge-salida': mov.tipo === 'SALIDA',
+                      'badge-ajuste': mov.tipo === 'AJUSTE'
+                    }"
+                  >
+                    <i
+                      class="bi"
+                      [ngClass]="{
+                        'bi-arrow-down-circle-fill': mov.tipo === 'ENTRADA',
+                        'bi-arrow-up-circle-fill': mov.tipo === 'SALIDA',
+                        'bi-arrow-left-right': mov.tipo === 'AJUSTE'
+                      }"
+                    ></i>
+                    {{ mov.tipo }}
+                  </span>
+                </td>
+
+                <td class="text-center cantidad-cell">
+                  {{ mov.cantidad }}
+                </td>
+
+                <td class="observacion-cell">{{ mov.observacion || '—' }}</td>
+              </tr>
+
+              <tr *ngIf="movimientos.length === 0">
+                <td colspan="5" class="no-data">
+                  <i class="bi bi-exclamation-circle"></i>
+                  <p>No se encontraron movimientos registrados</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    <!-- 🔸 Paginación fuera de la card -->
+    <div class="pagination-wrapper" *ngIf="movimientos.length > 0">
+      <div class="pagination-controls">
+        <select [(ngModel)]="movimientosPorPagina" (change)="paginaActual = 1" class="items-per-page">
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+          <option [value]="50">50</option>
+        </select>
+        <div class="pagination-buttons">
+          <button (click)="primeraPagina()" [disabled]="paginaActual === 1" class="page-btn" title="Primera página">
+            &laquo;
+          </button>
+          <button (click)="paginaAnterior()" [disabled]="paginaActual === 1" class="page-btn" title="Anterior">
+            &lsaquo;
+          </button>
+          <span class="page-indicator">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+          <button (click)="paginaSiguiente()" [disabled]="paginaActual === totalPaginas" class="page-btn" title="Siguiente">
+            &rsaquo;
+          </button>
+          <button (click)="ultimaPagina()" [disabled]="paginaActual === totalPaginas" class="page-btn" title="Última página">
+            &raquo;
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 🔹 FOOTER -->
+  <footer class="footer">
+    
+    <span class="version">v1.0.0</span>
+  </footer>
+</div>

@@ -1,0 +1,89 @@
+<!-- 🟧 COMERCIAL -->
+<div *ngIf="tabActiva === 'comercial'" class="grid grid-2">
+  <div class="row g-3" >
+  <div class="form-group col-md-6">
+    <label>{{ 'providers.fields.specialty' | translate }}</label>
+    <input
+      type="text"
+      [(ngModel)]="nuevoProveedor.especialidad"
+      [placeholder]="'providers.placeholders.specialty' | translate"
+      class="form-input"
+    />
+  </div>
+
+  <div class="form-group col-md-6">
+    <label>{{ 'providers.fields.deliveryTime' | translate }}</label>
+    <input
+      type="number"
+      [(ngModel)]="nuevoProveedor.tiempoEntrega"
+      class="form-input"
+      [placeholder]="'providers.placeholders.deliveryTime' | translate"
+    />
+  </div>
+
+  <div class="form-group ">
+    <label>{{ 'providers.fields.brands' | translate }}</label>
+    <div class="flex gap">
+      <input [(ngModel)]="marcaInput" [placeholder]="'providers.placeholders.addBrand' | translate" class="form-input" />
+      <button type="button" (click)="agregarMarca()">➕</button>
+    </div>
+    <div class="marcas">
+      <span *ngFor="let marca of marcas; let i = index">
+        {{ marca }}
+        <button type="button" (click)="eliminarMarca(i)">✖</button>
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group col-md-6">
+    <label>{{ 'providers.fields.minOrder' | translate }}</label>
+    <input
+      type="number"
+      [(ngModel)]="nuevoProveedor.pedidoMinimo"
+      class="form-input"
+    />
+  </div>
+
+  <div class="form-group col-md-6">
+    <label>{{ 'providers.fields.volumeDiscount' | translate }}</label>
+    <input
+      type="number"
+      [(ngModel)]="nuevoProveedor.descuentoVolumen"
+      class="form-input"
+    />
+  </div>
+
+  <div class="form-group">
+    <label>{{ 'providers.fields.paymentTerms' | translate }}</label>
+    <select [(ngModel)]="nuevoProveedor.condicionesPago" class="form-input">
+      <option value="">{{ 'providers.placeholders.taxCondition' | translate }}</option>
+      <option value="Contado">Contado</option>
+      <option value="30 días">30 días</option>
+      <option value="60 días">60 días</option>
+      <option value="90 días">90 días</option>
+    </select>
+  </div>
+
+  <div class="check-group">
+  <div className="grid grid-cols-2 gap-4">
+    <label><input type="checkbox" [(ngModel)]="nuevoProveedor.tieneStock" /> {{ 'providers.fields.hasStock' | translate }}</label>
+    <label><input type="checkbox" [(ngModel)]="nuevoProveedor.haceEnvios" /> {{ 'providers.fields.ships' | translate }}</label>
+    <label><input type="checkbox" [(ngModel)]="nuevoProveedor.aceptaDevoluciones" /> {{ 'providers.fields.returns' | translate }}</label>
+  </div>
+  </div>
+
+  <div *ngIf="nuevoProveedor.haceEnvios" class="form-group col-2">
+    <label>{{ 'providers.fields.coverage' | translate }}</label>
+    <input
+      type="text"
+      [(ngModel)]="nuevoProveedor.zonaCobertura"
+      [placeholder]="'providers.placeholders.coverage' | translate"
+      class="form-input"
+    />
+  </div>
+</div>
+<div class="col-span-2 text-end mt-4">
+    <button class="btn-anterior" (click)="volver()">{{ 'providers.actions.prev' | translate }}</button>
+    <button class="btn-siguiente" (click)="continuar()">{{ 'providers.actions.next' | translate }}</button>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<div class="modal-backdrop os-modal-backdrop" *ngIf="visible" (click)="close()"></div>
+<div class="reparacion-modal os-modal" *ngIf="visible" (click)="$event.stopPropagation()">
+  <div class="modal-header os-modal-header">
+    <div class="header-info">
+      <div class="thumb">
+        <img [src]="imageSrc || placeholder" (error)="onImgError()" [alt]="'repairs.table.photo' | translate" />
+      </div>
+      <div>
+        <h3>{{ reparacion?.equipoNombre || ('repairs.detail.title' | translate) }}</h3>
+        <p class="subtitle">{{ 'repairs.detail.code' | translate }}: {{ reparacion?.equipoCodigoInterno || ('common.noData' | translate) }}</p>
+      </div>
+    </div>
+    <button class="btn-close os-modal-close" (click)="close()">&times;</button>
+  </div>
+
+  <div class="modal-body os-modal-body">
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="label">{{ 'repairs.detail.maintenance' | translate }}</span>
+        <span class="value">{{ reparacion?.tipoMantenimiento || ('common.noData' | translate) }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">{{ 'repairs.detail.responsible' | translate }}</span>
+        <span class="value">{{ reparacion?.responsableNombreCompleto || ('common.noData' | translate) }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">{{ 'repairs.detail.status' | translate }}</span>
+        <span class="pill os-chip primary">{{ 'repairs.detail.statusLabels.' + (reparacion?.estadoReparacion?.toLowerCase() || 'created') | translate }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">{{ 'repairs.detail.startDate' | translate }}</span>
+        <span class="value">{{ reparacion?.fechaCreacion || ('common.noData' | translate) }}</span>
+      </div>
+      <div class="info-item full">
+        <span class="label">{{ 'repairs.detail.description' | translate }}</span>
+        <span class="value wrap">{{ reparacion?.descripcion || ('common.noData' | translate) }}</span>
+      </div>
+      <div class="info-item full">
+        <span class="label">{{ 'repairs.detail.address' | translate }}</span>
+        <span class="value wrap">{{ $any(reparacion)?.ubicacion ?? $any(reparacion)?.direccion ?? $any(reparacion)?.equipo?.ubicacion ?? ('repairs.detail.noAddress' | translate) }}</span>
+      </div>
+    </div>
+
+    <div class="upload-card">
+      <div class="upload-header">
+        <div>
+          <div class="label">{{ 'repairs.detail.upload.title' | translate }}</div>
+          <p class="hint">{{ 'repairs.detail.upload.maxSizeHint' | translate }}</p>
+        </div>
+      </div>
+      <div class="uploader">
+        <label class="file-label">
+          <input type="file" accept=".png,.jpg,.jpeg,.webp" (change)="onFileSelected($event)" />
+          <span>{{ fileToUpload?.name || ('repairs.detail.upload.fileLabel' | translate) }}</span>
+        </label>
+        <button class="btn primary" (click)="uploadFile()" [disabled]="!fileToUpload || uploading">
+          {{ uploading ? ('repairs.detail.upload.uploading' | translate) : ('repairs.detail.upload.uploadBtn' | translate) }}
+        </button>
+      </div>
+      <div class="upload-row">
+        <input type="text" [(ngModel)]="urlLink" [placeholder]="'repairs.detail.upload.urlPlaceholder' | translate" />
+        <button class="btn secondary" (click)="saveLink()" [disabled]="!urlLink?.trim() || uploading">
+          {{ uploading ? ('repairs.detail.upload.saving' | translate) : ('repairs.detail.upload.saveLinkBtn' | translate) }}
+        </button>
+      </div>
+      <div class="status" [ngClass]="messageType" *ngIf="message">{{ message }}</div>
+    </div>
+  </div>
+
+  <div class="modal-actions os-modal-footer">
+    <button class="btn ghost os-btn ghost" (click)="close()">{{ 'repairs.detail.actions.close' | translate }}</button>
+  </div>
+</div>

@@ -1,0 +1,137 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      mvc:
+        routes:
+
+          # ---------- AUTH (GestionAuth) ----------
+          - id: auth
+            uri: http://localhost:8082
+            predicates:
+              - Path=/auth/**
+            filters:
+              - AddRequestHeader=X-Forwarded-Host, localhost
+              - AddRequestHeader=X-Forwarded-Proto, http
+
+          # ---------- AUTH (GestionAuth) con prefijo /api ----------
+          - id: api-auth
+            uri: http://localhost:8082
+            predicates:
+              - Path=/api/auth/**
+            filters:
+              - RewritePath=/api/(?<segment>.*), /${segment}
+              - AddRequestHeader=X-Forwarded-Host, localhost
+              - AddRequestHeader=X-Forwarded-Proto, http
+
+          # ---------- USERS (GestionUsuario) ----------
+          - id: users
+            uri: http://localhost:8082  #FIX: identity-service
+            predicates:
+              - Path=/users/**
+            filters:
+              - AddRequestHeader=X-Forwarded-Host, localhost
+              - AddRequestHeader=X-Forwarded-Proto, http
+
+          # ---------- USERS (GestionUsuario) con prefijo /api ----------
+          - id: api-users
+            uri: http://localhost:8082  #FIX: identity-service
+            predicates:
+              - Path=/api/users/**
+            filters:
+              - RewritePath=/api/(?<segment>.*), /${segment}
+              - AddRequestHeader=X-Forwarded-Host, localhost
+              - AddRequestHeader=X-Forwarded-Proto, http
+          # ---------- EQUIPOS ----------
+          - id: equipos
+            uri: http://localhost:8087
+            predicates:
+              - Path=/equipos/**,/marca/**,/modelo/**,/tipo-equipo/**
+            filters:
+              - AddRequestHeader=X-Forwarded-Host, localhost
+              - AddRequestHeader=X-Forwarded-Proto, http
+
+          # ---------- STOCK ----------
+          - id: stock
+            uri: http://localhost:8083
+            predicates:
+              - Path=/proveedores/**,/repuestos/**,/categorias/**,/movimientos/**,/ordenes/**
+            filters:
+              - AddRequestHeader=X-Forwarded-Host, localhost
+              - AddRequestHeader=X-Forwarded-Proto, http
+
+          # ---------- REPARACIONES ----------
+          - id: reparaciones
+            uri: http://localhost:8086
+            predicates:
+              - Path=/reparaciones/**
+            filters:
+              - AddRequestHeader=X-Forwarded-Host, localhost
+              - AddRequestHeader=X-Forwarded-Proto, http
+
+          # ---------- MEDIA (media-service) ----------
+          - id: media
+            uri: http://localhost:8090
+            predicates:
+              - Path=/files/**
+            filters:
+              - AddRequestHeader=X-Forwarded-Host, localhost
+              - AddRequestHeader=X-Forwarded-Proto, http
+          - id: media-equipos
+            uri: http://localhost:8090
+            predicates:
+              - Path=/media/**
+            filters:
+              - AddRequestHeader=X-Forwarded-Host, localhost
+              - AddRequestHeader=X-Forwarded-Proto, http
+          - id: api-media
+            uri: http://localhost:8090
+            predicates:
+              - Path=/api/media/**
+            filters:
+              - AddRequestHeader=X-Forwarded-Host, localhost
+              - AddRequestHeader=X-Forwarded-Proto, http
+              - RewritePath=/api(?<segment>/media/.*), /${segment}
+
+          # ---------- GEOLOCALIZACION ----------
+          - id: geolocalizacion
+            uri: http://localhost:8089
+            predicates:
+              - Path=/geolocalizacion/**
+            filters:
+              - RewritePath=/geolocalizacion(?<segment>/?.*), /api/geolocalizacion${segment}
+
+          # ---------- REPORTES ----------
+          - id: reportes
+            uri: http://localhost:8077
+            predicates:
+              - Path=/reportes/**
+            filters:
+              - AddRequestHeader=X-Forwarded-Host, localhost
+              - AddRequestHeader=X-Forwarded-Proto, http
+
+          # ---------- ASISTENTE ----------
+          - id: asistente
+            uri: http://localhost:8099
+            predicates:
+              - Path=/asistente/**
+            filters:
+              - RewritePath=/asistente(?<segment>/?.*), /api/asistente${segment}
+
+          # ---------- REPORTES (GestionReportes) con prefijo /api ----------
+          - id: api-reportes
+            uri: http://localhost:8077
+            predicates:
+              - Path=/api/reportes/**
+            filters:
+              - RewritePath=/api/(?<segment>.*), /${segment}
+              - AddRequestHeader=X-Forwarded-Host, localhost
+              - AddRequestHeader=X-Forwarded-Proto, http
+
+logging:
+  level:
+    org.springframework.security: INFO

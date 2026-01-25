@@ -1,0 +1,144 @@
+<div class="layout-container">
+  <!-- NAVBAR SUPERIOR -->
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <button class="menu-btn" (click)="toggleSidebar()" [title]="'menu.main' | translate">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+        <h1 class="navbar-title">{{ 'users.list.title' | translate }}</h1>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" [title]="'common.backHome' | translate">
+        <i class="bi bi-house-door-fill"></i>
+        
+      </button>
+      
+    </div>
+  </header>
+
+  <!-- Sidebar compartido -->
+  <app-sidebar [type]="'full'"></app-sidebar>
+
+  <!-- Modales compartidos -->
+  <app-modal-info></app-modal-info>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="content">
+    <!-- Tabla -->
+    <div class="table-container">
+      <div class="toolbar">
+        <div class="search-container">
+          <i class="bi bi-search"></i>
+          <input
+            type="text"
+            [(ngModel)]="filtro"
+            [placeholder]="'users.list.searchPlaceholder' | translate"
+          />
+          
+        </div>
+      </div>
+
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>{{ 'users.table.photo' | translate }}</th>
+            <th>{{ 'users.table.email' | translate }}</th>
+            <th>{{ 'users.table.username' | translate }}</th>
+            <th>{{ 'users.table.role' | translate }}</th>
+            <th>{{ 'users.table.status' | translate }}</th>
+            <th class="text-center">{{ 'common.actions' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of usuariosPaginados">
+            <td class="foto-cell" *ngIf="u.id as id; else sinIdFoto">
+              <img
+                [src]="getUserPhotoUrl(id)"
+                (error)="onFotoError(u, $event)"
+                [alt]="'users.table.photo' | translate"
+              />
+            </td>
+            <ng-template #sinIdFoto>
+              <td class="foto-cell">
+                <img [src]="defaultUserImg" [alt]="'users.table.photo' | translate" />
+              </td>
+            </ng-template>
+            <td>{{ u.email }}</td>
+            <td>{{ u.username }}</td>
+            <td>{{ u.role }}</td>
+            <td>
+              <app-status-badge [estado]="u.status"></app-status-badge>
+            </td>
+            <td class="acciones">
+              <button class="btn-icon edit" (click)="editar(u)" [title]="'common.edit' | translate">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button
+                class="btn-icon delete"
+                (click)="eliminar(u.id)"
+                [title]="'common.delete' | translate"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+              <button class="btn-icon view" (click)="verUsuario(u)" [title]="'common.view' | translate">
+                <i class="bi bi-eye"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="usuariosFiltrados.length === 0 && usuarios.length > 0" class="empty-message">
+        <i class="bi bi-search"></i>
+        <p>{{ 'users.list.emptySearch' | translate:{ query: filtro } }}</p>
+      </div>
+
+      <div *ngIf="usuarios.length === 0" class="empty-message">
+        <i class="bi bi-exclamation-circle"></i>
+        <p>{{ 'users.list.noData' | translate }}</p>
+      </div>
+    </div>
+
+    <!-- Paginación fuera de la card -->
+    <div class="pagination-wrapper" *ngIf="usuariosFiltrados.length > 0">
+      <div class="pagination-controls">
+        <select [(ngModel)]="usuariosPorPagina" (change)="paginaActual = 1" class="items-per-page">
+          <option *ngFor="let n of [5, 10, 20, 50]" [value]="n">{{ n }}</option>
+        </select>
+        <div class="pagination-buttons">
+          <button (click)="primeraPagina()" [disabled]="paginaActual === 1" class="page-btn" [title]="'common.firstPage' | translate">
+            &laquo;
+          </button>
+          <button (click)="paginaAnterior()" [disabled]="paginaActual === 1" class="page-btn" [title]="'common.prevPage' | translate">
+            &lsaquo;
+          </button>
+          <span class="page-indicator">{{ 'common.pageIndicator' | translate:{ page: paginaActual, total: totalPaginas } }}</span>
+          <button (click)="paginaSiguiente()" [disabled]="paginaActual === totalPaginas" class="page-btn" [title]="'common.nextPage' | translate">
+            &rsaquo;
+          </button>
+          <button (click)="ultimaPagina()" [disabled]="paginaActual === totalPaginas" class="page-btn" [title]="'common.lastPage' | translate">
+            &raquo;
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <app-modal-usuario 
+  *ngIf="mostrarModal"
+  [usuario]="usuarioEdit"
+  (cerrar)="cerrarModal()"
+  [soloLectura]="soloLectura"
+  (guardar)="onUsuarioActualizado()"
+  (photoUploaded)="onPhotoUploaded($event)">
+</app-modal-usuario>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    
+    <span class="version">v1.0.0</span>
+  </footer>
+</div>

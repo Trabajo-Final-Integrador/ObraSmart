@@ -1,0 +1,144 @@
+<div class="layout-container">
+  <!-- 🔹 NAVBAR SUPERIOR -->
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <button class="btn-back" routerLink="/stock/ordenes" [title]="'orders.actions.back' | translate">
+        <i class="bi bi-arrow-left-circle"></i>
+        <span>{{ 'orders.actions.back' | translate }}</span>
+      </button>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+      </div>
+      <div class="header-content">
+        
+        <div>
+          <h3>{{ 'orders.form.title' | translate }}</h3>
+          <p>{{ 'orders.form.subtitle' | translate }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" title="Regresar al inicio">
+        <i class="bi bi-house-door"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="content">
+    <div class="form-container">
+        <div class="form-card">
+        <!-- INFORMACIÓN DEL PROVEEDOR -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <i class="bi bi-building me-2"></i>
+            {{ 'orders.form.sections.supplier' | translate }}
+          </h3>
+
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-person-badge me-2"></i>{{ 'orders.form.fields.supplier' | translate }} <span class="text-danger">*</span>
+            </label>
+            <select class="form-control" [(ngModel)]="nuevaOrden.idProveedor">
+              <option value="">{{ 'orders.form.placeholders.selectSupplier' | translate }}</option>
+              <option *ngFor="let p of proveedores" [value]="p.id">{{ p.razonSocial }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- AGREGAR REPUESTOS -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <i class="bi bi-box-seam me-2"></i>
+            {{ 'orders.form.sections.items' | translate }}
+          </h3>
+
+          <div class="repuestos-grid">
+            <div>
+              <label class="form-label">
+                <i class="bi bi-box me-2"></i>{{ 'orders.form.fields.part' | translate }}
+              </label>
+              <select class="form-control" [(ngModel)]="itemTemp.idRepuesto">
+                <option value="">{{ 'orders.form.placeholders.selectPart' | translate }}</option>
+                <option *ngFor="let r of repuestos" [value]="r.id">{{ r.nombre }}</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label">
+                <i class="bi bi-123 me-2"></i>{{ 'orders.form.fields.qty' | translate }}
+              </label>
+              <input type="number" class="form-control" min="1" [(ngModel)]="itemTemp.cantidad" />
+            </div>
+
+            <div>
+              <label class="form-label">
+                <i class="bi bi-currency-dollar me-2"></i>{{ 'orders.form.fields.unitPrice' | translate }}
+              </label>
+              <input type="number" class="form-control" min="0" step="0.01" [(ngModel)]="itemTemp.precioUnitario" />
+            </div>
+
+            <div class="add-container">
+              <button class="btn-add" (click)="agregarItemTemp()">
+                <i class="bi bi-plus-lg"></i> {{ 'orders.actions.addItem' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <!-- TABLA -->
+          <div class="table-wrapper" *ngIf="nuevaOrden.items.length > 0">
+            <table class="items-table">
+              <thead>
+                <tr>
+                  <th><i class="bi bi-box me-2"></i>{{ 'orders.form.fields.part' | translate }}</th>
+                  <th class="text-center"><i class="bi bi-123 me-2"></i>{{ 'orders.form.fields.qty' | translate }}</th>
+                  <th class="text-center"><i class="bi bi-currency-dollar me-2"></i>{{ 'orders.form.fields.unitPrice' | translate }}</th>
+                  <th class="text-center"><i class="bi bi-calculator me-2"></i>{{ 'orders.form.fields.subtotal' | translate }}</th>
+                  <th class="text-center"><i class="bi bi-gear me-2"></i>{{ 'orders.table.actions' | translate }}</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let item of nuevaOrden.items; let i = index">
+                  <td>{{ obtenerNombreRepuesto(item.idRepuesto) }}</td>
+                  <td class="text-center">{{ item.cantidad }}</td>
+                  <td class="text-center">${{ item.precioUnitario | number:'1.2-2' }}</td>
+                  <td class="text-center">${{ item.cantidad * item.precioUnitario | number:'1.2-2' }}</td>
+                  <td class="text-center">
+                    <button class="btn-delete" (click)="eliminarItem(i)" [title]="'common.delete' | translate">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="total-section">
+            <div class="total-label">{{ 'orders.form.labels.total' | translate }}:</div>
+            <div class="total-value">${{ totalGeneral | number:'1.2-2' }}</div>
+          </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="form-footer">
+          <button class="btn-cancelar" [disabled]="isSubmitting" (click)="volver()">
+            <i class="bi bi-x-lg me-2"></i>
+            {{ 'orders.actions.cancel' | translate }}
+          </button>
+
+          <button class="btn-guardar" [disabled]="isSubmitting" (click)="guardar()">
+            <i class="bi bi-check-lg me-2"></i>
+            <span *ngIf="!isSubmitting">{{ 'orders.actions.create' | translate }}</span>
+            <span *ngIf="isSubmitting">{{ 'orders.actions.saving' | translate }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 🔹 FOOTER -->
+  <footer class="footer">
+    <span class="version">v1.0.0</span>
+  </footer>
+</div>

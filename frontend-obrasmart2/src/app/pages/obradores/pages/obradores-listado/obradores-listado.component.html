@@ -1,0 +1,51 @@
+<div class="layout-container">
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+        <h1 class="navbar-title">Obradores</h1>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" title="Volver al inicio">
+        <i class="bi bi-house-door-fill"></i>
+      </button>
+    </div>
+  </header>
+
+  <app-sidebar [type]="'full'"></app-sidebar>
+  <app-modal-info></app-modal-info>
+
+  <main class="content">
+    <div class="header">
+      <h2>Obradores</h2>
+      <button class="btn primary" (click)="crearNuevo()">Nuevo obrador</button>
+    </div>
+
+    <div *ngIf="loading" class="info">Cargando obradores...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <table class="table" *ngIf="!loading && !error">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Dirección</th>
+          <th>Lat</th>
+          <th>Lng</th>
+          <th>Estado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let obrador of obradores">
+          <td>{{ obrador.nombre }}</td>
+          <td>{{ obrador.ubicacion || '—' }}</td>
+          <td>{{ obrador.lat ?? '—' }}</td>
+          <td>{{ obrador.lng ?? '—' }}</td>
+          <td>{{ obrador.estado || 'ACTIVO' }}</td>
+          <td><button class="btn link" (click)="verDetalle(obrador.id)">Ver / Editar</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</div>

@@ -1,0 +1,209 @@
+<div class="os-modal-backdrop" *ngIf="visible" (click)="cerrar()"></div>
+<div class="os-modal provider-modal" *ngIf="visible" (click)="$event.stopPropagation()">
+  <div class="os-modal-header">
+    <div>
+      <h3 class="os-modal-title">{{ 'providers.detail.title' | translate }}</h3>
+      <p class="os-modal-subtitle" *ngIf="proveedor">
+        {{ proveedor.razonSocial }}
+      </p>
+    </div>
+    <div class="header-actions">
+      <span class="os-chip primary" *ngIf="proveedor">
+        {{ proveedor.estado === 'Activo' ? ('providers.status.active' | translate) : ('providers.status.inactive' | translate) }}
+      </span>
+      <button class="os-modal-close" (click)="cerrar()">&times;</button>
+    </div>
+  </div>
+
+  <div class="os-modal-body">
+    <div *ngIf="loading" class="loading-container">
+      <div class="spinner-border text-light" role="status">
+        <span class="visually-hidden">{{ 'providers.detail.loading' | translate }}</span>
+      </div>
+      <p>{{ 'providers.detail.loading' | translate }}</p>
+    </div>
+
+    <div *ngIf="!loading && proveedor" class="provider-body">
+      <div class="os-card">
+        <h5 class="section-title">
+          <i class="bi bi-briefcase me-2"></i>{{ 'providers.detail.sections.general' | translate }}
+        </h5>
+        <div class="os-card-grid">
+          <div class="os-card-item">
+            <span class="os-label">{{ 'providers.fields.companyName' | translate }}</span>
+            <span class="os-value">{{ proveedor.razonSocial }}</span>
+          </div>
+          <div class="os-card-item" *ngIf="proveedor.nombreComercial">
+            <span class="os-label">{{ 'providers.fields.tradeName' | translate }}</span>
+            <span class="os-value">{{ proveedor.nombreComercial }}</span>
+          </div>
+          <div class="os-card-item">
+            <span class="os-label">{{ 'providers.fields.taxId' | translate }}</span>
+            <span class="os-value">{{ proveedor.cuit }}</span>
+          </div>
+          <div class="os-card-item">
+            <span class="os-label">{{ 'providers.fields.taxCondition' | translate }}</span>
+            <span class="os-value">{{ proveedor.condicionIVA }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="os-card two-columns">
+        <div>
+          <h5 class="section-title">
+            <i class="bi bi-person-lines-fill me-2"></i>{{ 'providers.detail.sections.contact' | translate }}
+          </h5>
+          <div class="os-card-grid">
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.phone' | translate }}</span>
+              <span class="os-value">{{ proveedor.telefono || ('common.noData' | translate) }}</span>
+            </div>
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.email' | translate }}</span>
+              <span class="os-value">{{ proveedor.email || ('common.noData' | translate) }}</span>
+            </div>
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.contactPerson' | translate }}</span>
+              <span class="os-value">{{ proveedor.personaContacto || ('common.noData' | translate) }}</span>
+            </div>
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.schedule' | translate }}</span>
+              <span class="os-value">{{ proveedor.horarioAtencion || ('common.noData' | translate) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="section-title">
+            <i class="bi bi-geo-alt me-2"></i>{{ 'providers.detail.sections.address' | translate }}
+          </h5>
+          <div class="os-card-grid">
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.address' | translate }}</span>
+              <span class="os-value">{{ proveedor.direccion || ('common.noData' | translate) }}</span>
+            </div>
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.city' | translate }}</span>
+              <span class="os-value">{{ proveedor.ciudad || ('common.noData' | translate) }}</span>
+            </div>
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.state' | translate }}</span>
+              <span class="os-value">{{ proveedor.provincia || ('common.noData' | translate) }}</span>
+            </div>
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.zip' | translate }}</span>
+              <span class="os-value">{{ proveedor.codigoPostal || ('common.noData' | translate) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="os-card">
+        <h5 class="section-title">
+          <i class="bi bi-cash-stack me-2"></i>{{ 'providers.detail.sections.commercial' | translate }}
+        </h5>
+        <div class="os-card-grid">
+          <div class="os-card-item">
+            <span class="os-label">{{ 'providers.fields.specialty' | translate }}</span>
+            <span class="os-value">{{ proveedor.especialidad || ('common.noData' | translate) }}</span>
+          </div>
+          <div class="os-card-item">
+            <span class="os-label">{{ 'providers.fields.brands' | translate }}</span>
+            <span class="os-value">{{ proveedor?.marcas?.join(', ') || ('common.noData' | translate) }}</span>
+          </div>
+          <div class="os-card-item">
+            <span class="os-label">{{ 'providers.fields.deliveryTime' | translate }}</span>
+            <span class="os-value">{{ proveedor.tiempoEntrega || ('common.noData' | translate) }}</span>
+          </div>
+          <div class="os-card-item">
+            <span class="os-label">{{ 'providers.fields.minOrder' | translate }}</span>
+            <span class="os-value">{{ proveedor.pedidoMinimo ? ('$' + (proveedor.pedidoMinimo | number:'1.2-2')) : ('common.noData' | translate) }}</span>
+          </div>
+          <div class="os-card-item">
+            <span class="os-label">{{ 'providers.fields.volumeDiscount' | translate }}</span>
+            <span class="os-value">{{ proveedor.descuentoVolumen ? (proveedor.descuentoVolumen + '%') : ('common.noData' | translate) }}</span>
+          </div>
+          <div class="os-card-item">
+            <span class="os-label">{{ 'providers.fields.paymentTerms' | translate }}</span>
+            <span class="os-value">{{ proveedor.condicionesPago || ('common.noData' | translate) }}</span>
+          </div>
+          <div class="os-card-item">
+            <span class="os-label">{{ 'providers.fields.coverage' | translate }}</span>
+            <span class="os-value">{{ proveedor.zonaCobertura || ('common.noData' | translate) }}</span>
+          </div>
+          <div class="os-card-item">
+            <span class="os-label">{{ 'providers.fields.hasStock' | translate }}</span>
+            <span class="os-value">{{ proveedor.tieneStock ? ('common.yes' | translate) : ('common.no' | translate) }}</span>
+          </div>
+          <div class="os-card-item">
+            <span class="os-label">{{ 'providers.fields.ships' | translate }}</span>
+            <span class="os-value">{{ proveedor.haceEnvios ? ('common.yes' | translate) : ('common.no' | translate) }}</span>
+          </div>
+          <div class="os-card-item">
+            <span class="os-label">{{ 'providers.fields.returns' | translate }}</span>
+            <span class="os-value">{{ proveedor.aceptaDevoluciones ? ('common.yes' | translate) : ('common.no' | translate) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="os-card two-columns">
+        <div>
+          <h5 class="section-title">
+            <i class="bi bi-journal me-2"></i>{{ 'providers.detail.sections.catalog' | translate }}
+          </h5>
+          <div class="os-card-grid">
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.hasCatalog' | translate }}</span>
+              <span class="os-value">{{ proveedor.tieneCatalogo ? ('common.yes' | translate) : ('common.no' | translate) }}</span>
+            </div>
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.catalogUrl' | translate }}</span>
+              <span class="os-value">{{ proveedor.urlCatalogo || ('common.noData' | translate) }}</span>
+            </div>
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.catalogCode' | translate }}</span>
+              <span class="os-value">{{ proveedor.codigoCliente || ('common.noData' | translate) }}</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h5 class="section-title">
+            <i class="bi bi-bank me-2"></i>{{ 'providers.detail.sections.bank' | translate }}
+          </h5>
+          <div class="os-card-grid">
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.bank' | translate }}</span>
+              <span class="os-value">{{ proveedor.banco || ('common.noData' | translate) }}</span>
+            </div>
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.accountType' | translate }}</span>
+              <span class="os-value">{{ proveedor.tipoCuenta || ('common.noData' | translate) }}</span>
+            </div>
+            <div class="os-card-item">
+              <span class="os-label">{{ 'providers.fields.cbu' | translate }}</span>
+              <span class="os-value">{{ proveedor.cbu || ('common.noData' | translate) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="os-card">
+        <h5 class="section-title">
+          <i class="bi bi-card-text me-2"></i>{{ 'providers.detail.sections.notes' | translate }}
+        </h5>
+        <p class="muted">
+          {{ proveedor.observaciones || ('common.noData' | translate) }}
+        </p>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && !proveedor" class="empty-state">
+      <i class="bi bi-exclamation-triangle"></i>
+      <p>{{ 'providers.detail.empty' | translate }}</p>
+    </div>
+  </div>
+
+  <div class="os-modal-footer">
+    <button class="os-btn ghost" (click)="cerrar()">{{ 'providers.detail.actions.close' | translate }}</button>
+  </div>
+</div>

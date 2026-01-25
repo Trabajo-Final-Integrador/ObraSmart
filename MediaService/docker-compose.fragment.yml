@@ -1,0 +1,24 @@
+services:
+  media-service:
+    build: ./MediaService
+    ports:
+      - "8086:8086"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://media-db:5432/mediaservice
+      SPRING_DATASOURCE_USERNAME: media
+      SPRING_DATASOURCE_PASSWORD: media
+      APP_STORAGE_BASE_PATH: /app/storage
+    volumes:
+      - media-storage:/app/storage
+    depends_on:
+      - media-db
+
+  media-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: mediaservice
+      POSTGRES_USER: media
+      POSTGRES_PASSWORD: media
+
+volumes:
+  media-storage:

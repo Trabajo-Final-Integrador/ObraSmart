@@ -1,0 +1,123 @@
+﻿<div class="layout-container">
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <button class="menu-btn" (click)="toggleSidebar()" [title]="'menu.main' | translate">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+      </div>
+      <h1 class="navbar-title">{{ 'equipos.list.title' | translate }}</h1>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" [title]="'common.backHome' | translate">
+        <i class="bi bi-house-door"></i>
+      </button>
+    </div>
+  </header>
+
+  <app-sidebar [type]="'full'"></app-sidebar>
+  <app-modal-info></app-modal-info>
+
+  <main class="content">
+    <div class="toolbar">
+      <div class="search-container">
+        <i class="bi bi-search"></i>
+        <input type="text" [(ngModel)]="filtro" [placeholder]="'equipos.list.searchPlaceholder' | translate" />
+      </div>
+      <button class="btn-nuevo" (click)="nuevoEquipo()">
+        <i class="bi bi-plus-lg"></i>
+        <span>{{ 'equipos.actions.new' | translate }}</span>
+      </button>
+    </div>
+
+    <div class="table-container">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>{{ 'equipos.table.photo' | translate }}</th>
+            <th>{{ 'equipos.table.code' | translate }}</th>
+            <th>{{ 'equipos.table.name' | translate }}</th>
+            <th>{{ 'equipos.table.brand' | translate }}</th>
+            <th>{{ 'equipos.table.model' | translate }}</th>
+            <th>{{ 'equipos.table.type' | translate }}</th>
+            <th>{{ 'equipos.table.status' | translate }}</th>
+            <th class="text-center">{{ 'common.actions' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let e of equiposPaginados">
+            <td>
+              <img class="mini-thumb" [src]="getMiniaturaEquipoUrl(e.id)" (error)="imgFallback($event)" />
+            </td>
+            <td>{{ e.codigoInterno }}</td>
+            <td>{{ e.nombre }}</td>
+            <td>{{ getMarcaNombre(e.idMarca) }}</td>
+            <td>{{ getModeloNombre(e.idModelo) }}</td>
+            <td>{{ getTipoEquipoNombre(e.idTipoEquipo) }}</td>
+            <td>
+              <app-status-badge [estado]="e.estadoOperativo"></app-status-badge>
+            </td>
+            <td class="acciones">
+              <button class="btn-icon view" [title]="'equipos.actions.view' | translate" (click)="verDetalles(e)">
+                <i class="bi bi-eye"></i>
+              </button>
+              <button class="btn-icon edit" [title]="'common.edit' | translate" (click)="editarEquipo(e.id!)">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn-icon delete" [title]="'common.delete' | translate" (click)="eliminarEquipo(e)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="equiposFiltrados.length === 0 && equipos.length > 0" class="empty-message">
+        <i class="bi bi-search"></i>
+        <p>{{ 'equipos.list.empty.noResults' | translate:{ query: filtro } }}</p>
+      </div>
+
+      <div *ngIf="equipos.length === 0" class="empty-message">
+        <i class="bi bi-exclamation-circle"></i>
+        <p>{{ 'equipos.list.empty.noData' | translate }}</p>
+      </div>
+    </div>
+
+    <div class="pagination-wrapper" *ngIf="equiposFiltrados.length > 0">
+      <div class="pagination-controls">
+        <select [(ngModel)]="equiposPorPagina" (change)="paginaActual = 1" class="items-per-page">
+          <option *ngFor="let n of [5, 10, 20, 50]" [value]="n">{{ n }}</option>
+        </select>
+        <div class="pagination-buttons">
+          <button (click)="primeraPagina()" [disabled]="paginaActual === 1" class="page-btn" [title]="'common.firstPage' | translate">
+            &laquo;
+          </button>
+          <button (click)="paginaAnterior()" [disabled]="paginaActual === 1" class="page-btn" [title]="'common.prevPage' | translate">
+            &lsaquo;
+          </button>
+          <span class="page-indicator">{{ 'common.pageIndicator' | translate:{ page: paginaActual, total: totalPaginas } }}</span>
+          <button (click)="paginaSiguiente()" [disabled]="paginaActual === totalPaginas" class="page-btn" [title]="'common.nextPage' | translate">
+            &rsaquo;
+          </button>
+          <button (click)="ultimaPagina()" [disabled]="paginaActual === totalPaginas" class="page-btn" [title]="'common.lastPage' | translate">
+            &raquo;
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span class="version">v1.0.0</span>
+  </footer>
+
+  <app-equipo-detalle-modal
+    [visible]="showModal"
+    [equipo]="selectedEquipo"
+    [marca]="getMarcaNombre(selectedEquipo?.idMarca || 0)"
+    [modelo]="getModeloNombre(selectedEquipo?.idModelo || 0)"
+    [tipo]="getTipoEquipoNombre(selectedEquipo?.idTipoEquipo || 0)"
+    (closed)="cerrarModal()"
+  ></app-equipo-detalle-modal>
+</div>

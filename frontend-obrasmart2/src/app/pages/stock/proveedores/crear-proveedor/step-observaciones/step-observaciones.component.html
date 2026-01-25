@@ -1,0 +1,26 @@
+<div *ngIf="tabActiva === 'observaciones'">
+  <div class="row g-3">
+    <div class="col-12">
+      <label class="form-label">
+        <i class="bi bi-chat-left-text me-2"></i>{{ 'providers.fields.notes' | translate }}
+      </label>
+      <textarea
+        [(ngModel)]="nuevoProveedor.observaciones"
+        class="form-control"
+        rows="8"
+        [placeholder]="'providers.placeholders.notes' | translate"
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="form-footer-actions">
+    <button class="btn-anterior" (click)="volver()">
+      <i class="bi bi-arrow-left me-2"></i>
+      {{ 'providers.actions.prev' | translate }}
+    </button>
+    <button class="btn-guardar" (click)="guardarProveedor()">
+      <i class="bi bi-check-lg me-2"></i>
+      {{ 'providers.actions.save' | translate }}
+    </button>
+  </div>
+</div>

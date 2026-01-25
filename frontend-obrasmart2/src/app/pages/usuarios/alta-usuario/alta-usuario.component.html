@@ -1,0 +1,107 @@
+﻿<div class="layout-container">
+  <!-- Navbar superior -->
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <button class="btn-back" routerLink="/listado-usuario" [title]="'common.back' | translate">
+        <i class="bi bi-arrow-left-circle"></i>
+        <span>{{ 'common.back' | translate }}</span>
+      </button>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+        <div class="brand-text">
+          <h3>{{ 'users.form.title' | translate }}</h3>
+          <p>{{ 'users.form.subtitle' | translate }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <button class="nav-btn ghost" routerLink="/principal" [title]="'common.backHome' | translate">
+        <i class="bi bi-house-door"></i>
+      </button>
+      <app-helper [tooltip]="'users.form.helper' | translate"></app-helper>
+    </div>
+  </header>
+
+  <!-- Sidebar compartido -->
+  <app-sidebar [type]="'simplified'"></app-sidebar>
+
+  <!-- Modales compartidos -->
+  <app-modal-info></app-modal-info>
+
+  <!-- Contenido principal -->
+  <main class="page-container">
+    <div class="card form-card shadow">
+      <div class="card-body">
+        <form (ngSubmit)="crearUsuario()" #formUsuario="ngForm">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">{{ 'users.form.firstname.label' | translate }}</label>
+              <input type="text" class="form-control" [(ngModel)]="usuario.firstname" name="firstname" required [placeholder]="'users.form.firstname.placeholder' | translate" />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">{{ 'users.form.lastname.label' | translate }}</label>
+              <input type="text" class="form-control" [(ngModel)]="usuario.lastname" name="lastname" required [placeholder]="'users.form.lastname.placeholder' | translate" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">{{ 'users.form.email.label' | translate }}</label>
+              <input type="email" class="form-control" [(ngModel)]="usuario.email" name="email" required [placeholder]="'users.form.email.placeholder' | translate" />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">{{ 'users.form.username.label' | translate }}</label>
+              <input type="text" class="form-control" [(ngModel)]="usuario.username" name="username" required [placeholder]="'users.form.username.placeholder' | translate" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">{{ 'users.form.password.label' | translate }}</label>
+              <input type="password" class="form-control" [(ngModel)]="usuario.password" name="password" required [placeholder]="'users.form.password.placeholder' | translate" />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">{{ 'users.form.role.label' | translate }}</label>
+              <select class="form-select" [(ngModel)]="usuario.role" name="role" required>
+                <option value="ADMINISTRACION">{{ 'users.form.role.admin' | translate }}</option>
+                <option value="TECNICO">{{ 'users.form.role.tech' | translate }}</option>
+                <option value="OPERARIO">{{ 'users.form.role.worker' | translate }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">{{ 'users.form.status.label' | translate }}</label>
+              <select class="form-select" [(ngModel)]="usuario.status" name="status" required>
+                <option value="ACTIVO">{{ 'users.form.status.active' | translate }}</option>
+                <option value="INACTIVO">{{ 'users.form.status.inactive' | translate }}</option>
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">{{ 'users.form.notes.label' | translate }}</label>
+              <textarea class="form-control" rows="3" [(ngModel)]="usuario.observaciones" name="observaciones" [placeholder]="'users.form.notes.placeholder' | translate"></textarea>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-cancel" routerLink="/listado-usuario">
+              <i class="bi bi-x-circle"></i>
+              {{ 'common.cancel' | translate }}
+            </button>
+            <button type="submit" class="btn btn-save">
+              <i class="bi bi-check-circle"></i>
+              {{ 'users.form.actions.save' | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer-bar">
+    <div></div>
+    <div class="footer-version">v1.0.0</div>
+  </footer>
+</div>

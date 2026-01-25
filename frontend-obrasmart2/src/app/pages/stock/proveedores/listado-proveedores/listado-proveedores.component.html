@@ -1,0 +1,153 @@
+<div class="layout-container">
+  <!-- 🔹 NAVBAR SUPERIOR -->
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <button class="menu-btn" (click)="toggleSidebar()" [title]="'menu.main' | translate">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+      </div>
+      <h1 class="navbar-title">{{ 'providers.list.title' | translate }}</h1>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" [title]="'common.backHome' | translate">
+        <i class="bi bi-house-door"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Sidebar compartido -->
+  <app-sidebar [type]="'full'"></app-sidebar>
+
+  <!-- Modales compartidos -->
+  <app-modal-info></app-modal-info>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="content">
+      <!-- TOOLBAR -->
+      <div class="toolbar">
+        <div class="search-container">
+          <i class="bi bi-search search-icon"></i>
+          <input
+            type="text"
+            class="search-input"
+            [placeholder]="'providers.list.searchPlaceholder' | translate"
+            [(ngModel)]="searchTerm"
+            (input)="filtrarProveedores()" />
+        </div>
+
+        <div class="toolbar-actions">
+          <select class="filter-select" [(ngModel)]="filtroEstado" (change)="filtrarProveedores()">
+            <option value="todos">{{ 'providers.list.filters.allStates' | translate }}</option>
+            <option value="Activo">{{ 'providers.status.active' | translate }}</option>
+            <option value="Inactivo">{{ 'providers.status.inactive' | translate }}</option>
+          </select>
+
+          <button class="btn-nuevo" (click)="crearNuevo()">
+            <i class="bi bi-plus-lg"></i>
+            {{ 'providers.list.actions.new' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <!-- TABLA -->
+      <div class="table-wrapper">
+        <div *ngIf="loading" class="loading-container">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">{{ 'providers.list.loading' | translate }}</span>
+          </div>
+          <p>{{ 'providers.list.loading' | translate }}</p>
+        </div>
+
+        <div *ngIf="!loading" class="table-scroll">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th><i class="bi bi-building me-2"></i>{{ 'providers.table.companyName' | translate }}</th>
+                <th><i class="bi bi-briefcase me-2"></i>{{ 'providers.table.specialty' | translate }}</th>
+                <th><i class="bi bi-telephone me-2"></i>{{ 'providers.table.contact' | translate }}</th>
+                <th class="text-center"><i class="bi bi-toggles me-2"></i>{{ 'providers.table.status' | translate }}</th>
+                <th class="text-center"><i class="bi bi-gear me-2"></i>{{ 'providers.table.actions' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let proveedor of proveedoresPaginados">
+                <td>
+                  <div class="proveedor-info">
+                    <i class="bi bi-building"></i>
+                    <strong>{{ proveedor.razonSocial }}</strong>
+                  </div>
+                </td>
+                <td>{{ proveedor.especialidad || '—' }}</td>
+                <td>{{ proveedor.contacto || '—' }}</td>
+                <td class="text-center">
+                  <span [ngClass]="getBadgeClass(proveedor.estado)">
+                    {{ proveedor.estado === 'Activo' ? ('providers.status.active' | translate) : ('providers.status.inactive' | translate) }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <div class="action-buttons">
+                    <button class="btn-action btn-view" (click)="verDetalles(proveedor)" [title]="'common.view' | translate">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn-action btn-edit" (click)="editarProveedor(proveedor)" [title]="'common.edit' | translate">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn-action btn-delete" (click)="eliminarProveedor(proveedor)" [title]="'common.delete' | translate">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr *ngIf="proveedoresFiltrados.length === 0">
+                <td colspan="5" class="no-data">
+                  <i class="bi bi-exclamation-circle"></i>
+                  <p>{{ 'providers.list.empty' | translate }}</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    <!-- 🔸 Paginación fuera de la card -->
+    <div class="pagination-wrapper" *ngIf="proveedoresFiltrados.length > 0">
+      <div class="pagination-controls">
+        <select [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange()" class="items-per-page">
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+          <option [value]="50">50</option>
+        </select>
+        <div class="pagination-buttons">
+          <button (click)="primeraPagina()" [disabled]="currentPage === 1" class="page-btn" [title]="'common.firstPage' | translate">
+            &laquo;
+          </button>
+          <button (click)="cambiarPagina(currentPage - 1)" [disabled]="currentPage === 1" class="page-btn" [title]="'common.prevPage' | translate">
+            &lsaquo;
+          </button>
+          <span class="page-indicator">{{ 'common.pageIndicator' | translate:{ page: currentPage, total: totalPages } }}</span>
+          <button (click)="cambiarPagina(currentPage + 1)" [disabled]="currentPage === totalPages" class="page-btn" [title]="'common.nextPage' | translate">
+            &rsaquo;
+          </button>
+          <button (click)="ultimaPagina()" [disabled]="currentPage === totalPages" class="page-btn" [title]="'common.lastPage' | translate">
+            &raquo;
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 🔹 FOOTER -->
+  <footer class="footer">
+    <span>{{ 'footer.terms' | translate }}</span> | <span>{{ 'footer.privacy' | translate }}</span> | <span>{{ 'footer.support' | translate }}</span>
+    <span class="version">v1.0.0</span>
+  </footer>
+  <app-proveedor-detalle-modal
+    [visible]="detalleVisible"
+    [proveedorId]="selectedProveedorId"
+    (closed)="cerrarDetalle()"
+  ></app-proveedor-detalle-modal>
+</div>

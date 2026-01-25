@@ -1,0 +1,61 @@
+<!-- 🔵 BURBUJA FLOTANTE -->
+<div class="asistente-widget" (click)="toggleChat()">
+  <img src="assets/logo-obrasmart.png" class="widget-icon">
+</div>
+
+<!-- 🔵 VENTANA DEL CHAT -->
+<div class="asistente-container"
+     *ngIf="mostrarChat"
+     [class.dark]="darkMode"
+     #chatWindow>
+
+  <!-- ===== HEADER ===== -->
+  <div class="header"
+       (mousedown)="startDrag($event, chatWindow)">
+
+    <div class="title-area">
+      <h3 class="titulo">{{ 'chat.title' | translate }}</h3>
+      <p class="sub">{{ 'chat.subtitle' | translate }}</p>
+    </div>
+
+    <div class="header-actions">
+      <button class="modo-btn" (click)="toggleMode(); $event.stopPropagation()">
+        <span class="icono-tema">{{ darkMode ? "☀️" : "🌙" }}</span>
+      </button>
+
+      <button class="cerrar-btn" (click)="toggleChat(); $event.stopPropagation()">✕</button>
+    </div>
+
+  </div>
+
+  <!-- ===== MENSAJES ===== -->
+  <div class="mensajes">
+    <div *ngFor="let m of mensajes" class="msg" [ngClass]="m.emisor">
+      <div class="burbuja">
+        <div class="texto" [innerHTML]="formatearRespuesta(m.texto)"></div>
+        <div class="hora">{{ m.fecha | date:'shortTime' }}</div>
+      </div>
+    </div>
+
+    <div *ngIf="cargando" class="msg asistente">
+      <div class="burbuja typing">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INPUT ===== -->
+  <div class="input-area">
+    <input type="text"
+           [(ngModel)]="mensaje"
+           (keyup.enter)="enviar()"
+           [placeholder]="'chat.placeholder' | translate"/>
+    <button (click)="enviar()">{{ 'chat.send' | translate }}</button>
+  </div>
+
+  <!-- 🔻 Redimensionar -->
+  <div class="resize-handle"
+       (mousedown)="startResize($event, chatWindow)">
+  </div>
+
+</div>

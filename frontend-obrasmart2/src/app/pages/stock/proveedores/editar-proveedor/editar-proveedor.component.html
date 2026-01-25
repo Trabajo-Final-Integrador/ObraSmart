@@ -1,0 +1,206 @@
+<div class="layout-container">
+  <!-- 🔹 NAVBAR SUPERIOR -->
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <button class="btn-back" routerLink="/stock/proveedores" [title]="'providers.actions.back' | translate">
+        <i class="bi bi-arrow-left-circle"></i>
+        <span>{{ 'providers.actions.back' | translate }}</span>
+      </button>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+      </div>
+      <div class="header-content">
+        <div>
+          <h3>{{ 'providers.form.editTitle' | translate }}</h3>
+          <p>{{ 'providers.form.subtitle' | translate }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" [title]="'common.backHome' | translate">
+        <i class="bi bi-house-door"></i>
+      </button>
+      
+    </div>
+  </header>
+
+  <!-- 🔹 TABS DE NAVEGACIÓN -->
+  <nav class="tabs-navbar">
+    <button
+      *ngFor="let tab of tabs"
+      (click)="setTabActiva(tab.id)"
+      [ngClass]="{ active: tabActiva === tab.id }"
+      class="tab-btn"
+    >
+      <i [class]="tab.icon"></i>
+      <span class="tab-label">{{ tab.label | translate }}</span>
+    </button>
+  </nav>
+
+  <!-- 🔹 CONTENIDO PRINCIPAL -->
+  <main class="content">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">{{ 'providers.list.loading' | translate }}</span>
+      </div>
+      <p class="mt-3">{{ 'providers.form.loading' | translate }}</p>
+    </div>
+
+    <!-- Form Content -->
+    <div *ngIf="!loading" class="form-container">
+      <div class="form-card">
+        <!-- FORMULARIO -->
+        <div class="form-body">
+          <!-- ====== TAB GENERAL ====== -->
+          <div *ngIf="tabActiva === 'general'">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">
+                  <i class="bi bi-building me-2"></i>{{ 'providers.fields.companyName' | translate }} <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  [(ngModel)]="nuevoProveedor.razonSocial"
+                  class="form-control"
+                  [placeholder]="'providers.placeholders.companyName' | translate"
+                  required
+                />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">
+                  <i class="bi bi-shop me-2"></i>{{ 'providers.fields.tradeName' | translate }}
+                </label>
+                <input
+                  type="text"
+                  [(ngModel)]="nuevoProveedor.nombreComercial"
+                  class="form-control"
+                  [placeholder]="'providers.placeholders.tradeName' | translate"
+                />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">
+                  <i class="bi bi-card-text me-2"></i>{{ 'providers.fields.taxId' | translate }} <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  [(ngModel)]="nuevoProveedor.cuit"
+                  [placeholder]="'providers.placeholders.taxId' | translate"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">
+                  <i class="bi bi-receipt me-2"></i>{{ 'providers.fields.taxCondition' | translate }} <span class="text-danger">*</span>
+                </label>
+                <select
+                  [(ngModel)]="nuevoProveedor.condicionIVA"
+                  class="form-select"
+                  required
+                >
+                  <option value="">{{ 'providers.placeholders.taxCondition' | translate }}</option>
+                  <option value="Responsable Inscripto">Responsable Inscripto</option>
+                  <option value="Monotributista">Monotributista</option>
+                  <option value="Exento">Exento</option>
+                </select>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">
+                  <i class="bi bi-toggles me-2"></i>{{ 'providers.fields.status' | translate }}
+                </label>
+                <div class="estado-radio-group">
+                  <label class="radio-label">
+                    <input
+                      type="radio"
+                      value="Activo"
+                      [(ngModel)]="nuevoProveedor.estado"
+                    />
+                    <span class="radio-custom"></span>
+                    <span class="radio-text">{{ 'providers.status.active' | translate }}</span>
+                  </label>
+                  <label class="radio-label">
+                    <input
+                      type="radio"
+                      value="Inactivo"
+                      [(ngModel)]="nuevoProveedor.estado"
+                    />
+                    <span class="radio-custom"></span>
+                    <span class="radio-text">{{ 'providers.status.inactive' | translate }}</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ====== TAB CONTACTO ====== -->
+          <app-step-contacto
+            *ngIf="tabActiva === 'contacto'"
+            [tabActiva]="tabActiva"
+            [nuevoProveedor]="nuevoProveedor"
+            (next)="irAlSiguiente('comercial')"
+            (prev)="irAlAnterior('general')">
+          </app-step-contacto>
+
+          <!-- ====== TAB COMERCIAL ====== -->
+          <app-step-comercio
+            *ngIf="tabActiva === 'comercial'"
+            [tabActiva]="tabActiva"
+            [nuevoProveedor]="nuevoProveedor"
+            (next)="irAlSiguiente('catalogo')"
+            (prev)="irAlAnterior('contacto')">
+          </app-step-comercio>
+
+          <!-- ====== TAB CATÁLOGO ====== -->
+          <app-step-catalogo
+            *ngIf="tabActiva === 'catalogo'"
+            [tabActiva]="tabActiva"
+            [nuevoProveedor]="nuevoProveedor"
+            (next)="irAlSiguiente('bancario')"
+            (prev)="irAlAnterior('comercial')">
+          </app-step-catalogo>
+
+          <!-- ====== TAB BANCARIOS ====== -->
+          <app-step-bancarios
+            *ngIf="tabActiva === 'bancario'"
+            [tabActiva]="tabActiva"
+            [nuevoProveedor]="nuevoProveedor"
+            (next)="irAlSiguiente('observaciones')"
+            (prev)="irAlAnterior('catalogo')">
+          </app-step-bancarios>
+
+          <!-- ====== TAB OBSERVACIONES ====== -->
+          <app-step-observaciones
+            *ngIf="tabActiva === 'observaciones'"
+            [tabActiva]="tabActiva"
+            [nuevoProveedor]="nuevoProveedor"
+            (prev)="irAlAnterior('bancario')"
+            (guardar)="actualizarProveedor()">
+          </app-step-observaciones>
+        </div>
+
+        <!-- FOOTER NAVIGATION -->
+        <div class="form-footer" *ngIf="tabActiva === 'general'">
+          <button class="btn-cancelar" (click)="cancelar()" [disabled]="isSubmitting">
+            <i class="bi bi-x-lg me-2"></i>
+            Cancelar
+          </button>
+          <button class="btn-siguiente" (click)="irAlSiguiente('contacto')">
+            Siguiente
+            <i class="bi bi-arrow-right ms-2"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 🔹 FOOTER -->
+  <footer class="footer">
+    
+    <span class="version">v1.0.0</span>
+  </footer>
+</div>

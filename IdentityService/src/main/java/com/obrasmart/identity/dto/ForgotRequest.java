@@ -1,0 +1,12 @@
+package com.obrasmart.identity.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
+@Data
+public class ForgotRequest {
+    @NotBlank
+    @Email
+    private String email;
+}

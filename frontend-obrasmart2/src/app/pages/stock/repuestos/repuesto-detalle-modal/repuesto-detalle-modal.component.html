@@ -1,0 +1,50 @@
+<div class="modal-backdrop os-modal-backdrop" *ngIf="visible" (click)="cerrar()"></div>
+<div class="repuesto-modal os-modal" *ngIf="visible" (click)="$event.stopPropagation()">
+  <div class="modal-header os-modal-header">
+    <div>
+      <h3>{{ repuesto?.nombre || ('stock.spareDetail.fallbackName' | translate) }}</h3>
+      <p class="subtitle">{{ 'stock.spareDetail.code' | translate }}: {{ repuesto?.codigo || ('common.noData' | translate) }}</p>
+    </div>
+    <button class="btn-close os-modal-close" (click)="cerrar()">&times;</button>
+  </div>
+
+  <div class="modal-body os-modal-body">
+    <div class="image-column">
+      <div class="image-wrapper">
+        <img [src]="imageSrc" (error)="onImgError($event)" alt="Imagen de repuesto" />
+      </div>
+      <div class="uploader">
+        <label class="file-label">
+          <input type="file" accept=".png,.jpg,.jpeg,.webp" (change)="onFileSelected($event)" />
+          <span>{{ imageLabel || ('stock.upload.chooseFile' | translate) }}</span>
+        </label>
+        <button class="btn primary" (click)="subirImagen()" [disabled]="!fileToUpload || uploading">
+          {{ uploading ? ('stock.upload.uploading' | translate) : ('stock.upload.upload' | translate) }}
+        </button>
+      </div>
+    </div>
+
+    <div class="info-column">
+      <div class="info-row">
+        <span class="label">{{ 'stock.partDetail.stock' | translate }}</span>
+        <span class="value">{{ repuesto?.stock }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">{{ 'stock.partDetail.minStock' | translate }}</span>
+        <span class="value">{{ repuesto?.stockMinimo }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">{{ 'stock.partDetail.unit' | translate }}</span>
+        <span class="value">{{ repuesto?.unidadMedida }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">{{ 'stock.partDetail.category' | translate }}</span>
+        <span class="value">{{ repuesto?.idCategoria || ('common.noData' | translate) }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-actions os-modal-footer">
+    <button class="btn ghost os-btn ghost" (click)="cerrar()">{{ 'common.close' | translate }}</button>
+  </div>
+</div>

@@ -1,0 +1,310 @@
+﻿<div class="layout-container">
+  <!-- NAVBAR SUPERIOR -->
+  <header class="top-navbar">
+    <div class="form-header">
+      <i class="bi bi-tools"></i>
+      <div>
+        <h2>
+          {{
+            modoDetalle
+              ? ('repairs.detail.title' | translate)
+              : ('repairs.edit.title' | translate)
+          }}
+        </h2>
+        <p>
+          {{
+            modoDetalle
+              ? ('repairs.detail.subtitle' | translate)
+              : ('repairs.edit.subtitle' | translate)
+          }}
+        </p>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <button class="menu-btn" routerLink="/reparaciones" [title]="'common.back' | translate">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <button
+        class="btn-regresar"
+        routerLink="/principal"
+        [title]="'common.backHome' | translate"
+      >
+        <i class="bi bi-house-door"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="content">
+    <div class="form-container">
+      <div class="form-card">
+        <div *ngIf="loading" class="loading-container">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">{{ 'repairs.loading' | translate }}</span>
+          </div>
+          <p>{{ 'repairs.loadingDetail' | translate }}</p>
+        </div>
+
+        <div *ngIf="!loading && reparacion">
+          <!-- Badges de Estado y Acciones Rápidas -->
+          <div class="status-bar">
+            <div class="status-info">
+              <span class="status-label">{{ 'repairs.detail.statusLabel' | translate }}</span>
+              <span
+                class="badge status-badge"
+                [ngClass]="{
+                  'text-bg-warning': reparacion.estadoReparacion === 'CREADA',
+                  'text-bg-info': reparacion.estadoReparacion === 'EN_PROCESO',
+                  'text-bg-success':
+                    reparacion.estadoReparacion === 'FINALIZADA',
+                  'text-bg-danger': reparacion.estadoReparacion === 'CANCELADA'
+                }"
+              >
+                {{ reparacion.estadoReparacion }}
+              </span>
+              <span class="equipment-info">
+                #{{ reparacion.equipoCodigoInterno }} -
+                {{ reparacion.equipoNombre }}
+              </span>
+            </div>
+
+            <div
+              class="quick-actions"
+              *ngIf="
+                modoDetalle &&
+                reparacion.estadoReparacion !== 'CANCELADA' &&
+                reparacion.estadoReparacion !== 'FINALIZADA'
+              "
+            >
+              <button
+                class="btn btn-sm btn-outline-primary"
+                (click)="habilitarEdicion()"
+                *ngIf="reparacion.estadoReparacion !== 'FINALIZADA'"
+              >
+                <i class="bi bi-pencil"></i> {{ 'common.edit' | translate }}
+              </button>
+              <button
+                class="btn btn-sm btn-info"
+                (click)="cambiarEstado('EN_PROCESO')"
+                *ngIf="reparacion.estadoReparacion === 'CREADA'"
+              >
+                <i class="bi bi-play-circle"></i> {{ 'repairs.actions.start' | translate }}
+              </button>
+              <button
+                class="btn btn-sm btn-success"
+                (click)="cambiarEstado('FINALIZADA')"
+                *ngIf="reparacion.estadoReparacion === 'EN_PROCESO'"
+              >
+                <i class="bi bi-check-circle"></i> {{ 'repairs.actions.finish' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <div class="foto-panel">
+            <div class="preview">
+              <img [src]="imagenSrc" (error)="onImagenError($event)" [alt]="'repairs.form.imageAlt' | translate" />
+            </div>
+            <div class="upload-actions" *ngIf="modoEdicion">
+              <label class="file-label">
+                <input type="file" accept=".png,.jpg,.jpeg,.webp" (change)="onFileSelected($event)" />
+                <span>{{ fileToUpload?.name || ('repairs.form.imagePlaceholder' | translate) }}</span>
+              </label>
+              <button type="button" class="btn btn-upload" (click)="subirImagen()" [disabled]="!fileToUpload || uploading">
+                {{ uploading ? ('repairs.form.uploading' | translate) : ('repairs.form.upload' | translate) }}
+              </button>
+            </div>
+          </div>
+
+          <form #reparacionForm="ngForm">
+            <div class="form-body">
+              <div class="row">
+                <!-- Equipo -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">
+                    <i class="bi bi-cone-striped me-2"></i>{{ 'repairs.form.equipment.label' | translate }}
+                    <span class="text-danger">*</span>
+                  </label>
+                  <select
+                    class="form-select"
+                    name="equipoId"
+                    [(ngModel)]="formulario.equipoId"
+                    [disabled]="modoDetalle"
+                    required
+                  >
+                    <option value="">{{ 'repairs.form.equipment.placeholder' | translate }}</option>
+                    <option *ngFor="let eq of equipos" [value]="eq.id">
+                      {{ eq.nombre }} - {{ eq.numeroSerie }}
+                    </option>
+                  </select>
+                </div>
+
+                <!-- Tipo de Mantenimiento -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">
+                    <i class="bi bi-wrench me-2"></i>{{ 'repairs.form.maintenance.label' | translate }}
+                    <span class="text-danger">*</span>
+                  </label>
+                  <select
+                    class="form-select"
+                    name="tipoMantenimiento"
+                    [(ngModel)]="formulario.tipoMantenimiento"
+                    [disabled]="modoDetalle"
+                    required
+                  >
+                    <option value="">{{ 'repairs.form.maintenance.placeholder' | translate }}</option>
+                    <option value="CORRECTIVO">{{ 'repairs.form.maintenance.corrective' | translate }}</option>
+                    <option value="PREVENTIVO">{{ 'repairs.form.maintenance.preventive' | translate }}</option>
+                    <option value="PREDICTIVO">{{ 'repairs.form.maintenance.predictive' | translate }}</option>
+                  </select>
+                </div>
+
+                <!-- Responsable -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">
+                    <i class="bi bi-person-badge me-2"></i>{{ 'repairs.form.responsible.label' | translate }}
+                    <span class="text-danger">*</span>
+                  </label>
+                  <select
+                    class="form-select"
+                    name="responsableId"
+                    [(ngModel)]="formulario.responsableId"
+                    [disabled]="modoDetalle"
+                    required
+                  >
+                    <option [ngValue]="null">{{ 'repairs.form.responsible.placeholder' | translate }}</option>
+                    <option *ngFor="let usuario of usuarios" [ngValue]="usuario.id">
+                      {{ usuario.username }} ({{ usuario.email }})
+                    </option>
+                  </select>
+                </div>
+
+                <!-- Estado de la Reparación -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">
+                    <i class="bi bi-flag me-2"></i>{{ 'repairs.form.status.label' | translate }}
+                    <span class="text-danger">*</span>
+                  </label>
+                  <select
+                    class="form-select"
+                    name="estadoReparacion"
+                    [(ngModel)]="formulario.estadoReparacion"
+                    [disabled]="modoDetalle"
+                    required
+                  >
+                    <option value="">{{ 'repairs.form.status.placeholder' | translate }}</option>
+                    <option value="CREADA">{{ 'repairs.status.created' | translate }}</option>
+                    <option value="EN_PROCESO">{{ 'repairs.status.inProgress' | translate }}</option>
+                    <option value="PAUSADA">{{ 'repairs.status.paused' | translate }}</option>
+                    <option value="FINALIZADA">{{ 'repairs.status.done' | translate }}</option>
+                    <option value="CANCELADA">{{ 'repairs.status.canceled' | translate }}</option>
+                  </select>
+                </div>
+
+                <!-- Ubicación / Dirección -->
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">
+                    <i class="bi bi-geo-alt me-2"></i>{{ 'repairs.form.address.label' | translate }}
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="direccion"
+                    [(ngModel)]="formulario.direccion"
+                    [disabled]="modoDetalle"
+                    [placeholder]="'repairs.form.address.placeholder' | translate"
+                  />
+                </div>
+
+                <!-- Descripción del Problema -->
+                <div class="col-12 mb-3">
+                  <label class="form-label">
+                    <i class="bi bi-clipboard-check me-2"></i>{{ 'repairs.form.description.label' | translate }}
+                    <span class="text-danger">*</span>
+                  </label>
+                  <textarea
+                    rows="5"
+                    class="form-control"
+                    name="descripcion"
+                    [(ngModel)]="formulario.descripcion"
+                    [disabled]="modoDetalle"
+                    required
+                    [placeholder]="'repairs.form.description.placeholder' | translate"
+                  ></textarea>
+                </div>
+              </div>
+
+              <!-- Información de Seguimiento -->
+              <div class="info-section">
+                <h3>
+                  <i class="bi bi-clock-history me-2"></i>{{ 'repairs.detail.tracking' | translate }}
+                </h3>
+                <div class="row">
+                  <div class="col-md-6 mb-2">
+                    <strong>{{ 'repairs.detail.responsible' | translate }}</strong>
+                    {{ reparacion.responsableNombreCompleto }}
+                  </div>
+                  <div class="col-md-6 mb-2">
+                    <strong>{{ 'repairs.detail.createdAt' | translate }}</strong>
+                    {{ reparacion.fechaCreacion | date : 'dd/MM/yyyy HH:mm' }}
+                  </div>
+                  <div class="col-md-6 mb-2">
+                    <strong>{{ 'repairs.detail.startAt' | translate }}</strong>
+                    {{
+                      reparacion.fechaInicio
+                        ? (reparacion.fechaInicio | date : 'dd/MM/yyyy HH:mm')
+                        : ('repairs.detail.notStarted' | translate)
+                    }}
+                  </div>
+                  <div class="col-md-6 mb-2">
+                    <strong>{{ 'repairs.detail.endAt' | translate }}</strong>
+                    {{
+                      reparacion.fechaFin
+                        ? (reparacion.fechaFin | date : 'dd/MM/yyyy HH:mm')
+                        : ('repairs.detail.notFinished' | translate)
+                    }}
+                  </div>
+                  <div class="col-md-6 mb-2">
+                    <strong>{{ 'repairs.detail.updatedAt' | translate }}</strong>
+                    {{
+                      reparacion.fechaUltimaActualizacion
+                        | date : 'dd/MM/yyyy HH:mm'
+                    }}
+                  </div>
+                  <div class="col-md-6 mb-2">
+                    <strong>{{ 'repairs.detail.address' | translate }}</strong>
+                    {{ reparacion.direccion || ('repairs.detail.addressUnknown' | translate) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-footer" *ngIf="modoEdicion">
+              <button type="button" class="btn-cancelar" (click)="cancelar()">
+                <i class="bi bi-x-lg me-2"></i>
+                {{ 'common.cancel' | translate }}
+              </button>
+              <button
+                type="button"
+                class="btn-guardar"
+                (click)="guardar()"
+                [disabled]="
+                  reparacion?.estadoReparacion === 'FINALIZADA' ||
+                  reparacion?.estadoReparacion === 'CANCELADA'
+                "
+              >
+                <i class="bi bi-check-lg me-2"></i>
+                {{ 'repairs.form.actions.saveChanges' | translate }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span>{{ 'common.terms' | translate }}</span> | <span>{{ 'common.privacy' | translate }}</span> | <span>{{ 'common.support' | translate }}</span>
+    <span class="version">v1.0.0</span>
+  </footer>
+</div>

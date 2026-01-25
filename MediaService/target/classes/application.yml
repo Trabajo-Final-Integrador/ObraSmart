@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mediaservice
+    username: postgres
+    password: 123456
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+logging:
+  file:
+    name: logs/mediaservice.log
+  level:
+    root: INFO
+    org.springframework.web: INFO
+
+app:
+  storage:
+    base-path: mediaFiles
+  security:
+    enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never

@@ -1,0 +1,92 @@
+<div class="modal-backdrop" *ngIf="visible" (click)="cerrar()"></div>
+<div class="equipo-modal" *ngIf="visible">
+  <div class="modal-header">
+    <div class="hero">
+      <div class="image-wrapper">
+        <img [src]="getEquipoImageSrc()" (error)="onImgError($event)" />
+      </div>
+      <div class="header-copy">
+        <div class="chips">
+          <span class="chip primary">{{ tipo || ('equipos.detail.noType' | translate) }}</span>
+          <span class="chip muted">{{ equipo?.estadoOperativo || ('equipos.detail.noStatus' | translate) }}</span>
+        </div>
+        <h2>{{ equipo?.nombre || ('equipos.detail.fallbackName' | translate) }}</h2>
+        <p class="subtitle">{{ 'equipos.detail.code' | translate }}: {{ equipo?.codigoInterno || ('common.noData' | translate) }}</p>
+        <p class="micro" *ngIf="loadingDetalle">{{ 'equipos.detail.loading' | translate }}</p>
+      </div>
+    </div>
+    <button class="btn-close" (click)="cerrar()">&times;</button>
+  </div>
+
+  <div class="modal-body">
+    <div class="column">
+      <div class="section-title">{{ 'equipos.detail.general' | translate }}</div>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="label">{{ 'equipos.detail.type' | translate }}</span>
+          <span class="value">{{ tipo || ('common.noData' | translate) }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">{{ 'equipos.detail.brand' | translate }}</span>
+          <span class="value">{{ marca || ('common.noData' | translate) }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">{{ 'equipos.detail.model' | translate }}</span>
+          <span class="value">{{ modelo || ('common.noData' | translate) }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">{{ 'equipos.detail.status' | translate }}</span>
+          <span class="pill">{{ equipo?.estadoOperativo || ('equipos.detail.noStatus' | translate) }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">{{ 'equipos.detail.serial' | translate }}</span>
+          <span class="value">{{ equipo?.numeroSerie || ('common.noData' | translate) }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">{{ 'equipos.detail.internalCode' | translate }}</span>
+          <span class="value">{{ equipo?.codigoInterno || ('common.noData' | translate) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="section-title">{{ 'equipos.detail.location' | translate }}</div>
+      <div class="location-card">
+        <div class="info-row">
+          <span class="label">{{ 'equipos.detail.latlng' | translate }}</span>
+          <span class="value">
+            {{ equipo?.latitud ?? ('common.noData' | translate) }} / {{ equipo?.longitud ?? ('common.noData' | translate) }}
+          </span>
+        </div>
+        <div class="info-row">
+          <span class="label">{{ 'equipos.detail.description' | translate }}</span>
+          <span class="value wrap">{{ equipo?.ubicacionActual || ('equipos.detail.noLocation' | translate) }}</span>
+        </div>
+      </div>
+
+      <div class="section-title upload-title">{{ 'equipos.upload.title' | translate }}</div>
+      <div class="uploader">
+        <div class="upload-row">
+          <label class="file-label">
+            <input type="file" accept=".png,.jpg,.jpeg,.webp" (change)="onFileSelected($event)" />
+            <span>{{ fileToUpload?.name || ('equipos.upload.chooseFile' | translate) }}</span>
+          </label>
+          <button class="btn primary" (click)="subirImagen()" [disabled]="!fileToUpload || loading">
+            {{ loading ? ('equipos.upload.uploading' | translate) : ('equipos.upload.upload' | translate) }}
+          </button>
+        </div>
+        <div class="upload-row">
+          <input type="text" [placeholder]="'equipos.upload.linkPlaceholder' | translate" [(ngModel)]="linkUrl" />
+          <button class="btn secondary" (click)="guardarLink()" [disabled]="!linkUrl.trim() || loading">
+            {{ loading ? ('equipos.upload.saving' | translate) : ('equipos.upload.saveLink' | translate) }}
+          </button>
+        </div>
+        <div class="status" [ngClass]="messageType" *ngIf="message">{{ message }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-actions">
+    <button class="btn ghost" (click)="cerrar()">{{ 'common.close' | translate }}</button>
+  </div>
+</div>

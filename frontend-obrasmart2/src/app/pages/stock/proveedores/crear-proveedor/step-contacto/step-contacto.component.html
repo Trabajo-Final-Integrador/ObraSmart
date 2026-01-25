@@ -1,0 +1,106 @@
+<div *ngIf="tabActiva === 'contacto'">
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">
+        <i class="bi bi-telephone me-2"></i>{{ 'providers.fields.phone' | translate }} <span class="text-danger">*</span>
+      </label>
+      <input
+        type="tel"
+        [(ngModel)]="nuevoProveedor.telefono"
+        class="form-control"
+        [placeholder]="'providers.placeholders.phone' | translate"
+        required
+      />
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">
+        <i class="bi bi-envelope me-2"></i>{{ 'providers.fields.email' | translate }} <span class="text-danger">*</span>
+      </label>
+      <input
+        type="email"
+        [(ngModel)]="nuevoProveedor.email"
+        class="form-control"
+        [placeholder]="'providers.placeholders.email' | translate"
+        required
+      />
+    </div>
+
+    <div class="col-12">
+      <label class="form-label">
+        <i class="bi bi-clock me-2"></i>{{ 'providers.fields.schedule' | translate }}
+      </label>
+      <input
+        type="text"
+        [(ngModel)]="nuevoProveedor.horarioAtencion"
+        [placeholder]="'providers.placeholders.schedule' | translate"
+        class="form-control"
+      />
+    </div>
+
+    <div class="col-12">
+      <label class="form-label">
+        <i class="bi bi-geo-alt me-2"></i>{{ 'providers.fields.address' | translate }} <span class="text-danger">*</span>
+      </label>
+      <input
+        type="text"
+        [(ngModel)]="nuevoProveedor.direccion"
+        class="form-control"
+        [placeholder]="'providers.placeholders.address' | translate"
+        required
+      />
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">
+        <i class="bi bi-building me-2"></i>{{ 'providers.fields.city' | translate }} <span class="text-danger">*</span>
+      </label>
+      <input
+        type="text"
+        [(ngModel)]="nuevoProveedor.ciudad"
+        class="form-control"
+        [placeholder]="'providers.placeholders.city' | translate"
+        required
+      />
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">
+        <i class="bi bi-map me-2"></i>{{ 'providers.fields.state' | translate }} <span class="text-danger">*</span>
+      </label>
+      <select
+        [(ngModel)]="nuevoProveedor.provincia"
+        class="form-select"
+        required
+      >
+        <option value="">{{ 'providers.placeholders.state' | translate }}</option>
+        <option *ngFor="let prov of provinciasArgentinas" [value]="prov">
+          {{ prov }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">
+        <i class="bi bi-mailbox me-2"></i>{{ 'providers.fields.zip' | translate }}
+      </label>
+      <input
+        type="text"
+        [(ngModel)]="nuevoProveedor.codigoPostal"
+        class="form-control"
+        [placeholder]="'providers.placeholders.zip' | translate"
+      />
+    </div>
+  </div>
+
+  <div class="form-footer-actions">
+    <button class="btn-anterior" (click)="volver()">
+      <i class="bi bi-arrow-left me-2"></i>
+      {{ 'providers.actions.prev' | translate }}
+    </button>
+    <button class="btn-siguiente" (click)="continuar()">
+      {{ 'providers.actions.next' | translate }}
+      <i class="bi bi-arrow-right ms-2"></i>
+    </button>
+  </div>
+</div>

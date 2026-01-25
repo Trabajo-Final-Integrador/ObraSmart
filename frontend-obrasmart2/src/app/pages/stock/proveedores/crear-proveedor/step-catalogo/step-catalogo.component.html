@@ -1,0 +1,56 @@
+<!-- CATÁLOGO -->
+<div *ngIf="tabActiva === 'catalogo'" class="catalogo-panel">
+  <div class="catalogo-header">
+    <div class="icon">
+      <i class="bi bi-bag-check"></i>
+    </div>
+    <div>
+      <h3>{{ 'providers.fields.catalogTitle' | translate }}</h3>
+      <p>{{ 'providers.fields.catalogDescription' | translate }}</p>
+    </div>
+  </div>
+
+  <div class="catalogo-grid">
+    <label class="check-row">
+      <input
+        type="checkbox"
+        [(ngModel)]="nuevoProveedor.tieneCatalogo"
+        name="tieneCatalogo"
+      />
+      <span class="checkmark"></span>
+      <div class="check-copy">
+        <span class="title">{{ 'providers.fields.hasCatalog' | translate }}</span>
+        <small>{{ 'providers.fields.catalogDescription' | translate }}</small>
+      </div>
+    </label>
+
+    <div class="field" *ngIf="nuevoProveedor.tieneCatalogo">
+      <label>{{ 'providers.fields.catalogUrl' | translate }} <span class="req">*</span></label>
+      <input
+        type="url"
+        [(ngModel)]="nuevoProveedor.urlCatalogo"
+        name="urlCatalogo"
+        [placeholder]="'providers.placeholders.catalogUrl' | translate"
+        class="form-input"
+      />
+      <small class="help">{{ 'providers.placeholders.catalogUrlHelp' | translate }}</small>
+    </div>
+
+    <div class="field" *ngIf="nuevoProveedor.tieneCatalogo">
+      <label>{{ 'providers.fields.catalogCode' | translate }}</label>
+      <input
+        type="text"
+        [(ngModel)]="nuevoProveedor.codigoCliente"
+        name="codigoCliente"
+        [placeholder]="'providers.placeholders.catalogCode' | translate"
+        class="form-input"
+      />
+      <small class="help">{{ 'providers.placeholders.catalogCodeHelp' | translate }}</small>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-anterior" (click)="volver()">{{ 'providers.actions.prev' | translate }}</button>
+    <button class="btn-siguiente" (click)="continuar()">{{ 'providers.actions.next' | translate }}</button>
+  </div>
+</div>

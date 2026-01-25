@@ -1,0 +1,63 @@
+<div class="layout-container">
+  <header class="top-navbar">
+    <div class="navbar-left">
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+        <h1 class="navbar-title">Nuevo traslado</h1>
+      </div>
+    </div>
+    <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/traslados" title="Volver">
+        <i class="bi bi-arrow-left-circle"></i>
+      </button>
+    </div>
+  </header>
+
+  <app-sidebar [type]="'full'"></app-sidebar>
+  <app-modal-info></app-modal-info>
+
+  <main class="content">
+    <div class="header">
+      <h2>Nuevo traslado</h2>
+      <button class="btn ghost" (click)="cancelar()">Volver</button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="guardar()">
+      <div class="form-grid">
+        <label>
+          Equipo
+          <select formControlName="equipoId" required>
+            <option [ngValue]="null">Selecciona equipo</option>
+            <option *ngFor="let eq of equipos" [ngValue]="eq.id">{{ eq.nombre || eq.codigoInterno }}</option>
+          </select>
+        </label>
+
+        <label>
+          Origen (Obrador ID)
+          <input type="number" formControlName="origenObradorId" required />
+        </label>
+
+        <label>
+          Destino (Obrador ID)
+          <input type="number" formControlName="destinoObradorId" required />
+        </label>
+
+        <label>
+          Programado para
+          <input type="datetime-local" formControlName="programadoPara" />
+        </label>
+
+        <label class="full">
+          Notas
+          <textarea rows="3" formControlName="notas"></textarea>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn primary" [disabled]="loading">Crear traslado</button>
+        <span *ngIf="loading">Guardando...</span>
+        <span class="error" *ngIf="error">{{ error }}</span>
+      </div>
+    </form>
+  </main>
+</div>

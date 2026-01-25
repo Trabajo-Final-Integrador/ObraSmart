@@ -1,0 +1,66 @@
+<div class="operaciones-layout">
+  <aside class="panel">
+    <div class="panel-header">
+      <h3>Mapa de Operaciones</h3>
+      <p>Satélite + logística en vivo</p>
+    </div>
+
+    <div class="filter-group">
+      <label class="toggle">
+        <input #chkObradores type="checkbox" [checked]="filtros.obradores" (change)="toggleOverlay('obradores', chkObradores.checked)" />
+        <span>Mostrar Obradores</span>
+      </label>
+      <label class="toggle">
+        <input #chkLogistica type="checkbox" [checked]="filtros.logistica" (change)="toggleOverlay('logistica', chkLogistica.checked)" />
+        <span>Mostrar Logística</span>
+      </label>
+    </div>
+
+    <div class="filter-group">
+      <label>Estado logística</label>
+      <select #selEstado [value]="filtros.estado" (change)="onEstadoChange(selEstado.value)">
+        <option value="todos">Todos</option>
+        <option value="pendiente">Pendiente</option>
+        <option value="en_progreso">En progreso</option>
+        <option value="completado">Completado</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Fecha</label>
+      <select #selFecha [value]="filtros.fecha" (change)="onFechaChange(selFecha.value)">
+        <option value="hoy">Hoy</option>
+        <option value="rango">Rango</option>
+      </select>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-dot obrador"></span>
+        <span>Obrador</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot camion"></span>
+        <span>Camión / Traslado</span>
+      </div>
+    </div>
+  </aside>
+
+  <section class="map-wrapper">
+    <div id="map-operaciones"></div>
+  </section>
+</div>
+
+<!-- Modal detalle obrador -->
+<div class="modal-backdrop" *ngIf="detalleAbierto" (click)="cerrarDetalle()"></div>
+<div class="modal" *ngIf="detalleAbierto">
+  <div class="modal-header">
+    <h4>{{ selectedObrador?.nombre }}</h4>
+    <button class="btn-close" (click)="cerrarDetalle()">&times;</button>
+  </div>
+  <div class="modal-body">
+    <div>Supervisor: {{ selectedObrador?.supervisorUserId || 'N/D' }}</div>
+    <div>Ubicación: {{ selectedObrador?.ubicacion || 'Sin datos' }}</div>
+    <div>Equipos: {{ selectedObrador?.equipoIds?.length || 0 }}</div>
+  </div>
+</div>

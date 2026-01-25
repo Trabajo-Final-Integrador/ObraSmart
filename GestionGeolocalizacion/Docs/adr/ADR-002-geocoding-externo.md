@@ -1,0 +1,1 @@
+Uso de servicios externos de geocodificación.

@@ -1,0 +1,205 @@
+<!-- Modal Términos y Condiciones -->
+<div class="modal-overlay" *ngIf="modalTerminos$ | async" (click)="cerrarModalTerminos()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2><i class="bi bi-file-text me-2"></i>Términos y Condiciones</h2>
+      <button class="close-modal-btn" (click)="cerrarModalTerminos()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h3>1. Aceptación de los Términos</h3>
+      <p>
+        Al acceder y utilizar ObraSmart, usted acepta estar sujeto a estos términos y condiciones de uso.
+        Si no está de acuerdo con alguna parte de estos términos, no debe utilizar nuestra plataforma.
+      </p>
+
+      <h3>2. Uso de la Plataforma</h3>
+      <p>
+        ObraSmart es una plataforma diseñada para la gestión de equipos, reparaciones, stock y reportes en obras.
+        El usuario se compromete a utilizar la plataforma de manera responsable y conforme a la ley.
+      </p>
+
+      <h3>3. Responsabilidades del Usuario</h3>
+      <ul>
+        <li>Mantener la confidencialidad de sus credenciales de acceso</li>
+        <li>Proporcionar información precisa y actualizada</li>
+        <li>No utilizar la plataforma para fines ilegales o no autorizados</li>
+        <li>Notificar cualquier uso no autorizado de su cuenta</li>
+      </ul>
+
+      <h3>4. Propiedad Intelectual</h3>
+      <p>
+        Todo el contenido, diseño, logos y software de ObraSmart son propiedad exclusiva y están protegidos
+        por las leyes de propiedad intelectual aplicables.
+      </p>
+
+      <h3>5. Limitación de Responsabilidad</h3>
+      <p>
+        ObraSmart no se hace responsable por daños directos, indirectos, incidentales o consecuentes
+        derivados del uso o la imposibilidad de uso de la plataforma.
+      </p>
+
+      <h3>6. Modificaciones</h3>
+      <p>
+        Nos reservamos el derecho de modificar estos términos en cualquier momento. Las modificaciones
+        entrarán en vigor inmediatamente después de su publicación en la plataforma.
+      </p>
+
+      <h3>7. Contacto</h3>
+      <p>
+        Para cualquier consulta sobre estos términos, puede contactarnos a través de la sección de Soporte.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" (click)="cerrarModalTerminos()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Privacidad -->
+<div class="modal-overlay" *ngIf="modalPrivacidad$ | async" (click)="cerrarModalPrivacidad()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2><i class="bi bi-shield-check me-2"></i>Política de Privacidad</h2>
+      <button class="close-modal-btn" (click)="cerrarModalPrivacidad()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h3>1. Información que Recopilamos</h3>
+      <p>
+        ObraSmart recopila información necesaria para el funcionamiento de la plataforma, incluyendo:
+      </p>
+      <ul>
+        <li>Datos de identificación (nombre, email, información de contacto)</li>
+        <li>Información de equipos y operaciones</li>
+        <li>Registros de reparaciones y mantenimiento</li>
+        <li>Datos de inventario y stock</li>
+        <li>Información de uso de la plataforma</li>
+      </ul>
+
+      <h3>2. Uso de la Información</h3>
+      <p>
+        Utilizamos la información recopilada para:
+      </p>
+      <ul>
+        <li>Proporcionar y mejorar nuestros servicios</li>
+        <li>Gestionar su cuenta y preferencias</li>
+        <li>Generar reportes y análisis</li>
+        <li>Comunicarnos con usted sobre el servicio</li>
+        <li>Cumplir con obligaciones legales</li>
+      </ul>
+
+      <h3>3. Protección de Datos</h3>
+      <p>
+        Implementamos medidas de seguridad técnicas y organizativas para proteger su información personal
+        contra acceso no autorizado, alteración, divulgación o destrucción.
+      </p>
+
+      <h3>4. Compartir Información</h3>
+      <p>
+        No vendemos, alquilamos ni compartimos su información personal con terceros, excepto cuando sea
+        necesario para proporcionar nuestros servicios o cuando lo requiera la ley.
+      </p>
+
+      <h3>5. Cookies y Tecnologías Similares</h3>
+      <p>
+        Utilizamos cookies y tecnologías similares para mejorar la experiencia del usuario, mantener
+        sesiones activas y analizar el uso de la plataforma.
+      </p>
+
+      <h3>6. Sus Derechos</h3>
+      <p>
+        Usted tiene derecho a:
+      </p>
+      <ul>
+        <li>Acceder a su información personal</li>
+        <li>Rectificar datos inexactos</li>
+        <li>Solicitar la eliminación de sus datos</li>
+        <li>Oponerse al procesamiento de sus datos</li>
+        <li>Solicitar la portabilidad de sus datos</li>
+      </ul>
+
+      <h3>7. Retención de Datos</h3>
+      <p>
+        Conservamos su información personal durante el tiempo necesario para cumplir con los fines
+        descritos en esta política, salvo que la ley exija un período de retención mayor.
+      </p>
+
+      <h3>8. Cambios en la Política</h3>
+      <p>
+        Podemos actualizar esta política de privacidad periódicamente. Le notificaremos sobre cambios
+        significativos a través de la plataforma.
+      </p>
+
+      <h3>9. Contacto</h3>
+      <p>
+        Si tiene preguntas sobre esta política de privacidad, puede contactarnos a través de la sección de Soporte.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" (click)="cerrarModalPrivacidad()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Soporte -->
+<div class="modal-overlay" *ngIf="modalSoporte$ | async" (click)="cerrarModalSoporte()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2><i class="bi bi-headset me-2"></i>Soporte Técnico</h2>
+      <button class="close-modal-btn" (click)="cerrarModalSoporte()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h3>Contacto de Soporte</h3>
+      <p>
+        Nuestro equipo de soporte está disponible para ayudarle con cualquier consulta o problema
+        que pueda tener con la plataforma ObraSmart.
+      </p>
+
+      <div class="contact-info">
+        <div class="contact-item">
+          <i class="bi bi-envelope-fill"></i>
+          <div>
+            <strong>Email</strong>
+            <p>leticia@obrasmart.com</p>
+            <p>fernando@obrasmart.com</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <i class="bi bi-telephone-fill"></i>
+          <div>
+            <strong>Teléfono</strong>
+            <p>+54 (351) 2290925</p>
+            <p>+54 (351) 2067986</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <i class="bi bi-clock-fill"></i>
+          <div>
+            <strong>Horario de Atención</strong>
+            <p>Lunes a Viernes: 9:00 - 18:00 hs</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <i class="bi bi-geo-alt-fill"></i>
+          <div>
+            <strong>Dirección</strong>
+            <p>Av. Colon 1234, Cordoba, Argentina</p>
+          </div>
+        </div>
+      </div>
+
+     
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" (click)="cerrarModalSoporte()">Cerrar</button>
+    </div>
+  </div>
+</div>
