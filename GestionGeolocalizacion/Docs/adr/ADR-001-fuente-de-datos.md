@@ -1,1 +1,0 @@
-Uso de PostgreSQL como fuente de datos.

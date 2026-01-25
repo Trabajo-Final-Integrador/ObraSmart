@@ -1,1 +1,0 @@
-Diagrama BPMN del flujo de geolocalización.

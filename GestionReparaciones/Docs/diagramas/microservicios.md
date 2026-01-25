@@ -1,1 +1,0 @@
-Guía para ubicar GestionReparaciones en el diagrama de microservicios de ObraSmart.

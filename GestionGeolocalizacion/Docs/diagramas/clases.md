@@ -1,1 +1,0 @@
-Guía para diagrama de clases.

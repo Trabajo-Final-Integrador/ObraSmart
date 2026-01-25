@@ -1,1 +1,0 @@
-Entidad Reparacion y enum EstadoReparacion con sus campos y significados.

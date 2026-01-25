@@ -1,1 +1,0 @@
-Proceso BPMN de una reparación: creación, ejecución, finalización.

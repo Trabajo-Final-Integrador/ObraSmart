@@ -1,1 +1,0 @@
-ADR-002: Uso de equipoId como referencia lógica al micro de Equipos, sin FK física.

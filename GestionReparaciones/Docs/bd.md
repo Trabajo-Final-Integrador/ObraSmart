@@ -1,1 +1,0 @@
-Uso de PostgreSQL y tabla reparaciones para almacenar las reparaciones.
