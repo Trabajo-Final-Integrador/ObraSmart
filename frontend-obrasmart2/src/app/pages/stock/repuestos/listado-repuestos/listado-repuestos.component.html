@@ -54,7 +54,6 @@
       <table *ngIf="!loading" class="styled-table">
         <thead>
           <tr>
-            <th>{{ 'stock.items.headers.photo' | translate }}</th>
             <th>{{ 'stock.items.headers.code' | translate }}</th>
             <th>{{ 'stock.items.headers.name' | translate }}</th>
             <th class="text-center">{{ 'stock.items.headers.currentStock' | translate }}</th>
@@ -66,9 +65,6 @@
         </thead>
         <tbody>
           <tr *ngFor="let r of repuestosPaginados">
-            <td class="foto-cell">
-              <img class="mini-thumb" [src]="getRepuestoImg(r)" (error)="onImgError($event)" alt="Foto repuesto" />
-            </td>
             <td class="font-monospace">{{ r.codigo }}</td>
             <td>{{ r.nombre }}</td>
             <td class="text-center">{{ r.stock }}</td>
