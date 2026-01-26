@@ -20,6 +20,7 @@ export class ObradorDetalleModalComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['obrador']) {
+      console.log('[ObradorDetalleModal] obrador recibido', this.obrador);
       this.syncFields();
     }
   }
@@ -35,8 +36,8 @@ export class ObradorDetalleModalComponent implements OnChanges {
       return;
     }
     this.estadoLabel = (o as any).estado || 'ACTIVO';
-    this.latLabel = o.lat ?? '-';
-    this.lngLabel = o.lng ?? '-';
+    this.latLabel = (o as any).latitud ?? (o as any).lat ?? '-';
+    this.lngLabel = (o as any).longitud ?? (o as any).lng ?? '-';
     this.equipoIdsSafe = (o.equipoIds as any) || [];
     this.supervisorLabel = this.getSupervisorLabel(o.supervisorUserId);
   }

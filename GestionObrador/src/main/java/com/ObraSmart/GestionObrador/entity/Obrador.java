@@ -36,6 +36,10 @@ public class Obrador {
 
     private String ubicacion;
 
+    private Double latitud;
+
+    private Double longitud;
+
     @Column(name = "supervisor_user_id")
     private Long supervisorUserId;
 

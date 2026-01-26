@@ -38,6 +38,8 @@ public class ObradorServiceImpl implements ObradorService {
         Obrador obrador = Obrador.builder()
                 .nombre(dto.nombre())
                 .ubicacion(dto.ubicacion())
+                .latitud(dto.latitud())
+                .longitud(dto.longitud())
                 .supervisorUserId(dto.supervisorUserId())
                 .equipoIds(dto.equipoIds() != null ? new HashSet<>(dto.equipoIds()) : new HashSet<>())
                 .build();
@@ -49,6 +51,8 @@ public class ObradorServiceImpl implements ObradorService {
         Obrador obrador = buscarObrador(id);
         obrador.setNombre(dto.nombre());
         obrador.setUbicacion(dto.ubicacion());
+        obrador.setLatitud(dto.latitud());
+        obrador.setLongitud(dto.longitud());
         obrador.setSupervisorUserId(dto.supervisorUserId());
 
         if (dto.equipoIds() != null) {
@@ -77,6 +81,8 @@ public class ObradorServiceImpl implements ObradorService {
                 obrador.getId(),
                 obrador.getNombre(),
                 obrador.getUbicacion(),
+                obrador.getLatitud(),
+                obrador.getLongitud(),
                 obrador.getSupervisorUserId(),
                 new HashSet<>(obrador.getEquipoIds())
         );
