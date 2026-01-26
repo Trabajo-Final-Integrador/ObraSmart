@@ -92,8 +92,8 @@ export class ObradorFormComponent implements OnInit {
     const { lat, lng, ...rest } = this.form.value;
     const payload: Partial<ObradorDto> = {
       ...rest,
-      lat: lat ?? null,
-      lng: lng ?? null,
+      latitud: lat ?? null,
+      longitud: lng ?? null,
       supervisorUserId: this.form.value.supervisorUserId ?? null,
     };
 
