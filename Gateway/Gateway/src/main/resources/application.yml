@@ -37,15 +37,7 @@ spring:
               - AddRequestHeader=X-Forwarded-Host, localhost
               - AddRequestHeader=X-Forwarded-Proto, http
 
-          # ---------- USERS (GestionUsuario) con prefijo /api ----------
-          - id: api-users
-            uri: http://localhost:8082  #FIX: identity-service
-            predicates:
-              - Path=/api/users/**
-            filters:
-              - RewritePath=/api/(?<segment>.*), /${segment}
-              - AddRequestHeader=X-Forwarded-Host, localhost
-              - AddRequestHeader=X-Forwarded-Proto, http
+
           # ---------- EQUIPOS ----------
           - id: equipos
             uri: http://localhost:8087

@@ -2,8 +2,8 @@
 import { ReparacionService, ReparacionRequestDto } from 'src/app/service/reparaciones.service';
 import { Router } from '@angular/router';
 import { EquipoService, EquipoDTO } from 'src/app/service/equipo.service';
-import { UsuarioService } from '../../usuarios/usuario.service';
-import { Usuario } from '../../usuarios/usuario.model';
+import { UsuarioService } from 'src/app/service/usuario.service';
+import { Usuario } from '../../auth/usuarios/usuario.model';
 import Swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
 

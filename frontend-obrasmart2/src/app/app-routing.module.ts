@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './pages/login/login.component';
-import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { ResetPasswordComponent } from 'src/app/pages/auth/reset-password/reset-password.component';
 import { PrincipalComponent } from './pages/principal/principal.component';
 import { AuthGuard } from './guards/auth.guard';
-import { AltaUsuarioComponent } from './pages/usuarios/alta-usuario/alta-usuario.component';
-import { ListadoUsuariosComponent } from './pages/usuarios/listado-usuario/listado-usuario.component';
+import { AltaUsuarioComponent } from './pages/auth/usuarios/alta-usuario/alta-usuario.component';
+import { ListadoUsuariosComponent } from './pages/auth/usuarios/listado-usuario/listado-usuario.component';
 
 
 import {ChatAsistenteComponent} from './pages/asistente/chat-asistente/chat-asistente.component'

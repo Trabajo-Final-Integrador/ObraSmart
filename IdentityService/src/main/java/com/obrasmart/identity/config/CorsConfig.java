@@ -1,4 +1,4 @@
-package com.obrasmart.identity.config;
+/*package com.obrasmart.identity.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,4 +24,4 @@ public class CorsConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-}
+}*/
