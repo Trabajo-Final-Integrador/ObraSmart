@@ -2,8 +2,8 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReparacionService, ReparacionResponseDTO, ReparacionRequestDto } from 'src/app/service/reparaciones.service';
 import { EquipoService, EquipoDTO } from 'src/app/service/equipo.service';
-import { UsuarioService } from '../../usuarios/usuario.service';
-import { Usuario } from '../../usuarios/usuario.model';
+import { UsuarioService } from 'src/app/service/usuario.service';
+import { Usuario } from '../../auth/usuarios/usuario.model';
 import Swal from 'sweetalert2';
 import { MediaService } from 'src/app/service/media.service';
 import { appendCacheBust, buildReparacionMediaId, MEDIA_PLACEHOLDER, validateImageFile } from '../../../shared/utils/media-helper';

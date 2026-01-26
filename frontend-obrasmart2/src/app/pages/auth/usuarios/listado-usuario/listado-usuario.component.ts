@@ -4,7 +4,7 @@ import { SidebarService } from 'src/app/service/sidebar.service';
 import { Usuario } from '../usuario.model';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { MediaService } from 'src/app/service/media.service';
 import { TranslateService } from '@ngx-translate/core';
 

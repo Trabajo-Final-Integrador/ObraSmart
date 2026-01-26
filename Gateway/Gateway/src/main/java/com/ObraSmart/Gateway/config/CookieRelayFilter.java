@@ -24,22 +24,5 @@ public class CookieRelayFilter implements Filter {
         chain.doFilter(req, res);
     }
 
-    /*@Bean
-    public HandlerFilterFunction<ServerResponse, ServerResponse> cookieRelay() {
-        return (request, next) -> {
-            String cookie = request.headers().firstHeader("Cookie");
-
-            if (cookie != null) {
-                ServerRequest mutated = ServerRequest
-                        .from(request)
-                        .header("Cookie", cookie)
-                        .build();
-
-                return next.handle(mutated);
-            }
-
-            return next.handle(request);
-        };
-    }*/
 
 }

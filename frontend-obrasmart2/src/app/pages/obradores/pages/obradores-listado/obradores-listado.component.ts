@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ObradorDto, ObradorService } from 'src/app/service/obrador.service';
 import { SidebarService } from 'src/app/service/sidebar.service';
-import { UsuarioService } from 'src/app/pages/usuarios/usuario.service';
-import { Usuario } from 'src/app/pages/usuarios/usuario.model';
+import { UsuarioService } from 'src/app/service/usuario.service';
+import { Usuario } from 'src/app/pages/auth/usuarios/usuario.model';
 
 @Component({
   selector: 'app-obradores-listado',

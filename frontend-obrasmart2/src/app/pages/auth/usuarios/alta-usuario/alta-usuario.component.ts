@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SidebarService } from 'src/app/service/sidebar.service';
 import Swal from 'sweetalert2';
-import { Usuario } from '../usuario.model';
-import { environment } from '../../../../environments/environment';
+import { Usuario } from 'src/app/pages/auth/usuarios/usuario.model';
+import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ObradorDto } from 'src/app/service/obrador.service';
-import { Usuario } from 'src/app/pages/usuarios/usuario.model';
+import { Usuario } from 'src/app/pages/auth/usuarios/usuario.model';
 
 @Component({
   selector: 'app-obrador-detalle-modal',

@@ -20,7 +20,7 @@ public class OrdenCompraController {
 
     private boolean isAdmin(HttpServletRequest req){
         var us = (UserSession) req.getAttribute("userSession");
-        return us != null && "ROLE_ADMINISTRADOR".equals(us.getRol());
+        return us != null && "ROLE_ADMINISTRACION".equals(us.getRol());
     }
 
     @PostMapping

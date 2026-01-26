@@ -5,11 +5,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router'; 
-import { LoginComponent } from './pages/login/login.component';
-import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { ResetPasswordComponent } from 'src/app/pages/auth/reset-password/reset-password.component';
 import { PrincipalComponent } from './pages/principal/principal.component';
-import { AltaUsuarioComponent } from './pages/usuarios/alta-usuario/alta-usuario.component';
-import { ListadoUsuariosComponent } from './pages/usuarios/listado-usuario/listado-usuario.component';
+import { AltaUsuarioComponent } from './pages/auth/usuarios/alta-usuario/alta-usuario.component';
+import { ListadoUsuariosComponent } from './pages/auth/usuarios/listado-usuario/listado-usuario.component';
 
 import { CookieInterceptor } from './interceptors/cookie.interceptor';
 import { AuthGuard } from './guards/auth.guard';
