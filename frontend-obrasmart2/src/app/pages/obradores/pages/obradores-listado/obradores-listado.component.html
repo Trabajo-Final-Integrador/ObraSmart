@@ -41,7 +41,7 @@
             <th class="col-ubicacion">Ubicación</th>
             <th class="col-supervisor">Supervisor</th>
             <th class="col-equipos">Equipos</th>
-            <th class="col-acciones text-center">Acciones</th>
+            <th class="col-acciones acciones-col">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -57,7 +57,7 @@
             <td class="col-ubicacion cell-ellipsis" [title]="obrador.ubicacion || '-'">{{ obrador.ubicacion || '-' }}</td>
             <td class="col-supervisor">{{ getSupervisorLabel(obrador.supervisorUserId) }}</td>
             <td class="col-equipos">{{ obrador.equipoIds?.length || 0 }}</td>
-            <td class="acciones table-actions col-acciones">
+            <td class="acciones table-actions col-acciones acciones-col">
                 <button class="btn-icon view" title="Ver" (click)="verDetalle(obrador.id)">
                   <i class="bi bi-eye"></i>
                 </button>

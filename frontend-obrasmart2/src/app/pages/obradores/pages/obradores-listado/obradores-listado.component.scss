@@ -194,9 +194,13 @@ app-modal-info {
     text-overflow: ellipsis;
   }
 
+  .acciones-col {
+    text-align: center;
+  }
+
   .acciones,
   .table-actions {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
@@ -270,14 +274,12 @@ app-modal-info {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 12px 20px;
+  padding: 14px 20px;
   background: white;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-top: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  width: 98%;
-  margin-left: auto;
-  margin-right: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
 
   .pagination-controls {
     display: flex;
