@@ -1,9 +1,10 @@
 .layout-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   background: #f4f6f8;
   font-family: "Segoe UI", Arial, sans-serif;
+  overflow: hidden;
 }
 
 .top-navbar {
@@ -82,6 +83,7 @@ app-modal-info {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  flex: 1;
 }
 
 .toolbar {
@@ -194,10 +196,6 @@ app-modal-info {
     text-overflow: ellipsis;
   }
 
-  .acciones-col {
-    text-align: center;
-  }
-
   .acciones,
   .table-actions {
     display: flex;
@@ -263,11 +261,6 @@ app-modal-info {
   .col-equipos {
     width: 12%;
   }
-
-  .col-acciones {
-    width: 10%;
-    text-align: center;
-  }
 }
 
 .pagination-wrapper {
@@ -277,7 +270,6 @@ app-modal-info {
   padding: 14px 20px;
   background: white;
   border-radius: 10px;
-  margin-top: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   flex-shrink: 0;
 
@@ -367,4 +359,31 @@ app-modal-info {
 
 .error {
   color: #dc2626;
+}
+
+/* Footer */
+.footer {
+  background: #78866B;
+  color: white;
+  text-align: right;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  border-top: 2px solid #6b7760;
+
+  span {
+    margin: 0 8px;
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #D0D9CD;
+    }
+  }
+
+  .version {
+    float: right;
+    margin-right: 15px;
+    opacity: 0.8;
+  }
 }

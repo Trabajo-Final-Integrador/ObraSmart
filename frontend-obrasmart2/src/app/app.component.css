@@ -13,3 +13,22 @@
   top: 1.5rem !important;
   right: 1.5rem !important;
 }
+
+/* Layout base para fijar el footer al fondo */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+app-root > * {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}

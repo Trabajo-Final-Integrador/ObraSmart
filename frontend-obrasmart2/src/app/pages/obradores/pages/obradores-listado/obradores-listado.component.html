@@ -31,17 +31,17 @@
       </button>
     </div>
 
-    <div class="table-container">
-      <div *ngIf="loading" class="info">Cargando obradores...</div>
+    <div *ngIf="loading" class="info">Cargando obradores...</div>
 
-      <table class="styled-table" *ngIf="!loading">
+    <div class="table-container" *ngIf="!loading">
+      <table class="styled-table">
         <thead>
           <tr>
             <th class="col-nombre">Nombre</th>
             <th class="col-ubicacion">Ubicación</th>
             <th class="col-supervisor">Supervisor</th>
             <th class="col-equipos">Equipos</th>
-            <th class="col-acciones acciones-col">Acciones</th>
+            <th class="text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -57,16 +57,16 @@
             <td class="col-ubicacion cell-ellipsis" [title]="obrador.ubicacion || '-'">{{ obrador.ubicacion || '-' }}</td>
             <td class="col-supervisor">{{ getSupervisorLabel(obrador.supervisorUserId) }}</td>
             <td class="col-equipos">{{ obrador.equipoIds?.length || 0 }}</td>
-            <td class="acciones table-actions col-acciones acciones-col">
-                <button class="btn-icon view" title="Ver" (click)="verDetalle(obrador.id)">
-                  <i class="bi bi-eye"></i>
-                </button>
-                <button class="btn-icon edit" title="Editar" (click)="editar(obrador.id)">
-                  <i class="bi bi-pencil"></i>
-                </button>
-                <button class="btn-icon delete" title="Eliminar" (click)="eliminar(obrador.id)">
-                  <i class="bi bi-trash"></i>
-                </button>
+            <td class="acciones">
+              <button class="btn-icon view" title="Ver" (click)="verDetalle(obrador.id)">
+                <i class="bi bi-eye"></i>
+              </button>
+              <button class="btn-icon edit" title="Editar" (click)="editar(obrador.id)">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn-icon delete" title="Eliminar" (click)="eliminar(obrador.id)">
+                <i class="bi bi-trash"></i>
+              </button>
               </td>
             </tr>
           </ng-container>
