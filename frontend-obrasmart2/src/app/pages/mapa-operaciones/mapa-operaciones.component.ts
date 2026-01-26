@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+﻿import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { interval, Subscription } from 'rxjs';
@@ -103,9 +103,11 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
     this.baseLayers['Satellite'].addTo(this.map);
 
     // Añadir overlays al mapa inicial
-    (Object.keys(this.overlays) as OverlayKey[]).forEach((key) => {
-      this.overlays[key].addTo(this.map);
-    });
+    this.obradoresCluster.addTo(this.map);
+    this.perimetrosObradores.addTo(this.map);
+    this.overlays.logistica.addTo(this.map);
+    this.overlays.zonas.addTo(this.map);
+    this.overlays.rutas.addTo(this.map);
 
     const overlayMaps: Record<string, L.Layer> = {
       Obradores: this.overlays.obradores,
@@ -132,9 +134,8 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
     obradores.forEach((obrador) => {
       const lat = (obrador as any).lat ?? (obrador as any).latitud;
       const lng = (obrador as any).lng ?? (obrador as any).longitud;
-
-      if (typeof lat !== 'number' || typeof lng !== 'number') {
-        console.warn(`Obrador ${obrador.nombre} sin coordenadas; no se dibuja marker.`);
+      if (typeof lat !== 'number' || typeof lng !== 'number' || !isFinite(lat) || !isFinite(lng)) {
+        console.warn('[obradores] sin coords', obrador);
         return;
       }
 
@@ -162,25 +163,42 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
 
       this.obradoresCluster.addLayer(marker);
 
-      const circle = L.circle([lat, lng], {
-        radius: this.OBRADOR_RADIUS_METERS,
-        color: '#00ff88',
-        weight: 2,
-        fillOpacity: 0.15,
-      });
-      this.perimetrosObradores.addLayer(circle);
-
-      if (!this.__debugCircleDone && typeof lat === 'number' && typeof lng === 'number') {
-        this.__debugCircleDone = true;
-        L.circle([lat, lng], {
-          radius: 2000,
-          color: '#ff0000',
-          weight: 4,
-          fillOpacity: 0.08,
-        }).addTo(this.map);
-        this.map.setView([lat, lng], 14);
+      if (Array.isArray((obrador as any).zona) && (obrador as any).zona.length >= 3) {
+        const poly = L.polygon((obrador as any).zona, {
+          color: '#4caf50',
+          weight: 3,
+          fillColor: '#4caf50',
+          fillOpacity: 0.35,
+        });
+        this.perimetrosObradores.addLayer(poly);
+      } else {
+        const square = this.buildSquare(lat, lng, this.OBRADOR_RADIUS_METERS);
+        const poly = L.polygon(square, {
+          color: '#4caf50',
+          weight: 3,
+          fillColor: '#4caf50',
+          fillOpacity: 0.35,
+        });
+        this.perimetrosObradores.addLayer(poly);
       }
     });
+
+    // Traer al frente los perímetros y loguear cuántos se dibujaron
+    (this.perimetrosObradores as any).bringToFront?.();
+    const drawn = (this.perimetrosObradores as any).getLayers?.()?.length ?? 'n/a';
+    const markers = (this.obradoresCluster as any).getLayers?.()?.length ?? 'n/a';
+    console.log('[obradores] dibujados -> markers:', markers, 'perímetros:', drawn);
+  }
+
+  private buildSquare(lat: number, lng: number, meters: number): [number, number][] {
+    const dLat = meters / 111320;
+    const dLng = meters / (111320 * Math.cos((lat * Math.PI) / 180));
+    return [
+      [lat + dLat, lng - dLng],
+      [lat + dLat, lng + dLng],
+      [lat - dLat, lng + dLng],
+      [lat - dLat, lng - dLng],
+    ];
   }
 
   private loadLogistica(): void {
@@ -319,3 +337,7 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
     });
   }
 }
+
+
+
+
