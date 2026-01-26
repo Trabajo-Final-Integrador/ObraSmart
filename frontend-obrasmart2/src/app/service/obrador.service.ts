@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { map } from 'rxjs/operators';
 
 export interface ObradorDto {
   id: number;
@@ -12,6 +13,8 @@ export interface ObradorDto {
   // Campos geoespaciales esperados (a completar en backend)
   lat?: number;
   lng?: number;
+  latitud?: number;
+  longitud?: number;
   zona?: Array<[number, number]>; // polígono opcional
   estado?: 'ACTIVO' | 'INACTIVO';
 }
@@ -25,11 +28,13 @@ export class ObradorService {
   constructor(private http: HttpClient) {}
 
   listar(): Observable<ObradorDto[]> {
-    return this.http.get<ObradorDto[]>(this.baseUrl);
+    return this.http.get<ObradorDto[]>(this.baseUrl).pipe(
+      map((list) => (list ?? []).map((o) => this.normalize(o)))
+    );
   }
 
   obtener(id: number): Observable<ObradorDto> {
-    return this.http.get<ObradorDto>(`${this.baseUrl}/${id}`);
+    return this.http.get<ObradorDto>(`${this.baseUrl}/${id}`).pipe(map((o) => this.normalize(o)));
   }
 
   crear(dto: Partial<ObradorDto>): Observable<ObradorDto> {
@@ -46,5 +51,11 @@ export class ObradorService {
 
   eliminar(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  private normalize(o: ObradorDto): ObradorDto {
+    const lat = o.lat ?? o.latitud;
+    const lng = o.lng ?? o.longitud;
+    return { ...o, lat, lng };
   }
 }

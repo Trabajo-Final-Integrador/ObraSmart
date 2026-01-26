@@ -7,6 +7,7 @@ import { ObradorDto, ObradorService } from '../../service/obrador.service';
 import { LogisticaService, TrasladoDto } from '../../service/logistica.service';
 
 type MarkerCluster = any;
+type OverlayKey = 'logistica' | 'zonas' | 'rutas' | 'obradores' | 'perimetrosObradores';
 
 @Component({
   selector: 'app-mapa-operaciones',
@@ -14,15 +15,14 @@ type MarkerCluster = any;
   styleUrls: ['./mapa-operaciones.component.scss'],
 })
 export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
+  private readonly OBRADOR_RADIUS_METERS = 300;
+  private __debugCircleDone = false;
   private map!: L.Map;
   private layerControl!: L.Control.Layers;
   private baseLayers!: Record<string, L.TileLayer>;
-  private overlays: {
-    obradores: MarkerCluster;
-    logistica: L.LayerGroup;
-    zonas: L.LayerGroup;
-    rutas: L.LayerGroup;
-  };
+  private obradoresCluster: MarkerCluster = (L as any).markerClusterGroup({ disableClusteringAtZoom: 16 });
+  private perimetrosObradores: L.LayerGroup = L.layerGroup();
+  private overlays: Record<OverlayKey, L.LayerGroup>;
 
   filtros = {
     obradores: true,
@@ -37,10 +37,11 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
 
   constructor(private obradorService: ObradorService, private logisticaService: LogisticaService) {
     this.overlays = {
-      obradores: (L as any).markerClusterGroup({ disableClusteringAtZoom: 16 }),
       logistica: L.layerGroup(),
       zonas: L.layerGroup(),
       rutas: L.layerGroup(),
+      obradores: this.obradoresCluster as unknown as L.LayerGroup,
+      perimetrosObradores: this.perimetrosObradores,
     };
   }
 
@@ -102,19 +103,19 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
     this.baseLayers['Satellite'].addTo(this.map);
 
     // Añadir overlays al mapa inicial
-    this.overlays.obradores.addTo(this.map);
-    this.overlays.logistica.addTo(this.map);
-    this.overlays.zonas.addTo(this.map);
-    this.overlays.rutas.addTo(this.map);
+    (Object.keys(this.overlays) as OverlayKey[]).forEach((key) => {
+      this.overlays[key].addTo(this.map);
+    });
 
-    this.layerControl = L.control
-      .layers(this.baseLayers, {
-        Obradores: this.overlays.obradores,
-        Logistica: this.overlays.logistica,
-        Zonas: this.overlays.zonas,
-        Rutas: this.overlays.rutas,
-      })
-      .addTo(this.map);
+    const overlayMaps: Record<string, L.Layer> = {
+      Obradores: this.overlays.obradores,
+      'Perímetro Obradores': this.overlays.perimetrosObradores,
+      Logistica: this.overlays.logistica,
+      Zonas: this.overlays.zonas,
+      Rutas: this.overlays.rutas,
+    };
+
+    this.layerControl = L.control.layers(this.baseLayers, overlayMaps).addTo(this.map);
   }
 
   private loadObradores(): void {
@@ -125,16 +126,19 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
   }
 
   private renderObradores(obradores: ObradorDto[]): void {
-    this.overlays.obradores.clearLayers();
-    this.overlays.zonas.clearLayers();
+    this.obradoresCluster.clearLayers();
+    this.perimetrosObradores.clearLayers();
 
     obradores.forEach((obrador) => {
-      if (typeof obrador.lat !== 'number' || typeof obrador.lng !== 'number') {
+      const lat = (obrador as any).lat ?? (obrador as any).latitud;
+      const lng = (obrador as any).lng ?? (obrador as any).longitud;
+
+      if (typeof lat !== 'number' || typeof lng !== 'number') {
         console.warn(`Obrador ${obrador.nombre} sin coordenadas; no se dibuja marker.`);
         return;
       }
 
-      const marker = L.marker([obrador.lat, obrador.lng], {
+      const marker = L.marker([lat, lng], {
         icon: this.iconObrador(),
         title: obrador.nombre,
       });
@@ -156,16 +160,25 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
         popupEl?.addEventListener('click', () => this.abrirDetalleObrador(obrador.id));
       });
 
-      this.overlays.obradores.addLayer(marker);
+      this.obradoresCluster.addLayer(marker);
 
-      if (obrador.zona && obrador.zona.length > 2) {
-        const poly = L.polygon(obrador.zona, {
-          color: '#4c8bf5',
-          weight: 2,
-          fillColor: '#4c8bf5',
-          fillOpacity: 0.12,
-        });
-        this.overlays.zonas.addLayer(poly);
+      const circle = L.circle([lat, lng], {
+        radius: this.OBRADOR_RADIUS_METERS,
+        color: '#00ff88',
+        weight: 2,
+        fillOpacity: 0.15,
+      });
+      this.perimetrosObradores.addLayer(circle);
+
+      if (!this.__debugCircleDone && typeof lat === 'number' && typeof lng === 'number') {
+        this.__debugCircleDone = true;
+        L.circle([lat, lng], {
+          radius: 2000,
+          color: '#ff0000',
+          weight: 4,
+          fillOpacity: 0.08,
+        }).addTo(this.map);
+        this.map.setView([lat, lng], 14);
       }
     });
   }
