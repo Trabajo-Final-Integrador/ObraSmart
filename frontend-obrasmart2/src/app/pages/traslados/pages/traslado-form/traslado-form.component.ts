@@ -62,4 +62,5 @@ export class TrasladoFormComponent implements OnInit {
   cancelar(): void {
     this.router.navigate(['/traslados']);
   }
+
 }

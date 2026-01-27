@@ -92,6 +92,35 @@ body[data-theme='opera-gx'] {
   background-image: url('assets/leaflet/marker-shadow.png') !important;
 }
 
+/* Map shared marker styles */
+.marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pin {
+  width: 34px;
+  height: 38px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.pin-obrador {
+  background: linear-gradient(145deg, #f5c451, #f08c2e);
+}
+
+.pin-obrador.pin-selected {
+  box-shadow: 0 0 0 4px rgba(245, 196, 81, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.pin-equipo {
+  background: linear-gradient(145deg, #7c3aed, #5b21b6);
+}
+
 #map {
   height: calc(100vh - 60px);
   width: 100%;

@@ -1,8 +1,14 @@
 <div class="operaciones-layout">
   <aside class="panel">
+    <div class="panel-top-actions">
+      <button class="btn-regresar" routerLink="/traslados" title="Volver a traslados">
+        <i class="bi bi-arrow-left-circle"></i>
+        <span>Volver</span>
+      </button>
+    </div>
     <div class="panel-header">
       <h3>Mapa de Operaciones</h3>
-      <p>Satélite + logística en vivo</p>
+     
     </div>
 
     <div class="filter-group">
@@ -34,6 +40,41 @@
       </select>
     </div>
 
+    <div class="panel-divider"></div>
+
+    <div class="filter-group">
+      <label>Equipo</label>
+      <select [(ngModel)]="equipoSeleccionado" (change)="onEquipoChange()">
+        <option [ngValue]="undefined">-- Seleccionar equipo --</option>
+        <option *ngFor="let equipo of equipos" [ngValue]="equipo.id">
+          {{ equipo.codigoInterno }} - {{ equipo.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Obrador</label>
+      <select [(ngModel)]="obradorSeleccionado" (change)="onObradorChange()">
+        <option [ngValue]="undefined">-- Seleccionar obrador --</option>
+        <option *ngFor="let obrador of obradores" [ngValue]="obrador.id">
+          {{ obrador.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <button class="btn-action" (click)="calcularDistancia()" [disabled]="!equipoSeleccionado || !obradorSeleccionado">
+      Calcular distancia
+    </button>
+
+    <div *ngIf="cargandoDistancia" class="panel-info">Calculando...</div>
+    <div *ngIf="errorDistancia" class="panel-error">{{ errorDistancia }}</div>
+
+    <div *ngIf="distanciaInfo" class="panel-info">
+      <div><strong>Equipo:</strong> {{ distanciaInfo.equipoNombre }}</div>
+      <div><strong>Obrador:</strong> {{ distanciaInfo.obradorNombre }}</div>
+      <div><strong>Distancia:</strong> {{ distanciaInfo.distanciaKm }} km</div>
+    </div>
+
     <div class="legend">
       <div class="legend-item">
         <span class="legend-dot obrador"></span>
@@ -52,15 +93,29 @@
 </div>
 
 <!-- Modal detalle obrador -->
-<div class="modal-backdrop" *ngIf="detalleAbierto" (click)="cerrarDetalle()"></div>
-<div class="modal" *ngIf="detalleAbierto">
-  <div class="modal-header">
-    <h4>{{ selectedObrador?.nombre }}</h4>
-    <button class="btn-close" (click)="cerrarDetalle()">&times;</button>
+<div class="os-modal-backdrop" *ngIf="detalleAbierto" (click)="cerrarDetalle()"></div>
+<div class="os-modal" *ngIf="detalleAbierto" (click)="$event.stopPropagation()">
+  <div class="os-modal-header">
+    <div>
+      <h3 class="os-modal-title">{{ selectedObrador?.nombre }}</h3>
+      <p class="os-modal-subtitle">Detalle de obrador</p>
+    </div>
+    <button class="os-modal-close" (click)="cerrarDetalle()">&times;</button>
   </div>
-  <div class="modal-body">
-    <div>Supervisor: {{ selectedObrador?.supervisorUserId || 'N/D' }}</div>
-    <div>Ubicación: {{ selectedObrador?.ubicacion || 'Sin datos' }}</div>
-    <div>Equipos: {{ selectedObrador?.equipoIds?.length || 0 }}</div>
+  <div class="os-modal-body">
+    <div class="os-card os-card-grid">
+      <div class="os-card-item">
+        <span class="os-label">Supervisor</span>
+        <span class="os-value">{{ selectedObrador?.supervisorUserId || 'N/D' }}</span>
+      </div>
+      <div class="os-card-item">
+        <span class="os-label">Ubicación</span>
+        <span class="os-value">{{ selectedObrador?.ubicacion || 'Sin datos' }}</span>
+      </div>
+      <div class="os-card-item">
+        <span class="os-label">Equipos</span>
+        <span class="os-value">{{ selectedObrador?.equipoIds?.length || 0 }}</span>
+      </div>
+    </div>
   </div>
 </div>

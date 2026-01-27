@@ -1,10 +1,13 @@
 <div class="layout-container">
   <header class="top-navbar">
     <div class="navbar-left">
+      <button class="menu-btn" [title]="'menu.main' | translate">
+        <i class="bi bi-list"></i>
+      </button>
       <div class="brand">
         <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
-        <h1 class="navbar-title">Traslados</h1>
       </div>
+      <h1 class="navbar-title">Traslados</h1>
     </div>
     <div class="navbar-actions">
       <button class="btn-regresar" routerLink="/principal" title="Volver al inicio">
@@ -17,37 +20,61 @@
   <app-modal-info></app-modal-info>
 
   <main class="content">
-    <div class="header">
-      <h2>Traslados</h2>
-      <button class="btn primary" (click)="crearNuevo()">Nuevo traslado</button>
+    <div class="toolbar">
+      <div class="search-container">
+        <i class="bi bi-search"></i>
+        <input type="text" placeholder="Buscar por equipo u obrador" />
+      </div>
+      <div class="toolbar-actions">
+        <button class="btn-link" routerLink="/mapa-operaciones">Ver mapa</button>
+        <button class="btn-nuevo" (click)="crearNuevo()">
+          <i class="bi bi-plus-lg"></i>
+          <span>Nuevo traslado</span>
+        </button>
+      </div>
     </div>
 
     <div *ngIf="loading" class="info">Cargando traslados...</div>
     <div *ngIf="error" class="error">{{ error }}</div>
 
-    <table class="table" *ngIf="!loading && !error">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Equipo</th>
-          <th>Origen</th>
-          <th>Destino</th>
-          <th>Estado</th>
-          <th>Programado</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let t of traslados">
-          <td>{{ t.id }}</td>
-          <td>{{ nombreEquipo(t.equipoId) }}</td>
-          <td>{{ t.origenObradorId }}</td>
-          <td>{{ t.destinoObradorId }}</td>
-          <td>{{ t.estado }}</td>
-          <td>{{ t.programadoPara || '—' }}</td>
-          <td><button class="btn link" (click)="verDetalle(t.id)">Ver / Estado</button></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-container" *ngIf="!loading && !error">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Equipo</th>
+            <th>Origen</th>
+            <th>Destino</th>
+            <th>Estado</th>
+            <th>Programado</th>
+            <th class="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let t of traslados">
+            <td>{{ t.id }}</td>
+            <td>{{ nombreEquipo(t.equipoId) }}</td>
+            <td>{{ t.origenObradorId }}</td>
+            <td>{{ t.destinoObradorId }}</td>
+            <td>{{ t.estado }}</td>
+            <td>{{ t.programadoPara || '—' }}</td>
+            <td class="table-actions">
+              <button class="btn-icon view" (click)="verDetalle(t.id)" title="Ver / Estado">
+                <i class="bi bi-eye"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="traslados.length === 0" class="empty-message">
+        <i class="bi bi-exclamation-circle"></i>
+        <p>No hay traslados cargados.</p>
+      </div>
+    </div>
   </main>
+
+  <footer class="footer">
+    <span class="version">v1.0.0</span>
+  </footer>
 </div>

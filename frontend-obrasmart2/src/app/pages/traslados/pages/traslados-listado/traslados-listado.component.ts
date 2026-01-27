@@ -14,7 +14,11 @@ export class TrasladosListadoComponent implements OnInit {
   error?: string;
   equipos: EquipoDTO[] = [];
 
-  constructor(private logisticaService: LogisticaService, private router: Router, private equipoService: EquipoService) {}
+  constructor(
+    private logisticaService: LogisticaService,
+    private router: Router,
+    private equipoService: EquipoService
+  ) {}
 
   ngOnInit(): void {
     this.fetchTraslados();
@@ -47,6 +51,7 @@ export class TrasladosListadoComponent implements OnInit {
   verDetalle(id: number): void {
     this.router.navigate(['/traslados', id]);
   }
+
 
   nombreEquipo(id?: number): string {
     if (!id) return '';

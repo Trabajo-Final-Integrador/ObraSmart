@@ -3,11 +3,15 @@ import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { interval, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
+import { DistanciaCalculo, DistanciaService } from '../../service/distancia.service';
+import { EquipoDTO, EquipoService } from '../../service/equipo.service';
 import { ObradorDto, ObradorService } from '../../service/obrador.service';
 import { LogisticaService, TrasladoDto } from '../../service/logistica.service';
+import { buildTileLayer, DEFAULT_THEME_ID, MAP_THEMES } from '../../shared/maps/map-themes';
+import { MapHelpersService } from '../../shared/maps/map-helpers.service';
 
 type MarkerCluster = any;
-type OverlayKey = 'logistica' | 'zonas' | 'rutas' | 'obradores' | 'perimetrosObradores';
+type OverlayKey = 'logistica' | 'zonas' | 'rutas' | 'obradores' | 'perimetrosObradores' | 'distancia';
 
 @Component({
   selector: 'app-mapa-operaciones',
@@ -22,6 +26,10 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
   private baseLayers!: Record<string, L.TileLayer>;
   private obradoresCluster: MarkerCluster = (L as any).markerClusterGroup({ disableClusteringAtZoom: 16 });
   private perimetrosObradores: L.LayerGroup = L.layerGroup();
+  private distanciaLayer: L.LayerGroup = L.layerGroup();
+  private lineaDistancia?: L.Polyline;
+  private equipoMarker?: L.Marker;
+  private obradorMarker?: L.Marker;
   private overlays: Record<OverlayKey, L.LayerGroup>;
 
   filtros = {
@@ -31,23 +39,39 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
     fecha: 'hoy',
   };
 
+  equipos: EquipoDTO[] = [];
+  obradores: ObradorDto[] = [];
+  equipoSeleccionado?: number;
+  obradorSeleccionado?: number;
+  distanciaInfo?: DistanciaCalculo;
+  cargandoDistancia = false;
+  errorDistancia?: string;
+
   selectedObrador?: ObradorDto;
   detalleAbierto = false;
   private refreshSub?: Subscription;
 
-  constructor(private obradorService: ObradorService, private logisticaService: LogisticaService) {
+  constructor(
+    private obradorService: ObradorService,
+    private logisticaService: LogisticaService,
+    private equipoService: EquipoService,
+    private distanciaService: DistanciaService,
+    private mapHelpers: MapHelpersService
+  ) {
     this.overlays = {
       logistica: L.layerGroup(),
       zonas: L.layerGroup(),
       rutas: L.layerGroup(),
       obradores: this.obradoresCluster as unknown as L.LayerGroup,
       perimetrosObradores: this.perimetrosObradores,
+      distancia: this.distanciaLayer,
     };
   }
 
   ngAfterViewInit(): void {
     this.initMap();
     this.loadObradores();
+    this.loadEquipos();
     this.loadLogistica();
     this.startLogisticaRefresh();
   }
@@ -85,26 +109,16 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
       worldCopyJump: true,
     });
 
-    this.baseLayers = {
-      Satellite: L.tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-        {
-          attribution: 'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics',
-          maxZoom: 19,
-        }
-      ),
-      Calle: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        maxZoom: 19,
-      }),
-    };
-
-    this.baseLayers['Satellite'].addTo(this.map);
+    this.initBaseLayers();
+    const initial = this.baseLayers[DEFAULT_THEME_ID] || Object.values(this.baseLayers)[0];
+    if (initial) {
+      initial.addTo(this.map);
+    }
 
     // Añadir overlays al mapa inicial
     this.obradoresCluster.addTo(this.map);
     this.perimetrosObradores.addTo(this.map);
+    this.distanciaLayer.addTo(this.map);
     this.overlays.logistica.addTo(this.map);
     this.overlays.zonas.addTo(this.map);
     this.overlays.rutas.addTo(this.map);
@@ -112,6 +126,7 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
     const overlayMaps: Record<string, L.Layer> = {
       Obradores: this.overlays.obradores,
       'Perímetro Obradores': this.overlays.perimetrosObradores,
+      Distancia: this.overlays.distancia,
       Logistica: this.overlays.logistica,
       Zonas: this.overlays.zonas,
       Rutas: this.overlays.rutas,
@@ -120,11 +135,166 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
     this.layerControl = L.control.layers(this.baseLayers, overlayMaps).addTo(this.map);
   }
 
+  private initBaseLayers(): void {
+    this.baseLayers = {};
+    MAP_THEMES.forEach((theme) => {
+      this.baseLayers[theme.id] = buildTileLayer(theme);
+    });
+  }
+
   private loadObradores(): void {
     this.obradorService.listar().subscribe({
-      next: (obradores) => this.renderObradores(obradores),
+      next: (obradores) => {
+        this.obradores = obradores;
+        this.renderObradores(obradores);
+      },
       error: (err) => console.error('Error al cargar obradores', err),
     });
+  }
+
+  private loadEquipos(): void {
+    this.equipoService.listar().subscribe({
+      next: (equipos) =>
+        (this.equipos = (equipos || []).filter((e) => !!this.mapHelpers.getLatLngFromEquipo(e))),
+      error: (err) => console.error('Error al cargar equipos', err),
+    });
+  }
+
+  calcularDistancia(): void {
+    if (!this.equipoSeleccionado || !this.obradorSeleccionado) return;
+    this.cargandoDistancia = true;
+    this.errorDistancia = undefined;
+
+    this.distanciaService
+      .calcularDistancia(this.equipoSeleccionado, this.obradorSeleccionado)
+      .subscribe({
+        next: (distancia) => {
+          this.distanciaInfo = distancia;
+          this.dibujarLineaDistancia();
+          this.ajustarVistaMapaDistancia();
+          this.cargandoDistancia = false;
+        },
+        error: (err) => {
+          console.error('Error al calcular distancia:', err);
+          this.errorDistancia = err.error?.message || 'Error al calcular distancia';
+          this.cargandoDistancia = false;
+        },
+      });
+  }
+
+  onEquipoChange(): void {
+    this.limpiarDistancia();
+    const equipo = this.equipos.find((e) => e.id === this.equipoSeleccionado);
+    if (!equipo) return;
+    const coords = this.mapHelpers.getLatLngFromEquipo(equipo);
+    if (!coords) return;
+
+    if (this.equipoMarker) {
+      this.distanciaLayer.removeLayer(this.equipoMarker);
+    }
+    this.equipoMarker = L.marker([coords.lat, coords.lng], { icon: this.mapHelpers.createEquipoIcon() }).addTo(
+      this.distanciaLayer
+    );
+    this.equipoMarker.bindPopup(`<b>Equipo:</b> ${equipo.nombre || equipo.codigoInterno || equipo.id}`);
+    this.map.setView([coords.lat, coords.lng], 13);
+
+    if (this.obradorSeleccionado) {
+      this.enfocarAmbos();
+    }
+  }
+
+  onObradorChange(): void {
+    this.limpiarDistancia();
+    const coords = this.getObradorCoords(this.obradorSeleccionado);
+    if (!coords) return;
+
+    if (this.obradorMarker) {
+      this.distanciaLayer.removeLayer(this.obradorMarker);
+    }
+    this.obradorMarker = L.marker([coords.lat, coords.lng], { icon: this.mapHelpers.createObradorIcon(true) }).addTo(
+      this.distanciaLayer
+    );
+    const obrador = this.obradores.find((o) => o.id === this.obradorSeleccionado);
+    this.obradorMarker.bindPopup(`<b>Obrador:</b> ${obrador?.nombre || this.obradorSeleccionado}`);
+    this.map.setView([coords.lat, coords.lng], 13);
+
+    if (this.equipoSeleccionado) {
+      this.enfocarAmbos();
+    }
+  }
+
+  private enfocarAmbos(): void {
+    const equipo = this.equipos.find((e) => e.id === this.equipoSeleccionado);
+    const obradorCoords = this.getObradorCoords(this.obradorSeleccionado);
+    if (!equipo || !obradorCoords) return;
+    const bounds = L.latLngBounds([
+      [equipo.latitud, equipo.longitud],
+      [obradorCoords.lat, obradorCoords.lng],
+    ]);
+    this.map.fitBounds(bounds, { padding: [50, 50] });
+  }
+
+  private limpiarDistancia(): void {
+    this.distanciaInfo = undefined;
+    this.errorDistancia = undefined;
+    if (this.lineaDistancia) {
+      this.distanciaLayer.removeLayer(this.lineaDistancia);
+      this.lineaDistancia = undefined;
+    }
+  }
+
+  private dibujarLineaDistancia(): void {
+    if (this.lineaDistancia) {
+      this.distanciaLayer.removeLayer(this.lineaDistancia);
+    }
+    if (this.equipoMarker) {
+      this.distanciaLayer.removeLayer(this.equipoMarker);
+    }
+    if (this.obradorMarker) {
+      this.distanciaLayer.removeLayer(this.obradorMarker);
+    }
+    if (!this.distanciaInfo) return;
+
+    this.equipoMarker = L.marker(
+      [this.distanciaInfo.equipoLatitud, this.distanciaInfo.equipoLongitud],
+      { icon: this.mapHelpers.createEquipoIcon() }
+    ).addTo(this.distanciaLayer);
+    this.equipoMarker.bindPopup(`<b>Equipo:</b> ${this.distanciaInfo.equipoNombre}`);
+
+    this.obradorMarker = L.marker(
+      [this.distanciaInfo.obradorLatitud, this.distanciaInfo.obradorLongitud],
+      { icon: this.mapHelpers.createObradorIcon(true) }
+    ).addTo(this.distanciaLayer);
+    this.obradorMarker.bindPopup(`<b>Obrador:</b> ${this.distanciaInfo.obradorNombre}`);
+
+    const latlngs: L.LatLngExpression[] = [
+      [this.distanciaInfo.equipoLatitud, this.distanciaInfo.equipoLongitud],
+      [this.distanciaInfo.obradorLatitud, this.distanciaInfo.obradorLongitud],
+    ];
+
+    this.lineaDistancia = L.polyline(latlngs, {
+      color: '#7c3aed',
+      weight: 4,
+      opacity: 0.85,
+      dashArray: '8 6',
+    }).addTo(this.distanciaLayer);
+
+    const midLat = (this.distanciaInfo.equipoLatitud + this.distanciaInfo.obradorLatitud) / 2;
+    const midLng = (this.distanciaInfo.equipoLongitud + this.distanciaInfo.obradorLongitud) / 2;
+
+    L.popup()
+      .setLatLng([midLat, midLng])
+      .setContent(`<b>Distancia: ${this.distanciaInfo.distanciaKm} km</b>`)
+      .openOn(this.map);
+  }
+
+  private ajustarVistaMapaDistancia(): void {
+    if (!this.distanciaInfo) return;
+    const bounds = L.latLngBounds([
+      [this.distanciaInfo.equipoLatitud, this.distanciaInfo.equipoLongitud],
+      [this.distanciaInfo.obradorLatitud, this.distanciaInfo.obradorLongitud],
+    ]);
+    this.map.fitBounds(bounds, { padding: [50, 50] });
   }
 
   private renderObradores(obradores: ObradorDto[]): void {
@@ -132,15 +302,14 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
     this.perimetrosObradores.clearLayers();
 
     obradores.forEach((obrador) => {
-      const lat = (obrador as any).lat ?? (obrador as any).latitud;
-      const lng = (obrador as any).lng ?? (obrador as any).longitud;
-      if (typeof lat !== 'number' || typeof lng !== 'number' || !isFinite(lat) || !isFinite(lng)) {
+      const coords = this.mapHelpers.getLatLngFromObrador(obrador);
+      if (!coords) {
         console.warn('[obradores] sin coords', obrador);
         return;
       }
 
-      const marker = L.marker([lat, lng], {
-        icon: this.iconObrador(),
+      const marker = L.marker([coords.lat, coords.lng], {
+        icon: this.mapHelpers.createObradorIcon(),
         title: obrador.nombre,
       });
 
@@ -172,14 +341,12 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
         });
         this.perimetrosObradores.addLayer(poly);
       } else {
-        const square = this.buildSquare(lat, lng, this.OBRADOR_RADIUS_METERS);
-        const poly = L.polygon(square, {
-          color: '#4caf50',
-          weight: 3,
-          fillColor: '#4caf50',
-          fillOpacity: 0.35,
-        });
-        this.perimetrosObradores.addLayer(poly);
+        const circle = this.mapHelpers.createObradorCircle(
+          coords.lat,
+          coords.lng,
+          this.OBRADOR_RADIUS_METERS
+        );
+        this.perimetrosObradores.addLayer(circle);
       }
     });
 
@@ -188,17 +355,6 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
     const drawn = (this.perimetrosObradores as any).getLayers?.()?.length ?? 'n/a';
     const markers = (this.obradoresCluster as any).getLayers?.()?.length ?? 'n/a';
     console.log('[obradores] dibujados -> markers:', markers, 'perímetros:', drawn);
-  }
-
-  private buildSquare(lat: number, lng: number, meters: number): [number, number][] {
-    const dLat = meters / 111320;
-    const dLng = meters / (111320 * Math.cos((lat * Math.PI) / 180));
-    return [
-      [lat + dLat, lng - dLng],
-      [lat + dLat, lng + dLng],
-      [lat - dLat, lng + dLng],
-      [lat - dLat, lng - dLng],
-    ];
   }
 
   private loadLogistica(): void {
@@ -257,6 +413,13 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
     return undefined;
   }
 
+  private getObradorCoords(id?: number): { lat: number; lng: number } | undefined {
+    if (!id) return undefined;
+    const obrador = this.obradores.find((o) => o.id === id);
+    if (!obrador) return undefined;
+    return this.mapHelpers.getLatLngFromObrador(obrador);
+  }
+
   private rutaAUsar(
     traslado: TrasladoDto,
     origen?: L.LatLngExpression,
@@ -293,27 +456,6 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
   cerrarDetalle(): void {
     this.detalleAbierto = false;
     this.selectedObrador = undefined;
-  }
-
-  private iconObrador(): L.DivIcon {
-    const html = `
-      <div class="pin pin-obrador">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 15v-3a4 4 0 0 1 8 0v3"></path>
-          <path d="M12 15v-3a4 4 0 0 1 8 0v3"></path>
-          <path d="M4 15h16"></path>
-          <path d="M6 19h12"></path>
-          <path d="M9 11h6"></path>
-        </svg>
-      </div>
-    `;
-    return L.divIcon({
-      html,
-      className: 'marker marker-obrador',
-      iconSize: [32, 36],
-      iconAnchor: [16, 36],
-      popupAnchor: [0, -32],
-    });
   }
 
   private iconCamion(estado?: string): L.DivIcon {

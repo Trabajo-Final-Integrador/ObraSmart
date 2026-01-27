@@ -1,10 +1,13 @@
 <div class="layout-container">
   <header class="top-navbar">
     <div class="navbar-left">
+      <button class="menu-btn" [title]="'menu.main' | translate">
+        <i class="bi bi-list"></i>
+      </button>
       <div class="brand">
         <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
-        <h1 class="navbar-title">Nuevo traslado</h1>
       </div>
+      <h1 class="navbar-title">Nuevo traslado</h1>
     </div>
     <div class="navbar-actions">
       <button class="btn-regresar" routerLink="/traslados" title="Volver">
@@ -17,47 +20,53 @@
   <app-modal-info></app-modal-info>
 
   <main class="content">
-    <div class="header">
-      <h2>Nuevo traslado</h2>
-      <button class="btn ghost" (click)="cancelar()">Volver</button>
-    </div>
+   
 
     <form [formGroup]="form" (ngSubmit)="guardar()">
-      <div class="form-grid">
-        <label>
-          Equipo
-          <select formControlName="equipoId" required>
-            <option [ngValue]="null">Selecciona equipo</option>
-            <option *ngFor="let eq of equipos" [ngValue]="eq.id">{{ eq.nombre || eq.codigoInterno }}</option>
-          </select>
-        </label>
+      <div class="card">
+        <div class="form-grid">
+          <label>
+            Equipo
+            <select formControlName="equipoId" required>
+              <option [ngValue]="null">Selecciona equipo</option>
+              <option *ngFor="let eq of equipos" [ngValue]="eq.id">{{ eq.nombre || eq.codigoInterno }}</option>
+            </select>
+          </label>
 
-        <label>
-          Origen (Obrador ID)
-          <input type="number" formControlName="origenObradorId" required />
-        </label>
+          <label>
+            Origen (Obrador ID)
+            <input type="number" formControlName="origenObradorId" required />
+          </label>
 
-        <label>
-          Destino (Obrador ID)
-          <input type="number" formControlName="destinoObradorId" required />
-        </label>
+          <label>
+            Destino (Obrador ID)
+            <input type="number" formControlName="destinoObradorId" required />
+          </label>
 
-        <label>
-          Programado para
-          <input type="datetime-local" formControlName="programadoPara" />
-        </label>
+          <label>
+            Programado para
+            <input type="datetime-local" formControlName="programadoPara" />
+          </label>
 
-        <label class="full">
-          Notas
-          <textarea rows="3" formControlName="notas"></textarea>
-        </label>
-      </div>
+          <label class="full">
+            Notas
+            <textarea rows="3" formControlName="notas"></textarea>
+          </label>
+        </div>
 
-      <div class="actions">
-        <button type="submit" class="btn primary" [disabled]="loading">Crear traslado</button>
-        <span *ngIf="loading">Guardando...</span>
-        <span class="error" *ngIf="error">{{ error }}</span>
+        <div class="actions">
+          <button type="submit" class="btn-nuevo" [disabled]="loading">
+            <i class="bi bi-check-lg"></i>
+            <span>Crear traslado</span>
+          </button>
+          <span *ngIf="loading">Guardando...</span>
+          <span class="error" *ngIf="error">{{ error }}</span>
+        </div>
       </div>
     </form>
   </main>
+
+  <footer class="footer">
+    <span class="version">v1.0.0</span>
+  </footer>
 </div>

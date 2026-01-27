@@ -21,6 +21,7 @@ import { ChatAsistenteComponent } from 'src/app/pages/asistente/chat-asistente/c
 import { AsistenteModule } from './pages/asistente/asistente.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MapaOperacionesComponent } from './pages/mapa-operaciones/mapa-operaciones.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -33,7 +34,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ResetPasswordComponent,
     PrincipalComponent,
     AltaUsuarioComponent, 
-    ListadoUsuariosComponent  
+    ListadoUsuariosComponent,
+    MapaOperacionesComponent
   ],
   imports: [
     FormsModule,

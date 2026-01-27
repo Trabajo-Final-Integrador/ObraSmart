@@ -6,6 +6,7 @@ import { PrincipalComponent } from './pages/principal/principal.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AltaUsuarioComponent } from './pages/auth/usuarios/alta-usuario/alta-usuario.component';
 import { ListadoUsuariosComponent } from './pages/auth/usuarios/listado-usuario/listado-usuario.component';
+import { MapaOperacionesComponent } from './pages/mapa-operaciones/mapa-operaciones.component';
 
 
 import {ChatAsistenteComponent} from './pages/asistente/chat-asistente/chat-asistente.component'
@@ -20,6 +21,7 @@ const routes: Routes = [
 
   // 🔸 Pantalla principal protegida
   { path: 'principal', component: PrincipalComponent, canActivate: [AuthGuard] },
+  { path: 'mapa-operaciones', component: MapaOperacionesComponent, canActivate: [AuthGuard] },
 
   // 👥 Administración de usuarios
   {

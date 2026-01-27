@@ -11,6 +11,7 @@ import { environment } from '../../../environments/environment';
 import { MediaService } from 'src/app/service/media.service';
 import { appendCacheBust, MEDIA_OFFSETS } from '../../shared/utils/media-helper';
 import { buildTileLayer, DEFAULT_THEME_ID, MAP_THEMES, MapTheme } from '../../shared/maps/map-themes';
+import { MapHelpersService } from '../../shared/maps/map-helpers.service';
 import { ThemeService } from 'src/app/service/theme.service';
 import { LanguageService } from 'src/app/service/language.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -82,7 +83,8 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
     private themeService: ThemeService,
     private languageService: LanguageService,
     private translate: TranslateService,
-    private equipoService: EquipoService
+    private equipoService: EquipoService,
+    private mapHelpers: MapHelpersService
   ) {}
 
   ngOnInit(): void {
@@ -213,32 +215,34 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
       next: (data: EquipoUbicacion[]) => {
         this.equipos = data;
         this.equipos.forEach((eq) => {
-          if (eq.lat !== 0 && eq.lon !== 0 && eq.lat && eq.lon) {
-            const icon = this.getIconByEstado(eq.estado);
-            const estadoTexto = this.getEstadoTexto(eq.estado);
-
-            const marker = L.marker([eq.lat, eq.lon], { icon });
-            marker.on('click', () => this.abrirDetalleEquipo(eq.id));
-
-            marker
-              .addTo(this.map)
-              .bindTooltip(
-                `<div><strong>${eq.nombre}</strong><br>${estadoTexto}</div>`,
-                { sticky: true, direction: 'top' }
-              )
-              .bindPopup(
-                `
-                <div style="text-align: center;">
-                  <b style="font-size: 14px;">${eq.nombre}</b><br>
-                  <span style="font-size: 12px; color: ${this.getEstadoColor(eq.estado)};">
-                    <i class="bi ${this.getEstadoIcon(eq.estado)}"></i> ${estadoTexto}
-                  </span>
-                </div>
-              `
-              );
-          } else {
+          const coords = this.mapHelpers.getLatLngFromEquipoUbicacion(eq);
+          if (!coords || coords.lat === 0 || coords.lng === 0) {
             console.warn(`Coordenadas invalidas para ${eq.nombre}: ${eq.lat}, ${eq.lon}`);
+            return;
           }
+
+          const icon = this.getIconByEstado(eq.estado);
+          const estadoTexto = this.getEstadoTexto(eq.estado);
+
+          const marker = L.marker([coords.lat, coords.lng], { icon });
+          marker.on('click', () => this.abrirDetalleEquipo(eq.id));
+
+          marker
+            .addTo(this.map)
+            .bindTooltip(
+              `<div><strong>${eq.nombre}</strong><br>${estadoTexto}</div>`,
+              { sticky: true, direction: 'top' }
+            )
+            .bindPopup(
+              `
+              <div style="text-align: center;">
+                <b style="font-size: 14px;">${eq.nombre}</b><br>
+                <span style="font-size: 12px; color: ${this.getEstadoColor(eq.estado)};">
+                  <i class="bi ${this.getEstadoIcon(eq.estado)}"></i> ${estadoTexto}
+                </span>
+              </div>
+            `
+            );
         });
       },
       error: (err) => {

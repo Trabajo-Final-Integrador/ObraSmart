@@ -47,6 +47,15 @@ spring:
               - AddRequestHeader=X-Forwarded-Host, localhost
               - AddRequestHeader=X-Forwarded-Proto, http
 
+          # ---------- LOGISTICA (distancias/traslados) ----------
+          - id: logistica
+            uri: http://localhost:8088
+            predicates:
+              - Path=/distancias/**,/traslados/**
+            filters:
+              - AddRequestHeader=X-Forwarded-Host, localhost
+              - AddRequestHeader=X-Forwarded-Proto, http
+
           # ---------- STOCK ----------
           - id: stock
             uri: http://localhost:8083
