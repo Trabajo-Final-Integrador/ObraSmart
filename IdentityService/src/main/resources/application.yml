@@ -16,6 +16,16 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+  mail:
+    host: ${MAIL_HOST:sandbox.smtp.mailtrap.io}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    protocol: smtp
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.debug: ${MAIL_DEBUG:false}
 
 app:
   security:
@@ -35,6 +45,11 @@ app:
     bucket: ${STORAGE_BUCKET:identity}
     region: ${STORAGE_REGION:us-east-1}
     secure: ${STORAGE_SECURE:false}
+  reset:
+    frontend-base-url: ${FRONTEND_BASE_URL:http://localhost:4200}
+    from-email: ${MAIL_FROM:no-reply@obrasmart.local}
+    from-name: ${MAIL_FROM_NAME:Soporte ObraSmart}
+    token-ttl-min: ${RESET_TOKEN_TTL_MIN:30}
 
 admin:
   username: ${ADMIN_USERNAME:admin}

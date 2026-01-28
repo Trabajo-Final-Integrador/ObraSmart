@@ -7,9 +7,21 @@
   <div class="container">
     <!-- Columna izquierda -->
     <div class="welcome-section">
-      <h1>{{ 'auth.login.welcome' | translate }}</h1>
-      
-    
+      <div class="brand-section">
+  <img
+    src="assets/logo-obrasmart.png"
+    alt="ObraSmart"
+    class="brand-logo"
+  />
+
+  <h1 class="brand-title">Bienvenido a</h1>
+  <h2 class="brand-name">ObraSmart</h2>
+
+  <p class="brand-subtitle">
+    Gestión inteligente de obras<br />
+    y mantenimiento
+  </p>
+</div>
     </div>
 
     <!-- Columna derecha -->
@@ -29,7 +41,7 @@
         <button type="submit" [disabled]="loading">{{ loading ? ('auth.login.actions.loading' | translate) : ('auth.login.actions.submit' | translate) }}</button>
         <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
         <div class="text-center mt-3">
-        <a routerLink="/auth/reset-password" class="text-decoration">{{ 'auth.login.forgot' | translate }}</a>
+        <a routerLink="/auth/forgot-password" class="text-decoration">{{ 'auth.login.forgot' | translate }}</a>
         </div>
         
       </form>

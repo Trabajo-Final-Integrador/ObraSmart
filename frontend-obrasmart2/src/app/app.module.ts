@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router'; 
 import { LoginComponent } from './pages/auth/login/login.component';
 import { ResetPasswordComponent } from 'src/app/pages/auth/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from 'src/app/pages/auth/forgot-password/forgot-password.component';
 import { PrincipalComponent } from './pages/principal/principal.component';
 import { AltaUsuarioComponent } from './pages/auth/usuarios/alta-usuario/alta-usuario.component';
 import { ListadoUsuariosComponent } from './pages/auth/usuarios/listado-usuario/listado-usuario.component';
@@ -32,6 +33,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     LoginComponent,
     ResetPasswordComponent,
+    ForgotPasswordComponent,
     PrincipalComponent,
     AltaUsuarioComponent, 
     ListadoUsuariosComponent,

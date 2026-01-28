@@ -19,6 +19,9 @@ El servicio queda en `http://localhost:8082`.
 - COOKIES_SECURE (false dev), COOKIES_SAMESITE (Lax dev)
 - STORAGE_ENDPOINT, STORAGE_ACCESS_KEY, STORAGE_SECRET_KEY, STORAGE_BUCKET, STORAGE_REGION
 - ADMIN_USERNAME, ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_REQUIRE_ENV (true en prod para exigir credenciales por env)
+- MAIL_HOST, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_FROM (envío de correo)
+- FRONTEND_BASE_URL (link de recuperación)
+- RESET_TOKEN_TTL_MIN (minutos)
 
 ## Cookies DEV/PROD
 - Dev (http): HttpOnly, Secure=false, SameSite=Lax, Path="/", sin Domain.
@@ -54,6 +57,31 @@ curl -b cookies.txt http://localhost:8082/users
 
 # Subir foto de perfil
 curl -b cookies.txt -F "file=@./foto.jpg" http://localhost:8082/users/1/profile-photo
+
+## Envío de correo (recuperación)
+Se puede elegir Mailtrap o Gmail usando perfiles:
+
+- Mailtrap:
+  - `SPRING_PROFILES_ACTIVE=mailtrap`
+  - `MAILTRAP_USERNAME`, `MAILTRAP_PASSWORD`
+- Gmail (real):
+  - `SPRING_PROFILES_ACTIVE=gmail`
+  - `GMAIL_USERNAME`, `GMAIL_APP_PASSWORD` (app password)
+
+En ambos casos usar `MAIL_FROM` y `FRONTEND_BASE_URL` según el entorno.
+
+## Opción simple (recomendada)
+Usá archivos `.env` separados para Gmail y Mailtrap:
+
+1) Completá `.env.gmail` y/o `.env.mailtrap`.
+2) Ejecutá:
+```
+bash run-with-env-gmail.sh
+```
+o
+```
+bash run-with-env-mailtrap.sh
+```
 ```
 
 ## Gateway

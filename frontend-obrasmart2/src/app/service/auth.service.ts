@@ -60,8 +60,8 @@ export class AuthService {
     return this.session.getRoles();
   }
 
-  resetPassword(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/auth/reset`, { email, password });
+  resetPassword(email: string, password: string, token?: string | null): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/reset`, { email, password, token });
   }
 
   forgotPassword(email: string): Observable<any> {

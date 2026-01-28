@@ -11,4 +11,5 @@ public class ResetRequest {
     private String email;
     @NotBlank
     private String password;
+    private String token;
 }

@@ -951,7 +951,8 @@
       "backToLogin": "Volver al inicio de sesión",
       "errors": {
         "mismatch": "Las contraseñas no coinciden",
-        "unexpected": "Error al restablecer la contraseña"
+        "unexpected": "Error al restablecer la contraseña",
+        "token": "El enlace de recuperación es inválido o expiró."
       },
       "success": "Contraseña restablecida correctamente."
     }
