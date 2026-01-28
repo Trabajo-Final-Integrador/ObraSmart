@@ -5,6 +5,7 @@ import com.obrasmart.identity.dto.LoginRequest;
 import com.obrasmart.identity.dto.ResetRequest;
 import com.obrasmart.identity.dto.SessionUser;
 import com.obrasmart.identity.service.AuthService;
+import com.obrasmart.identity.service.PasswordResetService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -14,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/auth")
@@ -22,6 +22,7 @@ import java.util.UUID;
 public class AuthController {
 
     private final AuthService authService;
+    private final PasswordResetService passwordResetService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid LoginRequest request, HttpServletResponse response) {
@@ -43,11 +44,13 @@ public class AuthController {
 
     @PostMapping("/forgot")
     public ResponseEntity<?> forgot(@RequestBody @Valid ForgotRequest request) {
+        passwordResetService.requestReset(request.getEmail());
         return ResponseEntity.ok(Map.of("message", "Si el correo existe, recibirás instrucciones"));
     }
 
     @PostMapping("/reset")
     public ResponseEntity<?> reset(@RequestBody @Valid ResetRequest request) {
-        return ResponseEntity.ok(Map.of("message", "Password actualizado", "token", UUID.randomUUID().toString()));
+        passwordResetService.reset(request);
+        return ResponseEntity.ok(Map.of("message", "Password actualizado"));
     }
 }

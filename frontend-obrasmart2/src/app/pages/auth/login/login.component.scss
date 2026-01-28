@@ -175,6 +175,75 @@ button:hover {
   color: #A9BA9D;
 }
 
+
+/* ===== BRANDING LOGIN (CENTRADO Y PRO) ===== */
+
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* 🔥 CENTRADO */
+  justify-content: center;
+  text-align: center;      /* 🔥 TEXTO CENTRADO */
+  height: 100%;
+  gap: 12px;
+}
+
+.brand-logo {
+  width: 100px;
+  height: auto;
+  margin-bottom: 16px;
+
+  background: rgba(255, 255, 255, 0.22);
+  padding: 14px;
+  border-radius: 50%;
+
+  border: 1px solid rgba(255, 255, 255, 0.35); /* 👈 CLAVE */
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  
+  filter: saturate(1.4) contrast(1.15);
+
+
+}
+
+
+
+.brand-title {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #ffffff;
+  
+  margin: 0;
+}
+
+.brand-name {
+  font-size: 2.4rem;       /* protagonista */
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.brand-section::after {
+  content: '';
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, #78866B, #A9BA9D);
+  margin-top: 14px;
+  border-radius: 2px;
+}
+
+
+.brand-subtitle {
+  font-size: 0.95rem;
+  color: #e5e5e5;
+  opacity: 0.85;
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+
 @media (max-width: 768px) {
   .container {
     flex-direction: column;

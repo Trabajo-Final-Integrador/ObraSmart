@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/service/auth.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-reset-password',
@@ -19,7 +20,20 @@ export class ResetPasswordComponent {
     confirm: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private translate: TranslateService) {}
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private translate: TranslateService,
+    private route: ActivatedRoute
+  ) {
+    this.route.queryParamMap.subscribe(params => {
+      this.token = params.get('token');
+      const email = params.get('email');
+      if (email) {
+        this.form.patchValue({ email });
+      }
+    });
+  }
 
   submit() {
     if (this.form.invalid) return;
@@ -29,8 +43,13 @@ export class ResetPasswordComponent {
       return;
     }
 
+    if (!this.token) {
+      this.msg = this.translate.instant('auth.reset.errors.token') || 'Token inválido o faltante';
+      return;
+    }
+
     this.loading = true;
-    this.auth.resetPassword(email!, password!).subscribe({
+    this.auth.resetPassword(email!, password!, this.token).subscribe({
       next: (res: any) => {
         this.loading = false;
         this.msg = this.translate.instant('auth.reset.success');

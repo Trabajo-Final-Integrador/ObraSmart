@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on-profile: mailtrap
+  mail:
+    host: ${MAIL_HOST:sandbox.smtp.mailtrap.io}
+    port: ${MAIL_PORT:587}
+    username: ${MAILTRAP_USERNAME:${MAIL_USERNAME:}}
+    password: ${MAILTRAP_PASSWORD:${MAIL_PASSWORD:}}
+    protocol: smtp
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true

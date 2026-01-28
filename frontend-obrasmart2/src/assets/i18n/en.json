@@ -951,7 +951,8 @@
       "backToLogin": "Back to login",
       "errors": {
         "mismatch": "Passwords do not match",
-        "unexpected": "Error resetting password"
+        "unexpected": "Error resetting password",
+        "token": "The recovery link is invalid or expired."
       },
       "success": "Password reset successfully."
     }

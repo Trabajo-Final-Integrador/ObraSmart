@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { ResetPasswordComponent } from 'src/app/pages/auth/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from 'src/app/pages/auth/forgot-password/forgot-password.component';
 import { PrincipalComponent } from './pages/principal/principal.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AltaUsuarioComponent } from './pages/auth/usuarios/alta-usuario/alta-usuario.component';
@@ -17,6 +18,7 @@ const routes: Routes = [
   // 🔐 Autenticación
   { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
   { path: 'auth/login', component: LoginComponent },
+  { path: 'auth/forgot-password', component: ForgotPasswordComponent },
   { path: 'auth/reset-password', component: ResetPasswordComponent },
 
   // 🔸 Pantalla principal protegida
