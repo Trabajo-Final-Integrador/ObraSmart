@@ -974,6 +974,28 @@
         "error": "The user could not be deleted"
       }
     },
+    "edit": {
+      "title": "Edit user",
+      "subtitle": "Update the selected user's information",
+      "helper": "Complete the fields to update the user",
+      "password": {
+        "label": "Password (optional)",
+        "placeholder": "Leave blank to keep current"
+      },
+      "actions": {
+        "save": "Save changes"
+      },
+      "alert": {
+        "successTitle": "User updated",
+        "successText": "Changes saved successfully.",
+        "successConfirm": "OK",
+        "errorTitle": "Update failed",
+        "errorText": "Could not update the user."
+      },
+      "errors": {
+        "load": "Could not load user."
+      }
+    },
     "modal": {
       "title": "Edit User",
       "profileTitle": "User details",

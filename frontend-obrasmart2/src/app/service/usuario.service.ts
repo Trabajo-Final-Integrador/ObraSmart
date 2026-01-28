@@ -17,6 +17,10 @@ export class UsuarioService {
     return this.http.get<Usuario[]>(this.baseUrl, { withCredentials: true });
   }
 
+  getById(id: number): Observable<Usuario> {
+    return this.http.get<Usuario>(`${this.baseUrl}/${id}`, { withCredentials: true });
+  }
+
   crearUsuario(usuario: Usuario): Observable<Usuario> {
     return this.http.post<Usuario>(this.baseUrl, usuario, { withCredentials: true });
   }

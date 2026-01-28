@@ -218,7 +218,7 @@
 
   <div class="modal-actions os-modal-footer">
     <button class="os-btn ghost" type="button" (click)="cancelar()">{{ 'common.close' | translate }}</button>
-    <button class="os-btn primary" type="button" (click)="guardarCambios()">
+    <button *ngIf="!soloLectura" class="os-btn primary" type="button" (click)="guardarCambios()">
       {{ 'users.modal.actions.save' | translate }}
     </button>
   </div>

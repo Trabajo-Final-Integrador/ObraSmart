@@ -974,6 +974,28 @@
         "error": "No se pudo eliminar el usuario"
       }
     },
+    "edit": {
+      "title": "Editar Usuario",
+      "subtitle": "Actualiza los datos del usuario seleccionado",
+      "helper": "Completa los campos para actualizar el usuario",
+      "password": {
+        "label": "Contraseña (opcional)",
+        "placeholder": "Dejar en blanco para no cambiar"
+      },
+      "actions": {
+        "save": "Guardar Cambios"
+      },
+      "alert": {
+        "successTitle": "Usuario actualizado",
+        "successText": "Los cambios se guardaron correctamente.",
+        "successConfirm": "Aceptar",
+        "errorTitle": "Error al actualizar",
+        "errorText": "No se pudo actualizar el usuario."
+      },
+      "errors": {
+        "load": "No se pudo cargar el usuario."
+      }
+    },
     "modal": {
       "title": "Editar Usuario",
       "profileTitle": "Detalle de usuario",

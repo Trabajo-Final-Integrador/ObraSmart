@@ -168,13 +168,9 @@ export class ListadoUsuariosComponent implements OnInit {
   };
   public soloLectura = false;
 
-  editar(usuario: any): void {
-    console.log('📝 Editar ejecutado', usuario);
-    this.usuarioEdit = { ...usuario };
-    this.soloLectura = false;
-    this.mostrarModal = true;
-    console.log('👁️ mostrarModal =', this.mostrarModal);
-    this.cdr.detectChanges();
+  goToEdit(usuario: any): void {
+    if (!usuario?.id) return;
+    this.router.navigate(['/usuarios/editar', usuario.id]);
   }
 
   cerrarModal(): void {
@@ -192,7 +188,7 @@ export class ListadoUsuariosComponent implements OnInit {
     if (img) img.src = this.placeholderData;
   }
 
-  verUsuario(usuario: any): void {
+  openUserDetail(usuario: any): void {
     this.usuarioEdit = { ...usuario };
     this.soloLectura = true;
     this.mostrarModal = true;

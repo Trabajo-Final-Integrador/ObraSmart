@@ -68,7 +68,7 @@
               {{ u.observaciones || '-' }}
             </td>
             <td class="acciones table-actions col-acciones">
-              <button class="btn-icon edit" (click)="editar(u)" [title]="'common.edit' | translate">
+              <button class="btn-icon edit" (click)="goToEdit(u)" [title]="'common.edit' | translate">
                 <i class="bi bi-pencil"></i>
               </button>
               <button
@@ -78,7 +78,7 @@
               >
                 <i class="bi bi-trash"></i>
               </button>
-              <button class="btn-icon view" (click)="verUsuario(u)" [title]="'common.view' | translate">
+              <button class="btn-icon view" (click)="openUserDetail(u)" [title]="'common.view' | translate">
                 <i class="bi bi-eye"></i>
               </button>
             </td>

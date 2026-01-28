@@ -7,6 +7,7 @@ import { PrincipalComponent } from './pages/principal/principal.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AltaUsuarioComponent } from './pages/auth/usuarios/alta-usuario/alta-usuario.component';
 import { ListadoUsuariosComponent } from './pages/auth/usuarios/listado-usuario/listado-usuario.component';
+import { EditarUsuarioComponent } from './pages/auth/usuarios/editar-usuario/editar-usuario.component';
 import { MapaOperacionesComponent } from './pages/mapa-operaciones/mapa-operaciones.component';
 
 
@@ -35,6 +36,12 @@ const routes: Routes = [
   {
     path: 'listado-usuario',
     component: ListadoUsuariosComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['ADMIN', 'SUPERVISOR'] }
+  },
+  {
+    path: 'usuarios/editar/:id',
+    component: EditarUsuarioComponent,
     canActivate: [AuthGuard],
     data: { roles: ['ADMIN', 'SUPERVISOR'] }
   },

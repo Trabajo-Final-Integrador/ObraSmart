@@ -11,6 +11,7 @@ import { ForgotPasswordComponent } from 'src/app/pages/auth/forgot-password/forg
 import { PrincipalComponent } from './pages/principal/principal.component';
 import { AltaUsuarioComponent } from './pages/auth/usuarios/alta-usuario/alta-usuario.component';
 import { ListadoUsuariosComponent } from './pages/auth/usuarios/listado-usuario/listado-usuario.component';
+import { EditarUsuarioComponent } from './pages/auth/usuarios/editar-usuario/editar-usuario.component';
 
 import { CookieInterceptor } from './interceptors/cookie.interceptor';
 import { AuthGuard } from './guards/auth.guard';
@@ -37,6 +38,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PrincipalComponent,
     AltaUsuarioComponent, 
     ListadoUsuariosComponent,
+    EditarUsuarioComponent,
     MapaOperacionesComponent
   ],
   imports: [
