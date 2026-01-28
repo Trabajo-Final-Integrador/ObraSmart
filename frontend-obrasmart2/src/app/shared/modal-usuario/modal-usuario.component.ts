@@ -28,9 +28,9 @@ export class ModalUsuarioComponent implements OnChanges {
 
   @Input() usuario: any = {};
   @Input() soloLectura = false;
-@Output() cerrar = new EventEmitter<void>();
-@Output() guardar = new EventEmitter<void>();
-@Output() photoUploaded = new EventEmitter<number>();
+  @Output() cerrar = new EventEmitter<void>();
+  @Output() guardar = new EventEmitter<void>();
+  @Output() photoUploaded = new EventEmitter<number>();
 
   cacheBust: Record<string, number> = {};
   uploading: Record<Slot, boolean> = {

@@ -32,8 +32,9 @@ spring:
           - id: users
             uri: http://identity-service:8082
             predicates:
-              - Path=/users/**
+              - Path=/users/**,/api/users/**
             filters:
+              - RewritePath=/api/(?<segment>.*), /${segment}
               - AddRequestHeader=X-Forwarded-Host, localhost
               - AddRequestHeader=X-Forwarded-Proto, http
 
@@ -42,8 +43,9 @@ spring:
           - id: equipos
             uri: http://gestion-equipos:8087
             predicates:
-              - Path=/equipos/**,/marca/**,/modelo/**,/tipo-equipo/**
+              - Path=/equipos/**,/marca/**,/modelo/**,/tipo-equipo/**,/api/equipos/**,/api/marca/**,/api/modelo/**,/api/tipo-equipo/**
             filters:
+              - RewritePath=/api/(?<segment>.*), /${segment}
               - AddRequestHeader=X-Forwarded-Host, localhost
               - AddRequestHeader=X-Forwarded-Proto, http
 
@@ -51,8 +53,9 @@ spring:
           - id: logistica
             uri: http://gestion-logistica:8088
             predicates:
-              - Path=/distancias/**,/traslados/**
+              - Path=/distancias/**,/traslados/**,/api/distancias/**,/api/traslados/**
             filters:
+              - RewritePath=/api/(?<segment>.*), /${segment}
               - AddRequestHeader=X-Forwarded-Host, localhost
               - AddRequestHeader=X-Forwarded-Proto, http
 
@@ -60,8 +63,9 @@ spring:
           - id: stock
             uri: http://gestion-stock:8083
             predicates:
-              - Path=/proveedores/**,/repuestos/**,/categorias/**,/movimientos/**,/ordenes/**
+              - Path=/proveedores/**,/repuestos/**,/categorias/**,/movimientos/**,/ordenes/**,/api/proveedores/**,/api/repuestos/**,/api/categorias/**,/api/movimientos/**,/api/ordenes/**
             filters:
+              - RewritePath=/api/(?<segment>.*), /${segment}
               - AddRequestHeader=X-Forwarded-Host, localhost
               - AddRequestHeader=X-Forwarded-Proto, http
 
@@ -69,8 +73,9 @@ spring:
           - id: reparaciones
             uri: http://gestion-reparaciones:8086
             predicates:
-              - Path=/reparaciones/**
+              - Path=/reparaciones/**,/api/reparaciones/**
             filters:
+              - RewritePath=/api/(?<segment>.*), /${segment}
               - AddRequestHeader=X-Forwarded-Host, localhost
               - AddRequestHeader=X-Forwarded-Proto, http
 
@@ -78,8 +83,9 @@ spring:
           - id: media
             uri: http://media-service:8090
             predicates:
-              - Path=/files/**
+              - Path=/files/**,/api/files/**
             filters:
+              - RewritePath=/api/(?<segment>.*), /${segment}
               - AddRequestHeader=X-Forwarded-Host, localhost
               - AddRequestHeader=X-Forwarded-Proto, http
           - id: media-equipos
@@ -102,7 +108,7 @@ spring:
           - id: geolocalizacion
             uri: http://gestion-geolocalizacion:8089
             predicates:
-              - Path=/geolocalizacion/**
+              - Path=/geolocalizacion/**,/api/geolocalizacion/**
             filters:
               - RewritePath=/geolocalizacion(?<segment>/?.*), /api/geolocalizacion${segment}
 
@@ -119,8 +125,9 @@ spring:
           - id: obradores
             uri: http://gestion-obrador:8084
             predicates:
-              - Path=/obradores/**
+              - Path=/obradores/**,/api/obradores/**
             filters:
+              - RewritePath=/api/(?<segment>.*), /${segment}
               - AddRequestHeader=X-Forwarded-Host, localhost
               - AddRequestHeader=X-Forwarded-Proto, http
 
@@ -128,7 +135,7 @@ spring:
           - id: asistente
             uri: http://gestion-asistente:8099
             predicates:
-              - Path=/asistente/**
+              - Path=/asistente/**,/api/asistente/**
             filters:
               - RewritePath=/asistente(?<segment>/?.*), /api/asistente${segment}
 

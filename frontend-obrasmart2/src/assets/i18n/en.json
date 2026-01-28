@@ -976,6 +976,12 @@
     },
     "modal": {
       "title": "Edit User",
+      "profileTitle": "User details",
+      "profileSubtitle": "User profile",
+      "sections": {
+        "general": "General details",
+        "media": "Photos & credentials"
+      },
       "email": {
         "label": "Email",
         "placeholder": "email@example.com"

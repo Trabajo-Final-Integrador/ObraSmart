@@ -1,90 +1,181 @@
-﻿<div class="modal-backdrop" (click)="cancelar()">
-    <div class="modal" (click)="$event.stopPropagation()">
+<div class="modal-backdrop os-modal-backdrop" (click)="cancelar()"></div>
+<div class="usuario-modal os-modal" (click)="$event.stopPropagation()">
+  <div class="modal-header os-modal-header">
+    <div class="header-info">
+      <div class="thumb">
+        <img
+          [src]="previews['profile'] || placeholderData"
+          (error)="imgFallback($event, 'profile')"
+          [alt]="usuario?.username || 'user'"
+        />
+      </div>
+      <div class="header-copy">
+        <div class="chips">
+          <span class="os-chip primary">{{ usuario?.role || ('common.noData' | translate) }}</span>
+          <span
+            class="os-chip"
+            [ngClass]="{
+              primary: (usuario?.status || '').toUpperCase() === 'ACTIVO',
+              danger: (usuario?.status || '').toUpperCase() === 'INACTIVO'
+            }"
+          >
+            {{ usuario?.status || ('common.noData' | translate) }}
+          </span>
+        </div>
+        <h3 class="os-modal-title">
+          {{ (soloLectura ? 'users.modal.profileTitle' : 'users.modal.title') | translate }}
+        </h3>
+        <p class="os-modal-subtitle">
+          {{
+            (usuario?.firstname || usuario?.lastname)
+              ? ((usuario?.firstname || '') + ' ' + (usuario?.lastname || '')).trim()
+              : (usuario?.username || ('users.modal.profileSubtitle' | translate))
+          }}
+        </p>
+      </div>
+    </div>
+    <button class="btn-close os-modal-close" (click)="cancelar()">&times;</button>
+  </div>
 
-    <!-- Header -->
-    <div class="modal-header">
-      <h2>{{ 'users.modal.profileTitle' | translate }}</h2>
-      <button class="close-btn" (click)="cancelar()">✕</button>
+  <div class="modal-body os-modal-body">
+    <div class="os-card">
+      <div class="section-title">{{ 'users.modal.sections.general' | translate }}</div>
+      <div class="os-card-grid">
+        <div class="os-card-item">
+          <span class="os-label">{{ 'users.modal.email.label' | translate }}</span>
+        <ng-container *ngIf="soloLectura; else emailEdit">
+            <span class="os-value">{{ usuario?.email || ('common.noData' | translate) }}</span>
+          </ng-container>
+          <ng-template #emailEdit>
+            <input
+              type="email"
+              [(ngModel)]="usuario.email"
+              name="email"
+              [placeholder]="'users.modal.email.placeholder' | translate"
+              required
+            />
+          </ng-template>
+        </div>
+
+        <div class="os-card-item">
+          <span class="os-label">{{ 'users.modal.username.label' | translate }}</span>
+        <ng-container *ngIf="soloLectura; else usernameEdit">
+            <span class="os-value">{{ usuario?.username || ('common.noData' | translate) }}</span>
+          </ng-container>
+          <ng-template #usernameEdit>
+            <input
+              type="text"
+              [(ngModel)]="usuario.username"
+              name="username"
+              required
+            />
+          </ng-template>
+        </div>
+
+        <div class="os-card-item">
+          <span class="os-label">{{ 'users.table.firstname' | translate }}</span>
+        <ng-container *ngIf="soloLectura; else firstnameEdit">
+            <span class="os-value">{{ usuario?.firstname || ('common.noData' | translate) }}</span>
+          </ng-container>
+          <ng-template #firstnameEdit>
+            <input
+              type="text"
+              [(ngModel)]="usuario.firstname"
+              name="firstname"
+            />
+          </ng-template>
+        </div>
+
+        <div class="os-card-item">
+          <span class="os-label">{{ 'users.table.lastname' | translate }}</span>
+        <ng-container *ngIf="soloLectura; else lastnameEdit">
+            <span class="os-value">{{ usuario?.lastname || ('common.noData' | translate) }}</span>
+          </ng-container>
+          <ng-template #lastnameEdit>
+            <input
+              type="text"
+              [(ngModel)]="usuario.lastname"
+              name="lastname"
+            />
+          </ng-template>
+        </div>
+
+        <div class="os-card-item">
+          <span class="os-label">{{ 'users.modal.role.label' | translate }}</span>
+        <ng-container *ngIf="soloLectura; else roleEdit">
+            <span class="os-value">{{ usuario?.role || ('common.noData' | translate) }}</span>
+          </ng-container>
+          <ng-template #roleEdit>
+            <select [(ngModel)]="usuario.role" name="role">
+              <option value="ADMINISTRACION">{{ 'users.modal.role.admin' | translate }}</option>
+              <option value="TECNICO">{{ 'users.modal.role.tech' | translate }}</option>
+              <option value="OPERARIO">{{ 'users.modal.role.worker' | translate }}</option>
+            </select>
+          </ng-template>
+        </div>
+
+        <div class="os-card-item">
+          <span class="os-label">{{ 'users.modal.status.label' | translate }}</span>
+        <ng-container *ngIf="soloLectura; else statusEdit">
+            <span class="os-value">{{ usuario?.status || ('common.noData' | translate) }}</span>
+          </ng-container>
+          <ng-template #statusEdit>
+            <select [(ngModel)]="usuario.status" name="status">
+              <option value="ACTIVO">ACTIVO</option>
+              <option value="INACTIVO">INACTIVO</option>
+            </select>
+          </ng-template>
+        </div>
+
+        <div class="os-card-item full">
+          <span class="os-label">{{ 'users.table.observaciones' | translate }}</span>
+        <ng-container *ngIf="soloLectura; else notesEdit">
+            <span class="os-value wrap">{{ usuario?.observaciones || ('common.noData' | translate) }}</span>
+          </ng-container>
+          <ng-template #notesEdit>
+            <textarea
+              rows="3"
+              [(ngModel)]="usuario.observaciones"
+              name="observaciones"
+            ></textarea>
+          </ng-template>
+        </div>
+      </div>
     </div>
 
-    <div class="modal-body">
-    <!-- Form -->
-    <form class="modal-form" (ngSubmit)="guardarCambios()">
-
-      <!-- Email -->
-      <div class="form-group">
-        <label>{{ 'users.modal.email.label' | translate }} <span class="required">*</span></label>
-        <input
-          type="email"
-          [(ngModel)]="usuario.email"
-          name="email"
-          [placeholder]="'users.modal.email.placeholder' | translate"
-          required
-          [disabled]="soloLectura"
-        />
+    <div class="upload-card os-card">
+      <div class="upload-header">
+        <div class="section-title">{{ 'users.modal.sections.media' | translate }}</div>
+        <p class="os-modal-subtitle">{{ 'users.modal.upload.title' | translate }}</p>
       </div>
-
-      <!-- Username -->
-      <div class="form-group">
-        <label>{{ 'users.modal.username.label' | translate }} <span class="required">*</span></label>
-        <input
-          type="text"
-          [(ngModel)]="usuario.username"
-          name="username"
-          required
-          [disabled]="soloLectura"
-        />
-      </div>
-
-      <!-- Rol -->
-      <div class="form-group">
-        <label>{{ 'users.modal.role.label' | translate }}</label>
-        <select [(ngModel)]="usuario.role" name="role" [disabled]="soloLectura">
-          <option value="ADMINISTRACION">ADMINISTRACIÓN</option>
-          <option value="TECNICO">TÉCNICO</option>
-          <option value="OPERARIO">OPERARIO</option>
-        </select>
-      </div>
-
-      <!-- Estado -->
-      <div class="form-group">
-        <label>{{ 'users.modal.status.label' | translate }}</label>
-        <select [(ngModel)]="usuario.status" name="status" [disabled]="soloLectura">
-          <option value="ACTIVO">ACTIVO</option>
-          <option value="INACTIVO">INACTIVO</option>
-        </select>
-      </div>
-
-      <!-- Botones -->
-      <div class="modal-actions">
-        <button type="button" class="btn-cancel" (click)="cancelar()">
-          {{ 'common.cancel' | translate }}
-        </button>
-
-        <button type="submit" class="btn-save">
-          {{ 'users.modal.actions.save' | translate }}
-        </button>
-      </div>
-    </form>
-
-    <div class="upload-section">
-      <h3>{{ 'users.modal.upload.title' | translate }}</h3>
 
       <div class="upload-grid">
-        <div class="upload-card">
-          <div class="label-row">
-            <span>{{ 'users.modal.upload.profile' | translate }}</span>
-            <button type="button" class="btn-upload" (click)="upload('profile')" [disabled]="!files['profile'] || !usuario?.id || uploading['profile']">{{ 'users.modal.upload.upload' | translate }}</button>
+        <div class="upload-item">
+          <div class="upload-item-header">
+            <span class="os-label">{{ 'users.modal.upload.profile' | translate }}</span>
+            <button
+              type="button"
+              class="os-btn primary"
+              (click)="upload('profile')"
+              [disabled]="soloLectura || !files['profile'] || !usuario?.id || uploading['profile']"
+            >
+              {{ 'users.modal.upload.upload' | translate }}
+            </button>
           </div>
           <div class="preview">
-            <img [src]="previews['profile'] || placeholderData" (error)="imgFallback($event, 'profile')" [alt]="'users.modal.upload.profile' | translate" />
+            <img
+              [src]="previews['profile'] || placeholderData"
+              (error)="imgFallback($event, 'profile')"
+              [alt]="'users.modal.upload.profile' | translate"
+            />
           </div>
-          <div class="file-row">
-            <label class="file-label">
+          <div class="upload-row">
+            <label class="file-label" [class.disabled]="soloLectura">
               <input
                 type="file"
                 accept=".png,.jpg,.jpeg,.webp"
                 (change)="selectFile($event, 'profile')"
+                [disabled]="soloLectura"
               />
               <span>{{ 'users.modal.upload.choose' | translate }}</span>
             </label>
@@ -92,20 +183,29 @@
           </div>
         </div>
 
-        <div class="upload-card" *ngFor="let slot of slots">
-          <div class="label-row">
-            <span>{{ 'users.modal.upload.credential' | translate:{ number: slot.slice(-1) } }}</span>
-            <button type="button" class="btn-upload" (click)="upload(slot)" [disabled]="true" [title]="'users.modal.upload.pending' | translate">{{ 'users.modal.upload.upload' | translate }}</button>
+        <div class="upload-item" *ngFor="let slot of (slots | slice:0:2)">
+          <div class="upload-item-header">
+            <span class="os-label">{{ 'users.modal.upload.credential' | translate:{ number: slot.slice(-1) } }}</span>
+            <button
+              type="button"
+              class="os-btn primary"
+              (click)="upload(slot)"
+              [disabled]="true"
+              [title]="'users.modal.upload.pending' | translate"
+            >
+              {{ 'users.modal.upload.upload' | translate }}
+            </button>
           </div>
           <div class="preview">
             <img [src]="previews[slot] || placeholderData" (error)="imgFallback($event, slot)" [alt]="slot" />
           </div>
-          <div class="file-row">
-            <label class="file-label">
+          <div class="upload-row">
+            <label class="file-label" [class.disabled]="soloLectura">
               <input
                 type="file"
                 accept=".png,.jpg,.jpeg,.webp"
                 (change)="selectFile($event, slot)"
+                [disabled]="soloLectura"
               />
               <span>{{ 'users.modal.upload.choose' | translate }}</span>
             </label>
@@ -114,7 +214,12 @@
         </div>
       </div>
     </div>
-    </div>
+  </div>
 
+  <div class="modal-actions os-modal-footer">
+    <button class="os-btn ghost" type="button" (click)="cancelar()">{{ 'common.close' | translate }}</button>
+    <button class="os-btn primary" type="button" (click)="guardarCambios()">
+      {{ 'users.modal.actions.save' | translate }}
+    </button>
   </div>
 </div>
