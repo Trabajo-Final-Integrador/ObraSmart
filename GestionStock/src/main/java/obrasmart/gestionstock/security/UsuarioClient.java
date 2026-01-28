@@ -19,6 +19,12 @@ public class UsuarioClient {
 
     private final RestTemplate restTemplate;
 
+    // ✅ Configurable para local/Docker/nube
+    // application.yml: auth.base-url: http://localhost:8085
+    // docker-compose:  AUTH_BASE_URL=http://gateway:8085
+    @org.springframework.beans.factory.annotation.Value("${auth.base-url}")
+    private String authBaseUrl;
+
     public UserSession validarSesion(HttpServletRequest request) {
         String cookie = request.getHeader("Cookie");
         if (cookie == null || cookie.isBlank()) {
@@ -34,7 +40,7 @@ public class UsuarioClient {
 
             log.info("Validando sesion en gateway /auth/me con cookie");
             ResponseEntity<java.util.Map> resp =
-                    restTemplate.exchange("http://localhost:8085/auth/me",
+                    restTemplate.exchange(authBaseUrl + "/auth/me",
                             HttpMethod.GET, entity, java.util.Map.class);
 
             log.info("Respuesta desde auth/me: {} {}", resp.getStatusCode(), resp.getBody());

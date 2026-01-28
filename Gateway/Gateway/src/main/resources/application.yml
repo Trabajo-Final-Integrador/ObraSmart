@@ -11,7 +11,7 @@ spring:
 
           # ---------- AUTH (GestionAuth) ----------
           - id: auth
-            uri: http://localhost:8082
+            uri: http://identity-service:8082
             predicates:
               - Path=/auth/**
             filters:
@@ -20,7 +20,7 @@ spring:
 
           # ---------- AUTH (GestionAuth) con prefijo /api ----------
           - id: api-auth
-            uri: http://localhost:8082
+            uri: http://identity-service:8082
             predicates:
               - Path=/api/auth/**
             filters:
@@ -30,7 +30,7 @@ spring:
 
           # ---------- USERS (GestionUsuario) ----------
           - id: users
-            uri: http://localhost:8082  #FIX: identity-service
+            uri: http://identity-service:8082
             predicates:
               - Path=/users/**
             filters:
@@ -40,7 +40,7 @@ spring:
 
           # ---------- EQUIPOS ----------
           - id: equipos
-            uri: http://localhost:8087
+            uri: http://gestion-equipos:8087
             predicates:
               - Path=/equipos/**,/marca/**,/modelo/**,/tipo-equipo/**
             filters:
@@ -49,7 +49,7 @@ spring:
 
           # ---------- LOGISTICA (distancias/traslados) ----------
           - id: logistica
-            uri: http://localhost:8088
+            uri: http://gestion-logistica:8088
             predicates:
               - Path=/distancias/**,/traslados/**
             filters:
@@ -58,7 +58,7 @@ spring:
 
           # ---------- STOCK ----------
           - id: stock
-            uri: http://localhost:8083
+            uri: http://gestion-stock:8083
             predicates:
               - Path=/proveedores/**,/repuestos/**,/categorias/**,/movimientos/**,/ordenes/**
             filters:
@@ -67,7 +67,7 @@ spring:
 
           # ---------- REPARACIONES ----------
           - id: reparaciones
-            uri: http://localhost:8086
+            uri: http://gestion-reparaciones:8086
             predicates:
               - Path=/reparaciones/**
             filters:
@@ -76,21 +76,21 @@ spring:
 
           # ---------- MEDIA (media-service) ----------
           - id: media
-            uri: http://localhost:8090
+            uri: http://media-service:8090
             predicates:
               - Path=/files/**
             filters:
               - AddRequestHeader=X-Forwarded-Host, localhost
               - AddRequestHeader=X-Forwarded-Proto, http
           - id: media-equipos
-            uri: http://localhost:8090
+            uri: http://media-service:8090
             predicates:
               - Path=/media/**
             filters:
               - AddRequestHeader=X-Forwarded-Host, localhost
               - AddRequestHeader=X-Forwarded-Proto, http
           - id: api-media
-            uri: http://localhost:8090
+            uri: http://media-service:8090
             predicates:
               - Path=/api/media/**
             filters:
@@ -100,7 +100,7 @@ spring:
 
           # ---------- GEOLOCALIZACION ----------
           - id: geolocalizacion
-            uri: http://localhost:8089
+            uri: http://gestion-geolocalizacion:8089
             predicates:
               - Path=/geolocalizacion/**
             filters:
@@ -108,7 +108,7 @@ spring:
 
           # ---------- REPORTES ----------
           - id: reportes
-            uri: http://localhost:8077
+            uri: http://gestion-reportes:8077
             predicates:
               - Path=/reportes/**
             filters:
@@ -117,7 +117,7 @@ spring:
 
           # ---------- OBRADORES ----------
           - id: obradores
-            uri: http://localhost:8084
+            uri: http://gestion-obrador:8084
             predicates:
               - Path=/obradores/**
             filters:
@@ -126,7 +126,7 @@ spring:
 
           # ---------- ASISTENTE ----------
           - id: asistente
-            uri: http://localhost:8099
+            uri: http://gestion-asistente:8099
             predicates:
               - Path=/asistente/**
             filters:
@@ -134,7 +134,7 @@ spring:
 
           # ---------- REPORTES (GestionReportes) con prefijo /api ----------
           - id: api-reportes
-            uri: http://localhost:8077
+            uri: http://gestion-reportes:8077
             predicates:
               - Path=/api/reportes/**
             filters:

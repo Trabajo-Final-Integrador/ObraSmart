@@ -1,0 +1,280 @@
+version: '3.9'
+
+x-postgres-env: &postgres_env
+  POSTGRES_USER: ${POSTGRES_USER}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+x-postgres: &postgres
+  image: ${POSTGRES_IMAGE}
+  restart: unless-stopped
+  networks:
+    - obrasmart-net
+
+services:
+  gateway:
+    build:
+      context: ./Gateway/Gateway
+    ports:
+      - "${GATEWAY_PORT}:8085"
+    networks:
+      - obrasmart-net
+
+  identity-service:
+    build:
+      context: ./IdentityService
+    ports:
+      - "${IDENTITY_PORT}:8082"
+    environment:
+      - DB_HOST=identity-db
+      - DB_PORT=5432
+      - DB_NAME=${IDENTITY_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASS=${POSTGRES_PASSWORD}
+    depends_on:
+      - identity-db
+    networks:
+      - obrasmart-net
+
+  media-service:
+    build:
+      context: ./MediaService
+    ports:
+      - "${MEDIA_PORT}:8090"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://media-db:5432/${MEDIA_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - APP_STORAGE_BASE_PATH=/app/storage
+    volumes:
+      - media-storage:/app/storage
+      # - ./media-storage:/app/storage
+    depends_on:
+      - media-db
+    networks:
+      - obrasmart-net
+
+  gestion-equipos:
+    build:
+      context: ./GestionEquipos
+    ports:
+      - "${GESTION_EQUIPOS_PORT}:8087"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://gestion-equipos-db:5432/${EQUIPOS_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+    depends_on:
+      - gestion-equipos-db
+    networks:
+      - obrasmart-net
+
+  gestion-geolocalizacion:
+    build:
+      context: ./GestionGeolocalizacion
+    ports:
+      - "${GESTION_GEO_PORT}:8089"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://gestion-geolocalizacion-db:5432/${GEO_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - MICROSERVICIO_EQUIPOS_URL=http://gestion-equipos:8087/equipos
+      - MICROSERVICIO_REPARACIONES_URL=http://gestion-reparaciones:8086/reparaciones
+    depends_on:
+      - gestion-geolocalizacion-db
+      - gestion-equipos
+      - gestion-reparaciones
+    networks:
+      - obrasmart-net
+
+  gestion-logistica:
+    build:
+      context: ./GestionLogistica
+    ports:
+      - "${GESTION_LOGISTICA_PORT}:8088"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://gestion-logistica-db:5432/${LOGISTICA_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - AUTH_BASE_URL=http://gateway:8085
+      - MICROSERVICES_EQUIPOS_URL=http://gestion-equipos:8087
+      - MICROSERVICES_OBRADORES_URL=http://gestion-obrador:8084
+      - MICROSERVICES_AUTH_URL=http://identity-service:8082
+    depends_on:
+      - gestion-logistica-db
+      - gestion-equipos
+      - gestion-obrador
+      - identity-service
+    networks:
+      - obrasmart-net
+
+  gestion-obrador:
+    build:
+      context: ./GestionObrador
+    ports:
+      - "${GESTION_OBRADOR_PORT}:8084"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://gestion-obrador-db:5432/${OBRADOR_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+    depends_on:
+      - gestion-obrador-db
+    networks:
+      - obrasmart-net
+
+  gestion-reparaciones:
+    build:
+      context: ./GestionReparaciones
+    ports:
+      - "${GESTION_REPARACIONES_PORT}:8086"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://gestion-reparaciones-db:5432/${REPARACIONES_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - EQUIPOS_SERVICE_URL=http://gestion-equipos:8087
+      - GATEWAY_URL=http://gateway:8085
+    depends_on:
+      - gestion-reparaciones-db
+      - gestion-equipos
+    networks:
+      - obrasmart-net
+
+  gestion-reportes:
+    build:
+      context: ./GestionReportes
+    ports:
+      - "${GESTION_REPORTES_PORT}:8077"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://gestion-reportes-db:5432/${REPORTES_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - OBRASMART_EQUIPOS_BASE_URL=http://gateway:8085/equipos
+      - OBRASMART_REPARACIONES_BASE_URL=http://gateway:8085/reparaciones
+      - OBRASMART_STOCK_REPUESTOS_URL=http://gateway:8085/repuestos
+      - OBRASMART_STOCK_MOVIMIENTOS_URL=http://gateway:8085/movimientos
+    depends_on:
+      - gestion-reportes-db
+      - gateway
+    networks:
+      - obrasmart-net
+
+  gestion-stock:
+    build:
+      context: ./GestionStock
+    ports:
+      - "${GESTION_STOCK_PORT}:8083"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://gestion-stock-db:5432/${STOCK_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - AUTH_BASE_URL=http://gateway:8085
+    depends_on:
+      - gestion-stock-db
+      - gateway
+    networks:
+      - obrasmart-net
+
+  gestion-asistente:
+    build:
+      context: ./GestionAsistente
+    ports:
+      - "${GESTION_ASISTENTE_PORT}:8099"
+    networks:
+      - obrasmart-net
+
+  frontend:
+    build:
+      context: ./frontend-obrasmart2
+    ports:
+      - "${FRONTEND_PORT}:80"
+    depends_on:
+      - gateway
+    networks:
+      - obrasmart-net
+    # production nginx serving dist + proxy /api -> gateway:8085
+
+  identity-db:
+    <<: *postgres
+    environment:
+      <<: *postgres_env
+      POSTGRES_DB: ${IDENTITY_DB}
+    volumes:
+      - identity-db-data:/var/lib/postgresql/data
+
+  media-db:
+    <<: *postgres
+    environment:
+      <<: *postgres_env
+      POSTGRES_DB: ${MEDIA_DB}
+    volumes:
+      - media-db-data:/var/lib/postgresql/data
+
+  gestion-equipos-db:
+    <<: *postgres
+    environment:
+      <<: *postgres_env
+      POSTGRES_DB: ${EQUIPOS_DB}
+    volumes:
+      - gestion-equipos-db-data:/var/lib/postgresql/data
+
+  gestion-geolocalizacion-db:
+    <<: *postgres
+    environment:
+      <<: *postgres_env
+      POSTGRES_DB: ${GEO_DB}
+    volumes:
+      - gestion-geolocalizacion-db-data:/var/lib/postgresql/data
+
+  gestion-logistica-db:
+    <<: *postgres
+    environment:
+      <<: *postgres_env
+      POSTGRES_DB: ${LOGISTICA_DB}
+    volumes:
+      - gestion-logistica-db-data:/var/lib/postgresql/data
+
+  gestion-obrador-db:
+    <<: *postgres
+    environment:
+      <<: *postgres_env
+      POSTGRES_DB: ${OBRADOR_DB}
+    volumes:
+      - gestion-obrador-db-data:/var/lib/postgresql/data
+
+  gestion-reparaciones-db:
+    <<: *postgres
+    environment:
+      <<: *postgres_env
+      POSTGRES_DB: ${REPARACIONES_DB}
+    volumes:
+      - gestion-reparaciones-db-data:/var/lib/postgresql/data
+
+  gestion-reportes-db:
+    <<: *postgres
+    environment:
+      <<: *postgres_env
+      POSTGRES_DB: ${REPORTES_DB}
+    volumes:
+      - gestion-reportes-db-data:/var/lib/postgresql/data
+
+  gestion-stock-db:
+    <<: *postgres
+    environment:
+      <<: *postgres_env
+      POSTGRES_DB: ${STOCK_DB}
+    volumes:
+      - gestion-stock-db-data:/var/lib/postgresql/data
+
+volumes:
+  media-storage:
+  identity-db-data:
+  media-db-data:
+  gestion-equipos-db-data:
+  gestion-geolocalizacion-db-data:
+  gestion-logistica-db-data:
+  gestion-obrador-db-data:
+  gestion-reparaciones-db-data:
+  gestion-reportes-db-data:
+  gestion-stock-db-data:
+
+networks:
+  obrasmart-net:
+    name: obrasmart-net
