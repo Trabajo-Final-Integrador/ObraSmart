@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObradorDto, ObradorService } from 'src/app/service/obrador.service';
@@ -6,13 +6,16 @@ import { EquipoDTO, EquipoService } from 'src/app/service/equipo.service';
 import { UsuarioService } from 'src/app/service/usuario.service';
 import { Usuario } from 'src/app/pages/auth/usuarios/usuario.model';
 import { SidebarService } from 'src/app/service/sidebar.service';
+import { GeocodingService } from 'src/app/service/geocoding.service';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-obrador-form',
   templateUrl: './obrador-form.component.html',
   styleUrls: ['./obrador-form.component.scss'],
 })
-export class ObradorFormComponent implements OnInit {
+export class ObradorFormComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   isEdit = false;
   loading = false;
@@ -22,6 +25,10 @@ export class ObradorFormComponent implements OnInit {
   equiposDisponibles: EquipoDTO[] = [];
   equiposAsignados: EquipoDTO[] = [];
   equipoSeleccionado: number | null = null;
+  geocodificando = false;
+  geocodingError?: string;
+  private locationSub = new Subject<string>();
+  private locationSubscription = new Subscription();
 
   constructor(
     private fb: FormBuilder,
@@ -30,13 +37,15 @@ export class ObradorFormComponent implements OnInit {
     private obradorService: ObradorService,
     private usuarioService: UsuarioService,
     private equipoService: EquipoService,
-    private sidebarService: SidebarService
+    private sidebarService: SidebarService,
+    private geocoding: GeocodingService
   ) {}
 
   ngOnInit(): void {
     this.buildForm();
     this.cargarUsuarios();
     this.cargarEquipos();
+    this.initGeocoding();
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
@@ -45,6 +54,10 @@ export class ObradorFormComponent implements OnInit {
         this.loadObrador(this.obradorId);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.locationSubscription.unsubscribe();
   }
 
   private buildForm(): void {
@@ -56,6 +69,53 @@ export class ObradorFormComponent implements OnInit {
       estado: ['ACTIVO'],
       supervisorUserId: [null],
     });
+  }
+
+  private initGeocoding(): void {
+    this.locationSubscription.add(
+      this.locationSub.pipe(debounceTime(800), distinctUntilChanged()).subscribe((ubicacion) => {
+        if (ubicacion && ubicacion.trim().length > 3) {
+          this.buscarCoordenadas(ubicacion);
+        }
+      })
+    );
+
+    const ubicacionSub = this.form.get('ubicacion')?.valueChanges.subscribe((val) => {
+      if (typeof val === 'string') {
+        this.locationSub.next(val);
+      }
+    });
+    if (ubicacionSub) this.locationSubscription.add(ubicacionSub);
+  }
+
+  private buscarCoordenadas(ubicacion: string): void {
+    this.geocodificando = true;
+    this.geocodingError = undefined;
+    this.geocoding.buscar(ubicacion).subscribe({
+      next: (resultado) => {
+        this.geocodificando = false;
+        if (resultado) {
+          this.form.patchValue({
+            lat: resultado.lat,
+            lng: resultado.lon
+          }, { emitEvent: false });
+        } else {
+          this.geocodingError = 'No se encontraron coordenadas';
+        }
+      },
+      error: () => {
+        this.geocodificando = false;
+        console.error('Error al buscar coordenadas');
+        this.geocodingError = 'Error al buscar coordenadas';
+      }
+    });
+  }
+
+  onUbicacionBlur(): void {
+    const ubicacion = this.form.get('ubicacion')?.value;
+    if (typeof ubicacion === 'string' && ubicacion.trim().length > 3) {
+      this.buscarCoordenadas(ubicacion.trim());
+    }
   }
 
   private loadObrador(id: number): void {

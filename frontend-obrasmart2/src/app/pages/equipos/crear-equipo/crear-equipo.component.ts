@@ -1,6 +1,5 @@
 ﻿import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { EquipoDTO, EquipoService } from 'src/app/service/equipo.service';
 import { MarcaService, MarcaDTO } from 'src/app/service/marca.service';
 import { ModeloService, ModeloDTO } from 'src/app/service/modelo.service';
@@ -9,6 +8,7 @@ import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
+import { GeocodingService } from 'src/app/service/geocoding.service';
 
 @Component({
   selector: 'app-crear-equipo',
@@ -82,8 +82,8 @@ export class CrearEquipoComponent {
     private tipoService: TipoEquipoService,
     private router: Router,
     private route: ActivatedRoute,
-    private http: HttpClient,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private geocoding: GeocodingService
   ) {}
 
   ngOnInit(): void {
@@ -139,14 +139,13 @@ export class CrearEquipoComponent {
   buscarCoordenadas(ubicacion: string) {
     console.log('Buscando coordenadas para:', ubicacion);
     this.geocodificando = true;
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(ubicacion)}&limit=1`;
 
-    this.http.get<any[]>(url).subscribe({
-      next: (resultados) => {
+    this.geocoding.buscar(ubicacion).subscribe({
+      next: (resultado) => {
         this.geocodificando = false;
-        if (resultados && resultados.length > 0) {
-          this.equipo.latitud = parseFloat(resultados[0].lat);
-          this.equipo.longitud = parseFloat(resultados[0].lon);
+        if (resultado) {
+          this.equipo.latitud = resultado.lat;
+          this.equipo.longitud = resultado.lon;
 
           Swal.fire({
             icon: 'success',

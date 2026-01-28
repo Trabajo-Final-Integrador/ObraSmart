@@ -44,7 +44,15 @@
     
 
   .navbar-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     flex: 1;
+
+    .logo-navbar {
+      height: 34px;
+      width: auto;
+    }
 
     .navbar-title {
       font-size: 1.3rem;

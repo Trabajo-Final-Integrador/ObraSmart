@@ -87,17 +87,18 @@
             <td>{{ r.fechaInicio ? (r.fechaInicio | date:'dd/MM/yyyy') : '-' }}</td>
             <td class="acciones table-actions">
               <button class="btn-icon edit" [title]="'common.edit' | translate"
-                      (click)="editarReparacion(r.id)"
-                      [disabled]="r.estadoReparacion === 'FINALIZADA' || r.estadoReparacion === 'CANCELADA'">
+                      (click)="editarReparacion(getReparacionId(r)!)"
+                      [disabled]="!getReparacionId(r) || r.estadoReparacion === 'FINALIZADA' || r.estadoReparacion === 'CANCELADA'">
                 <i class="bi bi-pencil"></i>
               </button>
               <button class="btn-icon delete" [title]="'repairs.actions.cancel' | translate"
-                      (click)="cancelarReparacion(r.id)"
-                      [disabled]="r.estadoReparacion === 'FINALIZADA' || r.estadoReparacion === 'CANCELADA'">
+                      (click)="cancelarReparacion(getReparacionId(r)!)"
+                      [disabled]="!getReparacionId(r) || r.estadoReparacion === 'FINALIZADA' || r.estadoReparacion === 'CANCELADA'">
                <i class="bi bi-x-square"></i>
               </button>
               <button class="btn-icon view" [title]="'repairs.actions.view' | translate"
-                      (click)="verDetalle(r.id)">
+                      (click)="verDetalle(getReparacionId(r)!)"
+                      [disabled]="!getReparacionId(r)">
                 <i class="bi bi-eye"></i>
               </button>
             </td>

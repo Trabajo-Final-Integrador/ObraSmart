@@ -1,7 +1,7 @@
 <div class="layout-container">
   <header class="top-navbar">
     <div class="navbar-left">
-      <button class="menu-btn" [title]="'menu.main' | translate">
+      <button class="menu-btn" (click)="toggleSidebar()" [title]="'menu.main' | translate">
         <i class="bi bi-list"></i>
       </button>
       <div class="brand">

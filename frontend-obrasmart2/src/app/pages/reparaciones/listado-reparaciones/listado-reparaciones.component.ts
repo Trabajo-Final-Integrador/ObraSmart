@@ -51,7 +51,8 @@ export class ListadoReparacionesComponent implements OnInit {
         this.reparacionesOriginal = [...data];
         this.reparacionesFiltradas = [...data];
         data?.forEach((r) => {
-          if (r?.id) this.cacheBust[r.id] = Date.now();
+          const rid = this.getReparacionId(r);
+          if (rid) this.cacheBust[rid] = Date.now();
         });
         this.loading = false;
         console.log('Datos de reparaciones:', data);
@@ -99,126 +100,130 @@ export class ListadoReparacionesComponent implements OnInit {
     this.paginaActual = 1;
   }
 
-abrirFiltros() {
-  console.log('Abrir modal de filtros (si lo querés lo hacemos)');
-}
+  abrirFiltros(): void {
+    console.log('Abrir modal de filtros (si lo querés lo hacemos)');
+  }
 
-exportar() {
-  console.log('Exportar a Excel / CSV — te lo agrego si querés');
-}
+  exportar(): void {
+    console.log('Exportar a Excel / CSV — te lo agrego si querés');
+  }
 
-editarReparacion(id: number): void {
-  this.router.navigate(['/reparaciones/editar', id]);
-}
+  editarReparacion(id: number): void {
+    this.router.navigate(['/reparaciones/editar', id]);
+  }
 
   verDetalle(id: number): void {
-  const rep = this.reparaciones.find(r => r.id === id);
-  if (rep) {
-    this.reparacionSeleccionada = rep;
-    this.detalleImagen = this.getReparacionImg(rep);
-    this.detalleVisible = true;
-  }
-}
-
-cerrarDetalleModal(): void {
-  this.detalleVisible = false;
-  this.reparacionSeleccionada = undefined;
-  this.detalleImagen = this.placeholderData;
-}
-
-cancelarReparacion(id: number): void {
-  Swal.fire({
-    title: this.translate.instant('repairs.alert.cancel.title'),
-    text: this.translate.instant('repairs.alert.cancel.text'),
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#6c757d',
-    confirmButtonText: this.translate.instant('repairs.alert.cancel.confirm'),
-    cancelButtonText: this.translate.instant('common.cancel')
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.repSrv.cancelar(id).subscribe({
-        next: () => {
-          Swal.fire({
-            icon: 'success',
-            title: this.translate.instant('repairs.alert.cancel.successTitle'),
-            text: this.translate.instant('repairs.alert.cancel.successText'),
-            timer: 1500,
-            showConfirmButton: false
-          });
-          this.cargarReparaciones();
-        },
-        error: (err) => {
-          console.error(err);
-          Swal.fire({
-            icon: 'error',
-            title: this.translate.instant('repairs.alert.cancel.errorTitle'),
-            text: err?.error?.message ?? this.translate.instant('repairs.alert.cancel.errorText')
-          });
-        }
-      });
-    }
-  });
-}
-
-// Método del sidebar
-toggleSidebar(): void {
-  this.sidebarService.toggleSidebar();
-}
-
-// Métodos de paginación
-primeraPagina(): void {
-  this.paginaActual = 1;
-  console.log('Primera página:', this.paginaActual);
-}
-
-paginaAnterior(): void {
-  if (this.paginaActual > 1) {
-    this.paginaActual--;
-    console.log('Página anterior:', this.paginaActual);
-  }
-}
-
-paginaSiguiente(): void {
-  console.log('Intentando ir a siguiente página. Actual:', this.paginaActual, 'Total:', this.totalPaginas);
-  if (this.paginaActual < this.totalPaginas) {
-    this.paginaActual++;
-    console.log('Página siguiente:', this.paginaActual);
-  } else {
-    console.log('Ya estás en la última página');
-  }
-}
-
-ultimaPagina(): void {
-  this.paginaActual = this.totalPaginas;
-  console.log('Última página:', this.paginaActual);
-}
-
-onCambiarPorPagina(valor: number): void {
-  console.log('Cambiando items por página a:', valor);
-  this.reparacionesPorPagina = valor;
-  this.paginaActual = 1;
-}
-
-getReparacionImg(r: ReparacionResponseDTO): string {
-  if (!r?.id || this.imageFailed.has(r.id)) return this.placeholderData;
-  const mediaId = buildReparacionMediaId(r.id);
-  const base = this.media.getEquipoImageUrl(mediaId);
-  const bust = this.cacheBust[r.id];
-  return appendCacheBust(base, bust);
-}
-
-onImgError(r: ReparacionResponseDTO, event?: Event): void {
-  if (event) {
-    const img = event.target as HTMLImageElement;
-    if (img) {
-      img.onerror = null as any;
-      img.src = this.placeholderData;
+    const rep = this.reparaciones.find((r) => this.getReparacionId(r) === id);
+    if (rep) {
+      this.reparacionSeleccionada = rep;
+      this.detalleImagen = this.getReparacionImg(rep);
+      this.detalleVisible = true;
     }
   }
-  if (r?.id) {
-    this.imageFailed.add(r.id);
+
+  cerrarDetalleModal(): void {
+    this.detalleVisible = false;
+    this.reparacionSeleccionada = undefined;
+    this.detalleImagen = this.placeholderData;
   }
-}
+
+  cancelarReparacion(id: number): void {
+    Swal.fire({
+      title: this.translate.instant('repairs.alert.cancel.title'),
+      text: this.translate.instant('repairs.alert.cancel.text'),
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: this.translate.instant('repairs.alert.cancel.confirm'),
+      cancelButtonText: this.translate.instant('common.cancel')
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.repSrv.cancelar(id).subscribe({
+          next: () => {
+            Swal.fire({
+              icon: 'success',
+              title: this.translate.instant('repairs.alert.cancel.successTitle'),
+              text: this.translate.instant('repairs.alert.cancel.successText'),
+              timer: 1500,
+              showConfirmButton: false
+            });
+            this.cargarReparaciones();
+          },
+          error: (err) => {
+            console.error(err);
+            Swal.fire({
+              icon: 'error',
+              title: this.translate.instant('repairs.alert.cancel.errorTitle'),
+              text: err?.error?.message ?? this.translate.instant('repairs.alert.cancel.errorText')
+            });
+          }
+        });
+      }
+    });
+  }
+
+  toggleSidebar(): void {
+    this.sidebarService.toggleSidebar();
+  }
+
+  primeraPagina(): void {
+    this.paginaActual = 1;
+    console.log('Primera página:', this.paginaActual);
+  }
+
+  paginaAnterior(): void {
+    if (this.paginaActual > 1) {
+      this.paginaActual--;
+      console.log('Página anterior:', this.paginaActual);
+    }
+  }
+
+  getReparacionId(r: ReparacionResponseDTO): number | undefined {
+    return (r as any)?.id ?? (r as any)?.reparacionId ?? (r as any)?.idReparacion;
+  }
+
+  paginaSiguiente(): void {
+    console.log('Intentando ir a siguiente página. Actual:', this.paginaActual, 'Total:', this.totalPaginas);
+    if (this.paginaActual < this.totalPaginas) {
+      this.paginaActual++;
+      console.log('Página siguiente:', this.paginaActual);
+    } else {
+      console.log('Ya estás en la última página');
+    }
+  }
+
+  ultimaPagina(): void {
+    this.paginaActual = this.totalPaginas;
+    console.log('Última página:', this.paginaActual);
+  }
+
+  onCambiarPorPagina(valor: number): void {
+    console.log('Cambiando items por página a:', valor);
+    this.reparacionesPorPagina = valor;
+    this.paginaActual = 1;
+  }
+
+  getReparacionImg(r: ReparacionResponseDTO): string {
+    const rid = this.getReparacionId(r);
+    if (!rid || this.imageFailed.has(rid)) return this.placeholderData;
+    const mediaId = buildReparacionMediaId(rid);
+    const base = this.media.getEquipoImageUrl(mediaId);
+    const bust = this.cacheBust[rid];
+    return appendCacheBust(base, bust);
+  }
+
+  onImgError(r: ReparacionResponseDTO, event?: Event): void {
+    if (event) {
+      const img = event.target as HTMLImageElement;
+      if (img) {
+        img.onerror = null as any;
+        img.src = this.placeholderData;
+      }
+    }
+    const rid = this.getReparacionId(r);
+    if (rid) {
+      this.imageFailed.add(rid);
+    }
+  }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LogisticaService, TrasladoDto } from 'src/app/service/logistica.service';
 import { EquipoDTO, EquipoService } from 'src/app/service/equipo.service';
+import { SidebarService } from 'src/app/service/sidebar.service';
 
 @Component({
   selector: 'app-traslados-listado',
@@ -17,7 +18,8 @@ export class TrasladosListadoComponent implements OnInit {
   constructor(
     private logisticaService: LogisticaService,
     private router: Router,
-    private equipoService: EquipoService
+    private equipoService: EquipoService,
+    private sidebarService: SidebarService
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +52,10 @@ export class TrasladosListadoComponent implements OnInit {
 
   verDetalle(id: number): void {
     this.router.navigate(['/traslados', id]);
+  }
+
+  toggleSidebar(): void {
+    this.sidebarService.toggleSidebar();
   }
 
 

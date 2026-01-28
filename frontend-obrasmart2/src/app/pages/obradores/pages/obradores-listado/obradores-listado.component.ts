@@ -4,6 +4,7 @@ import { ObradorDto, ObradorService } from 'src/app/service/obrador.service';
 import { SidebarService } from 'src/app/service/sidebar.service';
 import { UsuarioService } from 'src/app/service/usuario.service';
 import { Usuario } from 'src/app/pages/auth/usuarios/usuario.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-obradores-listado',
@@ -125,18 +126,39 @@ export class ObradoresListadoComponent implements OnInit {
 
   eliminar(id?: number): void {
     if (!id) return;
-    const confirmado = confirm('¿Seguro que deseas eliminar este obrador?');
-    if (!confirmado) return;
-    this.obradorService.eliminar(id).subscribe({
-      next: () => {
-        this.fetchObradores();
-        if (this.pageIndex >= this.totalPages) {
-          this.pageIndex = Math.max(0, this.totalPages - 1);
-        }
-      },
-      error: (err) => {
-        console.warn('[Obradores] eliminar falló', err);
-      },
+    Swal.fire({
+      title: '¿Eliminar obrador?',
+      text: 'Esta acción no se puede deshacer.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (!result.isConfirmed) return;
+      this.obradorService.eliminar(id).subscribe({
+        next: () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Obrador eliminado',
+            timer: 1200,
+            showConfirmButton: false
+          });
+          this.fetchObradores();
+          if (this.pageIndex >= this.totalPages) {
+            this.pageIndex = Math.max(0, this.totalPages - 1);
+          }
+        },
+        error: (err) => {
+          console.warn('[Obradores] eliminar falló', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'No se pudo eliminar',
+            text: err?.error?.message || 'Verifica permisos o si el obrador tiene equipos asignados.'
+          });
+        },
+      });
     });
   }
 

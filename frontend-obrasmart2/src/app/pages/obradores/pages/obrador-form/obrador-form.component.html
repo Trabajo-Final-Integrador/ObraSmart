@@ -33,7 +33,9 @@
 
           <label>
             {{ 'obradores.fields.address' | translate }}
-            <input type="text" formControlName="ubicacion" />
+            <input type="text" formControlName="ubicacion" (blur)="onUbicacionBlur()" />
+            <small *ngIf="geocodificando">Buscando coordenadas...</small>
+            <small class="error" *ngIf="geocodingError">{{ geocodingError }}</small>
           </label>
 
           <label>
