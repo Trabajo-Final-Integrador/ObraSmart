@@ -1,0 +1,17 @@
+com\obrasmart\mediaservice\config\StorageProperties.class
+com\obrasmart\mediaservice\config\PortFallbackConfig.class
+com\obrasmart\mediaservice\dto\EquipmentImageResponse.class
+com\obrasmart\mediaservice\controller\EquipmentImageController.class
+com\obrasmart\mediaservice\controller\MediaController.class
+com\obrasmart\mediaservice\repository\EquipmentImageRepository.class
+com\obrasmart\mediaservice\service\EquipmentImageService.class
+com\obrasmart\mediaservice\service\StorageService.class
+com\obrasmart\mediaservice\controller\EquipmentImageController$LinkRequest.class
+com\obrasmart\mediaservice\dto\ByOwnersRequest.class
+com\obrasmart\mediaservice\dto\MediaFileResponse.class
+com\obrasmart\mediaservice\entity\EquipmentImage.class
+com\obrasmart\mediaservice\repository\MediaFileRepository.class
+com\obrasmart\mediaservice\MediaServiceApplication.class
+com\obrasmart\mediaservice\entity\MediaFile.class
+com\obrasmart\mediaservice\security\SecurityConfig.class
+com\obrasmart\mediaservice\service\MediaAppService.class

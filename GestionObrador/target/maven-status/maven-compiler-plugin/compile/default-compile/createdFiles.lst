@@ -1,0 +1,10 @@
+com\ObraSmart\GestionObrador\dto\ObradorRequestDto.class
+com\ObraSmart\GestionObrador\entity\Obrador$ObradorBuilder.class
+com\ObraSmart\GestionObrador\entity\Obrador.class
+com\ObraSmart\GestionObrador\service\impl\ObradorServiceImpl.class
+com\ObraSmart\GestionObrador\dto\AsignarEquipoDto.class
+com\ObraSmart\GestionObrador\dto\ObradorResponseDto.class
+com\ObraSmart\GestionObrador\controller\ObradorController.class
+com\ObraSmart\GestionObrador\service\ObradorService.class
+com\ObraSmart\GestionObrador\GestionObradorApplication.class
+com\ObraSmart\GestionObrador\repository\ObradorRepository.class
