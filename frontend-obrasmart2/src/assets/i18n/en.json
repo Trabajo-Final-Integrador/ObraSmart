@@ -335,20 +335,23 @@
     }
   },
   "navbar": {
-    "config": "Settings",
-    "theme": "Theme",
-    "map": {
-      "label": "Map",
-      "themes": {
-        "carto-positron": "Carto Positron (Light)",
-        "carto-darkmatter": "Carto DarkMatter",
-        "osm-classic": "OSM Classic",
-        "carto-voyager": "Modern Satellite",
-        "opentopo": "OpenTopoMap",
-        "osm-hot": "OSM Humanitarian (HOT)"
-      }
+  "config": "Settings",
+  "theme": "Theme",
+  "uiTheme": "App theme",
+  "map": {
+    "label": "Map",
+    "themes": {
+      "carto-positron": "Carto Positron (Light)",
+      "carto-darkmatter": "Carto DarkMatter",
+      "osm-classic": "OSM Classic",
+      "carto-voyager": "Modern Satellite",
+      "opentopo": "OpenTopoMap",
+      "osm-hot": "OSM Humanitarian (HOT)"
     }
-  },
+  }
+}
+,
+
   "stock": {
     "dashboard": {
       "title": "Stock Indicators",
