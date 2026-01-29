@@ -187,6 +187,11 @@ export class ModalUsuarioComponent implements OnChanges {
     });
   }
 
+  subirFotoPerfil() {
+    console.log('UPLOAD_CLICK', 'profile');
+    this.upload('profile');
+  }
+
   imgFallback(event: Event, slot: Slot) {
     const img = event.target as HTMLImageElement;
     if (img) {

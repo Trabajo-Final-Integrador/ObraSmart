@@ -156,8 +156,8 @@
             <button
               type="button"
               class="os-btn primary"
-              (click)="upload('profile')"
-              [disabled]="soloLectura || !files['profile'] || !usuario?.id || uploading['profile']"
+              (click)="subirFotoPerfil()"
+              [disabled]="!files['profile'] || !usuario?.id || uploading['profile']"
             >
               {{ 'users.modal.upload.upload' | translate }}
             </button>
@@ -170,15 +170,20 @@
             />
           </div>
           <div class="upload-row">
-            <label class="file-label" [class.disabled]="soloLectura">
-              <input
-                type="file"
-                accept=".png,.jpg,.jpeg,.webp"
-                (change)="selectFile($event, 'profile')"
-                [disabled]="soloLectura"
-              />
-              <span>{{ 'users.modal.upload.choose' | translate }}</span>
-            </label>
+    <input
+      #fileInputProfile
+      type="file"
+      accept=".png,.jpg,.jpeg,.webp"
+      (change)="selectFile($event, 'profile')"
+      hidden
+    />
+    <button
+      type="button"
+      class="os-btn ghost"
+      (click)="fileInputProfile.click()"
+    >
+      {{ 'users.modal.upload.choose' | translate }}
+    </button>
             <span class="file-name">{{ files['profile']?.name || ('users.modal.upload.noFile' | translate) }}</span>
           </div>
         </div>
@@ -200,15 +205,20 @@
             <img [src]="previews[slot] || placeholderData" (error)="imgFallback($event, slot)" [alt]="slot" />
           </div>
           <div class="upload-row">
-            <label class="file-label" [class.disabled]="soloLectura">
-              <input
-                type="file"
-                accept=".png,.jpg,.jpeg,.webp"
-                (change)="selectFile($event, slot)"
-                [disabled]="soloLectura"
-              />
-              <span>{{ 'users.modal.upload.choose' | translate }}</span>
-            </label>
+    <input
+      #fileInput
+      type="file"
+      accept=".png,.jpg,.jpeg,.webp"
+      (change)="selectFile($event, slot)"
+      hidden
+    />
+    <button
+      type="button"
+      class="os-btn ghost"
+      (click)="fileInput.click()"
+    >
+      {{ 'users.modal.upload.choose' | translate }}
+    </button>
             <span class="file-name">{{ files[slot]?.name || ('users.modal.upload.noFile' | translate) }}</span>
           </div>
         </div>
