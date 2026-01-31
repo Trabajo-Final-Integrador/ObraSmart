@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  background: linear-gradient(135deg, #78866b, #6b7760);
+  background: linear-gradient(135deg, var(--ui-primary), var(--ui-accent));
   color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
@@ -150,13 +150,13 @@ textarea {
 }
 
 .btn.primary {
-  background: #78866b;
+  background: var(--ui-primary);
   color: #fff;
-  border-color: #78866b;
+  border-color: var(--ui-primary);
   box-shadow: 0 2px 5px rgba(120, 134, 107, 0.25);
 
   &:hover {
-    background: #6b7760;
+    background: var(--ui-accent);
     transform: translateY(-1px);
   }
 }
@@ -209,13 +209,13 @@ textarea {
 
 /* Footer */
 .footer {
-  background: #78866B;
+  background: var(--ui-primary);
   color: white;
   text-align: right;
   padding: 8px 20px;
   font-size: 0.9rem;
   flex-shrink: 0;
-  border-top: 2px solid #6b7760;
+  border-top: 2px solid var(--ui-accent);
 
   span {
     margin: 0 8px;
@@ -223,7 +223,7 @@ textarea {
     transition: color 0.3s;
 
     &:hover {
-      color: #D0D9CD;
+      color: var(--ui-muted);
     }
   }
 
@@ -233,3 +233,4 @@ textarea {
     opacity: 0.8;
   }
 }
+

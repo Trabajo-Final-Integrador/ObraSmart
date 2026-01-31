@@ -11,8 +11,8 @@
 }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--ui-bg);
+  color: var(--ui-text);
 }
 
 body[data-theme='obra-light'] {
@@ -22,6 +22,36 @@ body[data-theme='obra-light'] {
   --color-border: #e5e7eb;
   --color-primary: #78866b;
   --color-primary-strong: #6b7760;
+  --ui-bg: #f5f5f5;
+  --ui-surface: #ffffff;
+  --ui-surface-2: #f8fafc;
+  --ui-text: #111827;
+  --ui-muted: #6b7280;
+  --ui-border: #e5e7eb;
+  --ui-primary: #78866b;
+  --ui-primary-contrast: #ffffff;
+  --ui-accent: #6b7760;
+  --ui-topbar-bg: #78866b;
+  --ui-topbar-text: #ffffff;
+  --ui-footer-bg: #78866b;
+  --ui-footer-text: #ffffff;
+  --ui-sidebar-bg: rgba(120, 134, 107, 0.55);
+  --ui-sidebar-text: #f8fafc;
+  --ui-sidebar-hover-bg: rgba(120, 134, 107, 0.32);
+  --ui-sidebar-active-bg: rgba(120, 134, 107, 0.45);
+  --ui-sidebar-item: rgba(120, 134, 107, 0.18);
+  --ui-sidebar-item-hover: rgba(120, 134, 107, 0.32);
+  --ui-sidebar-item-active: rgba(120, 134, 107, 0.45);
+  --ui-modal-bg: #ffffff;
+  --ui-focus: rgba(120, 134, 107, 0.25);
+  --ui-navbar-bg: var(--ui-topbar-bg);
+  --ui-navbar-fg: var(--ui-primary-contrast);
+  --ui-table-header-bg: #eef2f7;
+  --ui-table-header-text: #1f2937;
+  --ui-input-bg: #ffffff;
+  --ui-input-text: #111827;
+  --ui-input-placeholder: #6b7280;
+  --ui-input-border: #e5e7eb;
 }
 
 body[data-theme='obra-dark'] {
@@ -31,6 +61,36 @@ body[data-theme='obra-dark'] {
   --color-border: #1f2937;
   --color-primary: #94a3b8;
   --color-primary-strong: #cbd5e1;
+  --ui-bg: #0f172a;
+  --ui-surface: #111827;
+  --ui-surface-2: #0b1220;
+  --ui-text: #e5e7eb;
+  --ui-muted: #94a3b8;
+  --ui-border: #1f2937;
+  --ui-primary: #94a3b8;
+  --ui-primary-contrast: #0f172a;
+  --ui-accent: #fbbf24;
+  --ui-topbar-bg: #0b1220;
+  --ui-topbar-text: #e5e7eb;
+  --ui-footer-bg: #0b1220;
+  --ui-footer-text: #e5e7eb;
+  --ui-sidebar-bg: rgba(15, 23, 42, 0.9);
+  --ui-sidebar-text: #e5e7eb;
+  --ui-sidebar-hover-bg: rgba(148, 163, 184, 0.22);
+  --ui-sidebar-active-bg: rgba(148, 163, 184, 0.3);
+  --ui-sidebar-item: rgba(148, 163, 184, 0.12);
+  --ui-sidebar-item-hover: rgba(148, 163, 184, 0.22);
+  --ui-sidebar-item-active: rgba(148, 163, 184, 0.3);
+  --ui-modal-bg: #111827;
+  --ui-focus: rgba(148, 163, 184, 0.25);
+  --ui-navbar-bg: var(--ui-topbar-bg);
+  --ui-navbar-fg: var(--ui-primary-contrast);
+  --ui-table-header-bg: #1f2937;
+  --ui-table-header-text: #e5e7eb;
+  --ui-input-bg: #1f2937;
+  --ui-input-text: #e5e7eb;
+  --ui-input-placeholder: #94a3b8;
+  --ui-input-border: #334155;
 }
 
 body[data-theme='office-light'] {
@@ -40,6 +100,36 @@ body[data-theme='office-light'] {
   --color-border: #d9e3f0;
   --color-primary: #2563eb;
   --color-primary-strong: #1d4ed8;
+  --ui-bg: #f8fbff;
+  --ui-surface: #ffffff;
+  --ui-surface-2: #f1f5ff;
+  --ui-text: #1e293b;
+  --ui-muted: #64748b;
+  --ui-border: #d9e3f0;
+  --ui-primary: #2563eb;
+  --ui-primary-contrast: #ffffff;
+  --ui-accent: #0ea5e9;
+  --ui-topbar-bg: #2563eb;
+  --ui-topbar-text: #ffffff;
+  --ui-footer-bg: #2563eb;
+  --ui-footer-text: #ffffff;
+  --ui-sidebar-bg: rgba(37, 99, 235, 0.18);
+  --ui-sidebar-text: #1e293b;
+  --ui-sidebar-hover-bg: rgba(37, 99, 235, 0.16);
+  --ui-sidebar-active-bg: rgba(37, 99, 235, 0.22);
+  --ui-sidebar-item: rgba(37, 99, 235, 0.08);
+  --ui-sidebar-item-hover: rgba(37, 99, 235, 0.16);
+  --ui-sidebar-item-active: rgba(37, 99, 235, 0.22);
+  --ui-modal-bg: #ffffff;
+  --ui-focus: rgba(37, 99, 235, 0.25);
+  --ui-navbar-bg: var(--ui-topbar-bg);
+  --ui-navbar-fg: var(--ui-primary-contrast);
+  --ui-table-header-bg: #eef2ff;
+  --ui-table-header-text: #1e293b;
+  --ui-input-bg: #ffffff;
+  --ui-input-text: #1e293b;
+  --ui-input-placeholder: #64748b;
+  --ui-input-border: #d9e3f0;
 }
 
 body[data-theme='office-dark'] {
@@ -49,6 +139,36 @@ body[data-theme='office-dark'] {
   --color-border: #1f2937;
   --color-primary: #60a5fa;
   --color-primary-strong: #3b82f6;
+  --ui-bg: #0b1220;
+  --ui-surface: #111827;
+  --ui-surface-2: #0f172a;
+  --ui-text: #e2e8f0;
+  --ui-muted: #94a3b8;
+  --ui-border: #1f2937;
+  --ui-primary: #60a5fa;
+  --ui-primary-contrast: #0b1220;
+  --ui-accent: #38bdf8;
+  --ui-topbar-bg: #0b1220;
+  --ui-topbar-text: #e2e8f0;
+  --ui-footer-bg: #0b1220;
+  --ui-footer-text: #e2e8f0;
+  --ui-sidebar-bg: rgba(15, 23, 42, 0.9);
+  --ui-sidebar-text: #e2e8f0;
+  --ui-sidebar-hover-bg: rgba(96, 165, 250, 0.22);
+  --ui-sidebar-active-bg: rgba(96, 165, 250, 0.3);
+  --ui-sidebar-item: rgba(96, 165, 250, 0.12);
+  --ui-sidebar-item-hover: rgba(96, 165, 250, 0.22);
+  --ui-sidebar-item-active: rgba(96, 165, 250, 0.3);
+  --ui-modal-bg: #111827;
+  --ui-focus: rgba(96, 165, 250, 0.25);
+  --ui-navbar-bg: var(--ui-topbar-bg);
+  --ui-navbar-fg: var(--ui-primary-contrast);
+  --ui-table-header-bg: #1f2937;
+  --ui-table-header-text: #e2e8f0;
+  --ui-input-bg: #1f2937;
+  --ui-input-text: #e2e8f0;
+  --ui-input-placeholder: #94a3b8;
+  --ui-input-border: #334155;
 }
 
 body[data-theme='windows11-light'] {
@@ -58,6 +178,36 @@ body[data-theme='windows11-light'] {
   --color-border: #dbeafe;
   --color-primary: #2563eb;
   --color-primary-strong: #1e40af;
+  --ui-bg: #f7fbff;
+  --ui-surface: #ffffff;
+  --ui-surface-2: #eff6ff;
+  --ui-text: #0f172a;
+  --ui-muted: #64748b;
+  --ui-border: #dbeafe;
+  --ui-primary: #2563eb;
+  --ui-primary-contrast: #ffffff;
+  --ui-accent: #0ea5e9;
+  --ui-topbar-bg: #2563eb;
+  --ui-topbar-text: #ffffff;
+  --ui-footer-bg: #2563eb;
+  --ui-footer-text: #ffffff;
+  --ui-sidebar-bg: rgba(37, 99, 235, 0.18);
+  --ui-sidebar-text: #0f172a;
+  --ui-sidebar-hover-bg: rgba(37, 99, 235, 0.16);
+  --ui-sidebar-active-bg: rgba(37, 99, 235, 0.22);
+  --ui-sidebar-item: rgba(37, 99, 235, 0.08);
+  --ui-sidebar-item-hover: rgba(37, 99, 235, 0.16);
+  --ui-sidebar-item-active: rgba(37, 99, 235, 0.22);
+  --ui-modal-bg: #ffffff;
+  --ui-focus: rgba(37, 99, 235, 0.25);
+  --ui-navbar-bg: var(--ui-topbar-bg);
+  --ui-navbar-fg: var(--ui-primary-contrast);
+  --ui-table-header-bg: #eaf2ff;
+  --ui-table-header-text: #0f172a;
+  --ui-input-bg: #ffffff;
+  --ui-input-text: #0f172a;
+  --ui-input-placeholder: #64748b;
+  --ui-input-border: #dbeafe;
 }
 
 body[data-theme='windows11-dark'] {
@@ -67,6 +217,36 @@ body[data-theme='windows11-dark'] {
   --color-border: #1f2937;
   --color-primary: #60a5fa;
   --color-primary-strong: #2563eb;
+  --ui-bg: #0b1220;
+  --ui-surface: #111827;
+  --ui-surface-2: #0f172a;
+  --ui-text: #e2e8f0;
+  --ui-muted: #94a3b8;
+  --ui-border: #1f2937;
+  --ui-primary: #60a5fa;
+  --ui-primary-contrast: #0b1220;
+  --ui-accent: #38bdf8;
+  --ui-topbar-bg: #0b1220;
+  --ui-topbar-text: #e2e8f0;
+  --ui-footer-bg: #0b1220;
+  --ui-footer-text: #e2e8f0;
+  --ui-sidebar-bg: rgba(15, 23, 42, 0.9);
+  --ui-sidebar-text: #e2e8f0;
+  --ui-sidebar-hover-bg: rgba(96, 165, 250, 0.22);
+  --ui-sidebar-active-bg: rgba(96, 165, 250, 0.3);
+  --ui-sidebar-item: rgba(96, 165, 250, 0.12);
+  --ui-sidebar-item-hover: rgba(96, 165, 250, 0.22);
+  --ui-sidebar-item-active: rgba(96, 165, 250, 0.3);
+  --ui-modal-bg: #111827;
+  --ui-focus: rgba(96, 165, 250, 0.25);
+  --ui-navbar-bg: var(--ui-topbar-bg);
+  --ui-navbar-fg: var(--ui-primary-contrast);
+  --ui-table-header-bg: #1f2937;
+  --ui-table-header-text: #e2e8f0;
+  --ui-input-bg: #1f2937;
+  --ui-input-text: #e2e8f0;
+  --ui-input-placeholder: #94a3b8;
+  --ui-input-border: #334155;
 }
 
 body[data-theme='opera-gx'] {
@@ -76,6 +256,169 @@ body[data-theme='opera-gx'] {
   --color-border: #1f1f2e;
   --color-primary: #ff1e56;
   --color-primary-strong: #ff4d6d;
+  --ui-bg: #0b0b14;
+  --ui-surface: #111122;
+  --ui-surface-2: #141421;
+  --ui-text: #e5e7eb;
+  --ui-muted: #a1a1aa;
+  --ui-border: #1f1f2e;
+  --ui-primary: #ff1e56;
+  --ui-primary-contrast: #ffffff;
+  --ui-accent: #ff4d6d;
+  --ui-topbar-bg: #141421;
+  --ui-topbar-text: #ffffff;
+  --ui-footer-bg: #141421;
+  --ui-footer-text: #ffffff;
+  --ui-sidebar-bg: rgba(20, 20, 33, 0.95);
+  --ui-sidebar-text: #ffffff;
+  --ui-sidebar-hover-bg: rgba(255, 30, 86, 0.2);
+  --ui-sidebar-active-bg: rgba(255, 30, 86, 0.28);
+  --ui-sidebar-item: rgba(255, 30, 86, 0.1);
+  --ui-sidebar-item-hover: rgba(255, 30, 86, 0.2);
+  --ui-sidebar-item-active: rgba(255, 30, 86, 0.28);
+  --ui-modal-bg: #111122;
+  --ui-focus: rgba(255, 30, 86, 0.3);
+  --ui-navbar-bg: var(--ui-topbar-bg);
+  --ui-navbar-fg: var(--ui-primary-contrast);
+  --ui-table-header-bg: #1b1b2b;
+  --ui-table-header-text: #e5e7eb;
+  --ui-input-bg: #1b1b2b;
+  --ui-input-text: #e5e7eb;
+  --ui-input-placeholder: #a1a1aa;
+  --ui-input-border: #2a2a3b;
+}
+
+body, .app-shell {
+  background: var(--ui-bg);
+  color: var(--ui-text);
+}
+
+.top-navbar,
+.navbar {
+  background: var(--ui-topbar-bg) !important;
+  color: var(--ui-topbar-text) !important;
+}
+
+.footer-bar {
+  background: var(--ui-footer-bg) !important;
+  color: var(--ui-footer-text) !important;
+  border-top-color: var(--ui-primary) !important;
+}
+
+.footer {
+  background: var(--ui-footer-bg) !important;
+  color: var(--ui-footer-text) !important;
+  border-top-color: var(--ui-primary) !important;
+}
+
+.card,
+.panel,
+.content-card,
+.os-card {
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  border-color: var(--ui-border);
+}
+
+.table,
+.table thead th,
+.table tbody td {
+  color: var(--ui-text);
+}
+
+.table thead th {
+  background: var(--ui-table-header-bg);
+  color: var(--ui-table-header-text);
+  border-color: var(--ui-border);
+}
+
+.table tbody td {
+  border-color: var(--ui-border);
+}
+
+input,
+select,
+textarea,
+.form-control {
+  background: var(--ui-input-bg);
+  color: var(--ui-input-text);
+  border-color: var(--ui-input-border);
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+.form-control:focus {
+  border-color: var(--ui-primary);
+  box-shadow: 0 0 0 0.2rem var(--ui-focus);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--ui-input-placeholder);
+}
+
+.btn-primary,
+.btn.btn-primary,
+.os-btn.primary,
+.generic-btn.primary {
+  background: var(--ui-primary) !important;
+  border-color: var(--ui-primary) !important;
+  color: var(--ui-primary-contrast) !important;
+}
+
+/* Search inputs and tables (tokenized, theme-safe) */
+.search-container {
+  background: var(--ui-input-bg) !important;
+  color: var(--ui-input-text) !important;
+  border: 1px solid var(--ui-input-border) !important;
+}
+
+.search-container input {
+  background: transparent !important;
+  color: var(--ui-input-text) !important;
+}
+
+.search-container input::placeholder {
+  color: var(--ui-input-placeholder) !important;
+}
+
+.layout-container,
+main.content,
+.content {
+  background: var(--ui-bg) !important;
+  color: var(--ui-text) !important;
+}
+
+.table-container {
+  background: var(--ui-surface) !important;
+  border-color: var(--ui-border) !important;
+  color: var(--ui-text) !important;
+}
+
+.styled-table thead tr {
+  background: var(--ui-table-header-bg) !important;
+}
+
+.styled-table thead th {
+  color: var(--ui-table-header-text) !important;
+}
+
+.styled-table {
+  color: var(--ui-text) !important;
+}
+
+.styled-table tbody td {
+  color: var(--ui-text) !important;
+}
+
+.styled-table th,
+.styled-table td {
+  border-bottom-color: var(--ui-border) !important;
+}
+
+.styled-table tbody tr:hover {
+  background: var(--ui-surface-2) !important;
 }
 
 /* Leaflet marker overrides */

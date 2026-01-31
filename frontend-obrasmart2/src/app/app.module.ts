@@ -24,9 +24,11 @@ import { AsistenteModule } from './pages/asistente/asistente.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MapaOperacionesComponent } from './pages/mapa-operaciones/mapa-operaciones.component';
+import { environment } from '../environments/environment';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+  const v = environment.i18nVersion || '20260131';
+  return new TranslateHttpLoader(http, './assets/i18n/', `.json?v=${v}`);
 }
 
 @NgModule({

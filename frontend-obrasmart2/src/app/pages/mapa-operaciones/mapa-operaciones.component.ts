@@ -24,6 +24,7 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
   private map!: L.Map;
   private layerControl!: L.Control.Layers;
   private baseLayers!: Record<string, L.TileLayer>;
+  private currentBaseLayer?: L.TileLayer;
   private obradoresCluster: MarkerCluster = (L as any).markerClusterGroup({ disableClusteringAtZoom: 16 });
   private perimetrosObradores: L.LayerGroup = L.layerGroup();
   private distanciaLayer: L.LayerGroup = L.layerGroup();
@@ -50,6 +51,8 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
   selectedObrador?: ObradorDto;
   detalleAbierto = false;
   private refreshSub?: Subscription;
+  readonly themeOptions = MAP_THEMES;
+  baseThemeId: string = DEFAULT_THEME_ID;
 
   constructor(
     private obradorService: ObradorService,
@@ -69,6 +72,7 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.baseThemeId = this.loadSavedTheme();
     this.initMap();
     this.loadObradores();
     this.loadEquipos();
@@ -110,9 +114,10 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
     });
 
     this.initBaseLayers();
-    const initial = this.baseLayers[DEFAULT_THEME_ID] || Object.values(this.baseLayers)[0];
+    const initial = this.baseLayers[this.baseThemeId] || this.baseLayers[DEFAULT_THEME_ID] || Object.values(this.baseLayers)[0];
     if (initial) {
-      initial.addTo(this.map);
+      this.currentBaseLayer = initial;
+      this.currentBaseLayer.addTo(this.map);
     }
 
     // Añadir overlays al mapa inicial
@@ -140,6 +145,41 @@ export class MapaOperacionesComponent implements AfterViewInit, OnDestroy {
     MAP_THEMES.forEach((theme) => {
       this.baseLayers[theme.id] = buildTileLayer(theme);
     });
+  }
+
+  onBaseThemeSelect(themeId: string): void {
+    const targetId = this.baseLayers[themeId] ? themeId : DEFAULT_THEME_ID;
+    this.swapBaseLayer(targetId);
+    this.saveTheme(targetId);
+  }
+
+  private swapBaseLayer(themeId: string): void {
+    if (!this.map || !this.baseLayers || this.baseThemeId === themeId) return;
+    const nextLayer = this.baseLayers[themeId];
+    if (!nextLayer || !this.currentBaseLayer) return;
+    this.map.removeLayer(this.currentBaseLayer);
+    this.currentBaseLayer = nextLayer;
+    this.currentBaseLayer.addTo(this.map);
+    this.baseThemeId = themeId;
+  }
+
+  private loadSavedTheme(): string {
+    try {
+      const stored = localStorage.getItem('obrasmart_map_theme');
+      if (stored && this.baseLayers?.[stored]) return stored;
+      if (stored && MAP_THEMES.find((t) => t.id === stored)) return stored;
+    } catch {
+      // ignore storage errors
+    }
+    return DEFAULT_THEME_ID;
+  }
+
+  private saveTheme(id: string): void {
+    try {
+      localStorage.setItem('obrasmart_map_theme', id);
+    } catch {
+      // ignore storage errors
+    }
   }
 
   private loadObradores(): void {

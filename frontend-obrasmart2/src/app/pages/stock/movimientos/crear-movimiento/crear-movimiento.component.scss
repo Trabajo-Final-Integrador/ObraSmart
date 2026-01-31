@@ -1,4 +1,4 @@
-﻿// ========================================
+// ========================================
 // < LAYOUT CONTAINER
 // ========================================
 .layout-container {
@@ -18,7 +18,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+  background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 
@@ -162,7 +162,7 @@
 // =9 FORM HEADER
 // ========================================
 .form-header {
-  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+  background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
   padding: 1rem 1.5rem;
   color: white;
   flex-shrink: 0;
@@ -207,7 +207,7 @@
     margin-bottom: 0.4rem;
 
     i {
-      color: #78866B;
+      color: var(--ui-primary);
       font-size: 1.1rem;
     }
 
@@ -231,7 +231,7 @@
     transition: all 0.3s ease;
 
     &:focus {
-      border-color: #78866B;
+      border-color: var(--ui-primary);
       box-shadow: 0 0 0 0.2rem rgba(120, 134, 107, 0.15);
       outline: none;
     }
@@ -257,7 +257,7 @@
   align-items: center;
   padding: 1rem 1.5rem;
   background: #f8f9fa;
-  border-top: 2px solid #6b7760;
+  border-top: 2px solid var(--ui-accent);
   flex-shrink: 0;
 
   .btn-cancelar {
@@ -289,7 +289,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+    background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
     color: white;
     border: none;
     border-radius: 8px;
@@ -299,7 +299,7 @@
     box-shadow: 0 2px 6px rgba(120, 134, 107, 0.3);
 
     &:hover:not(:disabled) {
-      background: #6b7760;
+      background: var(--ui-accent);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(120, 134, 107, 0.4);
     }
@@ -319,13 +319,13 @@
 // =9 FOOTER
 // ========================================
 .footer {
-  background: #78866B;
+  background: var(--ui-primary);
   color: white;
   text-align: right;
   padding: 8px 20px;
   font-size: 0.9rem;
   flex-shrink: 0;
-  border-top: 2px solid #6b7760;
+  border-top: 2px solid var(--ui-accent);
 
   span {
     margin: 0 8px;
@@ -333,7 +333,7 @@
     transition: color 0.3s;
 
     &:hover {
-      color: #D0D9CD;
+      color: var(--ui-muted);
     }
   }
 
@@ -393,3 +393,4 @@
     }
   }
 }
+

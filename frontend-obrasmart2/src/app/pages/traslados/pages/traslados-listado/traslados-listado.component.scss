@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(135deg, #78866b 0%, #6b7760 100%);
+  background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
   color: white;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -152,7 +152,7 @@ app-modal-info {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #78866b;
+  background: var(--ui-primary);
   color: white;
   border: none;
   border-radius: 6px;
@@ -168,7 +168,7 @@ app-modal-info {
   }
 
   &:hover {
-    background: #6b7760;
+    background: var(--ui-accent);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(120, 134, 107, 0.4);
   }
@@ -211,7 +211,7 @@ app-modal-info {
     }
 
     th {
-      background: #78866b;
+      background: var(--ui-primary);
       color: white;
       font-weight: 600;
       font-size: 0.95rem;
@@ -307,13 +307,13 @@ app-modal-info {
 }
 
 .footer {
-  background: #78866b;
+  background: var(--ui-primary);
   color: white;
   text-align: right;
   padding: 8px 20px;
   font-size: 0.9rem;
   flex-shrink: 0;
-  border-top: 2px solid #6b7760;
+  border-top: 2px solid var(--ui-accent);
 
   .version {
     float: right;
@@ -321,3 +321,4 @@ app-modal-info {
     opacity: 0.8;
   }
 }
+

@@ -1,4 +1,4 @@
-﻿.layout-container {
+.layout-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -11,7 +11,7 @@
 .top-navbar {
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+  background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
   color: white;
   padding: 15px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -76,7 +76,7 @@
 }
 
 .form-header {
-  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+  background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
   color: white;
   padding: 15px 25px;
   display: flex;
@@ -148,7 +148,7 @@
 
     &:focus {
       outline: none;
-      border-color: #78866B;
+      border-color: var(--ui-primary);
       box-shadow: 0 0 0 2px rgba(120, 134, 107, 0.1);
     }
 
@@ -172,6 +172,16 @@
   }
 }
 
+.category-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  .form-control {
+    flex: 1;
+  }
+}
+
 /* =9 Campos del formulario (legacy) */
 .form-label {
   font-weight: 600;
@@ -182,7 +192,7 @@
   font-size: 0.9rem;
 
   i {
-    color: #78866B;
+    color: var(--ui-primary);
     font-size: 0.95rem;
   }
 
@@ -200,7 +210,7 @@
   transition: all 0.3s ease;
 
   &:focus {
-    border-color: #78866B;
+    border-color: var(--ui-primary);
     box-shadow: 0 0 0 0.2rem rgba(120, 134, 107, 0.15);
     outline: none;
   }
@@ -212,7 +222,7 @@
 
 /* =9 Botn aadir categora */
 .btn-add-category {
-  background: #78866B;
+  background: var(--ui-primary);
   color: white;
   border: none;
   border-radius: 6px;
@@ -229,7 +239,7 @@
   }
 
   &:hover {
-    background: #6b7760;
+    background: var(--ui-accent);
     transform: scale(1.05);
   }
 
@@ -291,7 +301,7 @@
   }
 
   .btn-primary {
-    background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+    background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
     color: white;
     box-shadow: 0 2px 5px rgba(120, 134, 107, 0.3);
 
@@ -350,12 +360,12 @@
 }
 
 .btn-guardar {
-  background: #78866B;
+  background: var(--ui-primary);
   color: white;
   box-shadow: 0 2px 5px rgba(120, 134, 107, 0.3);
 
   &:hover:not(:disabled) {
-    background: #6b7760;
+    background: var(--ui-accent);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(120, 134, 107, 0.4);
   }
@@ -367,13 +377,13 @@
 
 /* =9 Footer */
 .footer {
-  background: #78866B;
+  background: var(--ui-primary);
   color: white;
   text-align: right;
   padding: 8px 20px;
   font-size: 0.9rem;
   flex-shrink: 0;
-  border-top: 2px solid #6b7760;
+  border-top: 2px solid var(--ui-accent);
 
   span {
     margin: 0 8px;
@@ -381,7 +391,7 @@
     transition: color 0.3s;
 
     &:hover {
-      color: #D0D9CD;
+      color: var(--ui-muted);
     }
   }
 
@@ -409,7 +419,7 @@
   }
 
   .modal-header {
-    background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+    background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
     color: white;
     border-bottom: none;
     padding: 20px 25px;
@@ -451,11 +461,11 @@
       font-weight: 500;
 
       &.btn-primary {
-        background: #78866B;
+        background: var(--ui-primary);
         border: none;
 
         &:hover {
-          background: #6b7760;
+          background: var(--ui-accent);
         }
       }
     }
@@ -495,3 +505,5 @@
     }
   }
 }
+
+

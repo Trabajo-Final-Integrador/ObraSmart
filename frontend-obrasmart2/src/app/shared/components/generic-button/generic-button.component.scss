@@ -22,8 +22,8 @@
   }
 
   &.green {
-    background: #78866B;
-    color: #fff;
-    &:hover { background: #6b7760; }
+    background: var(--ui-primary);
+    color: var(--ui-primary-contrast);
+    &:hover { background: var(--ui-accent); }
   }
 }

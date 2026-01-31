@@ -6,7 +6,7 @@
   align-items: center;
 
   i {
-    color: #78866B;
+    color: var(--ui-primary);
   }
 }
 
@@ -22,7 +22,7 @@
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 1.5rem;
-  border-top: 2px solid #6b7760;
+  border-top: 2px solid var(--ui-accent);
   padding-top: 1.2rem;
 }
 
@@ -54,11 +54,11 @@
 }
 
 .btn-siguiente {
-  background-color: #78866B;
+  background-color: var(--ui-primary);
   color: white;
 
   &:hover {
-    background-color: #6b7760;
+    background-color: var(--ui-accent);
     transform: translateX(2px);
   }
 }

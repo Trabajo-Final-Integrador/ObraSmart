@@ -18,7 +18,7 @@ label {
   transition: border-color 0.2s;
 
   &:focus {
-    border-color: #78866B;
+    border-color: var(--ui-primary);
     box-shadow: 0 0 0 2px rgba(120, 134, 107, 0.15);
   }
 }
@@ -28,7 +28,7 @@ label {
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 1.5rem;
-  border-top: 2px solid #6b7760;
+  border-top: 2px solid var(--ui-accent);
   padding-top: 1.2rem;
 }
 
@@ -52,10 +52,11 @@ label {
 }
 
 .btn-siguiente {
-  background-color: #78866B;
+  background-color: var(--ui-primary);
   color: white;
 
   &:hover {
-    background-color: #6b7760;
+    background-color: var(--ui-accent);
   }
 }
+

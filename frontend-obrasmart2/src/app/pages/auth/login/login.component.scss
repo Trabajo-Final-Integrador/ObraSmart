@@ -85,7 +85,7 @@
   transition: color 0.3s;
 }
 .socials i:hover {
-  color: #A9BA9D;
+  color: var(--ui-accent);
 }
 
 .form-section {
@@ -136,20 +136,20 @@
 }
 
 .form-section a:hover {
-  color: #A9BA9D;
+  color: var(--ui-accent);
   text-decoration: underline;
   transform: scale(1.03);
 }
 
 .options a {
-  color: #A9BA9D;
+  color: var(--ui-accent);
   text-decoration: none;
 }
 
 
 button {
   width: 100%;
-  background: linear-gradient(90deg, #78866B, #A9BA9D);
+  background: linear-gradient(90deg, var(--ui-primary), var(--ui-accent));
   border: none;
   border-radius: 10px;
   padding: 12px;
@@ -161,7 +161,7 @@ button {
 }
 
 button:hover {
-  background: linear-gradient(90deg, #6b7760, #78866B);
+  background: linear-gradient(90deg, var(--ui-accent), var(--ui-primary));
   transform: translateY(-3px);
 }
 
@@ -172,7 +172,7 @@ button:hover {
   text-align: center;
 }
 .terms a {
-  color: #A9BA9D;
+  color: var(--ui-accent);
 }
 
 
@@ -229,7 +229,7 @@ button:hover {
   content: '';
   width: 48px;
   height: 2px;
-  background: linear-gradient(90deg, #78866B, #A9BA9D);
+  background: linear-gradient(90deg, var(--ui-primary), var(--ui-accent));
   margin-top: 14px;
   border-radius: 2px;
 }
@@ -266,3 +266,5 @@ button:hover {
   z-index: 0;
 }
 }
+
+

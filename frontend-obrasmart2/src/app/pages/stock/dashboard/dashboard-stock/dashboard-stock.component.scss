@@ -11,7 +11,7 @@
 .top-navbar {
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+  background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
   color: white;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -126,7 +126,7 @@
   }
 
   .card-header {
-    background: linear-gradient(135deg, #78866B 0%, #A9BA9D 100%);
+    background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
     color: white;
     padding: 15px 18px;
     font-weight: 600;
@@ -149,7 +149,7 @@
   .value {
     font-size: 2rem;
     font-weight: bold;
-    color: #78866B;
+    color: var(--ui-primary);
     margin-bottom: 5px;
 
     &.text-danger {
@@ -180,7 +180,7 @@
     align-items: center;
 
     i {
-      color: #78866B;
+      color: var(--ui-primary);
     }
   }
 }
@@ -200,14 +200,14 @@
   align-items: center;
 
   i {
-    color: #78866B;
+    color: var(--ui-primary);
     font-size: 1.1rem;
   }
 
   &:hover {
-    background: linear-gradient(135deg, #78866B 0%, #A9BA9D 100%);
+    background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
     color: white;
-    border-color: #78866B;
+    border-color: var(--ui-primary);
     transform: translateX(5px);
 
     i {
@@ -217,7 +217,7 @@
 }
 
 .quick-panel .card-head i {
-  color: #78866b;
+  color: var(--ui-primary);
 }
 
 .quick-actions .quick-action {
@@ -253,7 +253,7 @@
     align-items: center;
     border: 1.5px solid currentColor;
     background: transparent;
-    color: #78866b;
+    color: var(--ui-primary);
   }
 
   .item-title {
@@ -439,13 +439,13 @@
 
 /* 🔹 Footer */
 .footer {
-  background: #78866B;
+  background: var(--ui-primary);
   color: white;
   text-align: right;
   padding: 8px 20px;
   font-size: 0.9rem;
   flex-shrink: 0;
-  border-top: 2px solid #6b7760;
+  border-top: 2px solid var(--ui-accent);
 
   .version {
     opacity: 0.8;
@@ -466,3 +466,5 @@
     padding: 15px;
   }
 }
+
+

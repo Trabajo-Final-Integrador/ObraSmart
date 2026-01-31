@@ -11,6 +11,7 @@ import { ModalUsuarioComponent } from './modal-usuario/modal-usuario.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ModalInfoComponent } from './components/modal-info/modal-info.component';
 import { StatusBadgeComponent } from './components/status-badge/status-badge.component';
+import { MapBasemapSelectorComponent } from './components/map-basemap-selector/map-basemap-selector.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
@@ -21,7 +22,8 @@ import { TranslateModule } from '@ngx-translate/core';
     ModalUsuarioComponent,
     SidebarComponent,
     ModalInfoComponent,
-    StatusBadgeComponent
+    StatusBadgeComponent,
+    MapBasemapSelectorComponent
   ],
   imports: [
     CommonModule,
@@ -39,6 +41,7 @@ import { TranslateModule } from '@ngx-translate/core';
     SidebarComponent,
     ModalInfoComponent,
     StatusBadgeComponent,
+    MapBasemapSelectorComponent,
     TranslateModule
   ]
 })

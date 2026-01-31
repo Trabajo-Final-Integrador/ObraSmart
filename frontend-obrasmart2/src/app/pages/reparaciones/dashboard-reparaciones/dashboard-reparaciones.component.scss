@@ -11,7 +11,7 @@
 .top-navbar {
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+  background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
   color: white;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -141,7 +141,7 @@
 
   i {
     font-size: 20px;
-    color: #78866B;
+    color: var(--ui-primary);
   }
 }
 
@@ -182,7 +182,7 @@
     align-items: center;
 
     i {
-      color: #78866B;
+      color: var(--ui-primary);
     }
   }
 }
@@ -198,7 +198,7 @@
   }
 
   .btn {
-    background: #78866B;
+    background: var(--ui-primary);
     color: white;
     border: none;
     padding: 6px 12px;
@@ -208,7 +208,7 @@
     cursor: pointer;
 
     &:hover {
-      background: #6b7760;
+      background: var(--ui-accent);
       transform: translateY(-1px);
     }
   }
@@ -266,7 +266,7 @@
 }
 
 .chip-success {
-  background-color: #78866B;
+  background-color: var(--ui-primary);
 }
 
 .chip-danger {
@@ -275,7 +275,7 @@
 
 /* === Colores de texto para iconos === */
 .text-success {
-  color: #78866B !important;
+  color: var(--ui-primary) !important;
 }
 
 .text-warning {
@@ -326,13 +326,13 @@
 
 /* 🔹 Footer */
 .footer {
-  background: #78866B;
+  background: var(--ui-primary);
   color: white;
   text-align: right;
   padding: 8px 20px;
   font-size: 0.9rem;
   flex-shrink: 0;
-  border-top: 2px solid #6b7760;
+  border-top: 2px solid var(--ui-accent);
 
   .version {
     opacity: 0.8;
@@ -355,3 +355,4 @@
     padding: 15px;
   }
 }
+

@@ -5,15 +5,15 @@
   left: -290px;
   width: 290px;
   height: calc(100vh - 65px);
-  background: rgba(120, 134, 107, 0.35);
+  background: var(--ui-sidebar-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  color: white;
+  color: var(--ui-sidebar-text);
   transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
   z-index: 999;
   box-shadow: 4px 0 25px rgba(0, 0, 0, 0.4);
-  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: 1px solid var(--ui-border);
   display: flex;
   flex-direction: column;
 
@@ -42,8 +42,8 @@
 
 .sidebar-header {
   padding: 18px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(169, 186, 157, 0.25);
+  border-bottom: 1px solid var(--ui-border);
+  background: transparent;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -52,7 +52,7 @@
     margin: 0;
     font-size: 1.05rem;
     font-weight: 600;
-    color: white;
+    color: var(--ui-sidebar-text);
     display: flex;
     align-items: center;
     letter-spacing: 0.8px;
@@ -60,7 +60,7 @@
 
     i {
       font-size: 1.2rem;
-      color: #D0D9CD;
+      color: var(--ui-sidebar-text);
       opacity: 0.95;
     }
   }
@@ -68,7 +68,7 @@
   .close-sidebar-btn {
     background: none;
     border: none;
-    color: white;
+    color: var(--ui-sidebar-text);
     font-size: 1.3rem;
     cursor: pointer;
     padding: 5px;
@@ -99,13 +99,13 @@
   transition: all 0.3s ease;
 
   &:hover {
-    background: rgba(169, 186, 157, 0.45);
+    background: var(--ui-sidebar-hover-bg);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 }
 
 .sidebar .nav-link {
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--ui-sidebar-text);
   text-decoration: none;
   font-weight: 500;
   font-size: 0.95rem;
@@ -119,20 +119,20 @@
   i {
     font-size: 1.15rem;
     opacity: 0.95;
-    color: #D0D9CD;
+    color: var(--ui-sidebar-text);
   }
 
   &:hover {
-    color: white;
-    border-left-color: #D0D9CD;
-    background: rgba(169, 186, 157, 0.6);
+    color: var(--ui-sidebar-text);
+    border-left-color: var(--ui-primary);
+    background: var(--ui-sidebar-hover-bg);
     padding-left: 20px;
   }
 
   &.active {
-    background: rgba(169, 186, 157, 0.7);
-    border-left-color: #D0D9CD;
-    color: white;
+    background: var(--ui-sidebar-active-bg);
+    border-left-color: var(--ui-primary);
+    color: var(--ui-sidebar-text);
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
   }
 }
@@ -151,8 +151,8 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  background: rgba(0, 0, 0, 0.25);
-  border-left: 2px solid rgba(208, 217, 205, 0.5);
+  background: var(--ui-sidebar-bg);
+  border-left: 2px solid var(--ui-border);
   margin-left: 12px;
   border-radius: 0 0 8px 8px;
 
@@ -161,7 +161,7 @@
   }
 
   .dropdown-item {
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--ui-sidebar-text);
     text-decoration: none;
     font-size: 0.9rem;
     padding: 10px 16px 10px 32px;
@@ -174,20 +174,20 @@
     i {
       font-size: 0.95rem;
       opacity: 0.85;
-      color: #D0D9CD;
+      color: var(--ui-sidebar-text);
     }
 
     &:hover {
-      background: rgba(169, 186, 157, 0.5);
-      color: white;
+      background: var(--ui-sidebar-hover-bg);
+      color: var(--ui-sidebar-text);
       padding-left: 38px;
       border-radius: 6px;
     }
 
     &.active {
-      background: rgba(169, 186, 157, 0.65);
-      color: white;
-      border-left: 3px solid #D0D9CD;
+      background: var(--ui-sidebar-active-bg);
+      color: var(--ui-sidebar-text);
+      border-left: 3px solid var(--ui-primary);
       font-weight: 600;
     }
   }
@@ -196,8 +196,8 @@
 .sidebar-footer {
   margin: 16px 12px;
   padding: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.9);
+  border-top: 1px solid var(--ui-border);
+  color: var(--ui-sidebar-text);
   font-size: 0.85rem;
   display: flex;
   flex-direction: column;
@@ -210,7 +210,7 @@
     gap: 6px;
 
     a {
-      color: rgba(255, 255, 255, 0.9);
+      color: var(--ui-sidebar-text);
       text-decoration: none;
       font-weight: 500;
 
@@ -222,7 +222,7 @@
     button {
       background: none;
       border: none;
-      color: rgba(255, 255, 255, 0.9);
+      color: var(--ui-sidebar-text);
       text-decoration: none;
       cursor: pointer;
       padding: 0;

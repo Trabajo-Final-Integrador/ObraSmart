@@ -12,7 +12,7 @@ import { MediaService } from 'src/app/service/media.service';
 import { appendCacheBust, MEDIA_OFFSETS } from '../../shared/utils/media-helper';
 import { buildTileLayer, DEFAULT_THEME_ID, MAP_THEMES, MapTheme } from '../../shared/maps/map-themes';
 import { MapHelpersService } from '../../shared/maps/map-helpers.service';
-import { ThemeService } from 'src/app/service/theme.service';
+import { APP_THEMES, AppTheme, ThemeService } from 'src/app/service/theme.service';
 import { LanguageService } from 'src/app/service/language.service';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -47,8 +47,9 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
   userMenuAbierto = false;
   configMenuAbierto = false;
   themeMenuAbierto = false;
-  selectedThemeId = 'obra-light';
+  selectedThemeId: AppTheme = 'obra-light';
   selectedLanguage = 'es';
+  readonly uiThemeOptions = APP_THEMES;
   readonly themeOptions = MAP_THEMES;
   readonly languageOptions = [
     { id: 'es', labelKey: 'language.spanish' },
@@ -363,8 +364,9 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
   }
 
   seleccionarTheme(id: string): void {
-    this.selectedThemeId = id;
-    this.themeService.apply(id);
+    console.log('[Principal] seleccionarTheme click:', id);
+    this.selectedThemeId = id as AppTheme;
+    this.themeService.apply(this.selectedThemeId);
     this.configMenuAbierto = false;
   }
 

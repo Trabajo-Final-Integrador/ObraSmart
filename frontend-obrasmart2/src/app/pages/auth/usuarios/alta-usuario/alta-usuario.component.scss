@@ -11,7 +11,7 @@
 .top-navbar {
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+  background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
   color: white;
   padding: 8px 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -196,7 +196,7 @@
 
   &:focus {
     outline: none;
-    border-color: #78866B;
+    border-color: var(--ui-primary);
     box-shadow: 0 0 0 2px rgba(120, 134, 107, 0.1);
   }
 
@@ -273,7 +273,7 @@ textarea.form-control {
 }
 
 .btn-save {
-  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+  background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
   color: white;
   box-shadow: 0 2px 5px rgba(120, 134, 107, 0.3);
 
@@ -288,8 +288,8 @@ textarea.form-control {
   justify-content: flex-end;
   align-items: center;
   padding: 10px 18px;
-  background: #78866B;
-  color: #fff;
+  background: var(--ui-footer-bg);
+  color: var(--ui-footer-text);
   font-size: 13px;
 
   .footer-version {
@@ -332,3 +332,4 @@ textarea.form-control {
     }
   }
 }
+

@@ -18,7 +18,7 @@
     width: 42px;
     height: 42px;
     border-radius: 10px;
-    background: #78866b;
+    background: var(--ui-primary);
     color: #fff;
     display: grid;
     place-items: center;
@@ -72,8 +72,8 @@
   }
 
   input:checked + .checkmark {
-    border-color: #78866b;
-    background: #78866b;
+    border-color: var(--ui-primary);
+    background: var(--ui-primary);
   }
 
   input:checked + .checkmark::after {
@@ -136,7 +136,7 @@
     transition: all 0.2s ease;
 
     &:focus {
-      border-color: #78866b;
+      border-color: var(--ui-primary);
       box-shadow: 0 0 0 3px rgba(120, 134, 107, 0.18);
       outline: none;
     }
@@ -177,12 +177,12 @@
 }
 
 .btn-siguiente {
-  background-color: #78866b;
+  background-color: var(--ui-primary);
   color: white;
   border: 1px solid #6f7a63;
 
   &:hover {
-    background-color: #6b7760;
+    background-color: var(--ui-accent);
   }
 }
 
@@ -206,3 +206,4 @@
     justify-content: center;
   }
 }
+

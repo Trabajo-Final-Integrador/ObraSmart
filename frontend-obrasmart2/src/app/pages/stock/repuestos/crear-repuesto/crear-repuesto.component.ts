@@ -41,9 +41,14 @@ export class CrearRepuestoComponent implements OnInit{
     this.cargarCategorias();
   }
 
- cargarCategorias() {
+  cargarCategorias(selectId?: number) {
     this.repuestoService.listarCategorias().subscribe({
-      next: data => this.categorias = data,
+      next: data => {
+        this.categorias = data;
+        if (selectId != null) {
+          this.nuevoRepuesto.idCategoria = selectId;
+        }
+      },
       error: () => Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -62,7 +67,7 @@ export class CrearRepuestoComponent implements OnInit{
     this.isCategoryModalOpen = false;
   }
 
-   guardarCategoria(): void {
+  guardarCategoria(): void {
     if (!this.newCategoriaNombre.trim()) {
       Swal.fire({
         icon: 'warning',
@@ -73,12 +78,11 @@ export class CrearRepuestoComponent implements OnInit{
       return;
     }
 
-        this.repuestoService.crearCategoria(this.newCategoriaNombre).subscribe({
+    this.repuestoService.crearCategoria(this.newCategoriaNombre).subscribe({
       next: (catCreada) => {
-        // la agregamos a la lista y la dejamos seleccionada
-        this.categorias.push(catCreada);
-        this.nuevoRepuesto.idCategoria = catCreada.id;
+        this.cargarCategorias(catCreada.id);
         this.cerrarModalCategoria();
+        this.newCategoriaNombre = '';
         Swal.fire({
           icon: 'success',
           title: 'Categoría creada',
@@ -89,16 +93,16 @@ export class CrearRepuestoComponent implements OnInit{
       },
       error: (err) => {
         console.error('Error creando categoría', err);
+        const serverMessage = err?.error?.message;
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'No se pudo crear la categoría',
+          text: serverMessage || 'No se pudo crear la categoría',
           confirmButtonColor: '#00796b'
         });
       }
     });
   }
-
 
   guardarRepuesto() {
     if (!this.nuevoRepuesto.codigo || !this.nuevoRepuesto.nombre || !this.nuevoRepuesto.unidadMedida) {
@@ -150,3 +154,7 @@ export class CrearRepuestoComponent implements OnInit{
   }
 
 }
+
+
+
+

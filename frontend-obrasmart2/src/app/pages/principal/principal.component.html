@@ -54,7 +54,7 @@
     <div class="config-section">
       <p class="config-title">{{ 'navbar.theme' | translate }}</p>
       <div class="config-options">
-        <button type="button" *ngFor="let theme of themeOptions"
+        <button type="button" *ngFor="let theme of uiThemeOptions"
           [class.active]="selectedThemeId === theme.id"
           (click)="seleccionarTheme(theme.id)">
           <span>✔</span>{{ theme.labelKey | translate }}
@@ -64,31 +64,11 @@
   </div>
 
   <div class="map-container">
-    <div class="map-controls" (clickOutside)="closeThemeMenu()">
-      <button class="theme-pill" (click)="toggleThemeMenu()" type="button">
-        <span class="icon" aria-hidden="true">🗺️</span>
-        <span class="label">{{ 'navbar.map.label' | translate }}: {{ getThemeLabel(baseThemeId) | translate }}</span>
-        <i class="bi" [ngClass]="{ 'bi-chevron-up': themeMenuAbierto, 'bi-chevron-down': !themeMenuAbierto }"></i>
-      </button>
-
-      <div class="theme-popover" *ngIf="themeMenuAbierto">
-        <button type="button" *ngFor="let theme of themeOptions"
-                [class.active]="baseThemeId === theme.id"
-                (click)="onBaseThemeSelect(theme.id); closeThemeMenu()">
-          <span>✔</span> {{ theme.labelKey | translate }}
-        </button>
-      </div>
-
-      <!-- select oculto para mantener compatibilidad -->
-      <select id="base-theme" #baseThemeSelect [value]="baseThemeId" (change)="onBaseThemeSelect(baseThemeSelect.value)" aria-hidden="true" tabindex="-1" class="visually-hidden">
-        <option value="carto-positron">{{ 'navbar.map.themes.carto-positron' | translate }}</option>
-        <option value="carto-darkmatter">{{ 'navbar.map.themes.carto-darkmatter' | translate }}</option>
-        <option value="osm-classic">{{ 'navbar.map.themes.osm-classic' | translate }}</option>
-        <option value="carto-voyager">{{ 'navbar.map.themes.carto-voyager' | translate }}</option>
-        <option value="opentopo">{{ 'navbar.map.themes.opentopo' | translate }}</option>
-        <option value="osm-hot">{{ 'navbar.map.themes.osm-hot' | translate }}</option>
-      </select>
-    </div>
+    <app-map-basemap-selector
+      [themes]="themeOptions"
+      [selectedId]="baseThemeId"
+      (selectTheme)="onBaseThemeSelect($event)"
+    ></app-map-basemap-selector>
     <div id="map"></div>
   </div>
 

@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+  background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
   color: white;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -179,7 +179,7 @@
     width: 3rem;
     height: 3rem;
     margin-bottom: 20px;
-    color: #78866B !important;
+    color: var(--ui-primary) !important;
   }
 
   p {
@@ -212,7 +212,7 @@
   justify-content: space-between;
   align-items: flex-start;
   padding-bottom: 25px;
-  border-bottom: 3px solid #78866B;
+  border-bottom: 3px solid var(--ui-primary);
   margin-bottom: 30px;
 
   .company-info {
@@ -221,7 +221,7 @@
     .company-name {
       font-size: 2rem;
       font-weight: 700;
-      color: #78866B;
+      color: var(--ui-primary);
       margin: 0 0 5px 0;
       letter-spacing: 1px;
     }
@@ -243,7 +243,7 @@
         gap: 8px;
 
         i {
-          color: #78866B;
+          color: var(--ui-primary);
           font-size: 0.9rem;
         }
       }
@@ -265,7 +265,7 @@
     .order-number {
       font-size: 1.8rem;
       font-weight: 700;
-      color: #78866B;
+      color: var(--ui-primary);
       margin: 5px 0;
     }
 
@@ -279,7 +279,7 @@
       margin-top: 10px;
 
       i {
-        color: #78866B;
+        color: var(--ui-primary);
       }
     }
   }
@@ -303,7 +303,7 @@
     margin-bottom: 20px;
 
     i {
-      color: #78866B;
+      color: var(--ui-primary);
       font-size: 1.2rem;
     }
   }
@@ -338,7 +338,7 @@
     margin: 0;
 
     i {
-      color: #78866B;
+      color: var(--ui-primary);
       font-size: 0.9rem;
     }
   }
@@ -409,7 +409,7 @@
     margin-bottom: 15px;
 
     i {
-      color: #78866B;
+      color: var(--ui-primary);
       font-size: 1.3rem;
     }
   }
@@ -428,7 +428,7 @@
   font-size: 0.9rem;
 
   thead {
-    background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+    background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
 
     tr th {
       padding: 12px 15px;
@@ -491,7 +491,7 @@
         &.col-item {
           text-align: center;
           font-weight: 600;
-          color: #78866B;
+          color: var(--ui-primary);
         }
 
         &.col-repuesto {
@@ -501,7 +501,7 @@
             gap: 10px;
 
             i {
-              color: #78866B;
+              color: var(--ui-primary);
               opacity: 0.7;
               font-size: 1rem;
             }
@@ -532,7 +532,7 @@
 
   tfoot {
     background: #f8f9fa;
-    border-top: 2px solid #78866B;
+    border-top: 2px solid var(--ui-primary);
 
     .total-row {
       td {
@@ -548,7 +548,7 @@
 
         &.total-amount {
           text-align: right;
-          color: #78866B;
+          color: var(--ui-primary);
           font-size: 1.3rem;
           font-weight: 700;
         }
@@ -573,14 +573,14 @@
     margin-bottom: 10px;
 
     i {
-      color: #78866B;
+      color: var(--ui-primary);
       font-size: 1.1rem;
     }
   }
 
   .observations-box {
     background: #f8f9fa;
-    border-left: 4px solid #78866B;
+    border-left: 4px solid var(--ui-primary);
     padding: 15px 20px;
     border-radius: 4px;
 
@@ -657,7 +657,7 @@
     gap: 8px;
 
     i {
-      color: #78866B;
+      color: var(--ui-primary);
     }
   }
 
@@ -702,7 +702,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: #78866B;
+    background: var(--ui-primary);
     color: white;
     border: none;
     border-radius: 6px;
@@ -713,7 +713,7 @@
     transition: all 0.3s ease;
 
     &:hover {
-      background: #6b7760;
+      background: var(--ui-accent);
       transform: translateY(-2px);
       box-shadow: 0 4px 8px rgba(120, 134, 107, 0.4);
     }
@@ -728,13 +728,13 @@
 // FOOTER
 // ========================================
 .footer {
-  background: #78866B;
+  background: var(--ui-primary);
   color: white;
   text-align: right;
   padding: 8px 20px;
   font-size: 0.9rem;
   flex-shrink: 0;
-  border-top: 2px solid #6b7760;
+  border-top: 2px solid var(--ui-accent);
 
   span {
     margin: 0 8px;
@@ -742,7 +742,7 @@
     transition: color 0.3s;
 
     &:hover {
-      color: #D0D9CD;
+      color: var(--ui-muted);
     }
   }
 
@@ -837,3 +837,4 @@
     }
   }
 }
+

@@ -1,0 +1,18 @@
+<div class="map-controls">
+  <button class="theme-pill" (click)="toggleMenu()" type="button">
+    <span class="icon" aria-hidden="true">🗺️</span>
+    <span class="label">{{ labelKey | translate }}: {{ getThemeLabel(selectedId) | translate }}</span>
+    <i class="bi" [ngClass]="{ 'bi-chevron-up': menuOpen, 'bi-chevron-down': !menuOpen }"></i>
+  </button>
+
+  <div class="theme-popover" *ngIf="menuOpen">
+    <button
+      type="button"
+      *ngFor="let theme of themes"
+      [class.active]="selectedId === theme.id"
+      (click)="onSelect(theme.id)"
+    >
+      <span>✔</span> {{ theme.labelKey | translate }}
+    </button>
+  </div>
+</div>

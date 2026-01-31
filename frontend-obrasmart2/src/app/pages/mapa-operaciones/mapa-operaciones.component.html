@@ -88,6 +88,11 @@
   </aside>
 
   <section class="map-wrapper">
+    <app-map-basemap-selector
+      [themes]="themeOptions"
+      [selectedId]="baseThemeId"
+      (selectTheme)="onBaseThemeSelect($event)"
+    ></app-map-basemap-selector>
     <div id="map-operaciones"></div>
   </section>
 </div>

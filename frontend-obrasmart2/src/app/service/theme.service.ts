@@ -11,6 +11,16 @@ export type AppTheme =
 
 export type ThemeMode = 'light' | 'dark';
 
+export const APP_THEMES: Array<{ id: AppTheme; labelKey: string }> = [
+  { id: 'obra-light', labelKey: 'navbar.ui.themes.obra-light' },
+  { id: 'obra-dark', labelKey: 'navbar.ui.themes.obra-dark' },
+  { id: 'office-light', labelKey: 'navbar.ui.themes.office-light' },
+  { id: 'office-dark', labelKey: 'navbar.ui.themes.office-dark' },
+  { id: 'windows11-light', labelKey: 'navbar.ui.themes.windows11-light' },
+  { id: 'windows11-dark', labelKey: 'navbar.ui.themes.windows11-dark' },
+  { id: 'opera-gx', labelKey: 'navbar.ui.themes.opera-gx' }
+];
+
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   private readonly STORAGE_KEY = 'obrasmart_ui_theme';
@@ -33,6 +43,7 @@ export class ThemeService {
     // Aplicar al DOM (sin romper SSR)
     if (typeof document !== 'undefined') {
       document.body.setAttribute('data-theme', target);
+      console.log('[ThemeService] apply -> data-theme:', document.body.getAttribute('data-theme'));
     }
 
     this.saveTheme(target);

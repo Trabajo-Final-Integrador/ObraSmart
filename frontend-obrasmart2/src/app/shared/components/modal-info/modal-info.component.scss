@@ -23,7 +23,7 @@
 }
 
 .modal-content {
-  background: #fff;
+  background: var(--ui-surface);
   border-radius: 12px;
   width: 90%;
   max-width: 700px;
@@ -50,9 +50,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  border-bottom: 1px solid #e5e5e5;
-  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
-  color: #fff;
+  border-bottom: 1px solid var(--ui-border);
+  background: var(--ui-navbar-bg);
+  color: var(--ui-navbar-fg);
   border-radius: 12px 12px 0 0;
 
   h2 {
@@ -67,7 +67,7 @@
   .close-modal-btn {
     background: rgba(255, 255, 255, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff;
+    color: var(--ui-navbar-fg);
     border-radius: 8px;
     padding: 8px 12px;
     font-size: 1.1rem;
@@ -87,7 +87,7 @@
   flex: 1;
 
   h3 {
-    color: #333;
+    color: var(--ui-text);
     font-size: 1.1rem;
     font-weight: 600;
     margin-top: 20px;
@@ -99,7 +99,7 @@
   }
 
   p {
-    color: #555;
+    color: var(--ui-muted);
     font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 12px;
@@ -110,7 +110,7 @@
     padding-left: 24px;
 
     li {
-      color: #555;
+      color: var(--ui-muted);
       font-size: 0.95rem;
       line-height: 1.6;
       margin-bottom: 8px;
@@ -129,13 +129,13 @@
     align-items: flex-start;
     gap: 16px;
     padding: 16px;
-    background: #f9f9f9;
+    background: var(--color-bg);
     border-radius: 10px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--ui-border);
 
     i {
       font-size: 1.5rem;
-      color: #78866B;
+      color: var(--ui-primary);
       min-width: 30px;
     }
 
@@ -144,7 +144,7 @@
 
       strong {
         display: block;
-        color: #333;
+        color: var(--ui-text);
         font-size: 0.95rem;
         font-weight: 600;
         margin-bottom: 4px;
@@ -152,7 +152,7 @@
 
       p {
         margin: 0;
-        color: #555;
+        color: var(--ui-muted);
         font-size: 0.9rem;
       }
     }
@@ -161,13 +161,13 @@
   .faq-item {
     margin-bottom: 20px;
     padding: 16px;
-    background: #f9f9f9;
+    background: var(--color-bg);
     border-radius: 10px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--ui-border);
 
     strong {
       display: block;
-      color: #333;
+      color: var(--ui-text);
       font-size: 1rem;
       font-weight: 600;
       margin-bottom: 8px;
@@ -175,7 +175,7 @@
 
     p {
       margin: 0;
-      color: #555;
+      color: var(--ui-muted);
       font-size: 0.9rem;
       line-height: 1.5;
     }
@@ -187,13 +187,13 @@
   justify-content: flex-end;
   gap: 12px;
   padding: 16px 24px;
-  border-top: 1px solid #e5e5e5;
-  background: #f9f9f9;
+  border-top: 1px solid var(--ui-border);
+  background: var(--color-bg);
   border-radius: 0 0 12px 12px;
 
   .btn-primary {
-    background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
-    color: #fff;
+    background: var(--ui-primary);
+    color: var(--ui-navbar-fg);
     border: none;
     border-radius: 8px;
     padding: 10px 24px;

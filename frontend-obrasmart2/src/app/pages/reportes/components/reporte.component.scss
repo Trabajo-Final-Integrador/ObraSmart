@@ -18,7 +18,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 20px;
-  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+  background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
   color: #fff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 
@@ -85,7 +85,7 @@
 
     &.primary {
       background: #f2f5ef;
-      color: #78866B;
+      color: var(--ui-primary);
       border-color: #f2f5ef;
       font-weight: 700;
     }
@@ -188,15 +188,15 @@ main {
       transition: all 0.2s;
 
       &.active {
-        background: #78866B;
+        background: var(--ui-primary);
         color: #fff;
-        border-color: #78866B;
+        border-color: var(--ui-primary);
       }
 
       &:hover {
-        background: #78866B;
+        background: var(--ui-primary);
         color: #fff;
-        border-color: #78866B;
+        border-color: var(--ui-primary);
       }
     }
   }
@@ -524,12 +524,12 @@ main {
 }
 
 .footer-bar {
-  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
-  color: #fff;
+  background: var(--ui-footer-bg);
+  color: var(--ui-footer-text);
   text-align: right;
   padding: 10px 20px;
   font-size: 0.9rem;
-  border-top: 2px solid #6b7760;
+  border-top: 2px solid var(--ui-accent);
 
   .version {
     opacity: 0.8;
@@ -537,3 +537,4 @@ main {
 }
 
 /* Sidebar y modales ahora manejados por componentes compartidos */
+

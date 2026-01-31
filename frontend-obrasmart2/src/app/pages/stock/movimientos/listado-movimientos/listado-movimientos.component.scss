@@ -1,4 +1,4 @@
-﻿// ========================================
+// ========================================
 // < LAYOUT CONTAINER
 // ========================================
 .layout-container {
@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+  background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
   color: white;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -128,7 +128,7 @@
 
     i {
       font-size: 1.2rem;
-      color: #78866B;
+      color: var(--ui-primary);
     }
   }
 
@@ -143,7 +143,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.7rem 1.5rem;
-    background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+    background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
     color: white;
     border: none;
     border-radius: 8px;
@@ -153,7 +153,7 @@
     box-shadow: 0 2px 6px rgba(120, 134, 107, 0.3);
 
     &:hover {
-      background: #6b7760;
+      background: var(--ui-accent);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(120, 134, 107, 0.4);
     }
@@ -203,7 +203,7 @@
   font-size: 0.95rem;
 
   thead {
-    background: linear-gradient(135deg, #78866B 0%, #6b7760 100%);
+    background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
     position: sticky;
     top: 0;
     z-index: 10;
@@ -256,7 +256,7 @@
     gap: 0.5rem;
 
     i {
-      color: #78866B;
+      color: var(--ui-primary);
       font-size: 1.1rem;
     }
 
@@ -329,7 +329,7 @@
 }
 
 // ========================================
-// ðŸ”¹ PAGINACIÃ“N FUERA DE LA CARD
+// 🔹 PAGINACIÓN FUERA DE LA CARD
 // ========================================
 .pagination-wrapper {
   display: flex;
@@ -356,7 +356,7 @@
       outline: none;
 
       &:focus {
-        border-color: #78866B;
+        border-color: var(--ui-primary);
       }
     }
 
@@ -402,13 +402,13 @@
 // =9 FOOTER
 // ========================================
 .footer {
-  background: #78866B;
+  background: var(--ui-primary);
   color: white;
   text-align: right;
   padding: 10px 24px;
   font-size: 0.9rem;
   flex-shrink: 0;
-  border-top: 2px solid #6b7760;
+  border-top: 2px solid var(--ui-accent);
 
   span {
     margin: 0 8px;
@@ -450,3 +450,4 @@
     }
   }
 }
+
