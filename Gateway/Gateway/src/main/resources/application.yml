@@ -1,9 +1,16 @@
 server:
   port: 8085
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 
 spring:
   application:
     name: gateway
+  messages:
+    encoding: UTF-8
   cloud:
     gateway:
       mvc:

@@ -4,9 +4,6 @@ export type AppTheme =
   | 'obra-light'
   | 'obra-dark'
   | 'office-light'
-  | 'office-dark'
-  | 'windows11-light'
-  | 'windows11-dark'
   | 'opera-gx';
 
 export type ThemeMode = 'light' | 'dark';
@@ -15,9 +12,6 @@ export const APP_THEMES: Array<{ id: AppTheme; labelKey: string }> = [
   { id: 'obra-light', labelKey: 'navbar.ui.themes.obra-light' },
   { id: 'obra-dark', labelKey: 'navbar.ui.themes.obra-dark' },
   { id: 'office-light', labelKey: 'navbar.ui.themes.office-light' },
-  { id: 'office-dark', labelKey: 'navbar.ui.themes.office-dark' },
-  { id: 'windows11-light', labelKey: 'navbar.ui.themes.windows11-light' },
-  { id: 'windows11-dark', labelKey: 'navbar.ui.themes.windows11-dark' },
   { id: 'opera-gx', labelKey: 'navbar.ui.themes.opera-gx' }
 ];
 
@@ -91,9 +85,6 @@ export class ThemeService {
       val === 'obra-light' ||
       val === 'obra-dark' ||
       val === 'office-light' ||
-      val === 'office-dark' ||
-      val === 'windows11-light' ||
-      val === 'windows11-dark' ||
       val === 'opera-gx'
     );
   }

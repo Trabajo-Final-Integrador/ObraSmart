@@ -1,4 +1,13 @@
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
 spring:
+  messages:
+    encoding: UTF-8
   datasource:
     url: jdbc:postgresql://localhost:5432/mediaservice
     username: postgres
