@@ -4,6 +4,8 @@ import { EquipoDTO, EquipoService } from 'src/app/service/equipo.service';
 import { MarcaService, MarcaDTO } from 'src/app/service/marca.service';
 import { ModeloService, ModeloDTO } from 'src/app/service/modelo.service';
 import { TipoEquipoService, TipoEquipoDTO } from 'src/app/service/tipo-equipo.service';
+import { UsuarioService } from 'src/app/service/usuario.service';
+import { Usuario } from 'src/app/pages/auth/usuarios/usuario.model';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -25,7 +27,7 @@ export class CrearEquipoComponent {
 
   // Stepper control
   pasoActual = 1;
-  totalPasos = 4;
+  totalPasos = 3;
 
   // Modo edición
   modoEdicion = false;
@@ -35,6 +37,7 @@ export class CrearEquipoComponent {
   modelos: ModeloDTO[] = [];
   tipos: TipoEquipoDTO[] = [];
   idMarcaSeleccionada: number | null = null;
+  usuariosResponsables: Usuario[] = [];
 
   nuevoPrefijo: string = '';
   nuevaDescripcion: string = '';
@@ -47,31 +50,29 @@ export class CrearEquipoComponent {
   // Geocoding
   private locationSubject = new Subject<string>();
   geocodificando = false;
+  maxFechaUltimoMantenimiento = '';
+  minProximoMantenimiento = '';
   
-  equipo: any = {
+  equipo: EquipoDTO  = {
   nombre: '',
   codigoInterno: '',
   numeroSerie: '',
-  potenciaHp: null,
-  combustible: null,
-  estadoOperativo: null,
-  kilometrajeHorasUso: null,
-  fechaUltimoMantenimiento: null,
-  proximoMantenimiento: null,
+  potenciaHp: 0,
+  combustible: '',
+  estadoOperativo: '',
+  kilometrajeHorasUso: 0,
+  fechaUltimoMantenimiento: '',
+  proximoMantenimiento: '',
   responsableMantenimiento: '',
   seguroVigente: false,
   ubicacionActual: '',
   activo: true,
-
-  // relaciones
-  idMarca: null,
-  idModelo: null,
-  idTipoEquipo: null,
-
-  // extras
-  anioFabricacion: null,
-  latitud: null,
-  longitud: null
+  idMarca: 0,
+  idModelo: 0,
+  idTipoEquipo: 0,
+  anioFabricacion: 0,
+  latitud: 0,
+  longitud: 0
 };
 
 
@@ -80,6 +81,7 @@ export class CrearEquipoComponent {
       private marcaService: MarcaService,
     private modeloService: ModeloService,
     private tipoService: TipoEquipoService,
+    private usuarioService: UsuarioService,
     private router: Router,
     private route: ActivatedRoute,
     private translate: TranslateService,
@@ -87,8 +89,10 @@ export class CrearEquipoComponent {
   ) {}
 
   ngOnInit(): void {
+    this.configurarFechasMantenimiento();
     this.cargarCombos();
     this.inicializarGeocodificacion();
+    this.cargarUsuariosResponsables();
 
     // Verificar si es modo edición
     this.route.params.subscribe(params => {
@@ -215,15 +219,21 @@ export class CrearEquipoComponent {
   validarPasoActual(): boolean {
     switch (this.pasoActual) {
       case 1:
-        return !!(this.equipo.nombre && this.equipo.codigoInterno && this.equipo.numeroSerie);
+        return !!(
+          this.equipo.nombre &&
+          this.equipo.codigoInterno &&
+          this.equipo.numeroSerie &&
+          this.equipo.idMarca &&
+          this.equipo.idModelo &&
+          this.equipo.idTipoEquipo &&
+          this.equipo.anioFabricacion &&
+          this.equipo.potenciaHp
+        );
       case 2:
-        return !!(this.equipo.idMarca && this.equipo.idModelo && this.equipo.idTipoEquipo &&
-                  this.equipo.anioFabricacion && this.equipo.potenciaHp);
-      case 3:
         return !!(this.equipo.estadoOperativo && this.equipo.fechaUltimoMantenimiento &&
                   this.equipo.proximoMantenimiento && this.equipo.kilometrajeHorasUso &&
                   this.equipo.responsableMantenimiento);
-      case 4:
+      case 3:
         return true;
       default:
         return true;
@@ -243,6 +253,25 @@ export class CrearEquipoComponent {
     this.marcaService.listar().subscribe(r => this.marcas = r);
     this.modeloService.listar().subscribe(r => this.modelos = r);
     this.tipoService.listar().subscribe(r => this.tipos = r);
+  }
+
+  cargarUsuariosResponsables() {
+    this.usuarioService.listarUsuarios().subscribe({
+      next: (usuarios) => {
+        const activos = (usuarios || []).filter(u => u?.status === 'ACTIVO');
+        const filtrados = activos.filter(u => u?.role === 'OPERARIO' || u?.role === 'TECNICO');
+        this.usuariosResponsables = filtrados.length ? filtrados : activos;
+      },
+      error: (err) => {
+        console.error('Error al cargar usuarios:', err);
+        this.usuariosResponsables = [];
+      }
+    });
+  }
+
+  nombreUsuario(u: Usuario): string {
+    const nombre = `${u.firstname || ''} ${u.lastname || ''}`.trim();
+    return nombre || u.username || u.email;
   }
 
   crearMarca() {
@@ -344,6 +373,8 @@ export class CrearEquipoComponent {
   }
 
   guardar() {
+    this.normalizarCoordenadas();
+    this.normalizarEquipoPayload();
     if (this.modoEdicion && this.idEquipo) {
       this.service.actualizar(this.idEquipo, this.equipo).subscribe({
         next: () => {
@@ -391,6 +422,59 @@ export class CrearEquipoComponent {
         }
       });
     }
+  }
+
+  private configurarFechasMantenimiento() {
+    const hoy = new Date();
+    this.maxFechaUltimoMantenimiento = this.formatearFecha(hoy);
+    const manana = new Date(hoy);
+    manana.setDate(hoy.getDate() + 1);
+    this.minProximoMantenimiento = this.formatearFecha(manana);
+  }
+
+  private formatearFecha(fecha: Date): string {
+    const yyyy = fecha.getFullYear();
+    const mm = String(fecha.getMonth() + 1).padStart(2, '0');
+    const dd = String(fecha.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  normalizarCoordenadas() {
+    const lat = this.normalizarNumero(this.equipo.latitud);
+    const lon = this.normalizarNumero(this.equipo.longitud);
+    this.equipo.latitud = lat ?? this.equipo.latitud;
+    this.equipo.longitud = lon ?? this.equipo.longitud;
+  }
+
+  private normalizarNumero(valor: any): number | null {
+    if (valor === null || valor === undefined || valor === '') return null;
+    if (typeof valor === 'number') return Number.isFinite(valor) ? valor : null;
+    const normalizado = String(valor).trim().replace(',', '.');
+    const parsed = Number.parseFloat(normalizado);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  private normalizarEquipoPayload() {
+    const idMarca = this.normalizarEntero(this.equipo.idMarca);
+    const idModelo = this.normalizarEntero(this.equipo.idModelo);
+    const idTipo = this.normalizarEntero(this.equipo.idTipoEquipo);
+    const anio = this.normalizarEntero(this.equipo.anioFabricacion);
+    const potencia = this.normalizarNumero(this.equipo.potenciaHp);
+    const km = this.normalizarNumero(this.equipo.kilometrajeHorasUso);
+
+    if (idMarca !== null) this.equipo.idMarca = idMarca;
+    if (idModelo !== null) this.equipo.idModelo = idModelo;
+    if (idTipo !== null) this.equipo.idTipoEquipo = idTipo;
+    if (anio !== null) this.equipo.anioFabricacion = anio;
+    if (potencia !== null) this.equipo.potenciaHp = potencia;
+    if (km !== null) this.equipo.kilometrajeHorasUso = km;
+  }
+
+  private normalizarEntero(valor: any): number | null {
+    if (valor === null || valor === undefined || valor === '') return null;
+    if (typeof valor === 'number') return Number.isFinite(valor) ? Math.trunc(valor) : null;
+    const parsed = Number.parseInt(String(valor).trim(), 10);
+    return Number.isFinite(parsed) ? parsed : null;
   }
 
 }

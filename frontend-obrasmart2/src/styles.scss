@@ -421,6 +421,47 @@ main.content,
   background: var(--ui-surface-2) !important;
 }
 
+/* Listado de usuarios: encabezado verde como el resto de páginas */
+.users-table thead tr {
+  background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%) !important;
+}
+
+.users-table thead th {
+  background: transparent !important;
+  color: var(--ui-primary-contrast) !important;
+}
+
+/* Mapa de operaciones: forzar panel lateral al color del tema */
+.operaciones-layout .panel {
+  background: var(--ui-primary, #78866b) !important;
+  background-color: var(--ui-primary, #78866b) !important;
+  color: var(--ui-primary-contrast, #ffffff) !important;
+}
+
+.operaciones-layout .panel label,
+.operaciones-layout .panel span,
+.operaciones-layout .panel h3,
+.operaciones-layout .panel p {
+  color: var(--ui-primary-contrast) !important;
+}
+
+.operaciones-layout .panel .filter-group select,
+.operaciones-layout .panel .btn-regresar,
+.operaciones-layout .panel .btn-action,
+.operaciones-layout .panel .panel-info,
+.operaciones-layout .panel .legend {
+  background: rgba(255, 255, 255, 0.16) !important;
+  color: var(--ui-primary-contrast) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Clase directa para evitar overrides en el sidebar del mapa */
+.theme-panel {
+  background: var(--ui-primary, #78866b) !important;
+  background-color: var(--ui-primary, #78866b) !important;
+  color: var(--ui-primary-contrast, #ffffff) !important;
+}
+
 /* Leaflet marker overrides */
 .leaflet-container .leaflet-marker-icon,
 .leaflet-container .leaflet-marker-shadow {

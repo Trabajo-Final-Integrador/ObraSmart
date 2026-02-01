@@ -10,6 +10,7 @@ export interface EquipoDTO {
   idTipoEquipo: number;
   idMarca: number;
   idModelo: number;
+  obradorId?: number;
   numeroSerie: string;
   anioFabricacion: number;
   potenciaHp: number;

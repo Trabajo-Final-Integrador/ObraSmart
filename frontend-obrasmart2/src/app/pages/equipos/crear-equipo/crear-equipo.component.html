@@ -141,7 +141,7 @@
             <i *ngIf="pasoActual > 2" class="bi bi-check-lg"></i>
             <span *ngIf="pasoActual <= 2">2</span>
           </div>
-          <div class="step-label">{{ 'equipos.create.steps.specs' | translate }}</div>
+          <div class="step-label">{{ 'equipos.create.steps.status' | translate }}</div>
         </div>
 
         <div class="step-line" [class.completed]="pasoActual > 2"></div>
@@ -151,16 +151,6 @@
             <i *ngIf="pasoActual > 3" class="bi bi-check-lg"></i>
             <span *ngIf="pasoActual <= 3">3</span>
           </div>
-          <div class="step-label">{{ 'equipos.create.steps.status' | translate }}</div>
-        </div>
-
-        <div class="step-line" [class.completed]="pasoActual > 3"></div>
-
-        <div class="step" [class.active]="pasoActual === 4" [class.completed]="pasoActual > 4">
-          <div class="step-circle">
-            <i *ngIf="pasoActual > 4" class="bi bi-check-lg"></i>
-            <span *ngIf="pasoActual <= 4">4</span>
-          </div>
           <div class="step-label">{{ 'equipos.create.steps.location' | translate }}</div>
         </div>
       </div>
@@ -169,16 +159,10 @@
       <div class="form-container">
         <form #equipoForm="ngForm">
 
-          <!-- PASO 1: Información Básica -->
+          <!-- PASO 1: Información Básica + Especificaciones -->
           <div class="step-content" *ngIf="pasoActual === 1">
-            <div class="step-header">
-              <i class="bi bi-info-circle"></i>
-              <h2>{{ 'equipos.create.basic.title' | translate }}</h2>
-              <p>{{ 'equipos.create.basic.subtitle' | translate }}</p>
-            </div>
-
             <div class="form-grid">
-              <div class="form-group">
+              <div class="form-group spaced-label">
                 <label for="nombre">{{ 'equipos.create.form.name.label' | translate }} *</label>
                 <input
                   type="text"
@@ -217,18 +201,8 @@
                 />
               </div>
             </div>
-          </div>
-
-          <!-- PASO 2: Especificaciones Técnicas -->
-          <div class="step-content" *ngIf="pasoActual === 2">
-            <div class="step-header">
-              <i class="bi bi-gear"></i>
-              <h2>{{ 'equipos.create.specs.title' | translate }}</h2>
-              <p>{{ 'equipos.create.specs.subtitle' | translate }}</p>
-            </div>
-
-            <div class="form-grid">
-              <div class="form-group">
+            <div class="form-grid specs-grid">
+              <div class="form-group spaced-label">
                 <label for="marca">{{ 'equipos.create.form.brand.label' | translate }} *</label>
                 <div class="input-with-button">
                   <select
@@ -238,8 +212,8 @@
                     [(ngModel)]="equipo.idMarca"
                     required
                   >
-                    <option value="">{{ 'equipos.create.form.brand.placeholder' | translate }}</option>
-                    <option *ngFor="let m of marcas" [value]="m.id">{{ m.nombre }}</option>
+                    <option [ngValue]="null">{{ 'equipos.create.form.brand.placeholder' | translate }}</option>
+                    <option *ngFor="let m of marcas" [ngValue]="m.id">{{ m.nombre }}</option>
                   </select>
                   <button class="btn-add" type="button" data-bs-toggle="modal" data-bs-target="#modalMarca" [title]="'equipos.create.actions.addBrand' | translate">
                     <i class="bi bi-plus-lg"></i>
@@ -247,7 +221,7 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group spaced-label">
                 <label for="modelo">{{ 'equipos.create.form.model.label' | translate }} *</label>
                 <div class="input-with-button">
                   <select
@@ -257,8 +231,8 @@
                     [(ngModel)]="equipo.idModelo"
                     required
                   >
-                    <option value="">{{ 'equipos.create.form.model.placeholder' | translate }}</option>
-                    <option *ngFor="let model of modelos" [value]="model.id">{{ model.nombre }}</option>
+                    <option [ngValue]="null">{{ 'equipos.create.form.model.placeholder' | translate }}</option>
+                    <option *ngFor="let model of modelos" [ngValue]="model.id">{{ model.nombre }}</option>
                   </select>
                   <button class="btn-add" type="button" data-bs-toggle="modal" data-bs-target="#modalModelo" [title]="'equipos.create.actions.addModel' | translate">
                     <i class="bi bi-plus-lg"></i>
@@ -276,8 +250,8 @@
                     [(ngModel)]="equipo.idTipoEquipo"
                     required
                   >
-                    <option value="">{{ 'equipos.create.form.type.placeholder' | translate }}</option>
-                    <option *ngFor="let t of tipos" [value]="t.id">{{ t.nombre }}</option>
+                    <option [ngValue]="null">{{ 'equipos.create.form.type.placeholder' | translate }}</option>
+                    <option *ngFor="let t of tipos" [ngValue]="t.id">{{ t.nombre }}</option>
                   </select>
                   <button class="btn-add" type="button" data-bs-toggle="modal" data-bs-target="#modalTipo" [title]="'equipos.create.actions.addType' | translate">
                     <i class="bi bi-plus-lg"></i>
@@ -294,7 +268,7 @@
                   name="anioFabricacion"
                   [(ngModel)]="equipo.anioFabricacion"
                   min="1900"
-                  max="2100"
+                  max="2025"
                   [placeholder]="'equipos.create.form.year.placeholder' | translate"
                   required
                 />
@@ -330,14 +304,8 @@
             </div>
           </div>
 
-          <!-- PASO 3: Estado y Operación -->
-          <div class="step-content" *ngIf="pasoActual === 3">
-            <div class="step-header">
-              <i class="bi bi-activity"></i>
-              <h2>{{ 'equipos.create.status.title' | translate }}</h2>
-              <p>{{ 'equipos.create.status.subtitle' | translate }}</p>
-            </div>
-
+          <!-- PASO 2: Estado y Operación -->
+          <div class="step-content" *ngIf="pasoActual === 2">
             <div class="form-grid">
               <div class="form-group">
                 <label for="estadoOperativo">{{ 'equipos.create.form.operationalStatus.label' | translate }} *</label>
@@ -364,6 +332,7 @@
                   id="fechaUltimoMantenimiento"
                   name="fechaUltimoMantenimiento"
                   [(ngModel)]="equipo.fechaUltimoMantenimiento"
+                  [max]="maxFechaUltimoMantenimiento"
                   required
                 />
               </div>
@@ -376,6 +345,7 @@
                   id="proximoMantenimiento"
                   name="proximoMantenimiento"
                   [(ngModel)]="equipo.proximoMantenimiento"
+                  [min]="minProximoMantenimiento"
                   required
                 />
               </div>
@@ -396,15 +366,18 @@
 
               <div class="form-group">
                 <label for="responsableMantenimiento">{{ 'equipos.create.form.maintenanceResponsible.label' | translate }} *</label>
-                <input
-                  type="text"
+                <select
                   class="form-control"
                   id="responsableMantenimiento"
                   name="responsableMantenimiento"
                   [(ngModel)]="equipo.responsableMantenimiento"
-                  [placeholder]="'equipos.create.form.maintenanceResponsible.placeholder' | translate"
                   required
-                />
+                >
+                  <option value="">{{ 'equipos.create.form.maintenanceResponsible.placeholder' | translate }}</option>
+                  <option *ngFor="let u of usuariosResponsables" [value]="nombreUsuario(u)">
+                    {{ nombreUsuario(u) }} ({{ u.role }})
+                  </option>
+                </select>
               </div>
 
               <div class="form-group">
@@ -422,14 +395,8 @@
             </div>
           </div>
 
-          <!-- PASO 4: Ubicación y Confirmación -->
-          <div class="step-content" *ngIf="pasoActual === 4">
-            <div class="step-header">
-              <i class="bi bi-geo-alt"></i>
-              <h2>{{ 'equipos.create.location.title' | translate }}</h2>
-              <p>{{ 'equipos.create.location.subtitle' | translate }}</p>
-            </div>
-
+          <!-- PASO 3: Ubicación y Confirmación -->
+          <div class="step-content" *ngIf="pasoActual === 3">
             <div class="form-grid">
               <div class="form-group">
                 <label for="ubicacionActual">
@@ -475,6 +442,7 @@
                   id="latitud"
                   name="latitud"
                   [(ngModel)]="equipo.latitud"
+                  (blur)="normalizarCoordenadas()"
                   step="0.000001"
                   [placeholder]="'equipos.create.form.lat.placeholder' | translate"
                 />
@@ -488,6 +456,7 @@
                   id="longitud"
                   name="longitud"
                   [(ngModel)]="equipo.longitud"
+                  (blur)="normalizarCoordenadas()"
                   step="0.000001"
                   [placeholder]="'equipos.create.form.lng.placeholder' | translate"
                 />

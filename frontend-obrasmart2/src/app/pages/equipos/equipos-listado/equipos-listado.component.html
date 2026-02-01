@@ -55,6 +55,9 @@
               <app-status-badge class="status-pill" [estado]="e.estadoOperativo"></app-status-badge>
             </td>
             <td class="acciones table-actions">
+              <button class="btn-icon map" title="Ver ubicación" (click)="verUbicacion(e)">
+                <i class="bi bi-geo-alt"></i>
+              </button>
               <button class="btn-icon view" [title]="'equipos.actions.view' | translate" (click)="verDetalles(e)">
                 <i class="bi bi-eye"></i>
               </button>

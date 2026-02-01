@@ -158,26 +158,19 @@
       border-bottom: 1px solid #eee;
       vertical-align: middle;
       line-height: 1.2;
+      text-align: left;
     }
 
     thead tr {
-      background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
+      background: transparent;
 
       th {
-        color: white;
+        color: #ffffff !important;
         font-weight: 600;
         font-size: 0.95rem;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         border: none;
-
-        &:first-child {
-          border-top-left-radius: 8px;
-        }
-
-        &:last-child {
-          border-top-right-radius: 8px;
-        }
       }
     }
 
@@ -195,16 +188,16 @@
         padding-bottom: 0;
       }
 
-      td.col-acciones {
-        padding: 0 12px 0 20px !important;
-        text-align: left;
-      }
+    td.col-acciones {
+      padding: 0 12px !important;
+      text-align: center;
+    }
     }
 
     .acciones,
     .table-actions {
       display: inline-flex;
-      justify-content: flex-start;
+      justify-content: center;
       align-items: center;
       gap: 10px;
       white-space: nowrap;
@@ -243,14 +236,32 @@
       &.view { color: #8e44ad; }
     }
 
-    .col-email { width: 20%; }
-    .col-firstname { width: 15%; }
-    .col-lastname { width: 15%; }
-    .col-username { width: 12%; }
-    .col-role { width: 10%; }
+    .col-email { width: 18%; }
+    .col-firstname { width: 14%; }
+    .col-lastname { width: 14%; }
+    .col-username { width: 11%; }
+    .col-role { width: 11%; }
     .col-status { width: 8%; text-align: center; }
-    .col-observaciones { width: 10%; }
-    .col-acciones { width: 10%; text-align: center; overflow: visible; }
+    .col-observaciones { width: 160px; padding-left: 16px; }
+    .col-acciones { width: 170px; text-align: center; overflow: visible; }
+
+    th.col-acciones {
+      padding-left: 12px;
+      padding-right: 12px;
+      text-align: center;
+    }
+
+    td.col-acciones {
+      padding-left: 12px !important;
+      padding-right: 12px !important;
+      text-align: center;
+    }
+
+    th.col-observaciones,
+    td.col-observaciones {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
 
     .cell-ellipsis {
       white-space: nowrap;

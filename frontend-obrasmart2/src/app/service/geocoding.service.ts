@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpBackend, HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export interface GeocodingResult {
   lat: number;
@@ -10,32 +11,33 @@ export interface GeocodingResult {
 
 @Injectable({ providedIn: 'root' })
 export class GeocodingService {
-  private readonly baseUrl = 'https://nominatim.openstreetmap.org/search';
+  private readonly baseUrl = `${environment.apiUrl}/geo`;
 
-  private rawHttp: HttpClient;
-
-  constructor(private http: HttpClient, httpBackend: HttpBackend) {
-    this.rawHttp = new HttpClient(httpBackend);
-  }
+  constructor(private http: HttpClient) {}
 
   buscar(query: string): Observable<GeocodingResult | null> {
     const params = new HttpParams()
-      .set('format', 'json')
-      .set('q', query)
-      .set('limit', '1')
-      .set('countrycodes', 'ar')
-      .set('accept-language', 'es');
+      .set('direccion', query);
 
-    return this.rawHttp.get<any[]>(this.baseUrl, { params }).pipe(
+    return this.http.get<GeocodingResult>(`${this.baseUrl}/geocode`, { params }).pipe(
       map((res) => {
-        if (!res || res.length === 0) return null;
-        const first = res[0];
+        if (!res) return null;
         return {
-          lat: Number(first.lat),
-          lon: Number(first.lon),
-          displayName: first.display_name
+          lat: Number(res.lat),
+          lon: Number(res.lon),
+          displayName: res.displayName
         } as GeocodingResult;
       })
+    );
+  }
+
+  reverse(lat: number, lon: number): Observable<GeocodingResult | null> {
+    const params = new HttpParams()
+      .set('lat', String(lat))
+      .set('lon', String(lon));
+
+    return this.http.get<GeocodingResult>(`${this.baseUrl}/reverse`, { params }).pipe(
+      map((res) => (res ? { lat: Number(res.lat), lon: Number(res.lon), displayName: res.displayName } : null))
     );
   }
 }

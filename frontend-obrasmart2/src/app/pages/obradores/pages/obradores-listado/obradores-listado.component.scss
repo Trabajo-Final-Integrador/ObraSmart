@@ -162,10 +162,11 @@ app-modal-info {
   }
 
   thead tr {
-    background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
+    background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%) !important;
 
     th {
-      color: #fff;
+      background: transparent !important;
+      color: #ffffff !important;
       font-weight: 700;
       font-size: 0.95rem;
       text-transform: uppercase;
@@ -232,6 +233,9 @@ app-modal-info {
 
     &.view {
       color: #00796b;
+    }
+    &.map {
+      color: #2f855a;
     }
     &.edit {
       color: #273f5c;

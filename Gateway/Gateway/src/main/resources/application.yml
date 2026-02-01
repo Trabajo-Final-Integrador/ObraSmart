@@ -50,7 +50,7 @@ spring:
           - id: equipos
             uri: http://gestion-equipos:8087
             predicates:
-              - Path=/equipos/**,/marca/**,/modelo/**,/tipo-equipo/**,/api/equipos/**,/api/marca/**,/api/modelo/**,/api/tipo-equipo/**
+              - Path=/equipos/**,/marca/**,/modelo/**,/tipo-equipo/**,/api/equipos/**,/api/marca/**,/api/modelo/**,/api/tipo-equipo/**, /equipos
             filters:
               - RewritePath=/api/(?<segment>.*), /${segment}
               - AddRequestHeader=X-Forwarded-Host, localhost
@@ -118,6 +118,15 @@ spring:
               - Path=/geolocalizacion/**,/api/geolocalizacion/**
             filters:
               - RewritePath=/geolocalizacion(?<segment>/?.*), /api/geolocalizacion${segment}
+
+          # ---------- GEOLOCALIZACION-GEOCODING ----------
+          - id: geo-geocode
+            uri: http://gestion-geolocalizacion:8089
+            predicates:
+              - Path=/geo/**,/api/geo/**
+            filters:
+              - RewritePath=/api/(?<segment>.*), /${segment}
+
 
           # ---------- REPORTES ----------
           - id: reportes

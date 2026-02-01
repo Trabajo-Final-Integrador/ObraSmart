@@ -2,7 +2,7 @@ import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { SessionService } from '../../service/session.service';
 import { SidebarService } from '../../service/sidebar.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
 import { GeolocalizacionService, EquipoUbicacion } from 'src/app/service/geolocalizacion.service';
@@ -63,6 +63,7 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
   equipos: EquipoUbicacion[] = [];
   detalleVisible = false;
   selectedEquipoId?: number;
+  private pendingEquipoId?: number;
   private apiUrl = `${environment.apiUrl}/auth`;
   notificacionesAbierto = false;
   notificacionesMantenimiento: Array<{
@@ -79,6 +80,7 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
     private geoService: GeolocalizacionService,
     private sidebarService: SidebarService,
     private router: Router,
+    private route: ActivatedRoute,
     private http: HttpClient,
     private media: MediaService,
     private themeService: ThemeService,
@@ -96,6 +98,13 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
       this.avatarSrc = this.buildAvatarUrl(u?.userId);
     });
     this.cargarNotificacionesMantenimiento();
+    this.route.queryParams.subscribe((params) => {
+      const raw = params['equipoId'];
+      const id = raw !== undefined ? Number(raw) : NaN;
+      if (Number.isFinite(id)) {
+        this.focusEquipo(Number(id));
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -245,11 +254,29 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
             `
             );
         });
+
+        if (this.pendingEquipoId) {
+          this.focusEquipo(this.pendingEquipoId);
+        }
       },
       error: (err) => {
         console.error('Error al cargar ubicaciones:', err);
       },
     });
+  }
+
+  private focusEquipo(id: number): void {
+    if (!this.map || !this.equipos?.length) {
+      this.pendingEquipoId = id;
+      return;
+    }
+    const eq = this.equipos.find((e) => e.id === id);
+    if (!eq) return;
+    const coords = this.mapHelpers.getLatLngFromEquipoUbicacion(eq);
+    if (!coords || coords.lat === 0 || coords.lng === 0) return;
+    const nextZoom = Math.max(this.map.getZoom(), 13);
+    this.map.setView([coords.lat, coords.lng], nextZoom);
+    this.pendingEquipoId = undefined;
   }
 
   private getIconByEstado(estado: string): L.DivIcon {

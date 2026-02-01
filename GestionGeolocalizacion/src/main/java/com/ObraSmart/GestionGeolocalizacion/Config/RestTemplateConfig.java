@@ -12,6 +12,10 @@ public class RestTemplateConfig {
 
     @Bean
     public RestTemplate restTemplate() {
-        return new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getInterceptors().add((request, body, execution) -> {
+            request.getHeaders().add("User-Agent", "ObraSmart-Geolocalizacion");
+            return execution.execute(request, body);
+        });return restTemplate;
     }
 }

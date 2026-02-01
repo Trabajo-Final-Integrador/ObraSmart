@@ -177,6 +177,21 @@ textarea {
   padding-top: 16px;
 }
 
+.equipos-section.card {
+  padding: 10px 12px;
+  min-height: 160px;
+}
+
+.equipos-header h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.equipos-actions {
+  margin-bottom: 8px;
+}
+
 .equipos-actions {
   display: flex;
   align-items: center;
@@ -205,6 +220,17 @@ textarea {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   padding: 16px;
   border: 1px solid #e5e7eb;
+  min-height: 320px;
+}
+
+.card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-grid {
+  margin-top: 6px;
 }
 
 /* Footer */

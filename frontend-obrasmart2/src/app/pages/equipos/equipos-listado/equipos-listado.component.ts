@@ -78,6 +78,20 @@ export class EquiposListadoComponent implements OnInit {
     this.showModal = true;
   }
 
+  verUbicacion(equipo: EquipoDTO) {
+    if (!equipo?.id) return;
+    if (!equipo.latitud || !equipo.longitud) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Información',
+        text: 'Equipo sin ubicación registrada.',
+        confirmButtonColor: '#00796b',
+      });
+      return;
+    }
+    this.router.navigate(['/principal'], { queryParams: { equipoId: equipo.id } });
+  }
+
   eliminarEquipo(equipo: EquipoDTO) {
     Swal.fire({
       title: this.translate.instant('equipos.alert.delete.title'),

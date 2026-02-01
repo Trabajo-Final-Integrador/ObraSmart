@@ -58,6 +58,9 @@
             <td class="col-supervisor">{{ getSupervisorLabel(obrador.supervisorUserId) }}</td>
             <td class="col-equipos">{{ obrador.equipoIds?.length || 0 }}</td>
             <td class="acciones">
+              <button class="btn-icon map" title="Ver en mapa" (click)="verEnMapa(obrador.id)">
+                <i class="bi bi-geo-alt"></i>
+              </button>
               <button class="btn-icon view" title="Ver" (click)="verDetalle(obrador.id)">
                 <i class="bi bi-eye"></i>
               </button>

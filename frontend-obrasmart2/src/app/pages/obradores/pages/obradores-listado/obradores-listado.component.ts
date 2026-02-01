@@ -68,7 +68,7 @@ export class ObradoresListadoComponent implements OnInit {
     const sup = this.supervisores.find((u) => u.id === id);
     if (!sup) return id.toString();
     const fullName = `${sup.firstname || ''} ${sup.lastname || ''}`.trim();
-    return sup.username || sup.email || fullName || id.toString();
+    return fullName || sup.username || sup.email || id.toString();
   }
 
   get totalPages(): number {
@@ -118,6 +118,11 @@ export class ObradoresListadoComponent implements OnInit {
 
   editar(id: number): void {
     this.router.navigate(['/obradores', id]);
+  }
+
+  verEnMapa(id?: number): void {
+    if (!id) return;
+    this.router.navigate(['/mapa-operaciones'], { queryParams: { obradorId: id } });
   }
 
   toggleSidebar(): void {

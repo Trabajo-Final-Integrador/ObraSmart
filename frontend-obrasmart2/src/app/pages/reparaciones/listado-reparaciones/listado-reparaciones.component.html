@@ -112,8 +112,8 @@
       </div>
     </div>
 
-    <!-- Paginación fuera de la card -->
-    <div class="pagination-wrapper" *ngIf="reparacionesFiltradas.length > 0">
+    <!-- Paginación fuera de la card (igual a listado de usuarios) -->
+    <div class="pagination-wrapper" *ngIf="!loading">
       <div class="pagination-controls">
         <select [(ngModel)]="reparacionesPorPagina" (ngModelChange)="onCambiarPorPagina($event)" class="items-per-page">
           <option *ngFor="let n of [5, 10, 20, 50]" [value]="n">{{ n }}</option>
