@@ -1,49 +1,57 @@
-<div class="layout-container">
-  <header class="top-navbar">
-    <div class="navbar-left">
-      <div class="brand">
-        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
-        <h1 class="navbar-title">Detalle de traslado</h1>
-      </div>
+<div class="os-modal-backdrop" (click)="volver()"></div>
+<div class="os-modal" (click)="$event.stopPropagation()">
+  <div class="os-modal-header">
+    <div>
+      <h3 class="os-modal-title">Detalle de traslado</h3>
+      <p class="os-modal-subtitle">#{{ traslado?.id || '—' }}</p>
     </div>
-    <div class="navbar-actions">
-      <button class="btn-regresar" (click)="volver()" title="Volver">
-        <i class="bi bi-arrow-left-circle"></i>
-      </button>
-    </div>
-  </header>
+    <button class="os-modal-close" (click)="volver()">&times;</button>
+  </div>
 
-  <app-sidebar [type]="'full'"></app-sidebar>
-  <app-modal-info></app-modal-info>
-
-  <main class="content">
-    <div class="header">
-      <h2>Traslado #{{ traslado?.id }}</h2>
-      <button class="btn ghost" (click)="volver()">Volver</button>
-    </div>
-
+  <div class="os-modal-body">
     <div *ngIf="loading" class="info">Cargando...</div>
     <div *ngIf="error" class="error">{{ error }}</div>
 
-    <div *ngIf="traslado && !loading" class="card">
-      <div><strong>ID:</strong> {{ traslado.id }}</div>
-      <div><strong>Equipo:</strong> {{ nombreEquipo(traslado.equipoId) }}</div>
-      <div><strong>Origen:</strong> {{ traslado.origenObradorId }}</div>
-      <div><strong>Destino:</strong> {{ traslado.destinoObradorId }}</div>
-      <div><strong>Estado:</strong> {{ traslado.estado }}</div>
-      <div><strong>Programado:</strong> {{ traslado.programadoPara || '—' }}</div>
-      <div><strong>Notas:</strong> {{ traslado.notas || '—' }}</div>
-
-      <div class="estado">
-        <label>Cambiar estado</label>
-        <select [(ngModel)]="estadoNuevo">
-          <option value="PENDIENTE">PENDIENTE</option>
-          <option value="EN_PROGRESO">EN_PROGRESO</option>
-          <option value="COMPLETADO">COMPLETADO</option>
-          <option value="CANCELADO">CANCELADO</option>
-        </select>
-        <button class="btn primary" (click)="actualizarEstado()" [disabled]="loading">Actualizar</button>
+    <div *ngIf="traslado && !loading" class="os-card os-card-grid">
+      <div class="os-card-item">
+        <span class="os-label">Equipo</span>
+        <span class="os-value">{{ nombreEquipo(traslado.equipoId) }}</span>
+      </div>
+      <div class="os-card-item">
+        <span class="os-label">Origen</span>
+        <span class="os-value">{{ traslado.origenUbicacion || nombreObrador(traslado.origenObradorId) || '—' }}</span>
+      </div>
+      <div class="os-card-item">
+        <span class="os-label">Destino</span>
+        <span class="os-value">{{ nombreObrador(traslado.destinoObradorId) || '—' }}</span>
+      </div>
+      <div class="os-card-item">
+        <span class="os-label">Estado</span>
+        <span class="os-value">{{ traslado.estado }}</span>
+      </div>
+      <div class="os-card-item">
+        <span class="os-label">Programado</span>
+        <span class="os-value">{{ traslado.programadoPara || '—' }}</span>
+      </div>
+      <div class="os-card-item">
+        <span class="os-label">Notas</span>
+        <span class="os-value">{{ traslado.notas || '—' }}</span>
       </div>
     </div>
-  </main>
+
+    <div *ngIf="traslado && !loading" class="estado os-card">
+      <label>Cambiar estado</label>
+      <select [(ngModel)]="estadoNuevo">
+        <option value="PENDIENTE">PENDIENTE</option>
+        <option value="EN_PROGRESO">EN_PROGRESO</option>
+        <option value="COMPLETADO">COMPLETADO</option>
+        <option value="CANCELADO">CANCELADO</option>
+      </select>
+      <button class="os-btn primary" (click)="actualizarEstado()" [disabled]="loading">Actualizar</button>
+    </div>
+  </div>
+
+  <div class="os-modal-footer">
+    <button class="os-btn secondary" (click)="volver()">Cerrar</button>
+  </div>
 </div>

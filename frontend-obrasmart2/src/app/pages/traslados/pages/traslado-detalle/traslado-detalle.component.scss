@@ -1,63 +1,33 @@
-.page {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  height: 100vh;
+@import 'styles/os-modal';
+
+.os-modal {
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  border-color: var(--ui-border);
 }
 
-.content {
-  padding: 20px;
-  overflow: auto;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.card {
-  display: grid;
-  gap: 8px;
-  padding: 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
+.os-modal-subtitle {
+  color: var(--ui-muted);
 }
 
 .estado {
-  margin-top: 12px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 select {
   padding: 8px 10px;
-  border-radius: 6px;
-  border: 1px solid #e5e7eb;
-}
-
-.btn {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid transparent;
-  cursor: pointer;
-}
-
-.btn.primary {
-  background: #0ea5e9;
-  color: #fff;
-  border-color: #0ea5e9;
-}
-
-.btn.ghost {
-  background: transparent;
-  border: 1px solid #cbd5e1;
-  color: #0f172a;
+  border-radius: 8px;
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  min-width: 180px;
 }
 
 .info {
-  color: #4b5563;
+  color: var(--ui-muted);
 }
 
 .error {

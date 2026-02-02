@@ -31,7 +31,7 @@ export class TrasladoFormComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       equipoId: [null, Validators.required],
-      origenObradorId: [null, Validators.required],
+      origenObradorId: [null],
       destinoObradorId: [null, Validators.required],
       programadoPara: [''],
       notas: [''],
@@ -56,9 +56,7 @@ export class TrasladoFormComponent implements OnInit {
     this.origenUbicacion = seleccionado?.ubicacionActual || '';
     const origenId = (seleccionado as any)?.obradorId ?? (seleccionado as any)?.origenObradorId ?? null;
     this.form.patchValue({ origenObradorId: origenId });
-    if (!origenId) {
-      this.error = 'El equipo seleccionado no tiene obrador de origen asignado.';
-    } else if (this.error?.includes('obrador de origen')) {
+    if (this.error?.includes('obrador de origen')) {
       this.error = undefined;
     }
   }
@@ -66,10 +64,6 @@ export class TrasladoFormComponent implements OnInit {
   guardar(): void {
     if (!this.puedeCrear) {
       this.error = 'No tienes permisos para crear traslados (SUPERVISOR o ADMINISTRACION).';
-      return;
-    }
-    if (!this.form.value?.origenObradorId) {
-      this.error = 'El equipo seleccionado no tiene obrador de origen asignado.';
       return;
     }
     if (this.form.invalid) {

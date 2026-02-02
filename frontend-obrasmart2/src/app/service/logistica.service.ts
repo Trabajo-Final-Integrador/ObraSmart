@@ -11,7 +11,8 @@ export interface PuntoRutaDto {
 export interface TrasladoDto {
   id: number;
   equipoId: number;
-  origenObradorId: number;
+  origenObradorId?: number;
+  origenUbicacion?: string;
   destinoObradorId: number;
   programadoPara?: string;
   fechaCreacion: string;

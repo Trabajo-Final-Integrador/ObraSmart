@@ -41,25 +41,25 @@
       <table class="styled-table">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Equipo</th>
             <th>Origen</th>
             <th>Destino</th>
             <th>Estado</th>
-            <th>Programado</th>
+            <th class="col-fecha text-center">Programado</th>
+            <th class="col-fecha text-center">Creado</th>
             <th class="text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let t of traslados">
-            <td>{{ t.id }}</td>
             <td>{{ nombreEquipo(t.equipoId) }}</td>
-            <td>{{ t.origenObradorId }}</td>
-            <td>{{ t.destinoObradorId }}</td>
+            <td>{{ t.origenUbicacion || nombreObrador(t.origenObradorId) || '—' }}</td>
+            <td>{{ nombreObrador(t.destinoObradorId) || '—' }}</td>
             <td>{{ t.estado }}</td>
-            <td>{{ t.programadoPara || '—' }}</td>
+            <td class="text-center">{{ t.programadoPara ? (t.programadoPara | date:'dd/MM/yyyy HH:mm') : '—' }}</td>
+            <td class="text-center">{{ t.fechaCreacion ? (t.fechaCreacion | date:'dd/MM/yyyy HH:mm') : '—' }}</td>
             <td class="table-actions">
-              <button class="btn-icon view" (click)="verDetalle(t.id)" title="Ver / Estado">
+              <button class="btn-icon view" (click)="verDetalle(t)" title="Ver / Estado">
                 <i class="bi bi-eye"></i>
               </button>
             </td>
@@ -77,4 +77,73 @@
   <footer class="footer">
     <span class="version">v1.0.0</span>
   </footer>
+</div>
+
+<div class="os-modal-backdrop" *ngIf="showModal" (click)="cerrarModal()"></div>
+<div class="os-modal traslado-modal" *ngIf="showModal" (click)="$event.stopPropagation()">
+  <div class="os-modal-header">
+    <div>
+      <h3 class="os-modal-title">Detalle de traslado</h3>
+      <p class="os-modal-subtitle">#{{ selectedTraslado?.id || '—' }}</p>
+    </div>
+    <button class="os-modal-close" (click)="cerrarModal()">&times;</button>
+  </div>
+
+  <div class="os-modal-body">
+    <div *ngIf="selectedTraslado" class="os-card os-card-grid">
+      <div class="os-card-item">
+        <span class="os-label">Equipo</span>
+        <span class="os-value">{{ nombreEquipo(selectedTraslado.equipoId) }}</span>
+      </div>
+      <div class="os-card-item">
+        <span class="os-label">Origen</span>
+        <span class="os-value">{{ selectedTraslado.origenUbicacion || nombreObrador(selectedTraslado.origenObradorId) || '—' }}</span>
+      </div>
+      <div class="os-card-item">
+        <span class="os-label">Destino</span>
+        <span class="os-value">{{ nombreObrador(selectedTraslado.destinoObradorId) || '—' }}</span>
+      </div>
+      <div class="os-card-item">
+        <span class="os-label">Estado</span>
+        <span class="os-value">{{ selectedTraslado.estado }}</span>
+      </div>
+      <div class="os-card-item">
+        <span class="os-label">Programado</span>
+        <span class="os-value">{{ selectedTraslado.programadoPara ? (selectedTraslado.programadoPara | date:'dd/MM/yyyy HH:mm') : '—' }}</span>
+      </div>
+      <div class="os-card-item">
+        <span class="os-label">Creado</span>
+        <span class="os-value">{{ selectedTraslado.fechaCreacion ? (selectedTraslado.fechaCreacion | date:'dd/MM/yyyy HH:mm') : '—' }}</span>
+      </div>
+      <div class="os-card-item">
+        <span class="os-label">Notas</span>
+        <span class="os-value">{{ selectedTraslado.notas || '—' }}</span>
+      </div>
+    </div>
+
+    <div *ngIf="selectedTraslado" class="estado os-card">
+      <label>Cambiar estado</label>
+      <div class="estado-select" [class.open]="estadoMenuOpen">
+        <button type="button" class="estado-trigger" (click)="toggleEstadoMenu()">
+          <span>{{ estadoNuevo || 'Seleccionar' }}</span>
+          <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="estado-menu" *ngIf="estadoMenuOpen">
+          <button
+            type="button"
+            class="estado-option"
+            *ngFor="let estado of estados"
+            (click)="seleccionarEstado(estado)"
+          >
+            {{ estado === 'EN_PROCESO' ? 'EN_PROGRESO' : estado }}
+          </button>
+        </div>
+      </div>
+      <button class="os-btn primary" (click)="actualizarEstado()">Actualizar</button>
+    </div>
+  </div>
+
+  <div class="os-modal-footer">
+    <button class="os-btn secondary" (click)="cerrarModal()">Cerrar</button>
+  </div>
 </div>

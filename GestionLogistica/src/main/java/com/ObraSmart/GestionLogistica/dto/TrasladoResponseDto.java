@@ -8,6 +8,7 @@ public record TrasladoResponseDto(
         Long id,
         Long equipoId,
         Long origenObradorId,
+        String origenUbicacion,
         Long destinoObradorId,
         LocalDateTime programadoPara,
         LocalDateTime fechaCreacion,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LogisticaService, TrasladoDto } from 'src/app/service/logistica.service';
 import { EquipoDTO, EquipoService } from 'src/app/service/equipo.service';
+import { ObradorDto, ObradorService } from 'src/app/service/obrador.service';
 
 @Component({
   selector: 'app-traslado-detalle',
@@ -14,18 +15,24 @@ export class TrasladoDetalleComponent implements OnInit {
   error?: string;
   estadoNuevo = '';
   equipos: EquipoDTO[] = [];
+  obradores: ObradorDto[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private logisticaService: LogisticaService,
-    private equipoService: EquipoService
+    private equipoService: EquipoService,
+    private obradorService: ObradorService
   ) {}
 
   ngOnInit(): void {
     this.equipoService.listar().subscribe({
       next: (eqs) => (this.equipos = eqs || []),
       error: (err) => console.warn('No se pudieron cargar equipos', err),
+    });
+    this.obradorService.listar().subscribe({
+      next: (list) => (this.obradores = list || []),
+      error: (err) => console.warn('No se pudieron cargar obradores', err),
     });
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
@@ -62,7 +69,7 @@ export class TrasladoDetalleComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al cambiar estado', err);
-        this.error = 'No se pudo actualizar el estado (requiere rol SUPERVISOR)';
+        this.error = 'No se pudo actualizar el estado (requiere rol ADMINISTRACION)';
         this.loading = false;
       },
     });
@@ -76,5 +83,11 @@ export class TrasladoDetalleComponent implements OnInit {
     if (!id) return '';
     const eq = this.equipos.find((e) => e.id === id);
     return eq ? eq.nombre || eq.codigoInterno || String(id) : String(id);
+  }
+
+  nombreObrador(id?: number | null): string {
+    if (!id) return '';
+    const ob = this.obradores.find((o) => o.id === id);
+    return ob ? ob.nombre || String(id) : String(id);
   }
 }

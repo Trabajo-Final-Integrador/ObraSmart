@@ -33,11 +33,14 @@ public class TrasladoEquipo {
     @Column(name = "equipo_id", nullable = false)
     private Long equipoId;
 
-    @Column(name = "origen_obrador_id", nullable = false)
+    @Column(name = "origen_obrador_id")
     private Long origenObradorId;
 
     @Column(name = "destino_obrador_id", nullable = false)
     private Long destinoObradorId;
+
+    @Column(name = "origen_ubicacion")
+    private String origenUbicacion;
 
     private LocalDateTime programadoPara;
 

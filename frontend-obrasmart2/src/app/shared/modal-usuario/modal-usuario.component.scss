@@ -9,6 +9,38 @@
   width: min(900px, 92vw);
   filter: none;
   backdrop-filter: none;
+  background: #2f3f34 !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.usuario-modal .os-modal-title,
+.usuario-modal .os-modal-subtitle,
+.usuario-modal .os-label,
+.usuario-modal .os-value,
+.usuario-modal label,
+.usuario-modal span,
+.usuario-modal p {
+  color: #ffffff !important;
+}
+
+.usuario-modal .os-card,
+.usuario-modal .os-card-item,
+.usuario-modal .upload-card,
+.usuario-modal .upload-item,
+.usuario-modal .preview {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.usuario-modal .os-btn.ghost {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.usuario-modal .os-btn.ghost:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .modal-header {

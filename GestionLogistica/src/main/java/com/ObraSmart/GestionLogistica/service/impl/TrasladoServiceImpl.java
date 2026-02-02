@@ -1,5 +1,7 @@
 package com.ObraSmart.GestionLogistica.service.impl;
 
+import com.ObraSmart.GestionLogistica.client.EquipoClient;
+import com.ObraSmart.GestionLogistica.dto.EquipoSimpleDto;
 import com.ObraSmart.GestionLogistica.dto.TrasladoRequestDto;
 import com.ObraSmart.GestionLogistica.dto.TrasladoResponseDto;
 import com.ObraSmart.GestionLogistica.entity.TrasladoEquipo;
@@ -19,6 +21,7 @@ import java.util.Locale;
 public class TrasladoServiceImpl implements TrasladoService {
 
     private final TrasladoRepository trasladoRepository;
+    private final EquipoClient equipoClient;
 
     @Override
     public List<TrasladoResponseDto> listar() {
@@ -35,9 +38,16 @@ public class TrasladoServiceImpl implements TrasladoService {
 
     @Override
     public TrasladoResponseDto crear(TrasladoRequestDto dto) {
+        EquipoSimpleDto equipo = equipoClient.obtenerEquipo(dto.equipoId());
+        String origenUbicacion = equipo.getUbicacionActual();
+        if (origenUbicacion == null || origenUbicacion.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El equipo no tiene ubicacion actual");
+        }
+
         TrasladoEquipo entity = TrasladoEquipo.builder()
                 .equipoId(dto.equipoId())
-                .origenObradorId(dto.origenObradorId())
+                .origenObradorId(null)
+                .origenUbicacion(origenUbicacion)
                 .destinoObradorId(dto.destinoObradorId())
                 .programadoPara(dto.programadoPara())
                 .notas(dto.notas())
@@ -69,6 +79,7 @@ public class TrasladoServiceImpl implements TrasladoService {
                 entity.getId(),
                 entity.getEquipoId(),
                 entity.getOrigenObradorId(),
+                entity.getOrigenUbicacion(),
                 entity.getDestinoObradorId(),
                 entity.getProgramadoPara(),
                 entity.getFechaCreacion(),

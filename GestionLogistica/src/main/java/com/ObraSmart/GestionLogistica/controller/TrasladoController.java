@@ -27,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TrasladoController {
 
-    private static final String ROLE_SUPERVISOR = "SUPERVISOR";
+    private static final String ROLE_ADMINISTRACION = "ADMINISTRACION";
 
     private final TrasladoService trasladoService;
     private final AuthClient authClient;
@@ -65,12 +65,12 @@ public class TrasladoController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No autenticado");
         }
 
-        boolean supervisor = identity.roles().stream()
+        boolean autorizado = identity.roles().stream()
                 .filter(r -> r != null)
-                .anyMatch(r -> r.equalsIgnoreCase(ROLE_SUPERVISOR));
+                .anyMatch(r -> r.equalsIgnoreCase(ROLE_ADMINISTRACION));
 
-        if (!supervisor) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Solo rol SUPERVISOR puede gestionar traslados");
+        if (!autorizado) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Solo rol ADMINISTRACION puede gestionar traslados");
         }
     }
 }
