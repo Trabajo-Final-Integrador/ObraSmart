@@ -8,6 +8,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class StepObservacionesComponent {
 
   @Input() tabActiva: string = '';
+  @Input() forceShow = false;
+  @Input() showActions = true;
 
   @Input() nuevoProveedor: any = {
     observaciones: ''

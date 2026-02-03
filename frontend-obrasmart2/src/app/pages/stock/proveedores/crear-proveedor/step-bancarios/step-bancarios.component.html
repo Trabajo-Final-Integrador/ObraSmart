@@ -28,7 +28,7 @@
  -->
 
  <!-- 🟩 BANCARIO -->
-    <div *ngIf="tabActiva === 'bancario'" class="row g-3">
+    <div *ngIf="forceShow || tabActiva === 'bancario'" class="row g-3">
       <div class="col-md-6">
         <label class="form-label">
           <i class="bi bi-bank me-2"></i>{{ 'providers.fields.bank' | translate }}
@@ -62,7 +62,7 @@
         <small class="text-muted">{{ 'providers.placeholders.cbuHelp' | translate }}</small>
       </div>
 
-      <div class="col-12 text-end mt-4 button-container">
+      <div class="col-12 text-end mt-4 button-container" *ngIf="showActions">
         <button class="btn-anterior" (click)="volver()">
           <i class="bi bi-arrow-left me-2"></i>{{ 'providers.actions.prev' | translate }}
         </button>

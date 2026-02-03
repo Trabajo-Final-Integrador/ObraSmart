@@ -127,6 +127,7 @@
   flex-direction: column;
   overflow: hidden;
   padding: 20px;
+  min-height: 0;
 }
 
 .form-container {
@@ -135,6 +136,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 
 /* 🔹 Tarjeta del formulario */
@@ -146,6 +148,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  min-height: 0;
 }
 
 .form-header {
@@ -223,10 +227,76 @@
   }
 }
 
+/* 🔹 Stepper ágil */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: #f8f9fa;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.step-btn {
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+
+  &.active {
+    color: var(--ui-primary);
+    background: rgba(120, 134, 107, 0.12);
+  }
+
+  &.done {
+    color: var(--ui-primary);
+  }
+}
+
+.step-divider {
+  flex: 1;
+  height: 2px;
+  background: #e5e7eb;
+}
+
 .form-body {
   padding: 20px 30px;
   flex: 1;
   overflow-y: auto;
+  min-height: 0;
+}
+
+.section-card {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #374151;
+  margin: 0 0 12px 0;
+}
+
+.section-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.toggle-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #374151;
 }
 
 /* 🔹 Campos del formulario */
@@ -343,6 +413,9 @@
   justify-content: flex-end;
   gap: 12px;
   flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
 }
 
 .btn-cancelar,

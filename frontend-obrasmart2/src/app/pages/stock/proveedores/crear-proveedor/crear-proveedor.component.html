@@ -31,23 +31,21 @@
         <!-- HEADER con iconos de progreso -->
         
 
-        <!-- TABS DE NAVEGACIÓN -->
-        <div class="tabs-container">
-          <button
-            *ngFor="let tab of tabs"
-            (click)="setTabActiva(tab.id)"
-            [ngClass]="{ active: tabActiva === tab.id }"
-            class="tab-btn"
-          >
-            <i [class]="tab.icon"></i>
-            <span class="tab-label">{{ tab.label | translate }}</span>
+        <!-- STEPPER ÁGIL -->
+        <div class="stepper">
+          <button class="step-btn" [class.active]="pasoActual === 1" [class.done]="pasoActual > 1">
+            1 · Datos básicos
+          </button>
+          <div class="step-divider"></div>
+          <button class="step-btn" [class.active]="pasoActual === 2">
+            2 · Contacto y opcionales
           </button>
         </div>
 
         <!-- FORMULARIO -->
         <div class="form-body">
-          <!-- ====== TAB GENERAL ====== -->
-          <div *ngIf="tabActiva === 'general'">
+          <!-- ====== PASO 1: ESENCIALES ====== -->
+          <div *ngIf="pasoActual === 1">
             <div class="row g-3">
               <div class="col-md-6">
                 <label class="form-label">
@@ -128,64 +126,184 @@
                   </label>
                 </div>
               </div>
+
+              <div class="col-md-6">
+                <label class="form-label">
+                  <i class="bi bi-telephone me-2"></i>{{ 'providers.fields.phone' | translate }} <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="tel"
+                  [(ngModel)]="nuevoProveedor.telefono"
+                  class="form-control"
+                  [placeholder]="'providers.placeholders.phone' | translate"
+                  required
+                />
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">
+                  <i class="bi bi-envelope me-2"></i>{{ 'providers.fields.email' | translate }} <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="email"
+                  [(ngModel)]="nuevoProveedor.email"
+                  class="form-control"
+                  [placeholder]="'providers.placeholders.email' | translate"
+                  required
+                />
+              </div>
             </div>
           </div>
 
-          <!-- ====== TAB CONTACTO ====== -->
-          <app-step-contacto
-            *ngIf="tabActiva === 'contacto'"
-            [tabActiva]="tabActiva"
-            [nuevoProveedor]="nuevoProveedor"
-            (next)="irAlSiguiente('comercial')"
-            (prev)="irAlAnterior('general')">
-          </app-step-contacto>
+          <!-- ====== PASO 2: CONTACTO + OPCIONALES ====== -->
+          <div *ngIf="pasoActual === 2">
+            <div class="section-card">
+              <h4 class="section-title">Contacto y ubicación</h4>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="form-label">
+                    <i class="bi bi-clock me-2"></i>{{ 'providers.fields.schedule' | translate }}
+                  </label>
+                  <input
+                    type="text"
+                    [(ngModel)]="nuevoProveedor.horarioAtencion"
+                    [placeholder]="'providers.placeholders.schedule' | translate"
+                    class="form-control"
+                  />
+                </div>
 
-          <!-- ====== TAB COMERCIAL ====== -->
-          <app-step-comercio
-            *ngIf="tabActiva === 'comercial'"
-            [tabActiva]="tabActiva"
-            [nuevoProveedor]="nuevoProveedor"
-            (next)="irAlSiguiente('catalogo')"
-            (prev)="irAlAnterior('contacto')">
-          </app-step-comercio>
+                <div class="col-12">
+                  <label class="form-label">
+                    <i class="bi bi-geo-alt me-2"></i>{{ 'providers.fields.address' | translate }} <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    [(ngModel)]="nuevoProveedor.direccion"
+                    class="form-control"
+                    [placeholder]="'providers.placeholders.address' | translate"
+                    required
+                  />
+                </div>
 
-          <!-- ====== TAB CATÁLOGO ====== -->
-          <app-step-catalogo
-            *ngIf="tabActiva === 'catalogo'"
-            [tabActiva]="tabActiva"
-            [nuevoProveedor]="nuevoProveedor"
-            (next)="irAlSiguiente('bancario')"
-            (prev)="irAlAnterior('comercial')">
-          </app-step-catalogo>
+                <div class="col-md-4">
+                  <label class="form-label">
+                    <i class="bi bi-building me-2"></i>{{ 'providers.fields.city' | translate }} <span class="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    [(ngModel)]="nuevoProveedor.ciudad"
+                    class="form-control"
+                    [placeholder]="'providers.placeholders.city' | translate"
+                    required
+                  />
+                </div>
 
-          <!-- ====== TAB BANCARIOS ====== -->
-          <app-step-bancarios
-            *ngIf="tabActiva === 'bancario'"
-            [tabActiva]="tabActiva"
-            [nuevoProveedor]="nuevoProveedor"
-            (next)="irAlSiguiente('observaciones')"
-            (prev)="irAlAnterior('catalogo')">
-          </app-step-bancarios>
+                <div class="col-md-4">
+                  <label class="form-label">
+                    <i class="bi bi-map me-2"></i>{{ 'providers.fields.state' | translate }} <span class="text-danger">*</span>
+                  </label>
+                  <select
+                    [(ngModel)]="nuevoProveedor.provincia"
+                    class="form-select"
+                    required
+                  >
+                    <option value="">{{ 'providers.placeholders.state' | translate }}</option>
+                    <option *ngFor="let prov of provinciasArgentinas" [value]="prov">
+                      {{ prov }}
+                    </option>
+                  </select>
+                </div>
 
-          <!-- ====== TAB OBSERVACIONES ====== -->
-          <app-step-observaciones
-            *ngIf="tabActiva === 'observaciones'"
-            [tabActiva]="tabActiva"
-            [nuevoProveedor]="nuevoProveedor"
-            (prev)="irAlAnterior('bancario')"
-            (guardar)="guardarProveedor()">
-          </app-step-observaciones>
+                <div class="col-md-4">
+                  <label class="form-label">
+                    <i class="bi bi-mailbox me-2"></i>{{ 'providers.fields.zip' | translate }}
+                  </label>
+                  <input
+                    type="text"
+                    [(ngModel)]="nuevoProveedor.codigoPostal"
+                    class="form-control"
+                    [placeholder]="'providers.placeholders.zip' | translate"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="section-card">
+              <h4 class="section-title">Opcionales</h4>
+              <div class="section-toggles">
+                <label class="toggle-item">
+                  <input type="checkbox" [(ngModel)]="mostrarComercial" />
+                  <span>Comercial</span>
+                </label>
+                <label class="toggle-item">
+                  <input type="checkbox" [(ngModel)]="nuevoProveedor.tieneCatalogo" />
+                  <span>Catálogo</span>
+                </label>
+                <label class="toggle-item">
+                  <input type="checkbox" [(ngModel)]="mostrarBancario" />
+                  <span>Bancario</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="section-card" *ngIf="mostrarComercial">
+              <h4 class="section-title">Comercial</h4>
+              <app-step-comercio
+                [tabActiva]="'comercial'"
+                [nuevoProveedor]="nuevoProveedor"
+                [forceShow]="true"
+                [showActions]="false">
+              </app-step-comercio>
+            </div>
+
+            <div class="section-card" *ngIf="nuevoProveedor.tieneCatalogo">
+              <h4 class="section-title">Catálogo</h4>
+              <app-step-catalogo
+                [tabActiva]="'catalogo'"
+                [nuevoProveedor]="nuevoProveedor"
+                [forceShow]="true"
+                [showActions]="false"
+                [showToggle]="false">
+              </app-step-catalogo>
+            </div>
+
+            <div class="section-card" *ngIf="mostrarBancario">
+              <h4 class="section-title">Bancario</h4>
+              <app-step-bancarios
+                [tabActiva]="'bancario'"
+                [nuevoProveedor]="nuevoProveedor"
+                [forceShow]="true"
+                [showActions]="false">
+              </app-step-bancarios>
+            </div>
+
+            <div class="section-card">
+              <h4 class="section-title">Observaciones</h4>
+              <app-step-observaciones
+                [tabActiva]="'observaciones'"
+                [nuevoProveedor]="nuevoProveedor"
+                [forceShow]="true"
+                [showActions]="false">
+              </app-step-observaciones>
+            </div>
+          </div>
         </div>
 
         <!-- FOOTER NAVIGATION -->
-        <div class="form-footer" *ngIf="tabActiva === 'general'">
-          <!-- <button class="btn-cancelar" (click)="cancelar()">
-            <i class="bi bi-x-lg me-2"></i>
-            Cancelar
-          </button> -->
-          <button class="btn-siguiente" (click)="irAlSiguiente('contacto')">
+        <div class="form-footer" *ngIf="pasoActual === 1">
+          <button class="btn-siguiente" (click)="irAPaso2()">
             {{ 'providers.actions.next' | translate }}
             <i class="bi bi-arrow-right ms-2"></i>
+          </button>
+        </div>
+        <div class="form-footer" *ngIf="pasoActual === 2">
+          <button class="btn-anterior" (click)="volverAPaso1()">
+            <i class="bi bi-arrow-left me-2"></i>
+            {{ 'providers.actions.prev' | translate }}
+          </button>
+          <button class="btn-guardar" (click)="guardarProveedor()">
+            <i class="bi bi-check-lg me-2"></i>
+            {{ 'providers.actions.save' | translate }}
           </button>
         </div>
       </div>

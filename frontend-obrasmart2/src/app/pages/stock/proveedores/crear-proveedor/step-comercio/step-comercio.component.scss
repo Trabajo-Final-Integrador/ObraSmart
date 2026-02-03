@@ -23,6 +23,70 @@ label {
   }
 }
 
+.brand-input {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+
+  .form-input {
+    flex: 1;
+  }
+}
+
+.brand-add-btn {
+  border: 1px solid var(--ui-primary);
+  background: var(--ui-primary);
+  color: var(--ui-primary-contrast);
+  border-radius: 8px;
+  width: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--ui-accent);
+    border-color: var(--ui-accent);
+  }
+}
+
+.marcas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(120, 134, 107, 0.12);
+    color: #374151;
+    font-size: 0.85rem;
+    border: 1px solid rgba(120, 134, 107, 0.2);
+  }
+}
+
+.brand-remove-btn {
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.95rem;
+
+  &:hover {
+    color: #374151;
+  }
+}
+
 .text-end {
   display: flex;
   justify-content: flex-end;

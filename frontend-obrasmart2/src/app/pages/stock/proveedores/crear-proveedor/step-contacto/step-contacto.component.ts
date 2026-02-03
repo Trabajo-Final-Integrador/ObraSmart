@@ -10,6 +10,8 @@ import Swal from 'sweetalert2';
 
 export class StepContactoComponent {
    @Input() tabActiva: string = '';
+   @Input() forceShow = false;
+   @Input() showActions = true;
 
   /** ✅ Objeto del proveedor que se está creando */
   @Input() nuevoProveedor: any = {

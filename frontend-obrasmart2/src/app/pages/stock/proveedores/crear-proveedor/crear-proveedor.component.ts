@@ -2,36 +2,42 @@
 
  import { Component } from '@angular/core';
  import { Router } from '@angular/router';
- import { ProveedorService } from 'src/app/service/proveedor.service';
- import { ProveedorCreateDTO } from 'src/app/service/proveedor.service';
- import Swal from 'sweetalert2';
+import { ProveedorService } from 'src/app/service/proveedor.service';
+import { ProveedorCreateDTO } from 'src/app/service/proveedor.service';
+import Swal from 'sweetalert2';
 
  @Component({
    selector: 'app-crear-proveedor',
    templateUrl: './crear-proveedor.component.html',
    styleUrls: ['./crear-proveedor.component.scss']
  })
- export class CrearProveedorComponent {
+export class CrearProveedorComponent {
 
   
    // Define si es vista de creación o edición
    vista: 'listado'|'nuevo' | 'editar' = 'nuevo';
 
-   // Control de pestañas activas
+   // Control de pestañas activas (legacy)
    tabActiva: any  = 'general';
+
+   // Control de pasos (flujo ágil)
+   pasoActual: 1 | 2 = 1;
+
+   mostrarComercial = false;
+   mostrarBancario = false;
 
     marcas: string[] = [];
    marcaInput: string = '';
 
-   // Pestañas visibles en la parte superior
-  tabs = [
-    { id: 'general', label: 'providers.tabs.general', icon: 'bi bi-info-circle' },
-    { id: 'contacto', label: 'providers.tabs.contact', icon: 'bi bi-telephone' },
-    { id: 'comercial', label: 'providers.tabs.commercial', icon: 'bi bi-box' },
-    { id: 'catalogo', label: 'providers.tabs.catalog', icon: 'bi bi-journal' },
-    { id: 'bancario', label: 'providers.tabs.bank', icon: 'bi bi-currency-dollar' },
-    { id: 'observaciones', label: 'providers.tabs.notes', icon: 'bi bi-three-dots' }
-  ];
+   // Pestañas visibles en la parte superior (legacy, no se usa en alta ágil)
+   tabs = [
+     { id: 'general', label: 'providers.tabs.general', icon: 'bi bi-info-circle' },
+     { id: 'contacto', label: 'providers.tabs.contact', icon: 'bi bi-telephone' },
+     { id: 'comercial', label: 'providers.tabs.commercial', icon: 'bi bi-box' },
+     { id: 'catalogo', label: 'providers.tabs.catalog', icon: 'bi bi-journal' },
+     { id: 'bancario', label: 'providers.tabs.bank', icon: 'bi bi-currency-dollar' },
+     { id: 'observaciones', label: 'providers.tabs.notes', icon: 'bi bi-three-dots' }
+   ];
    // Lista de provincias argentinas para el selector
    provinciasArgentinas: string[] = [
      'Buenos Aires',
@@ -137,6 +143,9 @@
   //     });
   //   }
   guardarProveedor() {
+  if (!this.validarPaso2()) {
+    return;
+  }
 
   this.nuevoProveedor.tiempoEntrega =
       this.nuevoProveedor.tiempoEntrega ? Number(this.nuevoProveedor.tiempoEntrega) : undefined;
@@ -178,20 +187,24 @@
   //  }
 
    setTabActiva(tabId: string): void {
+    // legacy
     this.tabActiva = tabId;
   }
 
   // Eventos de los steps (next / prev)
   irAlSiguiente(tabId: string): void {
+    // legacy
     this.tabActiva = tabId;
   }
 
   irAlAnterior(tabId: string): void {
+    // legacy
     this.tabActiva = tabId;
   }
 
   // --- Navegación entre pasos ---
 irSiguienteStep(): void {
+  // legacy
   switch (this.tabActiva) {
     case 'general': this.tabActiva = 'contacto'; break;
     case 'contacto': this.tabActiva = 'comercial'; break;
@@ -203,6 +216,7 @@ irSiguienteStep(): void {
 }
 
 volverStep(): void {
+  // legacy
   switch (this.tabActiva) {
     case 'contacto': this.tabActiva = 'general'; break;
     case 'comercial': this.tabActiva = 'contacto'; break;
@@ -212,6 +226,64 @@ volverStep(): void {
     default: break;
   }
  }
+
+  irAPaso2(): void {
+    if (!this.validarPaso1()) {
+      return;
+    }
+    this.pasoActual = 2;
+  }
+
+  volverAPaso1(): void {
+    this.pasoActual = 1;
+  }
+
+  private validarPaso1(): boolean {
+    const requerido = [
+      this.nuevoProveedor.razonSocial,
+      this.nuevoProveedor.cuit,
+      this.nuevoProveedor.condicionIVA,
+      this.nuevoProveedor.telefono,
+      this.nuevoProveedor.email
+    ];
+
+    if (requerido.some((v) => !String(v || '').trim())) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos obligatorios',
+        text: 'Completá Razón Social, CUIT, Condición IVA, Teléfono y Email.',
+        confirmButtonColor: '#00796b'
+      });
+      return false;
+    }
+    return true;
+  }
+
+  private validarPaso2(): boolean {
+    if (!this.nuevoProveedor.direccion?.trim() ||
+        !this.nuevoProveedor.ciudad?.trim() ||
+        !this.nuevoProveedor.provincia?.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos obligatorios',
+        text: 'Completá Dirección, Ciudad y Provincia.',
+        confirmButtonColor: '#00796b'
+      });
+      return false;
+    }
+
+    if (this.nuevoProveedor.tieneCatalogo && !this.nuevoProveedor.urlCatalogo?.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Falta la URL del catálogo',
+        text: 'Si tiene catálogo, completá la URL.',
+        confirmButtonColor: '#00796b'
+      });
+      return false;
+    }
+
+    return true;
+  }
 }
 
 // import { Component } from '@angular/core';

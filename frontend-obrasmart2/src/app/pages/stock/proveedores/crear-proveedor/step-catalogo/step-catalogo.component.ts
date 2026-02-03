@@ -10,6 +10,9 @@ export class StepCatalogoComponent {
 
   /** 🟠 Control de pestaña activa (viene del padre) */
   @Input() tabActiva: string = '';
+  @Input() forceShow = false;
+  @Input() showActions = true;
+  @Input() showToggle = true;
 
   /** ✅ Datos del proveedor */
   @Input() nuevoProveedor: any = {

@@ -1,4 +1,4 @@
-<div *ngIf="tabActiva === 'contacto'">
+<div *ngIf="forceShow || tabActiva === 'contacto'">
   <div class="row g-3">
     <div class="col-md-6">
       <label class="form-label">
@@ -93,7 +93,7 @@
     </div>
   </div>
 
-  <div class="form-footer-actions">
+  <div class="form-footer-actions" *ngIf="showActions">
     <button class="btn-anterior" (click)="volver()">
       <i class="bi bi-arrow-left me-2"></i>
       {{ 'providers.actions.prev' | translate }}

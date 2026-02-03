@@ -16,6 +16,10 @@ export class EditarProveedorComponent implements OnInit {
 
   // Control de pestañas activas
   tabActiva: string = 'general';
+  // Control de pasos (flujo ágil)
+  pasoActual: 1 | 2 = 1;
+  mostrarComercial = false;
+  mostrarBancario = false;
 
   // Pestañas visibles en la parte superior
   tabs = [
@@ -149,6 +153,8 @@ export class EditarProveedorComponent implements OnInit {
   cbu: data.cbu ?? ''
 };
 
+        this.mostrarComercial = this.tieneDatosComerciales(this.nuevoProveedor);
+        this.mostrarBancario = this.tieneDatosBancarios(this.nuevoProveedor);
 
         this.loading = false;
       },
@@ -169,6 +175,10 @@ export class EditarProveedorComponent implements OnInit {
   
 
   actualizarProveedor(): void {
+    if (!this.validarPaso1() || !this.validarPaso2()) {
+      return;
+    }
+
     // Convertir a números los campos numéricos
     this.nuevoProveedor.tiempoEntrega = this.nuevoProveedor.tiempoEntrega ? Number(this.nuevoProveedor.tiempoEntrega) : undefined;
     this.nuevoProveedor.pedidoMinimo = this.nuevoProveedor.pedidoMinimo ? Number(this.nuevoProveedor.pedidoMinimo) : undefined;
@@ -235,5 +245,86 @@ export class EditarProveedorComponent implements OnInit {
 
   irAlAnterior(tabId: string): void {
     this.tabActiva = tabId;
+  }
+
+  irAPaso2(): void {
+    if (!this.validarPaso1()) {
+      return;
+    }
+    this.pasoActual = 2;
+  }
+
+  volverAPaso1(): void {
+    this.pasoActual = 1;
+  }
+
+  private validarPaso1(): boolean {
+    const requerido = [
+      this.nuevoProveedor.razonSocial,
+      this.nuevoProveedor.cuit,
+      this.nuevoProveedor.condicionIVA,
+      this.nuevoProveedor.telefono,
+      this.nuevoProveedor.email
+    ];
+
+    if (requerido.some((v) => !String(v || '').trim())) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos obligatorios',
+        text: 'Completá Razón Social, CUIT, Condición IVA, Teléfono y Email.',
+        confirmButtonColor: '#00796b'
+      });
+      return false;
+    }
+    return true;
+  }
+
+  private validarPaso2(): boolean {
+    if (!this.nuevoProveedor.direccion?.trim() ||
+        !this.nuevoProveedor.ciudad?.trim() ||
+        !this.nuevoProveedor.provincia?.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos obligatorios',
+        text: 'Completá Dirección, Ciudad y Provincia.',
+        confirmButtonColor: '#00796b'
+      });
+      return false;
+    }
+
+    if (this.nuevoProveedor.tieneCatalogo && !this.nuevoProveedor.urlCatalogo?.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Falta la URL del catálogo',
+        text: 'Si tiene catálogo, completá la URL.',
+        confirmButtonColor: '#00796b'
+      });
+      return false;
+    }
+
+    return true;
+  }
+
+  private tieneDatosComerciales(proveedor: ProveedorUpdateDTO): boolean {
+    return !!(
+      (proveedor.marcas && proveedor.marcas.length > 0) ||
+      proveedor.especialidad?.trim() ||
+      proveedor.condicionesPago?.trim() ||
+      proveedor.tiempoEntrega !== undefined ||
+      proveedor.pedidoMinimo !== undefined ||
+      proveedor.descuentoVolumen !== undefined ||
+      proveedor.tieneStock ||
+      proveedor.haceEnvios ||
+      proveedor.aceptaDevoluciones ||
+      proveedor.zonaCobertura?.trim()
+    );
+  }
+
+  private tieneDatosBancarios(proveedor: ProveedorUpdateDTO): boolean {
+    return !!(
+      proveedor.banco?.trim() ||
+      proveedor.cbu?.trim() ||
+      proveedor.tipoCuenta?.trim()
+    );
   }
 }

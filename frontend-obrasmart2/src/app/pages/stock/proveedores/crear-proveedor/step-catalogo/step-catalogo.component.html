@@ -1,5 +1,5 @@
 <!-- CATÁLOGO -->
-<div *ngIf="tabActiva === 'catalogo'" class="catalogo-panel">
+<div *ngIf="forceShow || tabActiva === 'catalogo'" class="catalogo-panel">
   <div class="catalogo-header">
     <div class="icon">
       <i class="bi bi-bag-check"></i>
@@ -11,7 +11,7 @@
   </div>
 
   <div class="catalogo-grid">
-    <label class="check-row">
+    <label class="check-row" *ngIf="showToggle">
       <input
         type="checkbox"
         [(ngModel)]="nuevoProveedor.tieneCatalogo"
@@ -24,7 +24,7 @@
       </div>
     </label>
 
-    <div class="field" *ngIf="nuevoProveedor.tieneCatalogo">
+    <div class="field" *ngIf="!showToggle || nuevoProveedor.tieneCatalogo">
       <label>{{ 'providers.fields.catalogUrl' | translate }} <span class="req">*</span></label>
       <input
         type="url"
@@ -36,7 +36,7 @@
       <small class="help">{{ 'providers.placeholders.catalogUrlHelp' | translate }}</small>
     </div>
 
-    <div class="field" *ngIf="nuevoProveedor.tieneCatalogo">
+    <div class="field" *ngIf="!showToggle || nuevoProveedor.tieneCatalogo">
       <label>{{ 'providers.fields.catalogCode' | translate }}</label>
       <input
         type="text"
@@ -49,7 +49,7 @@
     </div>
   </div>
 
-  <div class="actions">
+  <div class="actions" *ngIf="showActions">
     <button class="btn-anterior" (click)="volver()">{{ 'providers.actions.prev' | translate }}</button>
     <button class="btn-siguiente" (click)="continuar()">{{ 'providers.actions.next' | translate }}</button>
   </div>

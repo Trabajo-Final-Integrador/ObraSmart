@@ -9,6 +9,8 @@ export class StepBancariosComponent {
 
   /** 🟠 Pestaña activa (controlada por el componente padre) */
   @Input() tabActiva: string = '';
+  @Input() forceShow = false;
+  @Input() showActions = true;
 
   /** ✅ Datos del proveedor que se están editando o creando */
   @Input() nuevoProveedor: any = {

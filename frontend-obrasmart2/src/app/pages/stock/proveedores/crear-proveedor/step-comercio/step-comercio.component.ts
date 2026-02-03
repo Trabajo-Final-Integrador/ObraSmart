@@ -9,6 +9,8 @@ export class StepComercioComponent implements OnChanges {
 
   /** Control de pestaña activa */
   @Input() tabActiva: string = '';
+  @Input() forceShow = false;
+  @Input() showActions = true;
 
   /** Objeto del proveedor (recibido desde el padre) */
   @Input() nuevoProveedor: any = {
