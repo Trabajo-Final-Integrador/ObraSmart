@@ -4,6 +4,7 @@
  import { Router } from '@angular/router';
  import { ProveedorService } from 'src/app/service/proveedor.service';
  import { ProveedorCreateDTO } from 'src/app/service/proveedor.service';
+ import Swal from 'sweetalert2';
 
  @Component({
    selector: 'app-crear-proveedor',
@@ -150,12 +151,23 @@
 
   this.proveedorService.crear(this.nuevoProveedor).subscribe({
     next: () => {
-      alert('Proveedor guardado con éxito');
+      Swal.fire({
+        icon: 'success',
+        title: 'Proveedor creado',
+        text: 'El proveedor fue guardado correctamente',
+        timer: 1500,
+        showConfirmButton: false
+      });
       this.router.navigate(['/stock/proveedores']);
     },
     error: err => {
       console.error('Error al guardar proveedor', err);
-      alert('Error al guardar proveedor');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo guardar el proveedor',
+        confirmButtonColor: '#00796b'
+      });
     }
   });
 }

@@ -234,6 +234,21 @@
       }
     }
 
+    .config-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 2px;
+
+      i {
+        font-size: 1rem;
+      }
+
+      &:hover {
+        text-decoration: none;
+        opacity: 0.9;
+      }
+    }
+
     .separator {
       opacity: 0.6;
     }

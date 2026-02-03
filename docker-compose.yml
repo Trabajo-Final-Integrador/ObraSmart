@@ -30,6 +30,19 @@ services:
       - DB_NAME=${IDENTITY_DB}
       - DB_USER=${POSTGRES_USER}
       - DB_PASS=${POSTGRES_PASSWORD}
+      - SPRING_PROFILES_ACTIVE=${MAIL_PROFILE:-mailtrap}
+      - FRONTEND_BASE_URL=${FRONTEND_BASE_URL:-http://localhost:4200}
+      - MAIL_FROM=${MAIL_FROM:-no-reply@obrasmart.local}
+      - MAIL_FROM_NAME=${MAIL_FROM_NAME:-Soporte ObraSmart}
+      - MAIL_HOST=${MAIL_HOST:-}
+      - MAIL_PORT=${MAIL_PORT:-}
+      - MAIL_USERNAME=${MAIL_USERNAME:-}
+      - MAIL_PASSWORD=${MAIL_PASSWORD:-}
+      - MAILTRAP_USERNAME=${MAILTRAP_USERNAME:-}
+      - MAILTRAP_PASSWORD=${MAILTRAP_PASSWORD:-}
+      - GMAIL_USERNAME=${GMAIL_USERNAME:-}
+      - GMAIL_APP_PASSWORD=${GMAIL_APP_PASSWORD:-}
+      - MAIL_DEBUG=${MAIL_DEBUG:-false}
     depends_on:
       - identity-db
     networks:

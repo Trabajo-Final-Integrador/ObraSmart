@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-step-catalogo',
@@ -25,7 +26,12 @@ export class StepCatalogoComponent {
   continuar(): void {
     if (this.nuevoProveedor.tieneCatalogo) {
       if (!this.nuevoProveedor.urlCatalogo?.trim()) {
-        alert('Por favor, completá la URL del catálogo.');
+        Swal.fire({
+          icon: 'warning',
+          title: 'Falta la URL del catálogo',
+          text: 'Por favor, completá la URL del catálogo.',
+          confirmButtonColor: '#00796b'
+        });
         return;
       }
     }

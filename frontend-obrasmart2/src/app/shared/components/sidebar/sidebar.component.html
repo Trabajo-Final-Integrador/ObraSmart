@@ -65,6 +65,18 @@
       <button type="button" (click)="abrirModalPrivacidad()">Privacidad</button>
       <span class="separator">|</span>
       <button type="button" (click)="abrirModalSoporte()">Soporte</button>
+      <ng-container *ngIf="showConfigButton">
+        <span class="separator">|</span>
+        <button
+          type="button"
+          class="config-link"
+          (click)="onConfigToggle()"
+          [attr.title]="'navbar.config' | translate"
+          [attr.aria-label]="'navbar.config' | translate"
+        >
+          <i class="bi bi-gear"></i>
+        </button>
+      </ng-container>
     </div>
   </div>
 </aside>

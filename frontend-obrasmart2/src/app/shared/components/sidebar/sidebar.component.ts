@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { SidebarService } from '../../../service/sidebar.service';
 import { SessionService } from '../../../service/session.service';
@@ -13,6 +13,8 @@ import { SidebarConfig, MenuItem } from '../../interfaces/menu.interface';
 export class SidebarComponent implements OnInit, OnDestroy {
   @Input() config?: SidebarConfig;
   @Input() type: 'full' | 'simplified' = 'full';
+  @Input() showConfigButton = false;
+  @Output() configToggle = new EventEmitter<void>();
 
   menuAbierto$: Observable<boolean>;
   submenuUsuarios$: Observable<boolean>;
@@ -117,6 +119,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   abrirModalSoporte(): void {
     this.sidebarService.abrirModalSoporte();
+  }
+
+  onConfigToggle(): void {
+    this.configToggle.emit();
   }
 
   hasSubmenu(item: MenuItem): boolean {

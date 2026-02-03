@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-step-contacto',
@@ -60,7 +61,12 @@ export class StepContactoComponent {
         !this.nuevoProveedor.direccion?.trim() ||
         !this.nuevoProveedor.ciudad?.trim() ||
         !this.nuevoProveedor.provincia?.trim()) {
-      alert('Por favor, complete todos los campos obligatorios.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos obligatorios',
+        text: 'Por favor, complete todos los campos obligatorios.',
+        confirmButtonColor: '#00796b'
+      });
       return;
     }
 

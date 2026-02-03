@@ -12,9 +12,6 @@
         <i class="bi" [ngClass]="{ 'bi-bell-fill': notificacionesPendientes > 0, 'bi-bell': notificacionesPendientes === 0 }"></i>
         <span *ngIf="notificacionesPendientes > 0" class="notif-badge">{{ notificacionesPendientes }}</span>
       </button>
-      <button class="nav-icon-btn config-btn" (click)="toggleConfigMenu()" [title]="'navbar.config' | translate">
-        <i class="bi bi-gear"></i>
-      </button>
       <div class="avatar-wrapper">
         <img [src]="avatarSrc" (error)="onAvatarError($event)" alt="Usuario" class="user-avatar" />
       </div>
@@ -36,7 +33,7 @@
   </div>
 
   <!-- ✅ Sidebar compartido (tipo full con header y submenus) -->
-  <app-sidebar [type]="'full'"></app-sidebar>
+  <app-sidebar [type]="'full'" [showConfigButton]="true" (configToggle)="toggleConfigMenu()"></app-sidebar>
 
   <!-- ✅ Modales compartidos -->
   <app-modal-info></app-modal-info>

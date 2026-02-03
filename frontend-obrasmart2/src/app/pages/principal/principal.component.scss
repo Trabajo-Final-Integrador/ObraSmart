@@ -64,7 +64,7 @@ html, body {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
     .highlight {
-      color: var(--ui-primary);
+      color: var(--ui-brand-accent, var(--ui-primary));
       font-weight: 800;
     }
   }
