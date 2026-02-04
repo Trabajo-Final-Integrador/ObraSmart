@@ -1,0 +1,37 @@
+{
+  "name": "ObraSmart",
+  "short_name": "ObraSmart",
+  "description": "Gestion integral de obras, equipos, reparaciones y stock.",
+  "theme_color": "#1976d2",
+  "background_color": "#fafafa",
+  "id": "/",
+  "scope": "/",
+  "start_url": "/principal",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
