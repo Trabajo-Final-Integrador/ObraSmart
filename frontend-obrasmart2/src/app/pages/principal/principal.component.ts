@@ -73,6 +73,7 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
     diasRestantes: number;
     visto: boolean;
   }> = [];
+  mostrarVolverInicio = false;
 
   constructor(
     private session: SessionService,
@@ -103,6 +104,9 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
       const id = raw !== undefined ? Number(raw) : NaN;
       if (Number.isFinite(id)) {
         this.focusEquipo(Number(id));
+        this.mostrarVolverInicio = true;
+      } else {
+        this.mostrarVolverInicio = false;
       }
     });
   }

@@ -8,6 +8,15 @@
       <span class="brand-text">Obra<span class="highlight">Smart</span></span>
     </div>
     <div class="navbar-actions">
+      <button
+        *ngIf="mostrarVolverInicio"
+        class="nav-icon-btn home-btn"
+        routerLink="/principal"
+        [attr.title]="'common.backHome' | translate"
+        [attr.aria-label]="'common.backHome' | translate"
+      >
+        <i class="bi bi-house-door"></i>
+      </button>
       <button class="nav-icon-btn notif-btn" (click)="toggleNotificaciones()" [attr.title]="'Notificaciones'">
         <i class="bi" [ngClass]="{ 'bi-bell-fill': notificacionesPendientes > 0, 'bi-bell': notificacionesPendientes === 0 }"></i>
         <span *ngIf="notificacionesPendientes > 0" class="notif-badge">{{ notificacionesPendientes }}</span>
