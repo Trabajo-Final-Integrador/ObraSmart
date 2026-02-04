@@ -203,6 +203,7 @@
   flex-direction: column;
   gap: 6px;
   margin-top: auto;
+  position: relative;
 
   .links {
     display: flex;
@@ -251,6 +252,76 @@
 
     .separator {
       opacity: 0.6;
+    }
+  }
+
+  .sidebar-config-menu {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 10px);
+    background: var(--ui-surface);
+    border: 1px solid var(--ui-border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+    border-radius: 12px;
+    padding: 12px;
+    min-width: 240px;
+    max-width: 260px;
+    z-index: 1001;
+    backdrop-filter: blur(6px);
+    color: var(--ui-text);
+
+    .config-section {
+      & + .config-section {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid var(--ui-border);
+      }
+    }
+
+    .config-title {
+      margin: 0 0 6px;
+      font-weight: 700;
+      color: var(--ui-text);
+      font-size: 0.95rem;
+    }
+
+    .config-options {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid var(--ui-border);
+        background: var(--ui-surface);
+        color: var(--ui-text);
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+        span:first-child {
+          width: 16px;
+          color: transparent;
+        }
+
+        &:hover {
+          background: var(--color-bg);
+        }
+
+        &.active {
+          border-color: var(--ui-primary);
+          background: var(--ui-surface);
+          color: var(--ui-primary);
+
+          span:first-child {
+            color: var(--ui-primary);
+          }
+        }
+      }
     }
   }
 

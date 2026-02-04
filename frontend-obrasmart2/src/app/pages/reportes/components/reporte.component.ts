@@ -19,6 +19,7 @@ export class ReportesComponent implements OnInit {
   startDate = '';
   endDate = '';
   preset = 'LAST_30_DAYS';
+  readonly hoy = new Date();
 
   // Gráfico de tendencia de reparaciones (line chart)
   reparacionesChartData!: ChartData<'line'>;

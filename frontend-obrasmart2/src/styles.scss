@@ -294,6 +294,16 @@ body, .app-shell {
   color: var(--ui-text);
 }
 
+/* Edit forms: right-align numeric/date inputs only */
+.edit-page input[type='number'],
+.edit-page input[type='date'],
+.edit-page input[type='datetime-local'],
+.edit-page input[type='time'],
+.edit-page input[type='month'],
+.edit-page input[type='week'] {
+  text-align: right;
+}
+
 .top-navbar,
 .navbar {
   background: var(--ui-topbar-bg) !important;

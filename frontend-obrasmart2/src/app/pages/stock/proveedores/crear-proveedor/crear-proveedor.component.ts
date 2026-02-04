@@ -2,9 +2,10 @@
 
  import { Component } from '@angular/core';
  import { Router } from '@angular/router';
-import { ProveedorService } from 'src/app/service/proveedor.service';
-import { ProveedorCreateDTO } from 'src/app/service/proveedor.service';
-import Swal from 'sweetalert2';
+ import { ProveedorService } from 'src/app/service/proveedor.service';
+ import { ProveedorCreateDTO } from 'src/app/service/proveedor.service';
+ import Swal from 'sweetalert2';
+ import { SidebarService } from 'src/app/service/sidebar.service';
 
  @Component({
    selector: 'app-crear-proveedor',
@@ -99,8 +100,12 @@ export class CrearProveedorComponent {
      observaciones: ''
    };
 
-   constructor(private proveedorService: ProveedorService, private router: Router) {
-    
+   constructor(
+    private proveedorService: ProveedorService,
+    private router: Router,
+    private sidebarService: SidebarService
+   ) {
+     
  }
   
 
@@ -236,6 +241,10 @@ volverStep(): void {
 
   volverAPaso1(): void {
     this.pasoActual = 1;
+  }
+
+  toggleSidebar() {
+    this.sidebarService.toggleSidebar();
   }
 
   private validarPaso1(): boolean {

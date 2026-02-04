@@ -4,6 +4,8 @@ import { SidebarService } from '../../../service/sidebar.service';
 import { SessionService } from '../../../service/session.service';
 import { MenuConfigService } from '../../../service/menu-config.service';
 import { SidebarConfig, MenuItem } from '../../interfaces/menu.interface';
+import { APP_THEMES, AppTheme, ThemeService } from '../../../service/theme.service';
+import { LanguageService } from '../../../service/language.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,6 +22,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
   submenuUsuarios$: Observable<boolean>;
   submenuReparacion$: Observable<boolean>;
   submenuStock$: Observable<boolean>;
+  configMenuAbierto = false;
+  selectedThemeId: AppTheme = 'obra-light';
+  selectedLanguage = 'es';
+  readonly uiThemeOptions = APP_THEMES;
+  readonly languageOptions = [
+    { id: 'es', labelKey: 'language.spanish' },
+    { id: 'en', labelKey: 'language.english' }
+  ];
 
   sidebarConfig!: SidebarConfig;
   filteredMenuItems: MenuItem[] = [];
@@ -30,7 +40,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   constructor(
     private sidebarService: SidebarService,
     private sessionService: SessionService,
-    private menuConfigService: MenuConfigService
+    private menuConfigService: MenuConfigService,
+    private themeService: ThemeService,
+    private languageService: LanguageService
   ) {
     this.menuAbierto$ = this.sidebarService.menuAbierto$;
     this.submenuUsuarios$ = this.sidebarService.submenuUsuarios$;
@@ -39,6 +51,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.selectedThemeId = this.themeService.getTheme() || 'obra-light';
+    this.selectedLanguage = this.languageService.getLang();
     this.userSub = this.sessionService.user$.subscribe(() => {
       this.initializeConfig();
       this.filterMenuItemsByRole();
@@ -71,6 +85,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   cerrarSidebar(): void {
+    this.configMenuAbierto = false;
     this.sidebarService.cerrarSidebar();
   }
 
@@ -122,7 +137,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   onConfigToggle(): void {
-    this.configToggle.emit();
+    if (this.configToggle.observers.length) {
+      this.configToggle.emit();
+      return;
+    }
+
+    this.configMenuAbierto = !this.configMenuAbierto;
+  }
+
+  seleccionarIdioma(id: string): void {
+    this.selectedLanguage = id;
+    this.languageService.setLang(id as 'es' | 'en');
+    this.configMenuAbierto = false;
+  }
+
+  seleccionarTheme(id: AppTheme): void {
+    this.selectedThemeId = id;
+    this.themeService.apply(this.selectedThemeId);
+    this.configMenuAbierto = false;
   }
 
   hasSubmenu(item: MenuItem): boolean {

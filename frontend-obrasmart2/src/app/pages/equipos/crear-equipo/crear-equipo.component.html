@@ -1,124 +1,34 @@
-﻿<div class="layout-container">
+<div class="layout-container" [class.edit-page]="modoEdicion">
   <!-- Navbar -->
   <header class="top-navbar">
+    <div class="navbar-left">
+      <button class="menu-btn" (click)="toggleSidebar()" [title]="'menu.main' | translate">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="brand">
+        <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
+        <h1 class="navbar-title">
+          {{ modoEdicion ? ('equipos.create.titleEdit' | translate) : ('equipos.create.titleNew' | translate) }}
+        </h1>
+      </div>
+    </div>
     <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" [title]="'common.backHome' | translate">
+        <i class="bi bi-house-door-fill"></i>
+      </button>
       <button class="btn-back" routerLink="/equipos" [title]="'common.back' | translate">
         <i class="bi bi-arrow-left-circle"></i>
         <span>{{ 'common.back' | translate }}</span>
       </button>
-     
     </div>
-    <div class="brand">
-      <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
-    <h1 class="navbar-title">{{ modoEdicion ? ('equipos.create.titleEdit' | translate) : ('equipos.create.titleNew' | translate) }}</h1>
-   </div>
   </header>
 
   <!-- Sidebar -->
-  <aside class="sidebar" [class.open]="menuAbierto">
-    <ul class="nav flex-column">
-      <!-- Usuarios -->
-      <li class="nav-item">
-        <a
-          class="nav-link d-flex justify-content-between align-items-center"
-          href="#"
-          (click)="toggleUsuarios($event)"
-        >
-          <span><i class="bi bi-people me-2"></i>{{ 'menu.users' | translate }}</span>
-          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuUsuariosOpen"></i>
-        </a>
-        <ul *ngIf="submenuUsuariosOpen" class="submenu">
-          <li>
-            <a class="dropdown-item" routerLink="/alta-usuario">
-              <i class="bi bi-person-plus"></i> {{ 'equipos.create.sidebar.registerUser' | translate }}
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" routerLink="/listado-usuario">
-              <i class="bi bi-list-ul"></i> {{ 'equipos.create.sidebar.listUsers' | translate }}
-            </a>
-          </li>
-        </ul>
-      </li>
-
-      <!-- Reparaciones -->
-      <li class="nav-item">
-        <a
-          class="nav-link d-flex justify-content-between align-items-center"
-          href="#"
-          (click)="toggleReparacion($event)"
-        >
-          <span><i class="bi bi-tools me-2"></i>{{ 'menu.repairs' | translate }}</span>
-          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuReparacionOpen"></i>
-        </a>
-        <ul *ngIf="submenuReparacionOpen" class="submenu">
-          <li>
-            <a class="dropdown-item" routerLink="/reparaciones/dashboard">
-              <i class="bi bi-columns-gap"></i> {{ 'equipos.create.sidebar.repairsDashboard' | translate }}
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" routerLink="/reparaciones/listado">
-              <i class="bi bi-tools"></i> {{ 'equipos.create.sidebar.repairsList' | translate }}
-            </a>
-          </li>
-        </ul>
-      </li>
-
-      <!-- Equipos -->
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/equipos" routerLinkActive="active">
-          <i class="bi bi-cone-striped me-2"></i> {{ 'menu.equipos' | translate }}
-        </a>
-      </li>
-
-      <!-- Stock -->
-      <li class="nav-item">
-        <a
-          class="nav-link d-flex justify-content-between align-items-center"
-          href="#"
-          (click)="toggleStock($event)"
-        >
-          <span><i class="bi bi-box-seam me-2"></i>{{ 'menu.stock' | translate }}</span>
-          <i class="bi bi-chevron-right toggle-icon" [class.open]="submenuStockOpen"></i>
-        </a>
-        <ul *ngIf="submenuStockOpen" class="submenu">
-          <li>
-            <a class="dropdown-item" routerLink="/stock/dashboard">
-              <i class="bi bi-columns-gap"></i> {{ 'equipos.create.sidebar.stockDashboard' | translate }}
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" routerLink="/stock/repuestos">
-              <i class="bi bi-box"></i> {{ 'equipos.create.sidebar.stockRepuestos' | translate }}
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" routerLink="/stock/proveedores">
-              <i class="bi bi-truck"></i> {{ 'equipos.create.sidebar.stockSuppliers' | translate }}
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" routerLink="/stock/movimientos">
-              <i class="bi bi-graph-up-arrow"></i> {{ 'equipos.create.sidebar.stockMoves' | translate }}
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" routerLink="/stock/ordenes">
-              <i class="bi bi-cart2"></i> {{ 'equipos.create.sidebar.stockOrders' | translate }}
-            </a>
-          </li>
-        </ul>
-      </li>
-
-      <!-- Reportes -->
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/reportes">
-          <i class="bi bi-file-bar-graph me-2"></i> {{ 'menu.reports' | translate }}
-        </a>
-      </li>
-    </ul>
-  </aside>
+  <app-sidebar
+    [type]="'full'"
+    [showConfigButton]="true"
+  ></app-sidebar>
+  <app-modal-info></app-modal-info>
 
   <!-- Contenido Principal -->
   <div class="content">
@@ -669,3 +579,4 @@
     </div>
   </div>
 </div>
+

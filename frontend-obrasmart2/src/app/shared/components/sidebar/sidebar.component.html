@@ -58,7 +58,7 @@
   </ul>
 
   <!-- Footer del sidebar (opcional) -->
-  <div class="sidebar-footer" *ngIf="sidebarConfig.showFooter">
+  <div class="sidebar-footer" *ngIf="sidebarConfig?.showFooter || showConfigButton">
     <div class="links">
       <button type="button" (click)="abrirModalTerminos()">Términos</button>
       <span class="separator">|</span>
@@ -77,6 +77,34 @@
           <i class="bi bi-gear"></i>
         </button>
       </ng-container>
+    </div>
+    <div class="sidebar-config-menu" *ngIf="showConfigButton && configMenuAbierto">
+      <div class="config-section">
+        <p class="config-title">{{ 'language.label' | translate }}</p>
+        <div class="config-options">
+          <button
+            type="button"
+            *ngFor="let lang of languageOptions"
+            [class.active]="selectedLanguage === lang.id"
+            (click)="seleccionarIdioma(lang.id)"
+          >
+            <span>✔</span>{{ lang.labelKey | translate }}
+          </button>
+        </div>
+      </div>
+      <div class="config-section">
+        <p class="config-title">{{ 'navbar.theme' | translate }}</p>
+        <div class="config-options">
+          <button
+            type="button"
+            *ngFor="let theme of uiThemeOptions"
+            [class.active]="selectedThemeId === theme.id"
+            (click)="seleccionarTheme(theme.id)"
+          >
+            <span>✔</span>{{ theme.labelKey | translate }}
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </aside>

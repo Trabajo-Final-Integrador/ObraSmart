@@ -11,27 +11,37 @@
 .top-navbar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-accent) 100%);
   color: white;
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   flex-shrink: 0;
 
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
   .menu-btn {
-    background: none;
-    border: none;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
-    font-size: 1.6rem;
-    margin-right: 15px;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s, background 0.2s, border-color 0.2s;
+    border-radius: 6px;
+    padding: 6px 10px;
 
     &:hover {
-      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateX(2px);
     }
   }
 
-.brand {
+  .brand {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -49,16 +59,35 @@
     }
   }
 
-  .navbar-title {
-    flex: 1;
-    font-size: 1.3rem;
-    font-weight: 500;
-  }
-
   .navbar-actions {
     display: flex;
     align-items: center;
     gap: 15px;
+
+    .btn-regresar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      i {
+        font-size: 1.1rem;
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateX(-3px);
+      }
+    }
 
     .btn-back {
       background: rgba(255, 255, 255, 0.15);

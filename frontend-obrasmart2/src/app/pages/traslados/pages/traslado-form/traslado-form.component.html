@@ -1,7 +1,7 @@
 <div class="layout-container">
   <header class="top-navbar">
     <div class="navbar-left">
-      <button class="menu-btn" [title]="'menu.main' | translate">
+      <button class="menu-btn" (click)="toggleSidebar()" [title]="'menu.main' | translate">
         <i class="bi bi-list"></i>
       </button>
       <div class="brand">
@@ -10,13 +10,16 @@
       <h1 class="navbar-title">Nuevo traslado</h1>
     </div>
     <div class="navbar-actions">
+      <button class="btn-regresar" routerLink="/principal" [title]="'common.backHome' | translate">
+        <i class="bi bi-house-door-fill"></i>
+      </button>
       <button class="btn-regresar" routerLink="/traslados" title="Volver">
         <i class="bi bi-arrow-left-circle"></i>
       </button>
     </div>
   </header>
 
-  <app-sidebar [type]="'full'"></app-sidebar>
+  <app-sidebar [type]="'full'" [showConfigButton]="true"></app-sidebar>
   <app-modal-info></app-modal-info>
 
   <main class="content">

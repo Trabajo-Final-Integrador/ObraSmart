@@ -1,4 +1,4 @@
-<div class="layout-container">
+<div class="layout-container" [class.edit-page]="isEdit">
   <header class="top-navbar">
     <div class="navbar-left">
       <button class="menu-btn" (click)="toggleSidebar()" [title]="'menu.main' | translate">
@@ -19,7 +19,7 @@
     </div>
   </header>
 
-  <app-sidebar [type]="'full'"></app-sidebar>
+  <app-sidebar [type]="'full'" [showConfigButton]="true"></app-sidebar>
   <app-modal-info></app-modal-info>
 
   <main class="content">
@@ -61,7 +61,7 @@
             <select formControlName="supervisorUserId">
               <option [ngValue]="null">-- {{ 'common.noData' | translate }} --</option>
               <option *ngFor="let u of supervisores" [ngValue]="u.id">
-                {{ (u.firstname + ' ' + u.lastname) || u.username || u.email }}
+                {{ nombreSupervisor(u) }}
               </option>
             </select>
           </label>
@@ -85,7 +85,7 @@
       <div class="equipos-actions">
         <select [(ngModel)]="equipoSeleccionado">
           <option [ngValue]="null">Selecciona equipo</option>
-          <option *ngFor="let eq of equiposDisponibles" [ngValue]="eq.id">{{ eq.nombre || eq.codigoInterno }}</option>
+          <option *ngFor="let eq of equiposAsignables" [ngValue]="eq.id">{{ eq.nombre || eq.codigoInterno }}</option>
         </select>
         <button class="btn primary" (click)="asignarEquipo()" [disabled]="!equipoSeleccionado">Asignar equipo</button>
       </div>

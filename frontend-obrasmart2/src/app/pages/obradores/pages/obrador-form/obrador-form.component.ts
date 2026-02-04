@@ -23,6 +23,7 @@ export class ObradorFormComponent implements OnInit, OnDestroy {
   obradorId?: number;
   supervisores: Usuario[] = [];
   equiposDisponibles: EquipoDTO[] = [];
+  equiposAsignables: EquipoDTO[] = [];
   equiposAsignados: EquipoDTO[] = [];
   equipoSeleccionado: number | null = null;
   geocodificando = false;
@@ -193,9 +194,19 @@ export class ObradorFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  nombreSupervisor(u: Usuario): string {
+    const nombre = `${u.firstname || ''} ${u.lastname || ''}`.trim();
+    const base = nombre || u.username || u.email || '';
+    const rol = (u as any).role || (u as any).rol || '';
+    return rol ? `${base} (${rol})` : base;
+  }
+
   private cargarEquipos(): void {
     this.equipoService.listar().subscribe({
-      next: (equipos) => (this.equiposDisponibles = equipos || []),
+      next: (equipos) => {
+        this.equiposDisponibles = equipos || [];
+        this.equiposAsignables = this.equiposDisponibles.filter((e) => this.esEquipoDisponible(e.estadoOperativo));
+      },
       error: (err) => console.warn('No se pudieron cargar equipos', err),
     });
   }
@@ -219,5 +230,12 @@ export class ObradorFormComponent implements OnInit, OnDestroy {
     const lat = obrador.lat ?? obrador.latitud ?? null;
     const lng = obrador.lng ?? obrador.longitud ?? null;
     return { lat, lng };
+  }
+
+  private esEquipoDisponible(estado?: string | null): boolean {
+    const normalized = (estado || '').toString().trim().toUpperCase();
+    if (!normalized) return false;
+    if (normalized.includes('DISP')) return true;
+    return normalized === 'OPERATIVO';
   }
 }

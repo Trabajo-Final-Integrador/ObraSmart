@@ -5,6 +5,7 @@ import { LogisticaService, TrasladoDto } from 'src/app/service/logistica.service
 import { EquipoDTO, EquipoService } from 'src/app/service/equipo.service';
 import { ObradorDto, ObradorService } from 'src/app/service/obrador.service';
 import { SessionService } from 'src/app/service/session.service';
+import { SidebarService } from 'src/app/service/sidebar.service';
 
 @Component({
   selector: 'app-traslado-form',
@@ -27,7 +28,8 @@ export class TrasladoFormComponent implements OnInit {
     private logisticaService: LogisticaService,
     private equipoService: EquipoService,
     private obradorService: ObradorService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private sidebarService: SidebarService
   ) {
     this.form = this.fb.group({
       equipoId: [null, Validators.required],
@@ -89,6 +91,10 @@ export class TrasladoFormComponent implements OnInit {
 
   cancelar(): void {
     this.router.navigate(['/traslados']);
+  }
+
+  toggleSidebar(): void {
+    this.sidebarService.toggleSidebar();
   }
 
 }

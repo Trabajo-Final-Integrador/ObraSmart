@@ -1,6 +1,7 @@
 import { Component,  OnInit  } from '@angular/core';
 import { RepuestoService, RepuestoDTO, CategoriaRepuestoDTO } from 'src/app/service/repuesto.service';
 import { Router } from '@angular/router';
+import { SidebarService } from 'src/app/service/sidebar.service';
 import Swal from 'sweetalert2';
 
 
@@ -34,7 +35,8 @@ export class CrearRepuestoComponent implements OnInit{
 
   constructor(
     private repuestoService: RepuestoService,
-    private router: Router
+    private router: Router,
+    private sidebarService: SidebarService
   ) {}
 
   ngOnInit(): void {
@@ -151,6 +153,10 @@ export class CrearRepuestoComponent implements OnInit{
 
   cancelar() {
     this.router.navigate(['/stock/repuestos']);
+  }
+
+  toggleSidebar() {
+    this.sidebarService.toggleSidebar();
   }
 
 }

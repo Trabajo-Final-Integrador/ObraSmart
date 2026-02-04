@@ -18,97 +18,99 @@
   </header>
 
   <!-- Sidebar compartido -->
-  <app-sidebar [type]="'full'"></app-sidebar>
+  <app-sidebar [type]="'full'" [showConfigButton]="true"></app-sidebar>
 
   <!-- Modales compartidos -->
   <app-modal-info></app-modal-info>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="content">
-      <!-- TOOLBAR -->
-      <div class="toolbar">
-        <div class="search-container">
-          <i class="bi bi-search search-icon"></i>
-          <input
-            type="text"
-            class="search-input"
-            [placeholder]="'providers.list.searchPlaceholder' | translate"
-            [(ngModel)]="searchTerm"
-            (input)="filtrarProveedores()" />
-        </div>
-
-        <div class="toolbar-actions">
-          <select class="filter-select" [(ngModel)]="filtroEstado" (change)="filtrarProveedores()">
-            <option value="todos">{{ 'providers.list.filters.allStates' | translate }}</option>
-            <option value="Activo">{{ 'providers.status.active' | translate }}</option>
-            <option value="Inactivo">{{ 'providers.status.inactive' | translate }}</option>
-          </select>
-
-          <button class="btn-nuevo" (click)="crearNuevo()">
-            <i class="bi bi-plus-lg"></i>
-            {{ 'providers.list.actions.new' | translate }}
-          </button>
-        </div>
-      </div>
-
-      <!-- TABLA -->
-      <div class="table-wrapper">
-        <div *ngIf="loading" class="loading-container">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">{{ 'providers.list.loading' | translate }}</span>
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="content">
+      <div class="table-container">
+        <!-- TOOLBAR -->
+        <div class="toolbar">
+          <div class="search-container">
+            <i class="bi bi-search search-icon"></i>
+            <input
+              type="text"
+              class="search-input"
+              [placeholder]="'providers.list.searchPlaceholder' | translate"
+              [(ngModel)]="searchTerm"
+              (input)="filtrarProveedores()" />
           </div>
-          <p>{{ 'providers.list.loading' | translate }}</p>
+
+          <div class="toolbar-actions">
+            <select class="filter-select" [(ngModel)]="filtroEstado" (change)="filtrarProveedores()">
+              <option value="todos">{{ 'providers.list.filters.allStates' | translate }}</option>
+              <option value="Activo">{{ 'providers.status.active' | translate }}</option>
+              <option value="Inactivo">{{ 'providers.status.inactive' | translate }}</option>
+            </select>
+
+            <button class="btn-nuevo" (click)="crearNuevo()">
+              <i class="bi bi-plus-lg"></i>
+              {{ 'providers.list.actions.new' | translate }}
+            </button>
+          </div>
         </div>
 
-        <div *ngIf="!loading" class="table-scroll">
-          <table class="styled-table">
-            <thead>
-              <tr>
-                <th><i class="bi bi-building me-2"></i>{{ 'providers.table.companyName' | translate }}</th>
-                <th><i class="bi bi-briefcase me-2"></i>{{ 'providers.table.specialty' | translate }}</th>
-                <th><i class="bi bi-telephone me-2"></i>{{ 'providers.table.contact' | translate }}</th>
-                <th class="text-center"><i class="bi bi-toggles me-2"></i>{{ 'providers.table.status' | translate }}</th>
-                <th class="text-center"><i class="bi bi-gear me-2"></i>{{ 'providers.table.actions' | translate }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let proveedor of proveedoresPaginados">
-                <td>
-                  <div class="proveedor-info">
-                    <i class="bi bi-building"></i>
-                    <strong>{{ proveedor.razonSocial }}</strong>
-                  </div>
-                </td>
-                <td>{{ proveedor.especialidad || '—' }}</td>
-                <td>{{ proveedor.contacto || '—' }}</td>
-                <td class="text-center">
-                  <span [ngClass]="getBadgeClass(proveedor.estado)">
-                    {{ proveedor.estado === 'Activo' ? ('providers.status.active' | translate) : ('providers.status.inactive' | translate) }}
-                  </span>
-                </td>
-                <td class="text-center">
-                  <div class="action-buttons">
-                    <button class="btn-action btn-view" (click)="verDetalles(proveedor)" [title]="'common.view' | translate">
-                      <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn-action btn-edit" (click)="editarProveedor(proveedor)" [title]="'common.edit' | translate">
-                      <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn-action btn-delete" (click)="eliminarProveedor(proveedor)" [title]="'common.delete' | translate">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+        <!-- TABLA -->
+        <div class="table-wrapper">
+          <div *ngIf="loading" class="loading-container">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">{{ 'providers.list.loading' | translate }}</span>
+            </div>
+            <p>{{ 'providers.list.loading' | translate }}</p>
+          </div>
 
-              <tr *ngIf="proveedoresFiltrados.length === 0">
-                <td colspan="5" class="no-data">
-                  <i class="bi bi-exclamation-circle"></i>
-                  <p>{{ 'providers.list.empty' | translate }}</p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div *ngIf="!loading" class="table-scroll">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th><i class="bi bi-building me-2"></i>{{ 'providers.table.companyName' | translate }}</th>
+                  <th><i class="bi bi-briefcase me-2"></i>{{ 'providers.table.specialty' | translate }}</th>
+                  <th><i class="bi bi-telephone me-2"></i>{{ 'providers.table.contact' | translate }}</th>
+                  <th class="text-center"><i class="bi bi-toggles me-2"></i>{{ 'providers.table.status' | translate }}</th>
+                  <th class="text-center"><i class="bi bi-gear me-2"></i>{{ 'providers.table.actions' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let proveedor of proveedoresPaginados">
+                  <td>
+                    <div class="proveedor-info">
+                      <i class="bi bi-building"></i>
+                      <strong>{{ proveedor.razonSocial }}</strong>
+                    </div>
+                  </td>
+                  <td>{{ proveedor.especialidad || '—' }}</td>
+                  <td>{{ proveedor.contacto || '—' }}</td>
+                  <td class="text-center">
+                    <span [ngClass]="getBadgeClass(proveedor.estado)">
+                      {{ proveedor.estado === 'Activo' ? ('providers.status.active' | translate) : ('providers.status.inactive' | translate) }}
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <div class="action-buttons">
+                      <button class="btn-action btn-view" (click)="verDetalles(proveedor)" [title]="'common.view' | translate">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button class="btn-action btn-edit" (click)="editarProveedor(proveedor)" [title]="'common.edit' | translate">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn-action btn-delete" (click)="eliminarProveedor(proveedor)" [title]="'common.delete' | translate">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr *ngIf="proveedoresFiltrados.length === 0">
+                  <td colspan="5" class="no-data">
+                    <i class="bi bi-exclamation-circle"></i>
+                    <p>{{ 'providers.list.empty' | translate }}</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 

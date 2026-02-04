@@ -11,6 +11,7 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { GeocodingService } from 'src/app/service/geocoding.service';
+import { SidebarService } from 'src/app/service/sidebar.service';
 
 @Component({
   selector: 'app-crear-equipo',
@@ -18,12 +19,6 @@ import { GeocodingService } from 'src/app/service/geocoding.service';
   styleUrls: ['./crear-equipo.component.scss']
 })
 export class CrearEquipoComponent {
-
-  // Menu control
-  menuAbierto = false;
-  submenuUsuariosOpen = false;
-  submenuStockOpen = false;
-  submenuReparacionOpen = false;
 
   // Stepper control
   pasoActual = 1;
@@ -85,7 +80,8 @@ export class CrearEquipoComponent {
     private router: Router,
     private route: ActivatedRoute,
     private translate: TranslateService,
-    private geocoding: GeocodingService
+    private geocoding: GeocodingService,
+    private sidebarService: SidebarService
   ) {}
 
   ngOnInit(): void {
@@ -177,22 +173,7 @@ export class CrearEquipoComponent {
 
   // Menu methods
   toggleSidebar() {
-    this.menuAbierto = !this.menuAbierto;
-  }
-
-  toggleUsuarios(event: Event) {
-    event.preventDefault();
-    this.submenuUsuariosOpen = !this.submenuUsuariosOpen;
-  }
-
-  toggleReparacion(event: Event) {
-    event.preventDefault();
-    this.submenuReparacionOpen = !this.submenuReparacionOpen;
-  }
-
-  toggleStock(event: Event) {
-    event.preventDefault();
-    this.submenuStockOpen = !this.submenuStockOpen;
+    this.sidebarService.toggleSidebar();
   }
 
   // Stepper methods

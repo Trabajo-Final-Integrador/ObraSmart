@@ -18,7 +18,7 @@
   </header>
 
   <!-- Sidebar compartido -->
-  <app-sidebar [type]="'full'"></app-sidebar>
+  <app-sidebar [type]="'full'" [showConfigButton]="true"></app-sidebar>
 
   <!-- Modales compartidos -->
   <app-modal-info></app-modal-info>
@@ -41,7 +41,7 @@
       </div>
 
       <!-- TABLA -->
-      <div class="table-wrapper">
+      <div class="table-container">
         <div *ngIf="loading" class="loading-container">
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">{{ 'orders.list.loading' | translate }}</span>
@@ -49,8 +49,7 @@
           <p>{{ 'orders.list.loading' | translate }}</p>
         </div>
 
-        <div *ngIf="!loading" class="table-scroll">
-          <table class="styled-table">
+        <table *ngIf="!loading" class="styled-table">
             <thead>
               <tr>
                 <th><i class="bi bi-hash me-2"></i>{{ 'orders.table.number' | translate }}</th>
@@ -143,8 +142,7 @@
                 </td>
               </tr>
             </tbody>
-          </table>
-        </div>
+        </table>
       </div>
 
     <!-- 🔸 Paginación fuera de la card -->

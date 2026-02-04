@@ -3,6 +3,7 @@ import { MovimientosService } from 'src/app/service/movimiento-stock.service';
 import { HttpClient } from '@angular/common/http';
 import { Movimiento } from '../movimiento.model';
 import { Router } from '@angular/router';
+import { SidebarService } from 'src/app/service/sidebar.service';
 import { MovimientoStockDto } from 'src/app/pages/stock/movimientos/movimiento-stock-dto.model';
 import Swal from 'sweetalert2';
 import { environment } from '../../../../../environments/environment';
@@ -28,7 +29,8 @@ export class CrearMovimientoComponent implements OnInit {
   constructor(
     private movSrv: MovimientosService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private sidebarService: SidebarService
   ) {}
 
   ngOnInit(): void {
@@ -66,6 +68,10 @@ export class CrearMovimientoComponent implements OnInit {
 
   volver() {
     this.router.navigate(['/stock/movimientos']);
+  }
+
+  toggleSidebar() {
+    this.sidebarService.toggleSidebar();
   }
 
 }

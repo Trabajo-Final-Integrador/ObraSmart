@@ -6,6 +6,7 @@ import { UsuarioService } from 'src/app/service/usuario.service';
 import { Usuario } from '../../auth/usuarios/usuario.model';
 import Swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
+import { SidebarService } from 'src/app/service/sidebar.service';
 
 @Component({
   selector: 'app-crear-reparacion',
@@ -31,10 +32,11 @@ export class CrearReparacionComponent {
     private equipoService: EquipoService,
     private usuarioService: UsuarioService,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private sidebarService: SidebarService
   ) {}
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.equipoService.listar().subscribe({
       next: (data) => this.equipos = data,
       error: err => console.error('Error cargando equipos:', err)
@@ -46,6 +48,10 @@ export class CrearReparacionComponent {
     });
   }
 
+  nombreUsuario(u: Usuario): string {
+    const nombre = `${u.firstname || ''} ${u.lastname || ''}`.trim();
+    return nombre || u.username || u.email;
+  }
 
   guardar() {
   this.repSrv.crear(this.nueva).subscribe({
@@ -74,6 +80,10 @@ export class CrearReparacionComponent {
 
   volver() {
     this.router.navigate(['/reparaciones']);
+  }
+
+  toggleSidebar() {
+    this.sidebarService.toggleSidebar();
   }
  
 }

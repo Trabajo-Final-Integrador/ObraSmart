@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OrdenCompraService, OrdenCompraDTO } from 'src/app/service/orden-compra.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { SidebarService } from 'src/app/service/sidebar.service';
 import Swal from 'sweetalert2';
 import { environment } from '../../../../../environments/environment';
 
@@ -40,7 +41,8 @@ export class NuevaOrdenComponent implements OnInit {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private ordenService: OrdenCompraService
+    private ordenService: OrdenCompraService,
+    private sidebarService: SidebarService
   ) {}
 
   ngOnInit(): void {
@@ -178,6 +180,10 @@ export class NuevaOrdenComponent implements OnInit {
 
   volver() {
     this.router.navigate(['/stock/ordenes']);
+  }
+
+  toggleSidebar() {
+    this.sidebarService.toggleSidebar();
   }
 
 }

@@ -538,3 +538,77 @@ main {
 
 /* Sidebar y modales ahora manejados por componentes compartidos */
 
+.print-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #d9d2c7;
+
+  .print-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1f2937;
+  }
+
+  .print-date {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #374151;
+  }
+}
+
+@media print {
+  html, body {
+    background: #fff !important;
+  }
+
+  .layout-container,
+  .dashboard,
+  main {
+    background: #fff !important;
+  }
+
+  .top-navbar,
+  app-sidebar,
+  .sidebar,
+  .sidebar-overlay,
+  .footer-bar,
+  .filters-bar,
+  .page-heading,
+  .loading {
+    display: none !important;
+  }
+
+  .print-header {
+    display: flex;
+  }
+
+  .dashboard {
+    padding: 0;
+  }
+
+  .kpi-card,
+  .chart-card,
+  .list-card,
+  .banner {
+    box-shadow: none !important;
+  }
+
+  .kpi-card,
+  .chart-card,
+  .list-card {
+    border-color: #ddd !important;
+  }
+
+  .charts-grid,
+  .lists-grid,
+  .kpi-wrapper,
+  .banner {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+

@@ -108,6 +108,14 @@ export class PrincipalComponent implements AfterViewInit, OnInit {
       } else {
         this.mostrarVolverInicio = false;
       }
+
+      const rawConfig = params['config'];
+      const shouldOpenConfig = rawConfig === '1' || rawConfig === 1 || rawConfig === true;
+      if (shouldOpenConfig) {
+        this.configMenuAbierto = true;
+        this.userMenuAbierto = false;
+        this.themeMenuAbierto = false;
+      }
     });
   }
 

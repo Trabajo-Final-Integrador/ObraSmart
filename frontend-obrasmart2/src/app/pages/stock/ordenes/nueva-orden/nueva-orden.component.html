@@ -2,27 +2,26 @@
   <!-- 🔹 NAVBAR SUPERIOR -->
   <header class="top-navbar">
     <div class="navbar-left">
-      <button class="btn-back" routerLink="/stock/ordenes" [title]="'orders.actions.back' | translate">
-        <i class="bi bi-arrow-left-circle"></i>
-        <span>{{ 'orders.actions.back' | translate }}</span>
+      <button class="menu-btn" (click)="toggleSidebar()" [title]="'menu.main' | translate">
+        <i class="bi bi-list"></i>
       </button>
       <div class="brand">
         <img src="assets/asistente/logo.png" alt="ObraSmart" class="logo-navbar" />
-      </div>
-      <div class="header-content">
-        
-        <div>
-          <h3>{{ 'orders.form.title' | translate }}</h3>
-          <p>{{ 'orders.form.subtitle' | translate }}</p>
-        </div>
+        <span class="navbar-title">{{ 'orders.form.title' | translate }}</span>
       </div>
     </div>
     <div class="navbar-actions">
-      <button class="btn-regresar" routerLink="/principal" title="Regresar al inicio">
-        <i class="bi bi-house-door"></i>
+      <button class="btn-regresar" routerLink="/principal" [title]="'common.backHome' | translate">
+        <i class="bi bi-house-door-fill"></i>
+      </button>
+      <button class="btn-back" routerLink="/stock/ordenes" [title]="'orders.actions.back' | translate">
+        <i class="bi bi-arrow-left-circle"></i>
       </button>
     </div>
   </header>
+
+  <app-sidebar [type]="'full'" [showConfigButton]="true"></app-sidebar>
+  <app-modal-info></app-modal-info>
 
   <!-- CONTENIDO PRINCIPAL -->
   <main class="content">

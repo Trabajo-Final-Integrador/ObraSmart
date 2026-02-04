@@ -39,7 +39,7 @@
   </header>
 
   <!-- Sidebar compartido -->
-  <app-sidebar [type]="'simplified'"></app-sidebar>
+  <app-sidebar [type]="'full'" [showConfigButton]="true"></app-sidebar>
 
   <!-- Modales compartidos -->
   <app-modal-info></app-modal-info>
@@ -51,6 +51,10 @@
 
   <main>
     <div class="dashboard" *ngIf="!isLoading && data as d">
+      <div class="print-header">
+        <div class="print-title">Reporte</div>
+        <div class="print-date">{{ (d.fechaGeneracion || hoy) | date : 'dd/MM/yyyy' }}</div>
+      </div>
       <div class="page-heading">
         <p>
           {{ 'reports.subtitle' | translate:{ time: (d.fechaGeneracion | date : "shortTime") } }}
