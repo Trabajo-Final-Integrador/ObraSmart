@@ -1,9 +1,16 @@
 server:
   port: 8082
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 
 spring:
   application:
     name: identity-service
+  messages:
+    encoding: UTF-8
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:identity}
     username: ${DB_USER:postgres}
@@ -48,6 +55,7 @@ app:
   reset:
     frontend-base-url: ${FRONTEND_BASE_URL:http://localhost:4200}
     from-email: ${MAIL_FROM:no-reply@obrasmart.local}
+    from-name: ${MAIL_FROM_NAME:Soporte ObraSmart}
     token-ttl-min: ${RESET_TOKEN_TTL_MIN:30}
 
 admin:
