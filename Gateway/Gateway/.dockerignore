@@ -1,6 +1,7 @@
 ﻿.git
 .gitignore
 .m2
+.mvn
 node_modules
 logs
 *.log
@@ -11,3 +12,6 @@ dist
 .env
 .vscode
 .idea
+Dockerfile
+docker-compose.yml
+README.md
