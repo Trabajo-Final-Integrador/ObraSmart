@@ -18,6 +18,7 @@ import { AuthGuard } from './guards/auth.guard';
 
 import { SharedModule } from './shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { EquiposModule } from './pages/equipos/equipos.module';
 import { ChatAsistenteComponent } from 'src/app/pages/asistente/chat-asistente/chat-asistente.component';
 import { AsistenteModule } from './pages/asistente/asistente.module';
@@ -60,7 +61,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppRoutingModule,
     EquiposModule,
     AsistenteModule,
-
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     AuthGuard,

@@ -227,7 +227,7 @@ services:
     build:
       context: ./frontend-obrasmart2
     ports:
-      - "${FRONTEND_PORT}:80"
+      - "4200:80"
     depends_on:
       - gateway
     networks:

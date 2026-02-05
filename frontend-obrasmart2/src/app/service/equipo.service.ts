@@ -32,7 +32,7 @@ export interface EquipoDTO {
 @Injectable({ providedIn: 'root' })
 export class EquipoService {
   private apiUrl = `${environment.apiUrl}/equipos`;
-  private gatewayUrl = (environment as any).gatewayUrl || 'http://localhost:8085';
+  private gatewayUrl = (environment as any).gatewayUrl || environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
